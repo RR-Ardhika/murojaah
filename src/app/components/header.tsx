@@ -1,7 +1,7 @@
 export default function Header() {
   return (
     <div>
-      <p>This is header</p>
+      <h1 className="p-12 bg-teal text-9xl text-white">Murojaah</h1>
     </div>
   );
 }
