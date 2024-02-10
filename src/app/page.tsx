@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <div>
+    <div className="mt-[72px] p-4">
       <p>This is content</p>
       <p>This is content</p>
       <p>This is content</p>
