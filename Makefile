@@ -12,6 +12,12 @@ build:
 lint:
 	pnpm next lint
 
+format:
+	pnpm exec prettier -w .
+
+format-check:
+	pnpm exec prettier -c .
+
 watch:
 	pnpm next dev
 
