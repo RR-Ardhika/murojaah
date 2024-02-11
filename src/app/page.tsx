@@ -1,58 +1,26 @@
-const cardClassnames = {
-  container: 'p-4 mb-5 bg-teal text-white rounded-lg',
-  title: 'text-xl font-black',
-  data: 'font-normal',
-  date: 'font-extralight',
-};
+import Card from './components/Card';
 
-function repeat(cards: React.JSX.Element[], repetition: number = 10) {
-  const items = [];
-  for (let i = 0; i < repetition; ++i)
+function repeat(cards: JSX.Element[], repetition: number = 10): JSX.Element[] {
+  const items: JSX.Element[] = [];
+  for (let i: number = 0; i < repetition; ++i)
     items.push(cards[Math.floor(Math.random() * cards.length)]);
+
   return items;
 }
 
-function juzCard() {
-  return (
-    <div className={cardClassnames.container}>
-      <p className={cardClassnames.title}>Juz 28</p>
-      <p className={cardClassnames.data}>Murojaah by using Memory</p>
-      <p className={cardClassnames.data}>Total Murojaah is 100</p>
-      <p className={cardClassnames.date}>Sat, Feb 10 &apos;24</p>
-    </div>
-  );
-}
+export default function Home(): JSX.Element {
+  const cards: JSX.Element[] = [
+    Card({ cardType: 0 }),
+    Card({ cardType: 1 }),
+    Card({ cardType: 2 }),
+  ];
 
-function surahCard() {
-  return (
-    <div className={cardClassnames.container}>
-      <p className={cardClassnames.title}>Surah 188 Al-Mumtahanah</p>
-      <p className={cardClassnames.data}>Murojaah by using Memory</p>
-      <p className={cardClassnames.data}>Total Murojaah is 100</p>
-      <p className={cardClassnames.date}>Sat, Feb 10 &apos;24</p>
-    </div>
-  );
-}
-
-function ayahCard() {
-  return (
-    <div className={cardClassnames.container}>
-      <p className={cardClassnames.title}>Ayah 200 to 208</p>
-      <p className={cardClassnames.data}>Surah 1 Al-Baqarah</p>
-      <p className={cardClassnames.data}>Murojaah by using Memory</p>
-      <p className={cardClassnames.data}>Total Murojaah is 100</p>
-      <p className={cardClassnames.date}>Sat, Feb 10 &apos;24</p>
-    </div>
-  );
-}
-
-export default function Home() {
   return (
     <div className="flex flex-col mt-[72px] pt-4 px-4">
-      {juzCard()}
-      {surahCard()}
-      {ayahCard()}
-      {repeat([juzCard(), surahCard(), ayahCard()], 7)}
+      <Card cardType={0} />
+      <Card cardType={1} />
+      <Card cardType={2} />
+      {repeat(cards, 7)}
     </div>
   );
 }

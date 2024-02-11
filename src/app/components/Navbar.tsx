@@ -1,4 +1,4 @@
-export default function Navbar() {
+export default function Navbar(): JSX.Element {
   return (
     <nav className="flex mt-auto sticky bottom-0">
       <div className="w-full p-3 bg-teal text-xl text-white text-center">H</div>
