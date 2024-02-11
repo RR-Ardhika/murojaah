@@ -1,18 +1,10 @@
 import Card from './components/Card';
 
-function repeat(cards: JSX.Element[], repetition: number = 10): JSX.Element[] {
-  const items: JSX.Element[] = [];
-  for (let i: number = 0; i < repetition; ++i)
-    items.push(cards[Math.floor(Math.random() * cards.length)]);
-
-  return items;
-}
-
 export default function Home(): JSX.Element {
   const cards: JSX.Element[] = [
-    Card({ cardType: 0 }),
-    Card({ cardType: 1 }),
-    Card({ cardType: 2 }),
+    <Card key={Math.floor(Math.random())} cardType={0} />,
+    <Card key={Math.floor(Math.random())} cardType={1} />,
+    <Card key={Math.floor(Math.random())} cardType={2} />,
   ];
 
   return (
@@ -23,4 +15,12 @@ export default function Home(): JSX.Element {
       {repeat(cards, 7)}
     </div>
   );
+}
+
+function repeat(cards: JSX.Element[], repetition: number = 10): JSX.Element[] {
+  const items: JSX.Element[] = [];
+  for (let i: number = 0; i < repetition; ++i)
+    items.push(cards[Math.floor(Math.random() * cards.length)]);
+
+  return items;
 }
