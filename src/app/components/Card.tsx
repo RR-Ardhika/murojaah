@@ -1,3 +1,5 @@
+import { CardType } from '../api/card';
+
 interface Props {
   cardType: number;
 }
@@ -12,13 +14,13 @@ const cardClassnames: Record<string, string> = {
 export default function Card({ cardType }: Props): JSX.Element {
   let el: JSX.Element = <></>;
   switch (cardType) {
-    case 0:
+    case CardType.Juz:
       el = juzCard();
       break;
-    case 1:
+    case CardType.Surah:
       el = surahCard();
       break;
-    case 2:
+    case CardType.Ayah:
       el = ayahCard();
       break;
   }
