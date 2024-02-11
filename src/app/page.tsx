@@ -1,7 +1,9 @@
-const classCardDiv = 'p-4 mb-5 bg-teal text-white rounded-lg';
-const classCardTitle = 'text-xl font-black';
-const classCardData = 'font-normal';
-const classCardDate = 'font-extralight';
+const cardClassnames = {
+  container: 'p-4 mb-5 bg-teal text-white rounded-lg',
+  title: 'text-xl font-black',
+  data: 'font-normal',
+  date: 'font-extralight',
+};
 
 function repeat(cards: React.JSX.Element[], repetition: number = 10) {
   const items = [];
@@ -12,34 +14,34 @@ function repeat(cards: React.JSX.Element[], repetition: number = 10) {
 
 function juzCard() {
   return (
-    <div className={classCardDiv}>
-      <p className={classCardTitle}>Juz 28</p>
-      <p className={classCardData}>Murojaah by using Memory</p>
-      <p className={classCardData}>Total Murojaah is 100</p>
-      <p className={classCardDate}>Sat, Feb 10 &apos;24</p>
+    <div className={cardClassnames.container}>
+      <p className={cardClassnames.title}>Juz 28</p>
+      <p className={cardClassnames.data}>Murojaah by using Memory</p>
+      <p className={cardClassnames.data}>Total Murojaah is 100</p>
+      <p className={cardClassnames.date}>Sat, Feb 10 &apos;24</p>
     </div>
   );
 }
 
 function surahCard() {
   return (
-    <div className={classCardDiv}>
-      <p className={classCardTitle}>Surah 188 Al-Mumtahanah</p>
-      <p className={classCardData}>Murojaah by using Memory</p>
-      <p className={classCardData}>Total Murojaah is 100</p>
-      <p className={classCardDate}>Sat, Feb 10 &apos;24</p>
+    <div className={cardClassnames.container}>
+      <p className={cardClassnames.title}>Surah 188 Al-Mumtahanah</p>
+      <p className={cardClassnames.data}>Murojaah by using Memory</p>
+      <p className={cardClassnames.data}>Total Murojaah is 100</p>
+      <p className={cardClassnames.date}>Sat, Feb 10 &apos;24</p>
     </div>
   );
 }
 
 function ayahCard() {
   return (
-    <div className={classCardDiv}>
-      <p className={classCardTitle}>Ayah 200 to 208</p>
-      <p className={classCardData}>Surah 1 Al-Baqarah</p>
-      <p className={classCardData}>Murojaah by using Memory</p>
-      <p className={classCardData}>Total Murojaah is 100</p>
-      <p className={classCardDate}>Sat, Feb 10 &apos;24</p>
+    <div className={cardClassnames.container}>
+      <p className={cardClassnames.title}>Ayah 200 to 208</p>
+      <p className={cardClassnames.data}>Surah 1 Al-Baqarah</p>
+      <p className={cardClassnames.data}>Murojaah by using Memory</p>
+      <p className={cardClassnames.data}>Total Murojaah is 100</p>
+      <p className={cardClassnames.date}>Sat, Feb 10 &apos;24</p>
     </div>
   );
 }
