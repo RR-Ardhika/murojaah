@@ -20,20 +20,16 @@ const cardClassnames: Record<string, string> = {
 };
 
 export function Card(props: Props): JSX.Element {
-  let el: JSX.Element = <></>;
   switch (props.cardType) {
     case CardType.Juz:
-      el = juzCard(props);
-      break;
+      return juzCard(props);
     case CardType.Surah:
-      el = surahCard(props);
-      break;
+      return surahCard(props);
     case CardType.Ayah:
-      el = ayahCard(props);
-      break;
+      return ayahCard(props);
+    default:
+      return <></>;
   }
-
-  return el;
 }
 
 function juzCard(props: Props): JSX.Element {
