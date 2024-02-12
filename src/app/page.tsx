@@ -7,7 +7,7 @@ const data: Props[] = [
     juz: 28,
     murojaahMethod: 'Memory',
     totalMurojaah: 100,
-    occuredAt: 'Sat, Feb 10 \'24',
+    occuredAt: "Sat, Feb 10 '24",
   },
   {
     cardType: CardType.Surah,
@@ -15,7 +15,7 @@ const data: Props[] = [
     surahName: 'Al-Mumtahanah',
     murojaahMethod: 'Memory',
     totalMurojaah: 100,
-    occuredAt: 'Sat, Feb 10 \'24',
+    occuredAt: "Sat, Feb 10 '24",
   },
   {
     cardType: CardType.Ayah,
@@ -25,7 +25,7 @@ const data: Props[] = [
     surahName: 'Al-Baqarah',
     murojaahMethod: 'Memory',
     totalMurojaah: 100,
-    occuredAt: 'Sat, Feb 10 \'24',
+    occuredAt: "Sat, Feb 10 '24",
   },
 ];
 

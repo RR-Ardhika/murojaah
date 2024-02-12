@@ -40,8 +40,12 @@ function juzCard(props: Props): JSX.Element {
   return (
     <div className={cardClassnames.container}>
       <p className={cardClassnames.title}>Juz {props.juz}</p>
-      <p className={cardClassnames.data}>Murojaah by using {props.murojaahMethod}</p>
-      <p className={cardClassnames.data}>Total Murojaah is {props.totalMurojaah}</p>
+      <p className={cardClassnames.data}>
+        Murojaah by using {props.murojaahMethod}
+      </p>
+      <p className={cardClassnames.data}>
+        Total Murojaah is {props.totalMurojaah}
+      </p>
       <p className={cardClassnames.date}>{props.occuredAt}</p>
     </div>
   );
@@ -50,9 +54,15 @@ function juzCard(props: Props): JSX.Element {
 function surahCard(props: Props): JSX.Element {
   return (
     <div className={cardClassnames.container}>
-      <p className={cardClassnames.title}>Surah {props.surah} {props.surahName}</p>
-      <p className={cardClassnames.data}>Murojaah by using {props.murojaahMethod}</p>
-      <p className={cardClassnames.data}>Total Murojaah is {props.totalMurojaah}</p>
+      <p className={cardClassnames.title}>
+        Surah {props.surah} {props.surahName}
+      </p>
+      <p className={cardClassnames.data}>
+        Murojaah by using {props.murojaahMethod}
+      </p>
+      <p className={cardClassnames.data}>
+        Total Murojaah is {props.totalMurojaah}
+      </p>
       <p className={cardClassnames.date}>{props.occuredAt}</p>
     </div>
   );
@@ -61,10 +71,18 @@ function surahCard(props: Props): JSX.Element {
 function ayahCard(props: Props): JSX.Element {
   return (
     <div className={cardClassnames.container}>
-      <p className={cardClassnames.title}>Ayah {props.start} to {props.end}</p>
-      <p className={cardClassnames.data}>Surah {props.surah} {props.surahName}</p>
-      <p className={cardClassnames.data}>Murojaah by using {props.murojaahMethod}</p>
-      <p className={cardClassnames.data}>Total Murojaah is {props.totalMurojaah}</p>
+      <p className={cardClassnames.title}>
+        Ayah {props.start} to {props.end}
+      </p>
+      <p className={cardClassnames.data}>
+        Surah {props.surah} {props.surahName}
+      </p>
+      <p className={cardClassnames.data}>
+        Murojaah by using {props.murojaahMethod}
+      </p>
+      <p className={cardClassnames.data}>
+        Total Murojaah is {props.totalMurojaah}
+      </p>
       <p className={cardClassnames.date}>{props.occuredAt}</p>
     </div>
   );
