@@ -71,7 +71,7 @@ const AyahCard = (props: Props): JSX.Element => {
   );
 };
 
-export function Card(props: Props): JSX.Element {
+export const Card = (props: Props): JSX.Element => {
   switch (props.cardType) {
     case CardType.Juz:
       return JuzCard(props);
@@ -82,4 +82,4 @@ export function Card(props: Props): JSX.Element {
     default:
       return <></>;
   }
-}
+};
