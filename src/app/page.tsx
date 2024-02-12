@@ -1,6 +1,7 @@
 import { Card, Props } from './components/Card';
 import { CardType } from './api/card';
 
+// TODO Remove this mockup data
 const data: Props[] = [
   {
     cardType: CardType.Juz,
@@ -30,14 +31,16 @@ const data: Props[] = [
 ];
 
 export default function Home(): JSX.Element {
+  // TODO Remove this mockup data
   const cards: JSX.Element[] = [
-    <Card key={Math.floor(Math.random())} {...data[0]} />,
-    <Card key={Math.floor(Math.random())} {...data[1]} />,
-    <Card key={Math.floor(Math.random())} {...data[2]} />,
+    Card({ ...data[0] }),
+    Card({ ...data[1] }),
+    Card({ ...data[2] }),
   ];
 
   return (
     <div className="flex flex-col mt-[72px] pt-4 px-4">
+      {/* TODO Remove this mockup data */}
       <Card {...data[0]} />
       <Card {...data[1]} />
       <Card {...data[2]} />
@@ -46,6 +49,7 @@ export default function Home(): JSX.Element {
   );
 }
 
+// TODO Remove this mockup data
 function repeat(cards: JSX.Element[], repetition: number = 10): JSX.Element[] {
   const items: JSX.Element[] = [];
   for (let i: number = 0; i < repetition; ++i)
