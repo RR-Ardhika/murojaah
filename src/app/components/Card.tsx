@@ -19,20 +19,7 @@ const cardClassnames: Record<string, string> = {
   date: 'font-extralight',
 };
 
-export function Card(props: Props): JSX.Element {
-  switch (props.cardType) {
-    case CardType.Juz:
-      return juzCard(props);
-    case CardType.Surah:
-      return surahCard(props);
-    case CardType.Ayah:
-      return ayahCard(props);
-    default:
-      return <></>;
-  }
-}
-
-function juzCard(props: Props): JSX.Element {
+const JuzCard = (props: Props): JSX.Element => {
   return (
     <div className={cardClassnames.container}>
       <p className={cardClassnames.title}>Juz {props.juz}</p>
@@ -45,9 +32,9 @@ function juzCard(props: Props): JSX.Element {
       <p className={cardClassnames.date}>{props.occuredAt}</p>
     </div>
   );
-}
+};
 
-function surahCard(props: Props): JSX.Element {
+const SurahCard = (props: Props): JSX.Element => {
   return (
     <div className={cardClassnames.container}>
       <p className={cardClassnames.title}>
@@ -62,9 +49,9 @@ function surahCard(props: Props): JSX.Element {
       <p className={cardClassnames.date}>{props.occuredAt}</p>
     </div>
   );
-}
+};
 
-function ayahCard(props: Props): JSX.Element {
+const AyahCard = (props: Props): JSX.Element => {
   return (
     <div className={cardClassnames.container}>
       <p className={cardClassnames.title}>
@@ -82,4 +69,17 @@ function ayahCard(props: Props): JSX.Element {
       <p className={cardClassnames.date}>{props.occuredAt}</p>
     </div>
   );
+};
+
+export function Card(props: Props): JSX.Element {
+  switch (props.cardType) {
+    case CardType.Juz:
+      return JuzCard(props);
+    case CardType.Surah:
+      return SurahCard(props);
+    case CardType.Ayah:
+      return AyahCard(props);
+    default:
+      return <></>;
+  }
 }
