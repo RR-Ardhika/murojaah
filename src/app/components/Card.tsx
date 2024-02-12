@@ -1,7 +1,15 @@
 import { CardType } from '../api/card';
 
-interface Props {
+export interface Props {
   cardType: number;
+  juz?: number;
+  surah?: number;
+  surahName?: string;
+  start?: number;
+  end?: number;
+  murojaahMethod: string;
+  totalMurojaah: number;
+  occuredAt: string;
 }
 
 const cardClassnames: Record<string, string> = {
@@ -11,53 +19,53 @@ const cardClassnames: Record<string, string> = {
   date: 'font-extralight',
 };
 
-export default function Card({ cardType }: Props): JSX.Element {
+export function Card(props: Props): JSX.Element {
   let el: JSX.Element = <></>;
-  switch (cardType) {
+  switch (props.cardType) {
     case CardType.Juz:
-      el = juzCard();
+      el = juzCard(props);
       break;
     case CardType.Surah:
-      el = surahCard();
+      el = surahCard(props);
       break;
     case CardType.Ayah:
-      el = ayahCard();
+      el = ayahCard(props);
       break;
   }
 
   return el;
 }
 
-function juzCard(): JSX.Element {
+function juzCard(props: Props): JSX.Element {
   return (
     <div className={cardClassnames.container}>
-      <p className={cardClassnames.title}>Juz 28</p>
-      <p className={cardClassnames.data}>Murojaah by using Memory</p>
-      <p className={cardClassnames.data}>Total Murojaah is 100</p>
-      <p className={cardClassnames.date}>Sat, Feb 10 &apos;24</p>
+      <p className={cardClassnames.title}>Juz {props.juz}</p>
+      <p className={cardClassnames.data}>Murojaah by using {props.murojaahMethod}</p>
+      <p className={cardClassnames.data}>Total Murojaah is {props.totalMurojaah}</p>
+      <p className={cardClassnames.date}>{props.occuredAt}</p>
     </div>
   );
 }
 
-function surahCard(): JSX.Element {
+function surahCard(props: Props): JSX.Element {
   return (
     <div className={cardClassnames.container}>
-      <p className={cardClassnames.title}>Surah 188 Al-Mumtahanah</p>
-      <p className={cardClassnames.data}>Murojaah by using Memory</p>
-      <p className={cardClassnames.data}>Total Murojaah is 100</p>
-      <p className={cardClassnames.date}>Sat, Feb 10 &apos;24</p>
+      <p className={cardClassnames.title}>Surah {props.surah} {props.surahName}</p>
+      <p className={cardClassnames.data}>Murojaah by using {props.murojaahMethod}</p>
+      <p className={cardClassnames.data}>Total Murojaah is {props.totalMurojaah}</p>
+      <p className={cardClassnames.date}>{props.occuredAt}</p>
     </div>
   );
 }
 
-function ayahCard(): JSX.Element {
+function ayahCard(props: Props): JSX.Element {
   return (
     <div className={cardClassnames.container}>
-      <p className={cardClassnames.title}>Ayah 200 to 208</p>
-      <p className={cardClassnames.data}>Surah 1 Al-Baqarah</p>
-      <p className={cardClassnames.data}>Murojaah by using Memory</p>
-      <p className={cardClassnames.data}>Total Murojaah is 100</p>
-      <p className={cardClassnames.date}>Sat, Feb 10 &apos;24</p>
+      <p className={cardClassnames.title}>Ayah {props.start} to {props.end}</p>
+      <p className={cardClassnames.data}>Surah {props.surah} {props.surahName}</p>
+      <p className={cardClassnames.data}>Murojaah by using {props.murojaahMethod}</p>
+      <p className={cardClassnames.data}>Total Murojaah is {props.totalMurojaah}</p>
+      <p className={cardClassnames.date}>{props.occuredAt}</p>
     </div>
   );
 }
