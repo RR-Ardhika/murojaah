@@ -1,5 +1,6 @@
-import { Card, Props } from './components/Card';
 import { CardType } from './api/card';
+import { Card, Props } from './components/Card';
+import CreateButton from './components/CreateButton';
 
 // TODO Remove this mockup data
 const data: Props[] = [
@@ -45,6 +46,7 @@ export default function Home(): JSX.Element {
       <Card {...data[1]} />
       <Card {...data[2]} />
       {repeat(cards, 7)}
+      <CreateButton />
     </div>
   );
 }
