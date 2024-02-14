@@ -1,5 +1,6 @@
 import { MurojaahType } from '@/api/murojaah';
 
+// TODO Remove export after not use mockup
 export interface Props {
   murojaahType: number;
   juz?: number;

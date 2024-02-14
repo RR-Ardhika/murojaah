@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { twJoin } from 'tailwind-merge';
+import { Form } from '@/components/Form';
 
 const btnClass: Record<string, string> = {
   base: 'bg-white active:bg-cyan-300 border-2 text-teal border-teal rounded-full',
@@ -10,10 +11,15 @@ const btnClass: Record<string, string> = {
   sub: 'p-2',
 };
 
-function showSubCreateButtons(): JSX.Element {
+function renderSubButtons(
+  setForm: Dispatch<SetStateAction<boolean>>
+): JSX.Element {
   return (
     <div className="flex flex-col gap-4">
-      <button className={twJoin(btnClass.base, btnClass.sub)}>
+      <button
+        className={twJoin(btnClass.base, btnClass.sub)}
+        onClick={() => setForm(true)}
+      >
         <span className="text-xl">Juz</span>
       </button>
       <button className={twJoin(btnClass.base, btnClass.sub)}>
@@ -27,26 +33,30 @@ function showSubCreateButtons(): JSX.Element {
 }
 
 export const CreateButton = (): JSX.Element => {
-  const [isShowSubButtons, setIsShowSubButtons] = useState<boolean>(false);
+  const [showSubButtons, setShowSubButtons] = useState(false);
+  const [showForm, setForm] = useState(false);
 
   function toggleShowSubButtons(): void {
-    setIsShowSubButtons((isShowSubButtons: boolean) => !isShowSubButtons);
+    setShowSubButtons((showSubButtons: boolean) => !showSubButtons);
   }
 
   return (
     <div className="fixed bottom-16 right-4">
       <div className="flex flex-col gap-4">
-        {isShowSubButtons && showSubCreateButtons()}
+        {showSubButtons && renderSubButtons(setForm)}
+
         <button
           className={twJoin(
             btnClass.base,
             btnClass.main,
-            isShowSubButtons && btnClass.mainLeft
+            showSubButtons && btnClass.mainLeft
           )}
           onClick={() => toggleShowSubButtons()}
         >
           <span className="relative bottom-1 text-6xl font-extralight">+</span>
         </button>
+
+        <Form showForm={showForm} setForm={setForm} />
       </div>
     </div>
   );
