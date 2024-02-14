@@ -14,7 +14,7 @@ export interface Props {
 }
 
 const cardClassnames: Record<string, string> = {
-  container: 'p-4 mb-5 bg-teal text-white rounded-lg',
+  container: 'p-4 mb-5 bg-custom-teal text-white rounded-lg',
   title: 'text-xl font-black',
   data: 'font-normal',
   date: 'font-extralight',

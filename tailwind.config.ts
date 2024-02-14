@@ -9,15 +9,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        teal: '#16A085',
-      },
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'custom-teal': '#16A085',
       },
     },
   },
   plugins: [],
 };
+
 export default config;

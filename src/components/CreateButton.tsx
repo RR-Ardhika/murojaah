@@ -5,7 +5,7 @@ import { clsx } from 'clsx';
 import { Form } from '@/components/Form';
 
 const btnClass: Record<string, string> = {
-  base: 'bg-white active:bg-cyan-300 border-2 text-teal border-teal rounded-full',
+  base: 'bg-white active:bg-teal-200 border-2 text-custom-teal border-custom-teal rounded-full',
   main: 'relative right-1 w-16 h-16',
   mainLeft: 'left-[7px]',
   sub: 'p-2',
