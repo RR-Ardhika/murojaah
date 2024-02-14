@@ -27,10 +27,7 @@ function showSubCreateButtons(): JSX.Element {
 }
 
 export const CreateButton = (): JSX.Element => {
-  const [isShowSubButtons, setIsShowSubButtons]: [
-    boolean,
-    Dispatch<SetStateAction<boolean>>,
-  ] = useState<boolean>(false);
+  const [isShowSubButtons, setIsShowSubButtons] = useState<boolean>(false);
 
   function toggleShowSubButtons(): void {
     setIsShowSubButtons((isShowSubButtons: boolean) => !isShowSubButtons);
