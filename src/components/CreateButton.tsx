@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { twJoin } from 'tailwind-merge';
+import { clsx } from 'clsx';
 import { Form } from '@/components/Form';
 
 const btnClass: Record<string, string> = {
@@ -17,15 +17,15 @@ function renderSubButtons(
   return (
     <div className="flex flex-col gap-4">
       <button
-        className={twJoin(btnClass.base, btnClass.sub)}
+        className={clsx(btnClass.base, btnClass.sub)}
         onClick={() => setForm(true)}
       >
         <span className="text-xl">Juz</span>
       </button>
-      <button className={twJoin(btnClass.base, btnClass.sub)}>
+      <button className={clsx(btnClass.base, btnClass.sub)}>
         <span className="text-xl">Ayah</span>
       </button>
-      <button className={twJoin(btnClass.base, btnClass.sub)}>
+      <button className={clsx(btnClass.base, btnClass.sub)}>
         <span className="text-xl">Surah</span>
       </button>
     </div>
@@ -46,7 +46,7 @@ export const CreateButton = (): JSX.Element => {
         {showSubButtons && renderSubButtons(setForm)}
 
         <button
-          className={twJoin(
+          className={clsx(
             btnClass.base,
             btnClass.main,
             showSubButtons && btnClass.mainLeft
