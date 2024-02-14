@@ -1,5 +1,6 @@
-import { Card, Props } from './components/Card';
 import { CardType } from './api/card';
+import { Card, Props } from './components/Card';
+import { CreateButton } from './components/CreateButton';
 
 // TODO Remove this mockup data
 const data: Props[] = [
@@ -30,7 +31,7 @@ const data: Props[] = [
   },
 ];
 
-export default function Home(): JSX.Element {
+const Home = (): JSX.Element => {
   // TODO Remove this mockup data
   const cards: JSX.Element[] = [
     Card({ ...data[0] }),
@@ -45,9 +46,10 @@ export default function Home(): JSX.Element {
       <Card {...data[1]} />
       <Card {...data[2]} />
       {repeat(cards, 7)}
+      <CreateButton />
     </div>
   );
-}
+};
 
 // TODO Remove this mockup data
 function repeat(cards: JSX.Element[], repetition: number = 10): JSX.Element[] {
@@ -57,3 +59,5 @@ function repeat(cards: JSX.Element[], repetition: number = 10): JSX.Element[] {
 
   return items;
 }
+
+export default Home;

@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import Header from './components/Header';
-import Navbar from './components/Navbar';
+import { Header } from './components/Header';
+import { Navbar } from './components/Navbar';
 
 const inter: NextFont = Inter({ subsets: ['latin'] });
 
@@ -11,9 +11,9 @@ export const metadata: Metadata = {
   description: 'Murojaah application',
 };
 
-export default function RootLayout({
+const RootLayout = ({
   children,
-}: Readonly<{ children: React.ReactNode }>): JSX.Element {
+}: Readonly<{ children: React.ReactNode }>): JSX.Element => {
   return (
     <html lang="en">
       <body className={`${inter.className} flex flex-col h-screen`}>
@@ -23,4 +23,6 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;
