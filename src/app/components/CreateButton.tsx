@@ -25,7 +25,7 @@ function showSubCreateButtons(): JSX.Element {
   );
 }
 
-export default function CreateButton(): JSX.Element {
+export const CreateButton = (): JSX.Element => {
   const [isShowSubButtons, setIsShowSubButtons]: [
     boolean,
     Dispatch<SetStateAction<boolean>>,
@@ -52,4 +52,4 @@ export default function CreateButton(): JSX.Element {
       </div>
     </div>
   );
-}
+};
