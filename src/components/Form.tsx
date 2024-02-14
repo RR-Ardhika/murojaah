@@ -7,6 +7,47 @@ interface Props {
 }
 
 export const Form = ({ showForm, setForm }: Props): JSX.Element => {
+  const Title = (): JSX.Element => {
+    return (
+      <Dialog.Title className="text-lg font-medium leading-6 text-gray-900">
+        Murojaah Juz
+      </Dialog.Title>
+    );
+  };
+
+  const Content = (): JSX.Element => {
+    return (
+      <div className="mt-2">
+        <p className="text-sm text-gray-500">
+          Your payment has been successfully submitted. We’ve sent you an email with all of the
+          details of your order.
+        </p>
+      </div>
+    );
+  };
+
+  const Buttons = (): JSX.Element => {
+    return (
+      <div className="flex flex-row-reverse gap-2 mt-4">
+        <button
+          type="button"
+          className="px-6 py-2 bg-custom-teal hover:bg-teal-700 text-white rounded"
+          onClick={() => setForm(false)}
+        >
+          Save
+        </button>
+
+        <button
+          type="button"
+          className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
+          onClick={() => setForm(false)}
+        >
+          Cancel
+        </button>
+      </div>
+    );
+  };
+
   return (
     <Transition appear show={showForm} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={() => {}}>
@@ -23,7 +64,7 @@ export const Form = ({ showForm, setForm }: Props): JSX.Element => {
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center">
+          <div className="flex min-h-full items-center justify-center p-4">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -33,29 +74,12 @@ export const Form = ({ showForm, setForm }: Props): JSX.Element => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                <Dialog.Title
-                  as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900"
-                >
-                  Payment successful
-                </Dialog.Title>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">
-                    Your payment has been successfully submitted. We’ve sent you
-                    an email with all of the details of your order.
-                  </p>
-                </div>
+              <Dialog.Panel className="max-w-md rounded-2xl bg-white p-6 shadow-xl">
+                <Title />
 
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                    onClick={() => setForm(false)}
-                  >
-                    Got it, thanks!
-                  </button>
-                </div>
+                <Content />
+
+                <Buttons setForm={setForm} />
               </Dialog.Panel>
             </Transition.Child>
           </div>
