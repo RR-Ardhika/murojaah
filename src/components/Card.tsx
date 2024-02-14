@@ -1,7 +1,7 @@
-import { CardType } from '../api/card';
+import { MurojaahType } from '@/api/murojaah';
 
 export interface Props {
-  cardType: number;
+  murojaahType: number;
   juz?: number;
   surah?: number;
   surahName?: string;
@@ -72,12 +72,12 @@ const AyahCard = (props: Props): JSX.Element => {
 };
 
 export const Card = (props: Props): JSX.Element => {
-  switch (props.cardType) {
-    case CardType.Juz:
+  switch (props.murojaahType) {
+    case MurojaahType.Juz:
       return JuzCard(props);
-    case CardType.Surah:
+    case MurojaahType.Surah:
       return SurahCard(props);
-    case CardType.Ayah:
+    case MurojaahType.Ayah:
       return AyahCard(props);
     default:
       return <></>;

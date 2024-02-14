@@ -1,18 +1,18 @@
-import { CardType } from './api/card';
-import { Card, Props } from './components/Card';
-import { CreateButton } from './components/CreateButton';
+import { MurojaahType } from '@/api/murojaah';
+import { Card, Props } from '@/components/Card';
+import { CreateButton } from '@/components/CreateButton';
 
 // TODO Remove this mockup data
 const data: Props[] = [
   {
-    cardType: CardType.Juz,
+    murojaahType: MurojaahType.Juz,
     juz: 28,
     murojaahMethod: 'Memory',
     totalMurojaah: 100,
     occuredAt: "Sat, Feb 10 '24",
   },
   {
-    cardType: CardType.Surah,
+    murojaahType: MurojaahType.Surah,
     surah: 188,
     surahName: 'Al-Mumtahanah',
     murojaahMethod: 'Memory',
@@ -20,7 +20,7 @@ const data: Props[] = [
     occuredAt: "Sat, Feb 10 '24",
   },
   {
-    cardType: CardType.Ayah,
+    murojaahType: MurojaahType.Ayah,
     start: 200,
     end: 208,
     surah: 1,
