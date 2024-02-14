@@ -11,9 +11,7 @@ export const metadata: Metadata = {
   description: 'Murojaah application',
 };
 
-const RootLayout = ({
-  children,
-}: Readonly<{ children: React.ReactNode }>): JSX.Element => {
+const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>): JSX.Element => {
   return (
     <html lang="en">
       <body className={`${inter.className} flex flex-col h-screen`}>
