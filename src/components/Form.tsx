@@ -18,10 +18,9 @@ export const Form = ({ showForm, setForm }: Props): JSX.Element => {
   const Content = (): JSX.Element => {
     return (
       <div className="mt-2">
-        <p className="text-sm text-gray-500">
-          Your payment has been successfully submitted. We’ve sent you an email with all of the
-          details of your order.
-        </p>
+        <label>Select Juz</label>
+        {/* TODO Add searchable dropdown component,
+          react-select with highlight is good candidate */}
       </div>
     );
   };
@@ -74,11 +73,9 @@ export const Form = ({ showForm, setForm }: Props): JSX.Element => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="max-w-md rounded-2xl bg-white p-6 shadow-xl">
+              <Dialog.Panel className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
                 <Title />
-
                 <Content />
-
                 <Buttons setForm={setForm} />
               </Dialog.Panel>
             </Transition.Child>
