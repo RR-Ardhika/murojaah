@@ -13,7 +13,7 @@ export const CreateButton = (): JSX.Element => {
   };
 
   const [showSubButtons, setShowSubButtons] = useState(false);
-  const [showForm, setForm] = useState(false);
+  const [showForm, setShowForm] = useState(false);
 
   function toggleShowSubButtons(): void {
     setShowSubButtons((showSubButtons: boolean) => !showSubButtons);
@@ -22,7 +22,7 @@ export const CreateButton = (): JSX.Element => {
   function renderSubButtons(): JSX.Element {
     return (
       <div className="flex flex-col gap-4">
-        <button className={clsx(btnClass.base, btnClass.sub)} onClick={() => setForm(true)}>
+        <button className={clsx(btnClass.base, btnClass.sub)} onClick={() => setShowForm(true)}>
           <span className="text-xl">Juz</span>
         </button>
         <button className={clsx(btnClass.base, btnClass.sub)}>
@@ -47,7 +47,7 @@ export const CreateButton = (): JSX.Element => {
           <span className="relative bottom-1 text-6xl font-extralight">+</span>
         </button>
 
-        <Form showForm={showForm} setForm={setForm} />
+        <Form showForm={showForm} setShowForm={setShowForm} />
       </div>
     </div>
   );

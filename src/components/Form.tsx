@@ -3,10 +3,10 @@ import { Transition, Dialog } from '@headlessui/react';
 
 interface Props {
   showForm: boolean;
-  setForm: Dispatch<SetStateAction<boolean>>;
+  setShowForm: Dispatch<SetStateAction<boolean>>;
 }
 
-export const Form = ({ showForm, setForm }: Props): JSX.Element => {
+export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
   const Title = (): JSX.Element => {
     return (
       <Dialog.Title className="text-lg font-medium leading-6 text-gray-900">
@@ -31,7 +31,7 @@ export const Form = ({ showForm, setForm }: Props): JSX.Element => {
         <button
           type="button"
           className="px-6 py-2 bg-custom-teal hover:bg-teal-700 text-white rounded"
-          onClick={() => setForm(false)}
+          onClick={() => setShowForm(false)}
         >
           Save
         </button>
@@ -39,7 +39,7 @@ export const Form = ({ showForm, setForm }: Props): JSX.Element => {
         <button
           type="button"
           className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
-          onClick={() => setForm(false)}
+          onClick={() => setShowForm(false)}
         >
           Cancel
         </button>
@@ -76,7 +76,7 @@ export const Form = ({ showForm, setForm }: Props): JSX.Element => {
               <Dialog.Panel className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
                 <Title />
                 <Content />
-                <Buttons setForm={setForm} />
+                <Buttons />
               </Dialog.Panel>
             </Transition.Child>
           </div>
