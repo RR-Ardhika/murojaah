@@ -1,5 +1,7 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
+import { JuzOptions } from '@/api/murojaah';
 import { Transition, Dialog } from '@headlessui/react';
+import Select from 'react-select';
 
 interface Props {
   showForm: boolean;
@@ -10,17 +12,23 @@ export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
   const Title = (): JSX.Element => {
     return (
       <Dialog.Title className="text-lg font-medium leading-6 text-gray-900">
-        Murojaah Juz
+        Create Murojaah
       </Dialog.Title>
     );
   };
 
   const Content = (): JSX.Element => {
+    const [selectedOption, setSelectedOption] = useState(null);
+
     return (
       <div className="mt-2">
-        <label>Select Juz</label>
-        {/* TODO Add searchable dropdown component,
-          react-select with highlight is good candidate */}
+        <Select
+          defaultValue={selectedOption}
+          onChange={setSelectedOption}
+          options={JuzOptions}
+          placeholder={'Select Juz'}
+          isSearchable={false}
+        />
       </div>
     );
   };
