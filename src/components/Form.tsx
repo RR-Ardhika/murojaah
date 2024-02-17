@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { JuzOptions } from '@/api/murojaah';
 import { Transition, Dialog } from '@headlessui/react';
 import Select from 'react-select';
@@ -9,6 +9,18 @@ interface Props {
 }
 
 export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [disableSave, setDisableSave] = useState(true);
+
+  useEffect(() => {
+    if (showForm) setSelectedOption(null);
+  }, [showForm]);
+
+  function setForm(option) {
+    setSelectedOption(option);
+    setDisableSave(false);
+  }
+
   const Title = (): JSX.Element => {
     return (
       <Dialog.Title className="text-lg font-medium leading-6 text-gray-900">
@@ -18,8 +30,6 @@ export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
   };
 
   const Content = (): JSX.Element => {
-    const [selectedOption, setSelectedOption] = useState(null);
-
     const selectStyle: StylesConfig = {
       control: (base: CSSObjectWithLabel) => ({
         ...base,
@@ -33,7 +43,7 @@ export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
         <div className="border border-gray-300">
           <Select
             defaultValue={selectedOption}
-            onChange={setSelectedOption}
+            onChange={setForm}
             options={JuzOptions}
             placeholder={'Select Juz'}
             isSearchable={false}
@@ -45,12 +55,30 @@ export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
   };
 
   const Buttons = (): JSX.Element => {
+    function save(): void {
+      console.log('clicked');
+      console.log(selectedOption);
+      if (selectedOption) {
+        console.log('saved'); // TODO Implement save callback
+        closeForm();
+      }
+    }
+
+    function cancel(): void {
+      closeForm();
+    }
+
+    function closeForm(): void {
+      setShowForm(false);
+    }
+
     return (
       <div className="flex flex-row-reverse gap-2 mt-4">
         <button
           type="button"
-          className="px-6 py-2 bg-custom-teal hover:bg-teal-700 text-white rounded"
-          onClick={() => setShowForm(false)}
+          className="px-6 py-2 enabled:bg-custom-teal enabled:hover:bg-teal-700 disabled:bg-gray-400 text-white rounded"
+          onClick={() => save()}
+          disabled={disableSave}
         >
           Save
         </button>
@@ -58,7 +86,7 @@ export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
         <button
           type="button"
           className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
-          onClick={() => setShowForm(false)}
+          onClick={() => cancel()}
         >
           Cancel
         </button>
