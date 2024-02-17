@@ -11,15 +11,23 @@ interface Props {
 export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [disableSave, setDisableSave] = useState(true);
+  const [cancelText, setCancelText] = useState('Cancel');
+  const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
 
   useEffect(() => {
     if (showForm) {
-      setSelectedOption(null);
-      setDisableSave(true);
+      resetStates();
     }
   }, [showForm]);
 
-  function setForm(option) {
+  function resetStates(): void {
+    setSelectedOption(null);
+    setDisableSave(true);
+    setCancelText('Cancel');
+    setShowCancelConfirmation(false);
+  }
+
+  function setForm(option: Record<string, string>): void {
     setSelectedOption(option);
     setDisableSave(false);
   }
@@ -66,6 +74,11 @@ export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
     }
 
     function cancel(): void {
+      if (selectedOption && !showCancelConfirmation) {
+        setShowCancelConfirmation(true);
+        setCancelText('Confirm?');
+        return;
+      }
       closeForm();
     }
 
@@ -89,7 +102,7 @@ export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
           className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
           onClick={() => cancel()}
         >
-          Cancel
+          {cancelText}
         </button>
       </div>
     );
