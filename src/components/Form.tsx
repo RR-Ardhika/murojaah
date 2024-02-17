@@ -53,14 +53,6 @@ export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
       }
     }
 
-    function cancel(): void {
-      if (selectedOption && !showCancelConfirmation) {
-        setShowCancelConfirmation(true);
-        return;
-      }
-      closeForm();
-    }
-
     function closeForm(): void {
       setShowForm(false);
       setTimeout(() => {
@@ -84,7 +76,7 @@ export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
           <button
             type="button"
             className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
-            onClick={cancel}
+            onClick={() => (selectedOption ? setShowCancelConfirmation(true) : closeForm())}
           >
             Cancel
           </button>
@@ -94,7 +86,7 @@ export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
           <button
             type="button"
             className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
-            onClick={cancel}
+            onClick={closeForm}
           >
             Confirm?
           </button>
