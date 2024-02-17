@@ -1,11 +1,10 @@
 'use client';
 
-import { useState } from 'react';
 import { MurojaahType } from '@/api/murojaah';
+import { AlertProvider } from '@/context/AlertContext';
 import { Alert } from '@/components/Alert';
 import { Card, Props } from '@/components/Card';
 import { CreateButton } from '@/components/CreateButton';
-import { AlertContext } from '@/context/AlertContext';
 import { clsx } from 'clsx';
 
 const Home = (): JSX.Element => {
@@ -38,13 +37,10 @@ const Home = (): JSX.Element => {
     },
   ];
 
-  const [isAlertVisible, setIsAlertVisible] = useState(false);
-
   return (
-    <AlertContext.Provider value={{ isAlertVisible, setIsAlertVisible }}>
+    <AlertProvider>
       <Alert />
-
-      <div className={clsx('flex flex-col pt-4 px-4', isAlertVisible ? 'mt-[112px]' : 'mt-[72px]')}>
+      <div className={clsx('flex flex-col pt-4 px-4')}>
         {/* TODO Remove this mockup data */}
         <Card {...data[0]} />
         <Card {...data[1]} />
@@ -55,9 +51,9 @@ const Home = (): JSX.Element => {
         <Card {...data[1]} />
         <Card {...data[0]} />
         <Card {...data[2]} />
-        <CreateButton />
       </div>
-    </AlertContext.Provider>
+      <CreateButton />
+    </AlertProvider>
   );
 };
 

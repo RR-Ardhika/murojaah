@@ -1,6 +1,6 @@
-import { Fragment, useState, useContext } from 'react';
+import { Fragment, useState } from 'react';
 import { JuzOptions } from '@/api/murojaah';
-import { AlertContext } from '@/context/AlertContext';
+import { useAlert } from '@/context/AlertContext';
 import { Transition, Dialog } from '@headlessui/react';
 import Select from 'react-select';
 
@@ -13,7 +13,7 @@ interface Props {
 export const Form = ({ showForm, setShowForm, setShowSubButtons }: Props): JSX.Element => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
-  const { setIsAlertVisible } = useContext(AlertContext);
+  const { setIsAlertVisible } = useAlert();
 
   const Title = (): JSX.Element => {
     return (

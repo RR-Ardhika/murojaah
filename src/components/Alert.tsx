@@ -1,10 +1,9 @@
 'use client';
 
-import { useContext } from 'react';
-import { AlertContext } from '@/context/AlertContext';
+import { useAlert } from '@/context/AlertContext';
 
 export const Alert = (): JSX.Element => {
-  const { isAlertVisible } = useContext(AlertContext);
+  const { isAlertVisible } = useAlert();
 
   if (!isAlertVisible) return <></>;
 
