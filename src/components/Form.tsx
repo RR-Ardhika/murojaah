@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment, useState } from 'react';
 import { JuzOptions } from '@/api/murojaah';
 import { Transition, Dialog } from '@headlessui/react';
 import Select from 'react-select';
@@ -10,27 +10,7 @@ interface Props {
 
 export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
   const [selectedOption, setSelectedOption] = useState(null);
-  const [disableSave, setDisableSave] = useState(true);
-  const [cancelText, setCancelText] = useState('Cancel');
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
-
-  useEffect(() => {
-    if (showForm) {
-      resetStates();
-    }
-  }, [showForm]);
-
-  function resetStates(): void {
-    setSelectedOption(null);
-    setDisableSave(true);
-    setCancelText('Cancel');
-    setShowCancelConfirmation(false);
-  }
-
-  function setForm(option: Record<string, string>): void {
-    setSelectedOption(option);
-    setDisableSave(false);
-  }
 
   const Title = (): JSX.Element => {
     return (
@@ -54,7 +34,7 @@ export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
         <div className="border border-gray-300">
           <Select
             defaultValue={selectedOption}
-            onChange={setForm}
+            onChange={setSelectedOption}
             options={JuzOptions}
             placeholder={'Select Juz'}
             isSearchable={false}
@@ -76,7 +56,6 @@ export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
     function cancel(): void {
       if (selectedOption && !showCancelConfirmation) {
         setShowCancelConfirmation(true);
-        setCancelText('Confirm?');
         return;
       }
       closeForm();
@@ -84,6 +63,10 @@ export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
 
     function closeForm(): void {
       setShowForm(false);
+      setTimeout(() => {
+        setSelectedOption(null);
+        setShowCancelConfirmation(false);
+      }, 500);
     }
 
     return (
@@ -91,19 +74,31 @@ export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
         <button
           type="button"
           className="px-6 py-2 enabled:bg-custom-teal enabled:hover:bg-teal-700 disabled:bg-gray-400 text-white rounded"
-          onClick={() => save()}
-          disabled={disableSave}
+          onClick={save}
+          disabled={!selectedOption}
         >
           Save
         </button>
 
-        <button
-          type="button"
-          className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
-          onClick={() => cancel()}
-        >
-          {cancelText}
-        </button>
+        {!showCancelConfirmation && (
+          <button
+            type="button"
+            className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
+            onClick={cancel}
+          >
+            Cancel
+          </button>
+        )}
+
+        {showCancelConfirmation && (
+          <button
+            type="button"
+            className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
+            onClick={cancel}
+          >
+            Confirm?
+          </button>
+        )}
       </div>
     );
   };
