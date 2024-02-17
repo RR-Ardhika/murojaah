@@ -1,54 +1,53 @@
 'use client';
 
 import { useState } from 'react';
-
-const buttonClassnames: Record<string, string> = {
-  button:
-    'relative right-1 w-16 h-16 bg-white active:bg-cyan-300 border-2 text-teal border-teal rounded-full',
-  subButton:
-    'p-2 bg-white active:bg-cyan-300 border-2 text-teal border-teal rounded-full',
-};
-
-function showSubCreateButtons(): JSX.Element {
-  return (
-    <div className="flex flex-col gap-4">
-      <button className={buttonClassnames.subButton}>
-        <span className="text-xl">Juz</span>
-      </button>
-      <button className={buttonClassnames.subButton}>
-        <span className="text-xl">Ayah</span>
-      </button>
-      <button className={buttonClassnames.subButton}>
-        <span className="text-xl">Surah</span>
-      </button>
-    </div>
-  );
-}
+import { clsx } from 'clsx';
+import { Form } from '@/components/Form';
 
 export const CreateButton = (): JSX.Element => {
-  const [isShowSubButtons, setIsShowSubButtons]: [
-    boolean,
-    Dispatch<SetStateAction<boolean>>,
-  ] = useState<boolean>(false);
+  const btnClass: Record<string, string> = {
+    base: 'bg-white active:bg-teal-200 border-2 text-custom-teal border-custom-teal rounded-full',
+    main: 'relative right-1 w-16 h-16',
+    mainLeft: 'left-[7px]',
+    sub: 'p-2',
+  };
 
-  const createButtonClass: string = isShowSubButtons
-    ? buttonClassnames.button + ' left-[7px]'
-    : buttonClassnames.button;
+  const [showSubButtons, setShowSubButtons] = useState(false);
+  const [showForm, setShowForm] = useState(false);
 
   function toggleShowSubButtons(): void {
-    setIsShowSubButtons((isShowSubButtons: boolean) => !isShowSubButtons);
+    setShowSubButtons((showSubButtons: boolean) => !showSubButtons);
+  }
+
+  function renderSubButtons(): JSX.Element {
+    return (
+      <div className="flex flex-col gap-4">
+        <button className={clsx(btnClass.base, btnClass.sub)} onClick={() => setShowForm(true)}>
+          <span className="text-xl">Juz</span>
+        </button>
+        <button className={clsx(btnClass.base, btnClass.sub)}>
+          <span className="text-xl">Ayah</span>
+        </button>
+        <button className={clsx(btnClass.base, btnClass.sub)}>
+          <span className="text-xl">Surah</span>
+        </button>
+      </div>
+    );
   }
 
   return (
     <div className="fixed bottom-16 right-4">
       <div className="flex flex-col gap-4">
-        {isShowSubButtons && showSubCreateButtons()}
+        {showSubButtons && renderSubButtons()}
+
         <button
-          className={createButtonClass}
+          className={clsx(btnClass.base, btnClass.main, showSubButtons && btnClass.mainLeft)}
           onClick={() => toggleShowSubButtons()}
         >
           <span className="relative bottom-1 text-6xl font-extralight">+</span>
         </button>
+
+        <Form showForm={showForm} setShowForm={setShowForm} />
       </div>
     </div>
   );
