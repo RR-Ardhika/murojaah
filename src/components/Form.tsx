@@ -13,7 +13,7 @@ interface Props {
 export const Form = ({ showForm, setShowForm, setShowSubButtons }: Props): JSX.Element => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
-  const { setShowAlert } = useContext(AlertContext);
+  const { setIsAlertVisible } = useContext(AlertContext);
 
   const Title = (): JSX.Element => {
     return (
@@ -54,9 +54,9 @@ export const Form = ({ showForm, setShowForm, setShowSubButtons }: Props): JSX.E
         console.log('saved'); // TODO Implement save callback
         closeForm();
         setShowSubButtons(false);
-        setShowAlert(true);
+        setIsAlertVisible(true);
         setTimeout(() => {
-          setShowAlert(false);
+          setIsAlertVisible(false);
         }, 3000);
       }
     }

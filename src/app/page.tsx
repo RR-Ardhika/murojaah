@@ -38,19 +38,13 @@ const Home = (): JSX.Element => {
     },
   ];
 
-  const [showAlert, setShowAlert] = useState(false);
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
 
   return (
-    <AlertContext.Provider value={{ showAlert, setShowAlert }}>
+    <AlertContext.Provider value={{ isAlertVisible, setIsAlertVisible }}>
       <Alert />
 
-      <div
-        className={clsx(
-          'flex flex-col pt-4 px-4',
-          showAlert && 'mt-[112px]',
-          !showAlert && 'mt-[72px]'
-        )}
-      >
+      <div className={clsx('flex flex-col pt-4 px-4', isAlertVisible ? 'mt-[112px]' : 'mt-[72px]')}>
         {/* TODO Remove this mockup data */}
         <Card {...data[0]} />
         <Card {...data[1]} />
