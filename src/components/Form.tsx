@@ -12,7 +12,7 @@ export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
   const Title = (): JSX.Element => {
     return (
       <Dialog.Title className="text-lg font-medium leading-6 text-gray-900">
-        Create Murojaah
+        Create Juz Murojaah
       </Dialog.Title>
     );
   };
@@ -20,15 +20,26 @@ export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
   const Content = (): JSX.Element => {
     const [selectedOption, setSelectedOption] = useState(null);
 
+    const selectStyle: StylesConfig = {
+      control: (base: CSSObjectWithLabel) => ({
+        ...base,
+        border: 0,
+        boxShadow: 'none',
+      }),
+    };
+
     return (
       <div className="mt-2">
-        <Select
-          defaultValue={selectedOption}
-          onChange={setSelectedOption}
-          options={JuzOptions}
-          placeholder={'Select Juz'}
-          isSearchable={false}
-        />
+        <div className="border border-gray-300">
+          <Select
+            defaultValue={selectedOption}
+            onChange={setSelectedOption}
+            options={JuzOptions}
+            placeholder={'Select Juz'}
+            isSearchable={false}
+            styles={selectStyle}
+          />
+        </div>
       </div>
     );
   };
