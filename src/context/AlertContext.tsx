@@ -1,3 +1,6 @@
 import { createContext } from 'react';
 
-export const AlertContext: Context<boolean> = createContext(false);
+export const AlertContext: Context<object> = createContext({
+  showAlert: false,
+  setShowAlert: () => {},
+});

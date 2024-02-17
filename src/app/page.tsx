@@ -1,11 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { MurojaahType } from '@/api/murojaah';
 import { Alert } from '@/components/Alert';
 import { Card, Props } from '@/components/Card';
 import { CreateButton } from '@/components/CreateButton';
 import { AlertContext } from '@/context/AlertContext';
-import { useContext } from 'react';
 import { clsx } from 'clsx';
 
 const Home = (): JSX.Element => {
@@ -38,10 +38,10 @@ const Home = (): JSX.Element => {
     },
   ];
 
-  const showAlert: Context<boolean> = useContext(AlertContext);
+  const [showAlert, setShowAlert] = useState(true);
 
   return (
-    <AlertContext.Provider value={showAlert}>
+    <AlertContext.Provider value={{ showAlert, setShowAlert }}>
       <Alert />
 
       <div

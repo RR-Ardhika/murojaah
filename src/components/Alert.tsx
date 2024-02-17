@@ -4,13 +4,22 @@ import { useContext } from 'react';
 import { AlertContext } from '@/context/AlertContext';
 
 export const Alert = (): JSX.Element => {
-  const showAlert: Context<boolean> = useContext(AlertContext);
+  const { showAlert, setShowAlert } = useContext(AlertContext);
+
+  function hideAlert(): void {
+    setShowAlert(false);
+  }
 
   return (
     <>
       {showAlert && (
         <div className="fixed w-full mt-[72px] p-2 bg-green-500 text-white text">
-          Successfully created new murojaah
+          <div className="flex justify-between">
+            <p>Successfully created new murojaah</p>
+            <button className="w-4 h-6 border border-white" onClick={hideAlert}>
+              X
+            </button>
+          </div>
         </div>
       )}
     </>

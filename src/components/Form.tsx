@@ -1,5 +1,6 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useContext } from 'react';
 import { JuzOptions } from '@/api/murojaah';
+import { AlertContext } from '@/context/AlertContext';
 import { Transition, Dialog } from '@headlessui/react';
 import Select from 'react-select';
 
@@ -11,6 +12,7 @@ interface Props {
 export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
+  const { setShowAlert } = useContext(AlertContext);
 
   const Title = (): JSX.Element => {
     return (
@@ -50,6 +52,10 @@ export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
       if (selectedOption) {
         console.log('saved'); // TODO Implement save callback
         closeForm();
+        setShowAlert(true);
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 3000);
       }
     }
 
