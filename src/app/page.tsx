@@ -1,6 +1,12 @@
+'use client';
+
 import { MurojaahType } from '@/api/murojaah';
+import { Alert } from '@/components/Alert';
 import { Card, Props } from '@/components/Card';
 import { CreateButton } from '@/components/CreateButton';
+import { AlertContext } from '@/context/AlertContext';
+import { useContext } from 'react';
+import { clsx } from 'clsx';
 
 const Home = (): JSX.Element => {
   // TODO Remove this mockup data
@@ -32,27 +38,32 @@ const Home = (): JSX.Element => {
     },
   ];
 
-  // TODO Remove this mockup data
-  const cards: JSX.Element[] = [Card({ ...data[0] }), Card({ ...data[1] }), Card({ ...data[2] })];
-
-  // TODO Remove this mockup data
-  function repeat(cards: JSX.Element[], repetition: number = 10): JSX.Element[] {
-    const items: JSX.Element[] = [];
-    for (let i: number = 0; i < repetition; ++i)
-      items.push(cards[Math.floor(Math.random() * cards.length)]);
-
-    return items;
-  }
+  const showAlert: Context<boolean> = useContext(AlertContext);
 
   return (
-    <div className="flex flex-col mt-[72px] pt-4 px-4">
-      {/* TODO Remove this mockup data */}
-      <Card {...data[0]} />
-      <Card {...data[1]} />
-      <Card {...data[2]} />
-      {repeat(cards, 7)}
-      <CreateButton />
-    </div>
+    <AlertContext.Provider value={showAlert}>
+      <Alert />
+
+      <div
+        className={clsx(
+          'flex flex-col pt-4 px-4',
+          showAlert && 'mt-[112px]',
+          !showAlert && 'mt-[72px]'
+        )}
+      >
+        {/* TODO Remove this mockup data */}
+        <Card {...data[0]} />
+        <Card {...data[1]} />
+        <Card {...data[2]} />
+        <Card {...data[1]} />
+        <Card {...data[2]} />
+        <Card {...data[0]} />
+        <Card {...data[1]} />
+        <Card {...data[0]} />
+        <Card {...data[2]} />
+        <CreateButton />
+      </div>
+    </AlertContext.Provider>
   );
 };
 
