@@ -59,8 +59,6 @@ export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
 
   const Buttons = (): JSX.Element => {
     function save(): void {
-      console.log('clicked');
-      console.log(selectedOption);
       if (selectedOption) {
         console.log('saved'); // TODO Implement save callback
         closeForm();
