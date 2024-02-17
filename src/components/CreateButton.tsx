@@ -47,7 +47,7 @@ export const CreateButton = (): JSX.Element => {
           <span className="relative bottom-1 text-6xl font-extralight">+</span>
         </button>
 
-        <Form showForm={showForm} setShowForm={setShowForm} />
+        <Form showForm={showForm} setShowForm={setShowForm} setShowSubButtons={setShowSubButtons} />
       </div>
     </div>
   );

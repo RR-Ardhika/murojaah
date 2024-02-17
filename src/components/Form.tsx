@@ -7,9 +7,10 @@ import Select from 'react-select';
 interface Props {
   showForm: boolean;
   setShowForm: Dispatch<SetStateAction<boolean>>;
+  setShowSubButtons: Dispatch<SetStateAction<boolean>>;
 }
 
-export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
+export const Form = ({ showForm, setShowForm, setShowSubButtons }: Props): JSX.Element => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
   const { setShowAlert } = useContext(AlertContext);
@@ -52,6 +53,7 @@ export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
       if (selectedOption) {
         console.log('saved'); // TODO Implement save callback
         closeForm();
+        setShowSubButtons(false);
         setShowAlert(true);
         setTimeout(() => {
           setShowAlert(false);
