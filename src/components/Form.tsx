@@ -13,7 +13,10 @@ export const Form = ({ showForm, setShowForm }: Props): JSX.Element => {
   const [disableSave, setDisableSave] = useState(true);
 
   useEffect(() => {
-    if (showForm) setSelectedOption(null);
+    if (showForm) {
+      setSelectedOption(null);
+      setDisableSave(true);
+    }
   }, [showForm]);
 
   function setForm(option) {
