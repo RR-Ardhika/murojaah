@@ -38,7 +38,7 @@ const Home = (): JSX.Element => {
     },
   ];
 
-  const [showAlert, setShowAlert] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
 
   return (
     <AlertContext.Provider value={{ showAlert, setShowAlert }}>
