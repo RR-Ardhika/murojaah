@@ -1,5 +1,3 @@
-'use client';
-
 import { useAlert } from '@/context/AlertContext';
 
 export const Alert = (): JSX.Element => {
