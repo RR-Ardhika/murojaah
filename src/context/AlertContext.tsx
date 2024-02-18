@@ -1,20 +1,12 @@
 import { createContext, useContext, useState } from 'react';
 
-type AlertContextType = {
-  isAlertVisible: boolean;
-  setIsAlertVisible: Dispatch<SetStateAction<boolean>>;
-};
-
-const AlertContext: Context<AlertContextType> = createContext<AlertContextType>({
-  isAlertVisible: false,
-  setIsAlertVisible: () => {},
-});
+const AlertContext: Context = createContext();
 
 export const AlertProvider = ({ children }: JSX.Element): JSX.Element => {
   const [isAlertVisible, setIsAlertVisible] = useState(false);
 
   return (
-    <AlertContext.Provider valaue={{ isAlertVisible, setIsAlertVisible }}>
+    <AlertContext.Provider value={{ isAlertVisible, setIsAlertVisible }}>
       {children}
     </AlertContext.Provider>
   );
