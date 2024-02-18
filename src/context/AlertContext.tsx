@@ -5,10 +5,15 @@ const AlertContext: Context = createContext();
 export const AlertProvider = ({ children }: JSX.Element): JSX.Element => {
   const [isAlertVisible, setIsAlertVisible] = useState(false);
 
+  function showAlert(): void {
+    setIsAlertVisible(true);
+    setTimeout(() => {
+      setIsAlertVisible(false);
+    }, 3000);
+  }
+
   return (
-    <AlertContext.Provider value={{ isAlertVisible, setIsAlertVisible }}>
-      {children}
-    </AlertContext.Provider>
+    <AlertContext.Provider value={{ isAlertVisible, showAlert }}>{children}</AlertContext.Provider>
   );
 };
 
