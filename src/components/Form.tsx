@@ -5,14 +5,18 @@ import { Transition, Dialog } from '@headlessui/react';
 import Select from 'react-select';
 
 interface Props {
-  showForm: boolean;
-  setShowForm: Dispatch<SetStateAction<boolean>>;
-  setShowSubButtons: Dispatch<SetStateAction<boolean>>;
+  isFormVisible: boolean;
+  setIsFormVisible: Dispatch<SetStateAction<boolean>>;
+  setIsSubButtonsVisible: Dispatch<SetStateAction<boolean>>;
 }
 
-export const Form = ({ showForm, setShowForm, setShowSubButtons }: Props): JSX.Element => {
+export const Form = ({
+  isFormVisible,
+  setIsFormVisible,
+  setIsSubButtonsVisible,
+}: Props): JSX.Element => {
   const [selectedOption, setSelectedOption] = useState(null);
-  const [showCancelConfirmation, setShowCancelConfirmation] = useState(false);
+  const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);
   const { showAlert } = useAlert();
 
   const Title = (): JSX.Element => {
@@ -53,16 +57,16 @@ export const Form = ({ showForm, setShowForm, setShowSubButtons }: Props): JSX.E
       if (selectedOption) {
         console.log('saved'); // TODO Implement save callback
         closeForm();
-        setShowSubButtons(false);
+        setIsSubButtonsVisible(false);
         showAlert();
       }
     }
 
     function cancel(): void {
-      if (selectedOption && !showCancelConfirmation) {
-        setShowCancelConfirmation(true);
+      if (selectedOption && !isCancelConfirmationVisible) {
+        setIsCancelConfirmationVisible(true);
         setTimeout(() => {
-          setShowCancelConfirmation(false);
+          setIsCancelConfirmationVisible(false);
         }, 2000);
         return;
       }
@@ -70,10 +74,10 @@ export const Form = ({ showForm, setShowForm, setShowSubButtons }: Props): JSX.E
     }
 
     function closeForm(): void {
-      setShowForm(false);
+      setIsFormVisible(false);
       setTimeout(() => {
         setSelectedOption(null);
-        setShowCancelConfirmation(false);
+        setIsCancelConfirmationVisible(false);
       }, 500);
     }
 
@@ -88,7 +92,7 @@ export const Form = ({ showForm, setShowForm, setShowSubButtons }: Props): JSX.E
           Save
         </button>
 
-        {!showCancelConfirmation && (
+        {!isCancelConfirmationVisible && (
           <button
             type="button"
             className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
@@ -98,7 +102,7 @@ export const Form = ({ showForm, setShowForm, setShowSubButtons }: Props): JSX.E
           </button>
         )}
 
-        {showCancelConfirmation && (
+        {isCancelConfirmationVisible && (
           <button
             type="button"
             className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
@@ -112,7 +116,7 @@ export const Form = ({ showForm, setShowForm, setShowSubButtons }: Props): JSX.E
   };
 
   return (
-    <Transition appear show={showForm} as={Fragment}>
+    <Transition appear show={isFormVisible} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={() => {}}>
         <Transition.Child
           as={Fragment}

@@ -12,17 +12,20 @@ export const CreateButton = (): JSX.Element => {
     sub: 'p-2',
   };
 
-  const [showSubButtons, setShowSubButtons] = useState(false);
-  const [showForm, setShowForm] = useState(false);
+  const [isSubButtonsVisible, setIsSubButtonsVisible] = useState(false);
+  const [isFormVisible, setIsFormVisible] = useState(false);
 
   function toggleShowSubButtons(): void {
-    setShowSubButtons((showSubButtons: boolean) => !showSubButtons);
+    setIsSubButtonsVisible((isSubButtonsVisible: boolean) => !isSubButtonsVisible);
   }
 
   function renderSubButtons(): JSX.Element {
     return (
       <div className="flex flex-col gap-4">
-        <button className={clsx(btnClass.base, btnClass.sub)} onClick={() => setShowForm(true)}>
+        <button
+          className={clsx(btnClass.base, btnClass.sub)}
+          onClick={() => setIsFormVisible(true)}
+        >
           <span className="text-xl">Juz</span>
         </button>
         <button className={clsx(btnClass.base, btnClass.sub)}>
@@ -38,16 +41,20 @@ export const CreateButton = (): JSX.Element => {
   return (
     <div className="fixed bottom-16 right-4">
       <div className="flex flex-col gap-4">
-        {showSubButtons && renderSubButtons()}
+        {isSubButtonsVisible && renderSubButtons()}
 
         <button
-          className={clsx(btnClass.base, btnClass.main, showSubButtons && btnClass.mainLeft)}
+          className={clsx(btnClass.base, btnClass.main, isSubButtonsVisible && btnClass.mainLeft)}
           onClick={() => toggleShowSubButtons()}
         >
           <span className="relative bottom-1 text-6xl font-extralight">+</span>
         </button>
 
-        <Form showForm={showForm} setShowForm={setShowForm} setShowSubButtons={setShowSubButtons} />
+        <Form
+          isFormVisible={isFormVisible}
+          setIsFormVisible={setIsFormVisible}
+          setIsSubButtonsVisible={setIsSubButtonsVisible}
+        />
       </div>
     </div>
   );
