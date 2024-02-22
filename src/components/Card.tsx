@@ -1,4 +1,4 @@
-import { MurojaahType } from '@/api/murojaah';
+import { MurojaahType } from '@/api/module/murojaah/entity/murojaah';
 
 // TODO Remove export after not use mockup
 export interface Props {

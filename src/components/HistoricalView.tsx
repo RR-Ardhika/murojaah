@@ -1,5 +1,5 @@
+import { MurojaahType } from '@/api/module/murojaah/entity/murojaah';
 import { useAlert } from '@/context/AlertContext';
-import { MurojaahType } from '@/api/murojaah';
 import { Card, Props } from '@/components/Card';
 import { clsx } from 'clsx';
 

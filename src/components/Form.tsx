@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react';
+import { JuzOptions } from '@/api/module/murojaah/entity/murojaah';
 import { useAlert } from '@/context/AlertContext';
-import { JuzOptions } from '@/api/murojaah';
 import { Transition, Dialog } from '@headlessui/react';
 import Select from 'react-select';
 
