@@ -2,7 +2,6 @@ import { IDataBase, DATA_TYPE, ITable, Connection } from 'jsstore';
 import workerInjector from 'jsstore/dist/worker_injector';
 
 export const idbCon = new Connection();
-// console.log('workerInjector', workerInjector);
 idbCon.addPlugin(workerInjector);
 
 export const dbname = 'murojaah';
@@ -34,7 +33,7 @@ export function initJsStore() {
   try {
     const dataBase = getDatabase();
     idbCon.initDb(dataBase);
-  } catch (ex) {
-    console.error(ex);
+  } catch (err) {
+    console.error(err);
   }
 }
