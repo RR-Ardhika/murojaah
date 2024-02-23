@@ -1,7 +1,7 @@
-import { useAlert } from '@/context/AlertContext';
+import { useContext } from '@/context';
 
 export const Alert = (): JSX.Element => {
-  const { isAlertVisible } = useAlert();
+  const { isAlertVisible } = useContext();
 
   if (!isAlertVisible) return <></>;
 

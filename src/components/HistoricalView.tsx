@@ -1,5 +1,5 @@
 import { MurojaahType } from '@/api/module/murojaah/entity/murojaah';
-import { useAlert } from '@/context/AlertContext';
+import { useContext } from '@/context';
 import { Card, Props } from '@/components/Card';
 import { clsx } from 'clsx';
 
@@ -33,7 +33,7 @@ export const HistoricalView = (): JSX.Element => {
     },
   ];
 
-  const { isAlertVisible } = useAlert();
+  const { isAlertVisible } = useContext();
 
   return (
     <div className={clsx('flex flex-col pt-4 px-4', isAlertVisible ? 'mt-[112px]' : 'mt-[72px]')}>
