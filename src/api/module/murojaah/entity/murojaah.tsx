@@ -1,10 +1,6 @@
 export class History {
   id? = 0;
-  juzId? = 0;
-
-  constructor(payload: Option) {
-    this.juzId = payload.value;
-  }
+  juzId = 0;
 }
 
 export enum MurojaahType {
