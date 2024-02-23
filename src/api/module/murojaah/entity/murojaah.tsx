@@ -1,10 +1,19 @@
+export class History {
+  id? = 0;
+  juzId? = 0;
+
+  constructor(payload: Option) {
+    this.juzId = payload.value;
+  }
+}
+
 export enum MurojaahType {
   Juz = 0,
   Surah = 1,
   Ayah = 2,
 }
 
-type Option = {
+export type Option = {
   value: number;
   label: number;
 };

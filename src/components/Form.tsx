@@ -1,5 +1,6 @@
 import { Fragment, useState } from 'react';
 import { JuzOptions } from '@/api/module/murojaah/entity/murojaah';
+import { Create } from '@/api/module/murojaah/service/create';
 import { useContext } from '@/context';
 import { Transition, Dialog } from '@headlessui/react';
 import Select from 'react-select';
@@ -55,7 +56,7 @@ export const Form = ({
   const Buttons = (): JSX.Element => {
     function save(): void {
       if (selectedOption) {
-        console.log('saved'); // TODO Implement save callback
+        Create(selectedOption);
         closeForm();
         setIsSubButtonsVisible(false);
         showAlert();
