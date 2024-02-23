@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react';
 import { JuzOptions } from '@/api/module/murojaah/entity/murojaah';
 import { Create } from '@/api/module/murojaah/service/create';
-import { useContext } from '@/context';
+import { useAlert } from '@/context/AlertContext';
 import { Transition, Dialog } from '@headlessui/react';
 import Select from 'react-select';
 
@@ -18,7 +18,7 @@ export const Form = ({
 }: Props): JSX.Element => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);
-  const { showAlert } = useContext();
+  const { showAlert } = useAlert();
 
   const Title = (): JSX.Element => {
     return (
