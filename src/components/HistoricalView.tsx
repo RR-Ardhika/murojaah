@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { History, MurojaahType } from '@/api/module/murojaah/entity/murojaah';
+import { History, MurojaahType } from '@/api/module/murojaah/entity';
 import { Index } from '@/api/module/murojaah/service';
 import { useAlert } from '@/context/AlertContext';
 import { Card } from '@/components/Card';

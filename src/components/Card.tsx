@@ -1,4 +1,4 @@
-import { History, MurojaahType } from '@/api/module/murojaah/entity/murojaah';
+import { History, MurojaahType } from '@/api/module/murojaah/entity';
 import { DateTime } from 'luxon';
 
 export const Card = (item: History): JSX.Element => {

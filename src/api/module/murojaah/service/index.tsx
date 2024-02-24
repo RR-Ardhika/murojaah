@@ -1,4 +1,4 @@
-import { Option, History, MurojaahType } from '@/api/module/murojaah/entity/murojaah';
+import { Option, History, MurojaahType } from '@/api/module/murojaah/entity';
 import { FindAll, Insert } from '@/api/module/murojaah/repository/indexeddb';
 import { DateTime } from 'luxon';
 

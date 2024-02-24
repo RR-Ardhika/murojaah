@@ -1,5 +1,5 @@
 import { Fragment, useState } from 'react';
-import { JuzOptions } from '@/api/module/murojaah/entity/murojaah';
+import { JuzOptions } from '@/api/module/murojaah/entity';
 import { Create } from '@/api/module/murojaah/service';
 import { useAlert } from '@/context/AlertContext';
 import { Transition, Dialog } from '@headlessui/react';
