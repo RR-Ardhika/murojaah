@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { MurojaahType } from '@/api/module/murojaah/entity/murojaah';
+import { History, MurojaahType } from '@/api/module/murojaah/entity/murojaah';
 import { Index } from '@/api/module/murojaah/service';
 import { useAlert } from '@/context/AlertContext';
-import { Card, Props } from '@/components/Card';
+import { Card } from '@/components/Card';
 import { clsx } from 'clsx';
 
 export const HistoricalView = (): JSX.Element => {
@@ -15,7 +15,8 @@ export const HistoricalView = (): JSX.Element => {
   });
 
   // TODO Remove this mockup data
-  const mockup: Props[] = [
+  const showMockup = true;
+  const mockup: History[] = [
     {
       murojaahType: MurojaahType.Juz,
       juz: 28,
@@ -50,9 +51,15 @@ export const HistoricalView = (): JSX.Element => {
       {data ? data.map((item) => <Card key={item.id} {...item} />) : <></>}
 
       {/* TODO Remove this mockup data */}
-      <Card {...mockup[0]} />
-      <Card {...mockup[1]} />
-      <Card {...mockup[2]} />
+      {showMockup ? (
+        <>
+          <Card {...mockup[0]} />
+          <Card {...mockup[1]} />
+          <Card {...mockup[2]} />
+        </>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

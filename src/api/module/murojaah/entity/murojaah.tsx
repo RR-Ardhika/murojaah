@@ -1,7 +1,15 @@
-export class History {
-  id? = 0;
-  juz = 0;
-}
+export type History = {
+  id?: number;
+  murojaahType: number;
+  juz?: number;
+  surah?: number;
+  surahName?: string;
+  start?: number;
+  end?: number;
+  murojaahMethod: string;
+  totalMurojaah: number;
+  occuredAt: Date;
+};
 
 export enum MurojaahType {
   Juz = 0,

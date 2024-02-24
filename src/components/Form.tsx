@@ -56,10 +56,15 @@ export const Form = ({
   const Buttons = (): JSX.Element => {
     function save(): void {
       if (selectedOption) {
-        Create(selectedOption);
-        closeForm();
-        setIsSubButtonsVisible(false);
-        showAlert();
+        Create(selectedOption)
+          .then(() => {
+            closeForm();
+            setIsSubButtonsVisible(false);
+            showAlert();
+          })
+          .catch((err) => {
+            console.log(err); // TODO handle this by using alert
+          });
       }
     }
 
