@@ -9,13 +9,13 @@ export const HistoricalView = (): JSX.Element => {
   const [data, setData] = useState(undefined);
 
   useEffect(() => {
-    Index().then((result) => {
+    Index().then((result: History[]) => {
       setData(result);
     });
   });
 
   // TODO Remove this mockup data
-  const showMockup = false;
+  const showMockup: boolean = false;
   const mockup: History[] = [
     {
       murojaahType: MurojaahType.Juz,
@@ -48,7 +48,7 @@ export const HistoricalView = (): JSX.Element => {
 
   return (
     <div className={clsx('flex flex-col pt-4 px-4', isAlertVisible ? 'mt-[112px]' : 'mt-[72px]')}>
-      {data ? data.map((item) => <Card key={item.id} {...item} />) : <></>}
+      {data ? data.map((item: History) => <Card key={item.id} {...item} />) : <></>}
 
       {/* TODO Remove this mockup data */}
       {showMockup ? (

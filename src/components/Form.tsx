@@ -62,7 +62,7 @@ export const Form = ({
             setIsSubButtonsVisible(false);
             showAlert();
           })
-          .catch((err) => {
+          .catch((err: Error) => {
             console.log(err); // TODO handle this by using alert
           });
       }

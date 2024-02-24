@@ -2,11 +2,11 @@ import { Option, History, MurojaahType } from '@/api/module/murojaah/entity/muro
 import { FindAll, Insert } from '@/api/module/murojaah/repository/indexeddb';
 import { DateTime } from 'luxon';
 
-export function Index(): History[] {
+export function Index(): Promise<unknown> {
   return FindAll();
 }
 
-export function Create(payload: Option): [History, Error] {
+export function Create(payload: Option): Promise<unknown> {
   // TODO Implement payload validation
 
   const history: History = {

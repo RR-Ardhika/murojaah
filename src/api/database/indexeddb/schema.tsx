@@ -1,8 +1,8 @@
 import { IDataBase, DATA_TYPE, ITable } from 'jsstore';
 
-const dbname = 'murojaah';
+const dbname: string = 'murojaah';
 
-export function getDatabase() {
+export function getDatabase(): IDataBase {
   const dataBase: IDataBase = {
     name: dbname,
     tables: [histories],

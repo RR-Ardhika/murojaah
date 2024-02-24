@@ -2,11 +2,11 @@ import { History, MurojaahType } from '@/api/module/murojaah/entity/murojaah';
 import { DateTime } from 'luxon';
 
 export const Card = (item: History): JSX.Element => {
-  function getOccuredAt(jsdate) {
-    const parsedTime = DateTime.fromJSDate(jsdate);
+  function getOccuredAt(jsdate: Date): string {
+    const parsedTime: DateTime = DateTime.fromJSDate(jsdate);
     if (!parsedTime.isValid) return undefined;
-    const front = parsedTime.toFormat('EEE, MMM dd ');
-    const back = parsedTime.toFormat('yy hh:mm a');
+    const front: string = parsedTime.toFormat('EEE, MMM dd ');
+    const back: string = parsedTime.toFormat('yy hh:mm a');
     return front + "'" + back;
   }
 
