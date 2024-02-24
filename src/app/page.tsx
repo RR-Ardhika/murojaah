@@ -1,22 +1,20 @@
 'use client';
 
-import { DataProvider } from '@/context/DataContext';
+import { initJsStore } from '@/api/database/indexeddb/connection';
 import { AlertProvider } from '@/context/AlertContext';
 import { Alert } from '@/components/Alert';
 import { HistoricalView } from '@/components/HistoricalView';
 import { CreateButton } from '@/components/CreateButton';
 
 const Home = (): JSX.Element => {
-  if (typeof window === 'undefined') return <></>;
+  initJsStore();
 
   return (
-    <DataProvider>
-      <AlertProvider>
-        <Alert />
-        <HistoricalView />
-        <CreateButton />
-      </AlertProvider>
-    </DataProvider>
+    <AlertProvider>
+      <Alert />
+      <HistoricalView />
+      <CreateButton />
+    </AlertProvider>
   );
 };
 
