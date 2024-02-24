@@ -61,6 +61,7 @@ export const Card = (props: Props): JSX.Element => {
     );
   };
 
+  return JuzCard(); // TODO Fix this
   switch (props.murojaahType) {
     case MurojaahType.Juz:
       return JuzCard();

@@ -14,7 +14,7 @@ const getDatabase = () => {
         primaryKey: true,
         autoIncrement: true,
       },
-      juzId: {
+      juz: {
         notNull: true,
         dataType: DATA_TYPE.Number,
       },

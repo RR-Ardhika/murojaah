@@ -1,6 +1,6 @@
 export class History {
   id? = 0;
-  juzId = 0;
+  juz = 0;
 }
 
 export enum MurojaahType {
