@@ -49,6 +49,9 @@ devDependencies:
   jsstore:
     specifier: ^4.7.3
     version: 4.7.3
+  luxon:
+    specifier: ^3.4.4
+    version: 3.4.4
   postcss:
     specifier: ^8
     version: 8.4.35
@@ -2199,6 +2202,11 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
+    dev: true
+
+  /luxon@3.4.4:
+    resolution: {integrity: sha512-zobTr7akeGHnv7eBOXcRgMeCP6+uyYsczwmeRCauvpvaAltgNyTbLH/+VaEAPUeWBT+1GuNmz4wC/6jtQzbbVA==}
+    engines: {node: '>=12'}
     dev: true
 
   /memoize-one@6.0.0:
