@@ -15,7 +15,7 @@ export const HistoricalView = (): JSX.Element => {
   });
 
   // TODO Remove this mockup data
-  const showMockup = true;
+  const showMockup = false;
   const mockup: History[] = [
     {
       murojaahType: MurojaahType.Juz,
