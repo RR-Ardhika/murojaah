@@ -1,15 +1,7 @@
 import { History, MurojaahType } from '@/api/module/murojaah/entity';
-import { DateTime } from 'luxon';
+import { formatDatetime } from '@/util/datetime';
 
 export const Card = (item: History): JSX.Element => {
-  function getOccuredAt(jsdate: Date): string {
-    const parsedTime: DateTime = DateTime.fromJSDate(jsdate);
-    if (!parsedTime.isValid) return undefined;
-    const front: string = parsedTime.toFormat('EEE, MMM dd ');
-    const back: string = parsedTime.toFormat('yy hh:mm a');
-    return front + "'" + back;
-  }
-
   const cardClassnames: Record<string, string> = {
     container: 'p-4 mb-5 bg-custom-teal text-white rounded-lg',
     title: 'text-xl font-black',
@@ -23,7 +15,7 @@ export const Card = (item: History): JSX.Element => {
         <p className={cardClassnames.title}>Juz {item.juz}</p>
         <p className={cardClassnames.data}>Murojaah by using {item.murojaahMethod}</p>
         <p className={cardClassnames.data}>Total Murojaah is {item.totalMurojaah}</p>
-        <p className={cardClassnames.date}>{getOccuredAt(item.occuredAt)}</p>
+        <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </div>
     );
   };
