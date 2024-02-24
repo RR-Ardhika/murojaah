@@ -12,7 +12,7 @@ export const HistoricalView = (): JSX.Element => {
     Index().then((result: History[]) => {
       setData(result);
     });
-  });
+  }, []);
 
   // TODO Remove this mockup data
   const showMockup: boolean = false;
