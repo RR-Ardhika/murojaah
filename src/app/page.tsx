@@ -1,6 +1,6 @@
 'use client';
 
-import { initJsStore } from '@/api/database/connection/indexeddb';
+import { initJsStore } from '@/api/database/indexeddb/connection';
 import { AlertProvider } from '@/context/AlertContext';
 import { Alert } from '@/components/Alert';
 import { HistoricalView } from '@/components/HistoricalView';

@@ -1,4 +1,4 @@
-import { idbCon } from '@/api/database/connection/indexeddb';
+import { idbCon } from '@/api/database/indexeddb/connection';
 import { History } from '@/api/module/murojaah/entity/murojaah';
 
 export function FindAll(): History[] {
