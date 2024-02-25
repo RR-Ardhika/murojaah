@@ -55,15 +55,15 @@ export const Form = ({
 
   const Buttons = (): JSX.Element => {
     async function save(): Promise<void> {
-      if (selectedOption) {
-        try {
-          await Create(selectedOption);
-          closeForm();
-          setIsSubButtonsVisible(false);
-          showAlert();
-        } catch (error) {
-          console.log(error); // TODO handle this by using alert
-        }
+      if (!selectedOption) return;
+
+      try {
+        await Create(selectedOption);
+        closeForm();
+        setIsSubButtonsVisible(false);
+        showAlert();
+      } catch (error) {
+        console.log(error); // TODO handle this by using alert
       }
     }
 
