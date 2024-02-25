@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { initJsStore } from '@/api/database/indexeddb/connection';
 import { AlertProvider } from '@/context/AlertContext';
 import { Alert } from '@/components/Alert';
@@ -7,7 +8,9 @@ import { HistoricalView } from '@/components/HistoricalView';
 import { CreateButton } from '@/components/CreateButton';
 
 const Home = (): JSX.Element => {
-  initJsStore();
+  useEffect(() => {
+    initJsStore();
+  }, []);
 
   return (
     <AlertProvider>
