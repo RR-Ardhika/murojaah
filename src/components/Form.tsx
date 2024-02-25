@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react';
 import { JuzOptions } from '@/api/module/murojaah/entity';
 import { Create } from '@/api/module/murojaah/service';
+import { useData } from '@/context/DataContext';
 import { useAlert } from '@/context/AlertContext';
 import { Transition, Dialog } from '@headlessui/react';
 import Select from 'react-select';
@@ -18,6 +19,7 @@ export const Form = ({
 }: Props): JSX.Element => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);
+  const { fetchData } = useData();
   const { showAlert } = useAlert();
 
   const Title = (): JSX.Element => {
@@ -62,6 +64,7 @@ export const Form = ({
         closeForm();
         setIsSubButtonsVisible(false);
         showAlert();
+        fetchData();
       } catch (error) {
         console.log(error); // TODO handle this by using alert
       }

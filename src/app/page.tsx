@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { initJsStore } from '@/api/database/indexeddb/connection';
+import { DataProvider } from '@/context/DataContext';
 import { AlertProvider } from '@/context/AlertContext';
 import { Alert } from '@/components/Alert';
 import { HistoricalView } from '@/components/HistoricalView';
@@ -13,11 +14,13 @@ const Home = (): JSX.Element => {
   }, []);
 
   return (
-    <AlertProvider>
-      <Alert />
-      <HistoricalView />
-      <CreateButton />
-    </AlertProvider>
+    <DataProvider>
+      <AlertProvider>
+        <Alert />
+        <HistoricalView />
+        <CreateButton />
+      </AlertProvider>
+    </DataProvider>
   );
 };
 

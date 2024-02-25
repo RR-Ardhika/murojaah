@@ -1,18 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { History, MurojaahType } from '@/api/module/murojaah/entity';
-import { Index } from '@/api/module/murojaah/service';
+import { useData } from '@/context/DataContext';
 import { useAlert } from '@/context/AlertContext';
 import { Card } from '@/components/Card';
 import { clsx } from 'clsx';
 
 export const HistoricalView = (): JSX.Element => {
-  const [data, setData] = useState(undefined);
+  const { data, fetchData } = useData();
+  const { isAlertVisible } = useAlert();
 
   useEffect(() => {
-    Index().then((result: History[]) => {
-      setData(result);
-    });
-  });
+    fetchData();
+  }, []);
 
   // TODO Remove this mockup data
   const showMockup: boolean = false;
@@ -43,8 +42,6 @@ export const HistoricalView = (): JSX.Element => {
       occuredAt: "Sat, Feb 10 '24",
     },
   ];
-
-  const { isAlertVisible } = useAlert();
 
   return (
     <div className={clsx('flex flex-col pt-4 px-4', isAlertVisible ? 'mt-[112px]' : 'mt-[72px]')}>
