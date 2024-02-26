@@ -1,10 +1,23 @@
+export type History = {
+  id?: number;
+  murojaahType: number;
+  juz?: number;
+  surah?: number;
+  surahName?: string;
+  start?: number;
+  end?: number;
+  murojaahMethod: string;
+  totalMurojaah: number;
+  occuredAt: Date;
+};
+
 export enum MurojaahType {
   Juz = 0,
   Surah = 1,
   Ayah = 2,
 }
 
-type Option = {
+export type Option = {
   value: number;
   label: number;
 };

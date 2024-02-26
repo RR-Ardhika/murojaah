@@ -1,19 +1,7 @@
-import { MurojaahType } from '@/api/murojaah';
+import { History, MurojaahType } from '@/api/module/murojaah/entity';
+import { formatDatetime } from '@/util/datetime';
 
-// TODO Remove export after not use mockup
-export interface Props {
-  murojaahType: number;
-  juz?: number;
-  surah?: number;
-  surahName?: string;
-  start?: number;
-  end?: number;
-  murojaahMethod: string;
-  totalMurojaah: number;
-  occuredAt: string;
-}
-
-export const Card = (props: Props): JSX.Element => {
+export const Card = (item: History): JSX.Element => {
   const cardClassnames: Record<string, string> = {
     container: 'p-4 mb-5 bg-custom-teal text-white rounded-lg',
     title: 'text-xl font-black',
@@ -24,10 +12,10 @@ export const Card = (props: Props): JSX.Element => {
   const JuzCard = (): JSX.Element => {
     return (
       <div className={cardClassnames.container}>
-        <p className={cardClassnames.title}>Juz {props.juz}</p>
-        <p className={cardClassnames.data}>Murojaah by using {props.murojaahMethod}</p>
-        <p className={cardClassnames.data}>Total Murojaah is {props.totalMurojaah}</p>
-        <p className={cardClassnames.date}>{props.occuredAt}</p>
+        <p className={cardClassnames.title}>Juz {item.juz}</p>
+        <p className={cardClassnames.data}>Murojaah by using {item.murojaahMethod}</p>
+        <p className={cardClassnames.data}>Total Murojaah is {item.totalMurojaah}</p>
+        <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </div>
     );
   };
@@ -36,11 +24,11 @@ export const Card = (props: Props): JSX.Element => {
     return (
       <div className={cardClassnames.container}>
         <p className={cardClassnames.title}>
-          Surah {props.surah} {props.surahName}
+          Surah {item.surah} {item.surahName}
         </p>
-        <p className={cardClassnames.data}>Murojaah by using {props.murojaahMethod}</p>
-        <p className={cardClassnames.data}>Total Murojaah is {props.totalMurojaah}</p>
-        <p className={cardClassnames.date}>{props.occuredAt}</p>
+        <p className={cardClassnames.data}>Murojaah by using {item.murojaahMethod}</p>
+        <p className={cardClassnames.data}>Total Murojaah is {item.totalMurojaah}</p>
+        <p className={cardClassnames.date}>{item.occuredAt}</p>
       </div>
     );
   };
@@ -49,19 +37,19 @@ export const Card = (props: Props): JSX.Element => {
     return (
       <div className={cardClassnames.container}>
         <p className={cardClassnames.title}>
-          Ayah {props.start} to {props.end}
+          Ayah {item.start} to {item.end}
         </p>
         <p className={cardClassnames.data}>
-          Surah {props.surah} {props.surahName}
+          Surah {item.surah} {item.surahName}
         </p>
-        <p className={cardClassnames.data}>Murojaah by using {props.murojaahMethod}</p>
-        <p className={cardClassnames.data}>Total Murojaah is {props.totalMurojaah}</p>
-        <p className={cardClassnames.date}>{props.occuredAt}</p>
+        <p className={cardClassnames.data}>Murojaah by using {item.murojaahMethod}</p>
+        <p className={cardClassnames.data}>Total Murojaah is {item.totalMurojaah}</p>
+        <p className={cardClassnames.date}>{item.occuredAt}</p>
       </div>
     );
   };
 
-  switch (props.murojaahType) {
+  switch (item.murojaahType) {
     case MurojaahType.Juz:
       return JuzCard();
     case MurojaahType.Surah:

@@ -46,6 +46,12 @@ devDependencies:
   eslint-config-next:
     specifier: 14.1.0
     version: 14.1.0(eslint@8.56.0)(typescript@5.3.3)
+  jsstore:
+    specifier: ^4.7.3
+    version: 4.7.3
+  luxon:
+    specifier: ^3.4.4
+    version: 3.4.4
   postcss:
     specifier: ^8
     version: 8.4.35
@@ -2116,6 +2122,10 @@ packages:
       minimist: 1.2.8
     dev: true
 
+  /jsstore@4.7.3:
+    resolution: {integrity: sha512-xwIp+JIzgvIDKr31kq7pW9usWMXl3lPxFI7q2HRQWm0f0c1f6jgsSV6aE4din0lIYOvZSFbHINMpQ28wRaqf3g==}
+    dev: true
+
   /jsx-ast-utils@3.3.5:
     resolution: {integrity: sha512-ZZow9HBI5O6EPgSJLUb8n2NKgmVWTwCvHGwFuJlMjvLFqlGG6pjirPhtdsseaLZjSibD8eegzmYpUZwoIlj2cQ==}
     engines: {node: '>=4.0'}
@@ -2192,6 +2202,11 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
+    dev: true
+
+  /luxon@3.4.4:
+    resolution: {integrity: sha512-zobTr7akeGHnv7eBOXcRgMeCP6+uyYsczwmeRCauvpvaAltgNyTbLH/+VaEAPUeWBT+1GuNmz4wC/6jtQzbbVA==}
+    engines: {node: '>=12'}
     dev: true
 
   /memoize-one@6.0.0:
