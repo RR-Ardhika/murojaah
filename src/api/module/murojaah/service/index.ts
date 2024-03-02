@@ -20,6 +20,6 @@ export function Create(payload: Option): Promise<unknown> {
   return Insert(history);
 }
 
-export function Destroy(id: number): Promise<unknown> {
-  return DeleteRecord(id);
+export function Destroy(item: History): Promise<unknown> {
+  return DeleteRecord(item);
 }

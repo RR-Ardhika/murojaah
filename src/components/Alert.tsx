@@ -14,6 +14,7 @@ export enum AlertText {
 }
 
 export const Alert = (): JSX.Element => {
+  // @ts-expect-error useAlert
   const { alertColor, alertText, isAlertVisible } = useAlert();
 
   if (!isAlertVisible) return <></>;

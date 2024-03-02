@@ -4,10 +4,12 @@ import { useData } from '@/context/DataContext';
 import { useAlert } from '@/context/AlertContext';
 import { Card } from '@/components/Card';
 import { clsx } from 'clsx';
+import { DateTime } from 'luxon';
 
 export const HistoricalView = (): JSX.Element => {
-  const { data, fetchData } = useData();
+  // @ts-expect-error useAlert
   const { isAlertVisible } = useAlert();
+  const { data, fetchData } = useData();
 
   useEffect(() => {
     fetchData();
@@ -21,7 +23,7 @@ export const HistoricalView = (): JSX.Element => {
       juz: 28,
       murojaahMethod: 'Memory',
       totalMurojaah: 100,
-      occuredAt: "Sat, Feb 10 '24",
+      occuredAt: DateTime.now().toJSDate(),
     },
     {
       murojaahType: MurojaahType.Surah,
@@ -29,7 +31,7 @@ export const HistoricalView = (): JSX.Element => {
       surahName: 'Al-Mumtahanah',
       murojaahMethod: 'Memory',
       totalMurojaah: 100,
-      occuredAt: "Sat, Feb 10 '24",
+      occuredAt: DateTime.now().toJSDate(),
     },
     {
       murojaahType: MurojaahType.Ayah,
@@ -39,7 +41,7 @@ export const HistoricalView = (): JSX.Element => {
       surahName: 'Al-Baqarah',
       murojaahMethod: 'Memory',
       totalMurojaah: 100,
-      occuredAt: "Sat, Feb 10 '24",
+      occuredAt: DateTime.now().toJSDate(),
     },
   ];
 

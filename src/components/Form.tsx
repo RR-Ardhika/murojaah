@@ -1,5 +1,5 @@
-import { Fragment, useState } from 'react';
-import { JuzOptions } from '@/api/module/murojaah/entity';
+import { Dispatch, Fragment, useState, SetStateAction } from 'react';
+import { Option, JuzOptions } from '@/api/module/murojaah/entity';
 import { Create } from '@/api/module/murojaah/service';
 import { useData } from '@/context/DataContext';
 import { useAlert } from '@/context/AlertContext';
@@ -18,10 +18,11 @@ export const Form = ({
   setIsFormVisible,
   setIsSubButtonsVisible,
 }: Props): JSX.Element => {
+  // @ts-expect-error useAlert
+  const { showAlert } = useAlert();
   const [selectedOption, setSelectedOption] = useState(null);
   const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);
   const { fetchData } = useData();
-  const { showAlert } = useAlert();
 
   const Title = (): JSX.Element => {
     return (
@@ -32,7 +33,9 @@ export const Form = ({
   };
 
   const Content = (): JSX.Element => {
+    // @ts-expect-error react-select component
     const selectStyle: StylesConfig = {
+      // @ts-expect-error react-select component
       control: (base: CSSObjectWithLabel) => ({
         ...base,
         border: 0,
@@ -45,6 +48,7 @@ export const Form = ({
         <div className="border border-gray-300">
           <Select
             defaultValue={selectedOption}
+            // @ts-expect-error react-select props
             onChange={setSelectedOption}
             options={JuzOptions}
             placeholder={'Select Juz'}

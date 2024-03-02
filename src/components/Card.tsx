@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { Destroy } from '@/api/module/murojaah/service';
 import { History, MurojaahType } from '@/api/module/murojaah/entity';
 import { useData } from '@/context/DataContext';
@@ -8,8 +8,9 @@ import { formatDatetime } from '@/util/datetime';
 import { clsx } from 'clsx';
 
 export const Card = (item: History): JSX.Element => {
-  const { fetchData } = useData();
+  // @ts-expect-error useAlert
   const { showAlert } = useAlert();
+  const { fetchData } = useData();
 
   const cardClassnames: Record<string, string> = {
     container: 'p-4 mb-5 bg-custom-teal text-white rounded-lg',
@@ -37,7 +38,7 @@ export const Card = (item: History): JSX.Element => {
         </p>
         <p className={cardClassnames.data}>Murojaah by using {item.murojaahMethod}</p>
         <p className={cardClassnames.data}>Total Murojaah is {item.totalMurojaah}</p>
-        <p className={cardClassnames.date}>{item.occuredAt}</p>
+        <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
     );
   };
@@ -53,7 +54,7 @@ export const Card = (item: History): JSX.Element => {
         </p>
         <p className={cardClassnames.data}>Murojaah by using {item.murojaahMethod}</p>
         <p className={cardClassnames.data}>Total Murojaah is {item.totalMurojaah}</p>
-        <p className={cardClassnames.date}>{item.occuredAt}</p>
+        <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
     );
   };
@@ -81,7 +82,7 @@ export const Card = (item: History): JSX.Element => {
 
     async function deleteRecord(item: History): Promise<void> {
       try {
-        await Destroy(item.id);
+        await Destroy(item);
         fetchData();
         showAlert(AlertColor.Red, AlertText.SuccessDeletedMurojaah);
       } catch (error) {
@@ -116,18 +117,14 @@ export const Card = (item: History): JSX.Element => {
     );
   };
 
-  const MemoizedCard: JSX.Element = useMemo(() => {
-    switch (item.murojaahType) {
-      case MurojaahType.Juz:
-        return BaseCard(JuzCard());
-      case MurojaahType.Surah:
-        return BaseCard(SurahCard());
-      case MurojaahType.Ayah:
-        return BaseCard(AyahCard());
-      default:
-        return <></>;
-    }
-  }, [item]);
-
-  return MemoizedCard;
+  switch (item.murojaahType) {
+    case MurojaahType.Juz:
+      return BaseCard(JuzCard());
+    case MurojaahType.Surah:
+      return BaseCard(SurahCard());
+    case MurojaahType.Ayah:
+      return BaseCard(AyahCard());
+    default:
+      return <></>;
+  }
 };
