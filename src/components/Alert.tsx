@@ -15,7 +15,6 @@ export enum AlertText {
 
 export const Alert = (): JSX.Element => {
   const { alertColor, alertText, isAlertVisible } = useAlert();
-  console.log(alertColor);
 
   if (!isAlertVisible) return <></>;
 
