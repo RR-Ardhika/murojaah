@@ -63,7 +63,7 @@ export const Card = (item: History): JSX.Element => {
     const [isButtonsVisible, setIsButtonsVisible] = useState(false);
 
     function toggleButtons(): void {
-      isButtonsVisible ? setIsButtonsVisible(false) : setIsButtonsVisible(true);
+      setIsButtonsVisible(!isButtonsVisible);
     }
 
     return (
