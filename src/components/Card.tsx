@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { History, MurojaahType } from '@/api/module/murojaah/entity';
 import { formatDatetime } from '@/util/datetime';
 import { clsx } from 'clsx';
@@ -77,18 +77,14 @@ export const Card = (item: History): JSX.Element => {
     );
   };
 
-  const MemoizedCard = useMemo(() => {
-    switch (item.murojaahType) {
-      case MurojaahType.Juz:
-        return BaseCard(JuzCard());
-      case MurojaahType.Surah:
-        return BaseCard(SurahCard());
-      case MurojaahType.Ayah:
-        return BaseCard(AyahCard());
-      default:
-        return <></>;
-    }
-  }, []);
-
-  return MemoizedCard;
+  switch (item.murojaahType) {
+    case MurojaahType.Juz:
+      return BaseCard(JuzCard());
+    case MurojaahType.Surah:
+      return BaseCard(SurahCard());
+    case MurojaahType.Ayah:
+      return BaseCard(AyahCard());
+    default:
+      return <></>;
+  }
 };
