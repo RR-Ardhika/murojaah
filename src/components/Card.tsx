@@ -59,9 +59,23 @@ export const Card = (item: History): JSX.Element => {
     };
 
     const [isButtonsVisible, setIsButtonsVisible] = useState(false);
+    const [isDeleteConfirmationVisible, setIsDeleteConfirmationVisible] = useState(false);
 
     function toggleButtons(): void {
       setIsButtonsVisible(!isButtonsVisible);
+    }
+
+    function showDeleteConfirmation(): void {
+      setIsDeleteConfirmationVisible(true);
+      setTimeout(() => {
+        setIsDeleteConfirmationVisible(false);
+      }, 2000);
+    }
+
+    function deleteRecord(): void {
+      console.log('deleted');
+      setIsDeleteConfirmationVisible(false);
+      // fetchData(); // TODO implement this
     }
 
     return (
@@ -70,7 +84,18 @@ export const Card = (item: History): JSX.Element => {
         {isButtonsVisible && (
           <div className="flex flex-col gap-2 w-full mt-2">
             <button className={clsx(btnClass.base, btnClass.edit)}>Edit</button>
-            <button className={clsx(btnClass.base, btnClass.delete)}>Delete</button>
+            {!isDeleteConfirmationVisible ? (
+              <button
+                className={clsx(btnClass.base, btnClass.delete)}
+                onClick={showDeleteConfirmation}
+              >
+                Delete
+              </button>
+            ) : (
+              <button className={clsx(btnClass.base, btnClass.delete)} onClick={deleteRecord}>
+                Confirm?
+              </button>
+            )}
           </div>
         )}
       </div>

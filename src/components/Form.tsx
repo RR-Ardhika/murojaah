@@ -100,7 +100,7 @@ export const Form = ({
           Save
         </button>
 
-        {!isCancelConfirmationVisible && (
+        {!isCancelConfirmationVisible ? (
           <button
             type="button"
             className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
@@ -108,9 +108,7 @@ export const Form = ({
           >
             Cancel
           </button>
-        )}
-
-        {isCancelConfirmationVisible && (
+        ) : (
           <button
             type="button"
             className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
