@@ -1,17 +1,17 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { History, MurojaahType } from '@/api/module/murojaah/entity';
 import { formatDatetime } from '@/util/datetime';
 import { clsx } from 'clsx';
 
-const cardClassnames: Record<string, string> = {
-  container: 'p-4 mb-5 bg-custom-teal text-white rounded-lg',
-  title: 'text-xl font-black',
-  data: 'font-normal',
-  date: 'font-extralight',
-};
-
 export const Card = (item: History): JSX.Element => {
-  const JuzCard: JSX.Element = useMemo(() => {
+  const cardClassnames: Record<string, string> = {
+    container: 'p-4 mb-5 bg-custom-teal text-white rounded-lg',
+    title: 'text-xl font-black',
+    data: 'font-normal',
+    date: 'font-extralight',
+  };
+
+  const JuzCard = (): JSX.Element => {
     return (
       <>
         <p className={cardClassnames.title}>Juz {item.juz}</p>
@@ -20,9 +20,9 @@ export const Card = (item: History): JSX.Element => {
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
     );
-  }, [item]);
+  };
 
-  const SurahCard: JSX.Element = useMemo(() => {
+  const SurahCard = (): JSX.Element => {
     return (
       <>
         <p className={cardClassnames.title}>
@@ -33,9 +33,9 @@ export const Card = (item: History): JSX.Element => {
         <p className={cardClassnames.date}>{item.occuredAt}</p>
       </>
     );
-  }, [item]);
+  };
 
-  const AyahCard: JSX.Element = useMemo(() => {
+  const AyahCard = (): JSX.Element => {
     return (
       <>
         <p className={cardClassnames.title}>
@@ -49,7 +49,7 @@ export const Card = (item: History): JSX.Element => {
         <p className={cardClassnames.date}>{item.occuredAt}</p>
       </>
     );
-  }, [item]);
+  };
 
   const BaseCard = (children: JSX.Element): JSX.Element => {
     const btnClass: Record<string, string> = {
@@ -79,11 +79,11 @@ export const Card = (item: History): JSX.Element => {
 
   switch (item.murojaahType) {
     case MurojaahType.Juz:
-      return BaseCard(JuzCard);
+      return BaseCard(JuzCard());
     case MurojaahType.Surah:
-      return BaseCard(SurahCard);
+      return BaseCard(SurahCard());
     case MurojaahType.Ayah:
-      return BaseCard(AyahCard);
+      return BaseCard(AyahCard());
     default:
       return <></>;
   }
