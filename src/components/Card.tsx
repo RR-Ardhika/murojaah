@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Destroy } from '@/api/module/murojaah/service';
 import { History, MurojaahType } from '@/api/module/murojaah/entity';
 import { useData } from '@/context/DataContext';
@@ -116,14 +116,18 @@ export const Card = (item: History): JSX.Element => {
     );
   };
 
-  switch (item.murojaahType) {
-    case MurojaahType.Juz:
-      return BaseCard(JuzCard());
-    case MurojaahType.Surah:
-      return BaseCard(SurahCard());
-    case MurojaahType.Ayah:
-      return BaseCard(AyahCard());
-    default:
-      return <></>;
-  }
+  const MemoizedCard: JSX.Element = useMemo(() => {
+    switch (item.murojaahType) {
+      case MurojaahType.Juz:
+        return BaseCard(JuzCard());
+      case MurojaahType.Surah:
+        return BaseCard(SurahCard());
+      case MurojaahType.Ayah:
+        return BaseCard(AyahCard());
+      default:
+        return <></>;
+    }
+  }, [item]);
+
+  return MemoizedCard;
 };
