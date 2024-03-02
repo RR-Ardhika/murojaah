@@ -3,6 +3,7 @@ import { JuzOptions } from '@/api/module/murojaah/entity';
 import { Create } from '@/api/module/murojaah/service';
 import { useData } from '@/context/DataContext';
 import { useAlert } from '@/context/AlertContext';
+import { AlertColor, AlertText } from '@/components/Alert';
 import { Transition, Dialog } from '@headlessui/react';
 import Select from 'react-select';
 
@@ -65,10 +66,10 @@ export const Form = ({
         await Create(payload);
         closeForm();
         setIsSubButtonsVisible(false);
-        showAlert(); // TODO alert copy
+        showAlert(AlertColor.Green, AlertText.SuccessCreatedMurojaah);
         fetchData();
       } catch (error) {
-        console.log(error); // TODO alert copy
+        showAlert(AlertColor.Red, AlertText.FailedCreatedMurojaah);
       }
     }
 

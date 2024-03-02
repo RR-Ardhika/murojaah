@@ -3,6 +3,7 @@ import { Destroy } from '@/api/module/murojaah/service';
 import { History, MurojaahType } from '@/api/module/murojaah/entity';
 import { useData } from '@/context/DataContext';
 import { useAlert } from '@/context/AlertContext';
+import { AlertColor, AlertText } from '@/components/Alert';
 import { formatDatetime } from '@/util/datetime';
 import { clsx } from 'clsx';
 
@@ -82,9 +83,9 @@ export const Card = (item: History): JSX.Element => {
       try {
         await Destroy(item.id);
         fetchData();
-        showAlert();
+        showAlert(AlertColor.Red, AlertText.SuccessDeletedMurojaah);
       } catch (error) {
-        console.log(error); // TODO handle this by using alert
+        showAlert(AlertColor.Red, AlertText.FailedDeletedMurojaah);
       }
     }
 

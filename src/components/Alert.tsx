@@ -1,14 +1,39 @@
 import { useAlert } from '@/context/AlertContext';
+import { clsx } from 'clsx';
+
+export enum AlertColor {
+  Red = 0,
+  Green = 1,
+}
+
+export enum AlertText {
+  SuccessCreatedMurojaah = 'Successfully created new murojaah',
+  SuccessDeletedMurojaah = 'Murojaah deleted',
+  FailedCreatedMurojaah = 'Failed created new murojaah',
+  FailedDeletedMurojaah = 'Failed deleted murojaah',
+}
 
 export const Alert = (): JSX.Element => {
-  const { isAlertVisible } = useAlert();
+  const { alertColor, alertText, isAlertVisible } = useAlert();
+  console.log(alertColor);
 
   if (!isAlertVisible) return <></>;
 
+  function getBtnColor(): string {
+    switch (alertColor) {
+      case AlertColor.Red:
+        return 'bg-red-500';
+      case AlertColor.Green:
+        return 'bg-green-500';
+      default:
+        return 'bg-white';
+    }
+  }
+
   return (
-    <div className="fixed w-full mt-[72px] p-2 bg-green-500 text-white text">
+    <div className={clsx('fixed w-full mt-[72px] p-2 text-white text', getBtnColor())}>
       <div className="flex justify-between">
-        <p>Successfully created new murojaah</p>
+        <p>{alertText}</p>
       </div>
     </div>
   );
