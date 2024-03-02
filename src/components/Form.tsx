@@ -60,13 +60,15 @@ export const Form = ({
       if (!selectedOption) return;
 
       try {
-        await Create(selectedOption);
+        const payload: Option = selectedOption;
+        setSelectedOption(null); // Prevent multiple click by disable the button
+        await Create(payload);
         closeForm();
         setIsSubButtonsVisible(false);
-        showAlert();
+        showAlert(); // TODO alert copy
         fetchData();
       } catch (error) {
-        console.log(error); // TODO handle this by using alert
+        console.log(error); // TODO alert copy
       }
     }
 
