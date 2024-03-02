@@ -4,8 +4,6 @@ import { formatDatetime } from '@/util/datetime';
 import { clsx } from 'clsx';
 
 export const Card = (item: History): JSX.Element => {
-  if (!Object.values(MurojaahType).includes(item.murojaahType)) return <></>;
-
   const cardClassnames: Record<string, string> = {
     container: 'p-4 mb-5 bg-custom-teal text-white rounded-lg',
     title: 'text-xl font-black',
