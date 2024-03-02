@@ -3,14 +3,14 @@ import { History, MurojaahType } from '@/api/module/murojaah/entity';
 import { formatDatetime } from '@/util/datetime';
 import { clsx } from 'clsx';
 
-export const Card = (item: History): JSX.Element => {
-  const cardClassnames: Record<string, string> = {
-    container: 'p-4 mb-5 bg-custom-teal text-white rounded-lg',
-    title: 'text-xl font-black',
-    data: 'font-normal',
-    date: 'font-extralight',
-  };
+const cardClassnames: Record<string, string> = {
+  container: 'p-4 mb-5 bg-custom-teal text-white rounded-lg',
+  title: 'text-xl font-black',
+  data: 'font-normal',
+  date: 'font-extralight',
+};
 
+export const Card = (item: History): JSX.Element => {
   const JuzCard: JSX.Element = useMemo(() => {
     return (
       <>
