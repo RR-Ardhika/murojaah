@@ -1,9 +1,15 @@
 import { useState } from 'react';
+import { Destroy } from '@/api/module/murojaah/service';
 import { History, MurojaahType } from '@/api/module/murojaah/entity';
+import { useData } from '@/context/DataContext';
+import { useAlert } from '@/context/AlertContext';
 import { formatDatetime } from '@/util/datetime';
 import { clsx } from 'clsx';
 
 export const Card = (item: History): JSX.Element => {
+  const { fetchData } = useData();
+  const { showAlert } = useAlert();
+
   const cardClassnames: Record<string, string> = {
     container: 'p-4 mb-5 bg-custom-teal text-white rounded-lg',
     title: 'text-xl font-black',
@@ -72,10 +78,14 @@ export const Card = (item: History): JSX.Element => {
       }, 2000);
     }
 
-    function deleteRecord(): void {
-      console.log('deleted');
-      setIsDeleteConfirmationVisible(false);
-      // fetchData(); // TODO implement this
+    async function deleteRecord(item: History): Promise<void> {
+      try {
+        await Destroy(item.id);
+        fetchData();
+        showAlert();
+      } catch (error) {
+        console.log(error); // TODO handle this by using alert
+      }
     }
 
     return (
@@ -92,7 +102,10 @@ export const Card = (item: History): JSX.Element => {
                 Delete
               </button>
             ) : (
-              <button className={clsx(btnClass.base, btnClass.delete)} onClick={deleteRecord}>
+              <button
+                className={clsx(btnClass.base, btnClass.delete)}
+                onClick={() => deleteRecord(item)}
+              >
                 Confirm?
               </button>
             )}

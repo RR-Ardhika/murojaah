@@ -1,5 +1,5 @@
 import { Option, History, MurojaahType } from '@/api/module/murojaah/entity';
-import { FindAll, Insert } from '@/api/module/murojaah/repository/indexeddb';
+import { FindAll, Insert, DeleteRecord } from '@/api/module/murojaah/repository/indexeddb';
 import { DateTime } from 'luxon';
 
 export function Index(): Promise<unknown> {
@@ -18,4 +18,8 @@ export function Create(payload: Option): Promise<unknown> {
   };
 
   return Insert(history);
+}
+
+export function Destroy(id: number): Promise<unknown> {
+  return DeleteRecord(id);
 }
