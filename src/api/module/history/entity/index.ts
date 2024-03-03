@@ -8,14 +8,14 @@ export type History = {
   surahName?: string;
   start?: number;
   end?: number;
-  historyMethodId: number;
+  approachId: number;
   totalHistory: number;
   occuredAt: Date;
 };
 
 export type Payload = {
   juz: number | undefined;
-  historyMethodId: number | undefined;
+  approachId: number | undefined;
 };
 
 export enum HistoryType {

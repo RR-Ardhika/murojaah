@@ -1,6 +1,6 @@
 import { Dispatch, Fragment, useState, SetStateAction } from 'react';
 import { Payload, JuzOptions } from '@/api/module/history/entity';
-import { HistoryMethodOptions } from '@/api/module/approach/entity';
+import { ApproachOptions } from '@/api/module/approach/entity';
 import { Create } from '@/api/module/history/service';
 import { useData } from '@/context/DataContext';
 import { useAlert } from '@/context/AlertContext';
@@ -23,7 +23,7 @@ export const Form = ({
   const { showAlert } = useAlert();
   const { fetchData } = useData();
   const [selectedJuz, setSelectedJuz] = useState(undefined);
-  const [selectedHistoryMethod, setSelectedHistoryMethod] = useState(undefined);
+  const [selectedApproach, setSelectedApproach] = useState(undefined);
   const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);
   const [disableSaveButton, setDisableSaveButton] = useState(false);
 
@@ -60,13 +60,13 @@ export const Form = ({
           />
         </div>
 
-        <label className="font-light">Select Murojaah Method</label>
+        <label className="font-light">Select Approach</label>
         <div className="border border-gray-300">
           <Select
-            defaultValue={selectedHistoryMethod}
+            defaultValue={selectedApproach}
             // @ts-expect-error react-select props
-            onChange={setSelectedHistoryMethod}
-            options={HistoryMethodOptions()}
+            onChange={setSelectedApproach}
+            options={ApproachOptions()}
             isSearchable={false}
             styles={selectStyle}
           />
@@ -108,7 +108,7 @@ export const Form = ({
       setIsFormVisible(false);
       setTimeout(() => {
         setSelectedJuz(undefined);
-        setSelectedHistoryMethod(undefined);
+        setSelectedApproach(undefined);
         setIsCancelConfirmationVisible(false);
       }, 500);
     }
@@ -118,17 +118,17 @@ export const Form = ({
         // @ts-expect-error handled undefined value
         juz: selectedJuz.value,
         // @ts-expect-error handled undefined value
-        historyMethodId: selectedHistoryMethod.value,
+        approachId: selectedApproach.value,
       };
     }
 
     function isChanged(): boolean {
-      if (!selectedJuz && !selectedHistoryMethod) return false;
+      if (!selectedJuz && !selectedApproach) return false;
       return true;
     }
 
     function isSaveable(): boolean {
-      if (!selectedJuz || !selectedHistoryMethod) return false;
+      if (!selectedJuz || !selectedApproach) return false;
       return true;
     }
 
