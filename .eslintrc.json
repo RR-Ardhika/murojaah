@@ -13,10 +13,11 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
+    "react-hooks/exhaustive-deps": "error",
     "@typescript-eslint/explicit-module-boundary-types": "error",
     "@typescript-eslint/explicit-function-return-type": "error",
     "@typescript-eslint/typedef": [
-      "warn",
+      "error",
       {
         "arrayDestructuring": false,
         "arrowParameter": true,

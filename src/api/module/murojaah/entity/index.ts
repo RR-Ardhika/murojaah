@@ -66,6 +66,7 @@ export function MurojaahMethodOptions(): Option[] {
   const options: Option[] = [];
   const murojaahMethods: MurojaahMethod[] = Object.values(MurojaahMethod);
 
+  // eslint-disable-next-line @typescript-eslint/typedef
   murojaahMethods.forEach((v, i) => {
     const option: Option = { value: i, label: v };
     options.push(option);

@@ -13,6 +13,7 @@ export const HistoricalView = (): JSX.Element => {
 
   useEffect(() => {
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // TODO Remove this mockup data
