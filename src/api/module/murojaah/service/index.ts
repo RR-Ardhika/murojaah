@@ -18,8 +18,6 @@ export function Create(payload: Payload): Promise<unknown> {
     occuredAt: DateTime.now().toJSDate(),
   };
 
-  console.log(history);
-
   return Insert(history);
 }
 
