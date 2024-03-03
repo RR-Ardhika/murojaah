@@ -1,6 +1,6 @@
 import { Connection } from 'jsstore';
 import { initJsStore } from '@/api/database/indexeddb/connection';
-import { History } from '@/api/module/murojaah/entity';
+import { History } from '@/api/module/history/entity';
 
 const idbCon: Connection = initJsStore();
 

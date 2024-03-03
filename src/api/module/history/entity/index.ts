@@ -2,23 +2,23 @@ import { Option } from '@/api/shared/entity';
 
 export type History = {
   id?: number;
-  murojaahType: number;
+  historyType: number;
   juz?: number;
   surah?: number;
   surahName?: string;
   start?: number;
   end?: number;
-  murojaahMethodId: number;
-  totalMurojaah: number;
+  historyMethodId: number;
+  totalHistory: number;
   occuredAt: Date;
 };
 
 export type Payload = {
   juz: number | undefined;
-  murojaahMethodId: number | undefined;
+  historyMethodId: number | undefined;
 };
 
-export enum MurojaahType {
+export enum HistoryType {
   Juz = 0,
   Surah = 1,
   Ayah = 2,

@@ -7,10 +7,10 @@ export enum AlertColor {
 }
 
 export enum AlertText {
-  SuccessCreatedMurojaah = 'Successfully created new murojaah',
-  SuccessDeletedMurojaah = 'Murojaah deleted',
-  FailedCreatedMurojaah = 'Failed created new murojaah',
-  FailedDeletedMurojaah = 'Failed deleted murojaah',
+  SuccessCreatedHistory = 'Successfully created new murojaah',
+  SuccessDeletedHistory = 'Murojaah deleted',
+  FailedCreatedHistory = 'Failed created new murojaah',
+  FailedDeletedHistory = 'Failed deleted murojaah',
 }
 
 export const Alert = (): JSX.Element => {
