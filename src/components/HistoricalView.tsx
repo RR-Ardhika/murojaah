@@ -23,7 +23,7 @@ export const HistoricalView = (): JSX.Element => {
       historyType: HistoryType.Juz,
       juz: 28,
       approachId: 0,
-      totalHistory: 100,
+      counter: 100,
       occuredAt: DateTime.now().toJSDate(),
     },
     {
@@ -31,7 +31,7 @@ export const HistoricalView = (): JSX.Element => {
       surah: 188,
       surahName: 'Al-Mumtahanah',
       approachId: 0,
-      totalHistory: 100,
+      counter: 100,
       occuredAt: DateTime.now().toJSDate(),
     },
     {
@@ -41,7 +41,7 @@ export const HistoricalView = (): JSX.Element => {
       surah: 1,
       surahName: 'Al-Baqarah',
       approachId: 0,
-      totalHistory: 100,
+      counter: 100,
       occuredAt: DateTime.now().toJSDate(),
     },
   ];

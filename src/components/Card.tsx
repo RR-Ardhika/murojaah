@@ -25,7 +25,7 @@ export const Card = (item: History): JSX.Element => {
       <>
         <p className={cardClassnames.title}>Juz {item.juz}</p>
         <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
-        <p className={cardClassnames.data}>Total Murojaah is {item.totalHistory}</p>
+        <p className={cardClassnames.data}>Total Murojaah is {item.counter}</p>
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
     );
@@ -38,7 +38,7 @@ export const Card = (item: History): JSX.Element => {
           Surah {item.surah} {item.surahName}
         </p>
         <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
-        <p className={cardClassnames.data}>Total Murojaah is {item.totalHistory}</p>
+        <p className={cardClassnames.data}>Total Murojaah is {item.counter}</p>
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
     );
@@ -54,7 +54,7 @@ export const Card = (item: History): JSX.Element => {
           Surah {item.surah} {item.surahName}
         </p>
         <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
-        <p className={cardClassnames.data}>Total Murojaah is {item.totalHistory}</p>
+        <p className={cardClassnames.data}>Total Murojaah is {item.counter}</p>
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
     );

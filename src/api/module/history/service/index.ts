@@ -14,7 +14,7 @@ export function Create(payload: Payload): Promise<unknown> {
     historyType: HistoryType.Juz,
     juz: payload.juz,
     approachId: payload.approachId,
-    totalHistory: 100, // TODO remove hardcoded
+    counter: 100, // TODO remove hardcoded
     occuredAt: DateTime.now().toJSDate(),
   };
 
