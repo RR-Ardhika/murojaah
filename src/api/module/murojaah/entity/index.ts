@@ -1,3 +1,5 @@
+import { Option } from '@/api/shared/entity';
+
 export type History = {
   id?: number;
   murojaahType: number;
@@ -6,9 +8,14 @@ export type History = {
   surahName?: string;
   start?: number;
   end?: number;
-  murojaahMethod: string;
+  murojaahMethodId: number;
   totalMurojaah: number;
   occuredAt: Date;
+};
+
+export type Payload = {
+  juz: number | undefined;
+  murojaahMethodId: number | undefined;
 };
 
 export enum MurojaahType {
@@ -16,18 +23,6 @@ export enum MurojaahType {
   Surah = 1,
   Ayah = 2,
 }
-
-export enum MurojaahMethod {
-  JahrWithMemory = 'jahr with memory',
-  JahrWithReading = 'jahr with reading',
-  SirrWithMemory = 'sirr with memory',
-  SirrWithReading = 'sirr with reading',
-}
-
-export type Option = {
-  value: number;
-  label: number | string;
-};
 
 export const JuzOptions: Option[] = [
   { value: 1, label: 1 },
@@ -61,16 +56,3 @@ export const JuzOptions: Option[] = [
   { value: 29, label: 29 },
   { value: 30, label: 30 },
 ];
-
-export function MurojaahMethodOptions(): Option[] {
-  const options: Option[] = [];
-  const murojaahMethods: MurojaahMethod[] = Object.values(MurojaahMethod);
-
-  // eslint-disable-next-line @typescript-eslint/typedef
-  murojaahMethods.forEach((v, i) => {
-    const option: Option = { value: i, label: v };
-    options.push(option);
-  });
-
-  return options;
-}

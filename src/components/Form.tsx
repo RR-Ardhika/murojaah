@@ -1,5 +1,6 @@
 import { Dispatch, Fragment, useState, SetStateAction } from 'react';
-import { Option, JuzOptions, MurojaahMethodOptions } from '@/api/module/murojaah/entity';
+import { Payload, JuzOptions } from '@/api/module/murojaah/entity';
+import { MurojaahMethodOptions } from '@/api/module/murojaah_method/entity';
 import { Create } from '@/api/module/murojaah/service';
 import { useData } from '@/context/DataContext';
 import { useAlert } from '@/context/AlertContext';
@@ -21,8 +22,8 @@ export const Form = ({
   // @ts-expect-error useAlert
   const { showAlert } = useAlert();
   const { fetchData } = useData();
-  const [selectedJuz, setSelectedJuz] = useState(null);
-  const [selectedMurojaahMethod, setSelectedMurojaahMethod] = useState(null);
+  const [selectedJuz, setSelectedJuz] = useState(undefined);
+  const [selectedMurojaahMethod, setSelectedMurojaahMethod] = useState(undefined);
   const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);
   const [disableSaveButton, setDisableSaveButton] = useState(false);
 
@@ -80,13 +81,12 @@ export const Form = ({
 
       try {
         setDisableSaveButton(true); // Prevent multiple click by disable the button
-        // @ts-expect-error can't see through isSaveable()
-        const payload: Option = selectedJuz;
-        await Create(payload);
+        await Create(buildPayload());
         closeForm();
         setIsSubButtonsVisible(false);
         showAlert(AlertColor.Green, AlertText.SuccessCreatedMurojaah);
         fetchData();
+        setDisableSaveButton(false);
       } catch (error) {
         setDisableSaveButton(false);
         showAlert(AlertColor.Red, AlertText.FailedCreatedMurojaah);
@@ -107,10 +107,19 @@ export const Form = ({
     function closeForm(): void {
       setIsFormVisible(false);
       setTimeout(() => {
-        setSelectedJuz(null);
-        setSelectedMurojaahMethod(null);
+        setSelectedJuz(undefined);
+        setSelectedMurojaahMethod(undefined);
         setIsCancelConfirmationVisible(false);
       }, 500);
+    }
+
+    function buildPayload(): Payload {
+      return {
+        // @ts-expect-error handled undefined value
+        juz: selectedJuz.value,
+        // @ts-expect-error handled undefined value
+        murojaahMethodId: selectedMurojaahMethod.value,
+      };
     }
 
     function isChanged(): boolean {
