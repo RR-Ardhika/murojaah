@@ -18,15 +18,15 @@ export enum MurojaahType {
 }
 
 export enum MurojaahMethod {
-  JahrWithMemory = 'Murojaah jahr with memory',
-  JahrWithReading = 'Murojaah jahr with reading',
-  SirrWithMemory = 'Murojaah sirr with memory',
-  SirrWithReading = 'Murojaah sirr with reading',
+  JahrWithMemory = 'jahr with memory',
+  JahrWithReading = 'jahr with reading',
+  SirrWithMemory = 'sirr with memory',
+  SirrWithReading = 'sirr with reading',
 }
 
 export type Option = {
   value: number;
-  label: number;
+  label: number | string;
 };
 
 export const JuzOptions: Option[] = [
@@ -61,3 +61,15 @@ export const JuzOptions: Option[] = [
   { value: 29, label: 29 },
   { value: 30, label: 30 },
 ];
+
+export function MurojaahMethodOptions(): Option[] {
+  const options: Option[] = [];
+  const murojaahMethods: MurojaahMethod[] = Object.values(MurojaahMethod);
+
+  murojaahMethods.forEach((v, i) => {
+    const option: Option = { value: i, label: v };
+    options.push(option);
+  });
+
+  return options;
+}
