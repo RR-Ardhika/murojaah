@@ -17,6 +17,13 @@ export enum MurojaahType {
   Ayah = 2,
 }
 
+export enum MurojaahMethod {
+  JahrWithMemory = 'Murojaah jahr with memory',
+  JahrWithReading = 'Murojaah jahr with reading',
+  SirrWithMemory = 'Murojaah sirr with memory',
+  SirrWithReading = 'Murojaah sirr with reading',
+}
+
 export type Option = {
   value: number;
   label: number;
