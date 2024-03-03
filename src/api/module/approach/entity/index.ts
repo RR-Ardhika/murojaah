@@ -1,10 +1,11 @@
 import { Option } from '@/api/shared/entity';
 
 export enum Approach {
-  JahrWithMemory = 'jahr with memory',
-  JahrWithReading = 'jahr with reading',
-  SirrWithMemory = 'sirr with memory',
-  SirrWithReading = 'sirr with reading',
+  JahrMemory = 'jahr with memory',
+  JahrReading = 'jahr with reading',
+  SirrMemory = 'sirr with memory',
+  SirrReading = 'sirr with reading',
+  Memorizing = 'memorizing in progress',
 }
 
 export function ApproachOptions(): Option[] {
