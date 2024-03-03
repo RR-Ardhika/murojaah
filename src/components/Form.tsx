@@ -1,6 +1,6 @@
 import { Dispatch, Fragment, useState, SetStateAction } from 'react';
 import { Payload, JuzOptions } from '@/api/module/history/entity';
-import { HistoryMethodOptions } from '@/api/module/murojaah_method/entity';
+import { HistoryMethodOptions } from '@/api/module/approach/entity';
 import { Create } from '@/api/module/history/service';
 import { useData } from '@/context/DataContext';
 import { useAlert } from '@/context/AlertContext';

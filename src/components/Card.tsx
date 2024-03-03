@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { History, HistoryType } from '@/api/module/history/entity';
 import { Destroy } from '@/api/module/history/service';
-import { Show } from '@/api/module/murojaah_method/service';
+import { Show } from '@/api/module/approach/service';
 import { useData } from '@/context/DataContext';
 import { useAlert } from '@/context/AlertContext';
 import { AlertColor, AlertText } from '@/components/Alert';
