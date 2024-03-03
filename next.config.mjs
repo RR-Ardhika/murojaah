@@ -1,6 +1,8 @@
+const DISABLE_STATIC_EXPORT = process.env.NODE_ENV === 'development';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  output: DISABLE_STATIC_EXPORT ? undefined : 'export',
 
   // Optional: Change the output directory `out` -> `dist`
   distDir: 'dist',

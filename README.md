@@ -35,3 +35,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ```bash
 make stop
 ```
+
+### Shortcut for build and start server
+```bash
+make prod
+```

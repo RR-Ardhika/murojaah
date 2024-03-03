@@ -27,6 +27,9 @@ start:
 stop:
 	docker container stop $(APP_NAME)
 
+.PHONY: prod
+prod: build start
+
 .PHONY: lint
 lint:
 	pnpm next lint
@@ -41,7 +44,7 @@ format-check:
 
 .PHONY: watch
 watch:
-	pnpm next dev
+	NODE_ENV=development pnpm next dev
 
 .PHONY: watch-erd
 watch-erd:
