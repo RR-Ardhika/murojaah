@@ -26,13 +26,13 @@ export const CreateButton = (): JSX.Element => {
   function renderSubButtons(): JSX.Element {
     return (
       <div className="flex flex-col gap-4">
-        <button className={clsx(btnClass.base, btnClass.sub)} onClick={() => showForm('juz')}>
+        <button className={clsx(btnClass.base, btnClass.sub)} onClick={() => showForm('Juz')}>
           <span className="text-xl">Juz</span>
         </button>
-        <button className={clsx(btnClass.base, btnClass.sub)} onClick={() => showForm('ayah')}>
+        <button className={clsx(btnClass.base, btnClass.sub)} onClick={() => showForm('Ayah')}>
           <span className="text-xl">Ayah</span>
         </button>
-        <button className={clsx(btnClass.base, btnClass.sub)} onClick={() => showForm('surah')}>
+        <button className={clsx(btnClass.base, btnClass.sub)} onClick={() => showForm('Surah')}>
           <span className="text-xl">Surah</span>
         </button>
       </div>

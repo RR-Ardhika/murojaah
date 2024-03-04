@@ -33,7 +33,7 @@ export const Form = ({
   const Title = (): JSX.Element => {
     return (
       <Dialog.Title className="text-lg font-medium leading-6 text-gray-900">
-        Create Juz Murojaah
+        Create {formType} Murojaah
       </Dialog.Title>
     );
   };
@@ -215,11 +215,11 @@ export const Form = ({
 
   function renderContent(): JSX.Element {
     switch (formType) {
-      case 'juz':
+      case 'Juz':
         return <JuzContent />;
-      case 'ayah':
+      case 'Ayah':
         return <></>;
-      case 'surah':
+      case 'Surah':
         return <SurahContent />;
       default:
         return <></>;
