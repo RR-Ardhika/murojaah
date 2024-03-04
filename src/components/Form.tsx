@@ -116,6 +116,10 @@ export const Form = ({
         </div>
 
         <label className="font-light">Repeated Times</label>
+        <input
+          className="px-2 py-1 border border-gray-300 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          type="number"
+        />
 
         <label className="font-light">Mark Juz Done</label>
       </div>
