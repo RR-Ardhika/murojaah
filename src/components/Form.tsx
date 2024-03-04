@@ -1,5 +1,5 @@
 import { Dispatch, Fragment, useState, SetStateAction } from 'react';
-import { Payload, JuzOptions } from '@/api/module/history/entity';
+import { Payload, JuzOptions, SurahOptions } from '@/api/module/history/entity';
 import { ApproachOptions } from '@/api/module/approach/entity';
 import { Create } from '@/api/module/history/service';
 import { useData } from '@/context/DataContext';
@@ -9,12 +9,14 @@ import { Transition, Dialog } from '@headlessui/react';
 import Select from 'react-select';
 
 interface Props {
+  formType: string;
   isFormVisible: boolean;
   setIsFormVisible: Dispatch<SetStateAction<boolean>>;
   setIsSubButtonsVisible: Dispatch<SetStateAction<boolean>>;
 }
 
 export const Form = ({
+  formType,
   isFormVisible,
   setIsFormVisible,
   setIsSubButtonsVisible,
@@ -23,6 +25,7 @@ export const Form = ({
   const { showAlert } = useAlert();
   const { fetchData } = useData();
   const [selectedJuz, setSelectedJuz] = useState(undefined);
+  const [selectedSurah, setSelectedSurah] = useState(undefined);
   const [selectedApproach, setSelectedApproach] = useState(undefined);
   const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);
   const [disableSaveButton, setDisableSaveButton] = useState(false);
@@ -35,7 +38,7 @@ export const Form = ({
     );
   };
 
-  const Content = (): JSX.Element => {
+  const JuzContent = (): JSX.Element => {
     // @ts-expect-error react-select component
     const selectStyle: StylesConfig = {
       // @ts-expect-error react-select component
@@ -71,6 +74,50 @@ export const Form = ({
             styles={selectStyle}
           />
         </div>
+      </div>
+    );
+  };
+
+  const SurahContent = (): JSX.Element => {
+    // @ts-expect-error react-select component
+    const selectStyle: StylesConfig = {
+      // @ts-expect-error react-select component
+      control: (base: CSSObjectWithLabel) => ({
+        ...base,
+        border: 0,
+        boxShadow: 'none',
+      }),
+    };
+
+    return (
+      <div className="flex flex-col gap-2 mt-2">
+        <label className="font-light">Select Surah</label>
+        <div className="border border-gray-300">
+          <Select
+            defaultValue={selectedSurah}
+            // @ts-expect-error react-select props
+            onChange={setSelectedSurah}
+            options={SurahOptions}
+            isSearchable={false}
+            styles={selectStyle}
+          />
+        </div>
+
+        <label className="font-light">Select Approach</label>
+        <div className="border border-gray-300">
+          <Select
+            defaultValue={selectedApproach}
+            // @ts-expect-error react-select props
+            onChange={setSelectedApproach}
+            options={ApproachOptions()}
+            isSearchable={false}
+            styles={selectStyle}
+          />
+        </div>
+
+        <label className="font-light">Repeated Times</label>
+
+        <label className="font-light">Mark Juz Done</label>
       </div>
     );
   };
@@ -166,6 +213,19 @@ export const Form = ({
     );
   };
 
+  function renderContent(): JSX.Element {
+    switch (formType) {
+      case 'juz':
+        return <JuzContent />;
+      case 'ayah':
+        return <></>;
+      case 'surah':
+        return <SurahContent />;
+      default:
+        return <></>;
+    }
+  }
+
   return (
     <Transition appear show={isFormVisible} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={() => {}}>
@@ -194,7 +254,7 @@ export const Form = ({
             >
               <Dialog.Panel className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
                 <Title />
-                <Content />
+                {renderContent()}
                 <Buttons />
               </Dialog.Panel>
             </Transition.Child>
