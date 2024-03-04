@@ -121,7 +121,10 @@ export const Form = ({
           type="number"
         />
 
-        <label className="font-light">Mark Juz Done</label>
+        <div className="flex gap-2">
+          <label className="font-light">Mark Juz Done</label>
+          <input className="h-5 w-5 mt-0.5" type="checkbox" />
+        </div>
       </div>
     );
   };
