@@ -98,7 +98,7 @@ export const Form = ({
             // @ts-expect-error react-select props
             onChange={setSelectedSurah}
             options={SurahOptions}
-            isSearchable={false}
+            isSearchable={true}
             styles={selectStyle}
           />
         </div>
