@@ -37,9 +37,7 @@ export const Card = (item: History): JSX.Element => {
   const SurahCard = (): JSX.Element => {
     return (
       <>
-        <p className={cardClassnames.title}>
-          Surah {item.surah} {item.surahName}
-        </p>
+        <p className={cardClassnames.title}>Surah {item.surahName}</p>
         <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
         <p className={cardClassnames.data}>
           Repeated {item.repeat} {repeatSuffix}

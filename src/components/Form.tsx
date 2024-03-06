@@ -1,5 +1,5 @@
 import { Dispatch, Fragment, useState, SetStateAction } from 'react';
-import { Payload, JuzOptions, SurahOptions } from '@/api/module/history/entity';
+import { HistoryType, Payload, JuzOptions, SurahOptions } from '@/api/module/history/entity';
 import { ApproachOptions } from '@/api/module/approach/entity';
 import { Create } from '@/api/module/history/service';
 import { useData } from '@/context/DataContext';
@@ -24,11 +24,17 @@ export const Form = ({
   // @ts-expect-error useAlert
   const { showAlert } = useAlert();
   const { fetchData } = useData();
+
+  const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);
+  const [disableSaveButton, setDisableSaveButton] = useState(false);
+
   const [selectedJuz, setSelectedJuz] = useState(undefined);
   const [selectedSurah, setSelectedSurah] = useState(undefined);
   const [selectedApproach, setSelectedApproach] = useState(undefined);
-  const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);
-  const [disableSaveButton, setDisableSaveButton] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [repeat, setRepeat] = useState(1); // TODO remove eslint bypass
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [isJuzDone, setIsJuzDone] = useState(false); // TODO remove eslint bypass
 
   const Title = (): JSX.Element => {
     return (
@@ -141,8 +147,9 @@ export const Form = ({
         showAlert(AlertColor.Green, AlertText.SuccessCreatedHistory);
         fetchData();
         setDisableSaveButton(false);
-      } catch (error) {
+      } catch (err) {
         setDisableSaveButton(false);
+        console.error(err);
         showAlert(AlertColor.Red, AlertText.FailedCreatedHistory);
       }
     }
@@ -168,23 +175,54 @@ export const Form = ({
     }
 
     function buildPayload(): Payload {
+      switch (formType) {
+        case 'Juz':
+          return buildJuzPayload();
+        case 'Ayah':
+          // @ts-expect-error not implemented
+          return undefined;
+        case 'Surah':
+          return buildSurahPayload();
+        default:
+          // @ts-expect-error expected return value
+          return undefined;
+      }
+    }
+
+    function buildJuzPayload(): Payload {
       return {
+        historyType: HistoryType.Juz,
         // @ts-expect-error handled undefined value
         juz: selectedJuz.value,
         // @ts-expect-error handled undefined value
         approachId: selectedApproach.value,
+        repeat: 1, // Hardcoded to 1 for juz
+      };
+    }
+
+    function buildSurahPayload(): Payload {
+      return {
+        historyType: HistoryType.Surah,
+        // @ts-expect-error handled undefined value
+        surah: selectedSurah.value,
+        // @ts-expect-error handled undefined value
+        surahName: selectedSurah.label,
+        markJuzDone: isJuzDone, // TODO implement dynamic data from form
+        // @ts-expect-error handled undefined value
+        approachId: selectedApproach.value,
+        repeat: repeat, // TODO implement dynamic data from form
       };
     }
 
     // TD-1 Utilize useMemo
     function isChanged(): boolean {
-      if (!selectedJuz && !selectedApproach) return false;
+      // if (!selectedJuz && !selectedApproach) return false; // TODO implement for surah
       return true;
     }
 
     // TD-1 Utilize useMemo
     function isSaveable(): boolean {
-      if (!selectedJuz || !selectedApproach) return false;
+      // if (!selectedJuz || !selectedApproach) return false; // TODO implement for surah
       return true;
     }
 
