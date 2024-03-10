@@ -122,11 +122,13 @@ export const Form = ({
       };
     }
 
+    // TD-1 Utilize useMemo
     function isChanged(): boolean {
       if (!selectedJuz && !selectedApproach) return false;
       return true;
     }
 
+    // TD-1 Utilize useMemo
     function isSaveable(): boolean {
       if (!selectedJuz || !selectedApproach) return false;
       return true;
