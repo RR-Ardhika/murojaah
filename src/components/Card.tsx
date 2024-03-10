@@ -67,8 +67,8 @@ export const Card = (item: History): JSX.Element => {
     );
   };
 
+  // TD-2 Move out component
   const BaseCard = (children: JSX.Element): JSX.Element => {
-    // TD-2 Move out component
     const btnClass: Record<string, string> = {
       base: 'p-2 rounded',
       edit: 'bg-yellow-500 hover:bg-yellow-700',
