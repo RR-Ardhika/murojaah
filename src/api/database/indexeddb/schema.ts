@@ -22,7 +22,7 @@ const histories: ITable = {
     start: { dataType: DATA_TYPE.Number },
     end: { dataType: DATA_TYPE.Number },
     approachId: { dataType: DATA_TYPE.Number, notNull: true },
-    totalHistory: { dataType: DATA_TYPE.Number, notNull: true },
+    repeat: { dataType: DATA_TYPE.Number, notNull: true },
     occuredAt: { dataType: DATA_TYPE.DateTime, notNull: true },
   },
 };

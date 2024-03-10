@@ -12,6 +12,7 @@ export const Card = (item: History): JSX.Element => {
   // @ts-expect-error useAlert
   const { showAlert } = useAlert();
   const { fetchData } = useData();
+  const repeatSuffix: string = item.repeat === 1 ? 'time' : 'times';
 
   const cardClassnames: Record<string, string> = {
     container: 'p-4 mb-5 bg-custom-teal text-white rounded-lg',
@@ -25,7 +26,9 @@ export const Card = (item: History): JSX.Element => {
       <>
         <p className={cardClassnames.title}>Juz {item.juz}</p>
         <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
-        <p className={cardClassnames.data}>Total Murojaah is {item.totalHistory}</p>
+        <p className={cardClassnames.data}>
+          Repeated {item.repeat} {repeatSuffix}
+        </p>
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
     );
@@ -38,7 +41,9 @@ export const Card = (item: History): JSX.Element => {
           Surah {item.surah} {item.surahName}
         </p>
         <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
-        <p className={cardClassnames.data}>Total Murojaah is {item.totalHistory}</p>
+        <p className={cardClassnames.data}>
+          Repeated {item.repeat} {repeatSuffix}
+        </p>
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
     );
@@ -54,12 +59,15 @@ export const Card = (item: History): JSX.Element => {
           Surah {item.surah} {item.surahName}
         </p>
         <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
-        <p className={cardClassnames.data}>Total Murojaah is {item.totalHistory}</p>
+        <p className={cardClassnames.data}>
+          Repeated {item.repeat} {repeatSuffix}
+        </p>
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
     );
   };
 
+  // TD-2 Move out component
   const BaseCard = (children: JSX.Element): JSX.Element => {
     const btnClass: Record<string, string> = {
       base: 'p-2 rounded',
@@ -118,7 +126,9 @@ export const Card = (item: History): JSX.Element => {
     );
   };
 
-  switch (item.historyType) {
+  switch (
+    item.historyType // TD-1 Utilize useMemo
+  ) {
     case HistoryType.Juz:
       return BaseCard(JuzCard());
     case HistoryType.Surah:

@@ -9,7 +9,7 @@ export type History = {
   start?: number;
   end?: number;
   approachId: number;
-  totalHistory: number;
+  repeat: number;
   occuredAt: Date;
 };
 

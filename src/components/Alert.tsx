@@ -19,6 +19,7 @@ export const Alert = (): JSX.Element => {
 
   if (!isAlertVisible) return <></>;
 
+  // TD-1 Utilize useMemo
   function getBtnColor(): string {
     switch (alertColor) {
       case AlertColor.Red:
