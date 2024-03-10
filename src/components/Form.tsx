@@ -210,7 +210,7 @@ export const Form = ({
           return buildJuzPayload();
         case 'Ayah':
           // @ts-expect-error not implemented
-          return undefined;
+          return undefined; // TODO Implement for ayah
         case 'Surah':
           return buildSurahPayload();
         default:
@@ -237,23 +237,39 @@ export const Form = ({
         surah: selectedSurah.value,
         // @ts-expect-error handled undefined value
         surahName: selectedSurah.label,
-        markJuzDone: isJuzDone, // TODO implement dynamic data from form
+        markJuzDone: isJuzDone,
         // @ts-expect-error handled undefined value
         approachId: selectedApproach.value,
-        repeat: repeat, // TODO implement dynamic data from form
+        repeat: repeat,
       };
     }
 
     // TD-1 Utilize useMemo
     function isChanged(): boolean {
-      // if (!selectedJuz && !selectedApproach) return false; // TODO implement for surah
-      return true;
+      switch (formType) {
+        case 'Juz':
+          if (!selectedJuz && !selectedApproach) return false;
+        case 'Ayah':
+          return true; // TODO Implement for ayah
+        case 'Surah':
+          if (!selectedSurah && !selectedApproach) return false;
+        default:
+          return true;
+      }
     }
 
     // TD-1 Utilize useMemo
     function isSaveable(): boolean {
-      // if (!selectedJuz || !selectedApproach) return false; // TODO implement for surah
-      return true;
+      switch (formType) {
+        case 'Juz':
+          if (!selectedJuz || !selectedApproach) return false;
+        case 'Ayah':
+          return true; // TODO Implement for ayah
+        case 'Surah':
+          if (!selectedSurah || !selectedApproach) return false;
+        default:
+          return true;
+      }
     }
 
     return (
@@ -293,7 +309,7 @@ export const Form = ({
       case 'Juz':
         return <JuzContent />;
       case 'Ayah':
-        return <></>;
+        return <></>; // TODO Implement for ayah
       case 'Surah':
         return <SurahContent />;
       default:

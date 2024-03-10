@@ -30,7 +30,6 @@ function CreateJuz(payload: Payload): Promise<unknown> {
 }
 
 function CreateSurah(payload: Payload): Promise<unknown> {
-  // TODO handle markJuzDone when value is false
   if (!payload.surah || !payload.surahName || !payload.approachId || !payload.repeat)
     return Promise.reject(
       new Error('Error 422 Unprocessable Entity error validating surah payload')
