@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
-import { Index } from '@/api/module/murojaah/service';
+import { Index } from '@/api/module/history/service';
 
 // @ts-expect-error DataContextValues
 const DataContext: Context<DataContextValues> = createContext<DataContextValues>(undefined);

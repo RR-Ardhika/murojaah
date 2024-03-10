@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { History, MurojaahType } from '@/api/module/murojaah/entity';
+import { History, HistoryType } from '@/api/module/history/entity';
 import { useData } from '@/context/DataContext';
 import { useAlert } from '@/context/AlertContext';
 import { Card } from '@/components/Card';
@@ -20,28 +20,28 @@ export const HistoricalView = (): JSX.Element => {
   const showMockup: boolean = false;
   const mockup: History[] = [
     {
-      murojaahType: MurojaahType.Juz,
+      historyType: HistoryType.Juz,
       juz: 28,
-      murojaahMethodId: 0,
-      totalMurojaah: 100,
+      historyMethodId: 0,
+      totalHistory: 100,
       occuredAt: DateTime.now().toJSDate(),
     },
     {
-      murojaahType: MurojaahType.Surah,
+      historyType: HistoryType.Surah,
       surah: 188,
       surahName: 'Al-Mumtahanah',
-      murojaahMethodId: 0,
-      totalMurojaah: 100,
+      historyMethodId: 0,
+      totalHistory: 100,
       occuredAt: DateTime.now().toJSDate(),
     },
     {
-      murojaahType: MurojaahType.Ayah,
+      historyType: HistoryType.Ayah,
       start: 200,
       end: 208,
       surah: 1,
       surahName: 'Al-Baqarah',
-      murojaahMethodId: 0,
-      totalMurojaah: 100,
+      historyMethodId: 0,
+      totalHistory: 100,
       occuredAt: DateTime.now().toJSDate(),
     },
   ];

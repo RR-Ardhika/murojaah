@@ -1,5 +1,5 @@
-import { Payload, History, MurojaahType } from '@/api/module/murojaah/entity';
-import { FindAll, Insert, DeleteRecord } from '@/api/module/murojaah/repository/indexeddb';
+import { Payload, History, HistoryType } from '@/api/module/history/entity';
+import { FindAll, Insert, DeleteRecord } from '@/api/module/history/repository/indexeddb';
 import { DateTime } from 'luxon';
 
 export function Index(): Promise<unknown> {
@@ -7,14 +7,14 @@ export function Index(): Promise<unknown> {
 }
 
 export function Create(payload: Payload): Promise<unknown> {
-  if (!payload.juz || !payload.murojaahMethodId)
+  if (!payload.juz || !payload.historyMethodId)
     return Promise.reject(new Error('Error 422 Unprocessable Entity'));
 
   const history: History = {
-    murojaahType: MurojaahType.Juz,
+    historyType: HistoryType.Juz,
     juz: payload.juz,
-    murojaahMethodId: payload.murojaahMethodId,
-    totalMurojaah: 100, // TODO remove hardcoded
+    historyMethodId: payload.historyMethodId,
+    totalHistory: 100, // TODO remove hardcoded
     occuredAt: DateTime.now().toJSDate(),
   };
 

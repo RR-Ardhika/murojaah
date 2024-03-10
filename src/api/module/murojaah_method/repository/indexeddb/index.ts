@@ -1,6 +1,6 @@
-import { MurojaahMethod } from '@/api/module/murojaah_method/entity';
+import { HistoryMethod } from '@/api/module/murojaah_method/entity';
 
-export function FindMurojaahMethodById(id: number): MurojaahMethod {
+export function FindHistoryMethodById(id: number): HistoryMethod {
   // @ts-expect-error access enum value with index
-  return MurojaahMethod[Object.keys(MurojaahMethod)[id]];
+  return HistoryMethod[Object.keys(HistoryMethod)[id]];
 }

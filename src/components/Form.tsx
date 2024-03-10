@@ -1,7 +1,7 @@
 import { Dispatch, Fragment, useState, SetStateAction } from 'react';
-import { Payload, JuzOptions } from '@/api/module/murojaah/entity';
-import { MurojaahMethodOptions } from '@/api/module/murojaah_method/entity';
-import { Create } from '@/api/module/murojaah/service';
+import { Payload, JuzOptions } from '@/api/module/history/entity';
+import { HistoryMethodOptions } from '@/api/module/murojaah_method/entity';
+import { Create } from '@/api/module/history/service';
 import { useData } from '@/context/DataContext';
 import { useAlert } from '@/context/AlertContext';
 import { AlertColor, AlertText } from '@/components/Alert';
@@ -23,7 +23,7 @@ export const Form = ({
   const { showAlert } = useAlert();
   const { fetchData } = useData();
   const [selectedJuz, setSelectedJuz] = useState(undefined);
-  const [selectedMurojaahMethod, setSelectedMurojaahMethod] = useState(undefined);
+  const [selectedHistoryMethod, setSelectedHistoryMethod] = useState(undefined);
   const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);
   const [disableSaveButton, setDisableSaveButton] = useState(false);
 
@@ -63,10 +63,10 @@ export const Form = ({
         <label className="font-light">Select Murojaah Method</label>
         <div className="border border-gray-300">
           <Select
-            defaultValue={selectedMurojaahMethod}
+            defaultValue={selectedHistoryMethod}
             // @ts-expect-error react-select props
-            onChange={setSelectedMurojaahMethod}
-            options={MurojaahMethodOptions()}
+            onChange={setSelectedHistoryMethod}
+            options={HistoryMethodOptions()}
             isSearchable={false}
             styles={selectStyle}
           />
@@ -84,12 +84,12 @@ export const Form = ({
         await Create(buildPayload());
         closeForm();
         setIsSubButtonsVisible(false);
-        showAlert(AlertColor.Green, AlertText.SuccessCreatedMurojaah);
+        showAlert(AlertColor.Green, AlertText.SuccessCreatedHistory);
         fetchData();
         setDisableSaveButton(false);
       } catch (error) {
         setDisableSaveButton(false);
-        showAlert(AlertColor.Red, AlertText.FailedCreatedMurojaah);
+        showAlert(AlertColor.Red, AlertText.FailedCreatedHistory);
       }
     }
 
@@ -108,7 +108,7 @@ export const Form = ({
       setIsFormVisible(false);
       setTimeout(() => {
         setSelectedJuz(undefined);
-        setSelectedMurojaahMethod(undefined);
+        setSelectedHistoryMethod(undefined);
         setIsCancelConfirmationVisible(false);
       }, 500);
     }
@@ -118,17 +118,17 @@ export const Form = ({
         // @ts-expect-error handled undefined value
         juz: selectedJuz.value,
         // @ts-expect-error handled undefined value
-        murojaahMethodId: selectedMurojaahMethod.value,
+        historyMethodId: selectedHistoryMethod.value,
       };
     }
 
     function isChanged(): boolean {
-      if (!selectedJuz && !selectedMurojaahMethod) return false;
+      if (!selectedJuz && !selectedHistoryMethod) return false;
       return true;
     }
 
     function isSaveable(): boolean {
-      if (!selectedJuz || !selectedMurojaahMethod) return false;
+      if (!selectedJuz || !selectedHistoryMethod) return false;
       return true;
     }
 
