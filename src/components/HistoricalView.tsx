@@ -13,6 +13,7 @@ export const HistoricalView = (): JSX.Element => {
 
   useEffect(() => {
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // TODO Remove this mockup data
@@ -21,7 +22,7 @@ export const HistoricalView = (): JSX.Element => {
     {
       murojaahType: MurojaahType.Juz,
       juz: 28,
-      murojaahMethod: 'Memory',
+      murojaahMethodId: 0,
       totalMurojaah: 100,
       occuredAt: DateTime.now().toJSDate(),
     },
@@ -29,7 +30,7 @@ export const HistoricalView = (): JSX.Element => {
       murojaahType: MurojaahType.Surah,
       surah: 188,
       surahName: 'Al-Mumtahanah',
-      murojaahMethod: 'Memory',
+      murojaahMethodId: 0,
       totalMurojaah: 100,
       occuredAt: DateTime.now().toJSDate(),
     },
@@ -39,7 +40,7 @@ export const HistoricalView = (): JSX.Element => {
       end: 208,
       surah: 1,
       surahName: 'Al-Baqarah',
-      murojaahMethod: 'Memory',
+      murojaahMethodId: 0,
       totalMurojaah: 100,
       occuredAt: DateTime.now().toJSDate(),
     },

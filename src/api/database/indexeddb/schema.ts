@@ -21,7 +21,7 @@ const histories: ITable = {
     surahName: { dataType: DATA_TYPE.String },
     start: { dataType: DATA_TYPE.Number },
     end: { dataType: DATA_TYPE.Number },
-    murojaahMethod: { dataType: DATA_TYPE.String, notNull: true },
+    murojaahMethodId: { dataType: DATA_TYPE.Number, notNull: true },
     totalMurojaah: { dataType: DATA_TYPE.Number, notNull: true },
     occuredAt: { dataType: DATA_TYPE.DateTime, notNull: true },
   },

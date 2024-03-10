@@ -1,5 +1,6 @@
 import { Dispatch, Fragment, useState, SetStateAction } from 'react';
-import { Option, JuzOptions } from '@/api/module/murojaah/entity';
+import { Payload, JuzOptions } from '@/api/module/murojaah/entity';
+import { MurojaahMethodOptions } from '@/api/module/murojaah_method/entity';
 import { Create } from '@/api/module/murojaah/service';
 import { useData } from '@/context/DataContext';
 import { useAlert } from '@/context/AlertContext';
@@ -20,9 +21,11 @@ export const Form = ({
 }: Props): JSX.Element => {
   // @ts-expect-error useAlert
   const { showAlert } = useAlert();
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);
   const { fetchData } = useData();
+  const [selectedJuz, setSelectedJuz] = useState(undefined);
+  const [selectedMurojaahMethod, setSelectedMurojaahMethod] = useState(undefined);
+  const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);
+  const [disableSaveButton, setDisableSaveButton] = useState(false);
 
   const Title = (): JSX.Element => {
     return (
@@ -44,14 +47,26 @@ export const Form = ({
     };
 
     return (
-      <div className="mt-2">
+      <div className="flex flex-col gap-2 mt-2">
+        <label className="font-light">Select Juz</label>
         <div className="border border-gray-300">
           <Select
-            defaultValue={selectedOption}
+            defaultValue={selectedJuz}
             // @ts-expect-error react-select props
-            onChange={setSelectedOption}
+            onChange={setSelectedJuz}
             options={JuzOptions}
-            placeholder={'Select Juz'}
+            isSearchable={false}
+            styles={selectStyle}
+          />
+        </div>
+
+        <label className="font-light">Select Murojaah Method</label>
+        <div className="border border-gray-300">
+          <Select
+            defaultValue={selectedMurojaahMethod}
+            // @ts-expect-error react-select props
+            onChange={setSelectedMurojaahMethod}
+            options={MurojaahMethodOptions()}
             isSearchable={false}
             styles={selectStyle}
           />
@@ -62,23 +77,24 @@ export const Form = ({
 
   const Buttons = (): JSX.Element => {
     async function save(): Promise<void> {
-      if (!selectedOption) return;
+      if (!isSaveable()) return;
 
       try {
-        const payload: Option = selectedOption;
-        setSelectedOption(null); // Prevent multiple click by disable the button
-        await Create(payload);
+        setDisableSaveButton(true); // Prevent multiple click by disable the button
+        await Create(buildPayload());
         closeForm();
         setIsSubButtonsVisible(false);
         showAlert(AlertColor.Green, AlertText.SuccessCreatedMurojaah);
         fetchData();
+        setDisableSaveButton(false);
       } catch (error) {
+        setDisableSaveButton(false);
         showAlert(AlertColor.Red, AlertText.FailedCreatedMurojaah);
       }
     }
 
     function cancel(): void {
-      if (selectedOption && !isCancelConfirmationVisible) {
+      if (isChanged() && !isCancelConfirmationVisible) {
         setIsCancelConfirmationVisible(true);
         setTimeout(() => {
           setIsCancelConfirmationVisible(false);
@@ -91,9 +107,29 @@ export const Form = ({
     function closeForm(): void {
       setIsFormVisible(false);
       setTimeout(() => {
-        setSelectedOption(null);
+        setSelectedJuz(undefined);
+        setSelectedMurojaahMethod(undefined);
         setIsCancelConfirmationVisible(false);
       }, 500);
+    }
+
+    function buildPayload(): Payload {
+      return {
+        // @ts-expect-error handled undefined value
+        juz: selectedJuz.value,
+        // @ts-expect-error handled undefined value
+        murojaahMethodId: selectedMurojaahMethod.value,
+      };
+    }
+
+    function isChanged(): boolean {
+      if (!selectedJuz && !selectedMurojaahMethod) return false;
+      return true;
+    }
+
+    function isSaveable(): boolean {
+      if (!selectedJuz || !selectedMurojaahMethod) return false;
+      return true;
     }
 
     return (
@@ -102,7 +138,7 @@ export const Form = ({
           type="button"
           className="px-6 py-2 enabled:bg-custom-teal enabled:hover:bg-teal-700 disabled:bg-gray-400 text-white rounded"
           onClick={save}
-          disabled={!selectedOption}
+          disabled={!isSaveable() || disableSaveButton}
         >
           Save
         </button>

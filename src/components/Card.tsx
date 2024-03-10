@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Destroy } from '@/api/module/murojaah/service';
 import { History, MurojaahType } from '@/api/module/murojaah/entity';
+import { Destroy } from '@/api/module/murojaah/service';
+import { Show } from '@/api/module/murojaah_method/service';
 import { useData } from '@/context/DataContext';
 import { useAlert } from '@/context/AlertContext';
 import { AlertColor, AlertText } from '@/components/Alert';
@@ -23,7 +24,7 @@ export const Card = (item: History): JSX.Element => {
     return (
       <>
         <p className={cardClassnames.title}>Juz {item.juz}</p>
-        <p className={cardClassnames.data}>Murojaah by using {item.murojaahMethod}</p>
+        <p className={cardClassnames.data}>Murojaah {Show(item.murojaahMethodId)}</p>
         <p className={cardClassnames.data}>Total Murojaah is {item.totalMurojaah}</p>
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
@@ -36,7 +37,7 @@ export const Card = (item: History): JSX.Element => {
         <p className={cardClassnames.title}>
           Surah {item.surah} {item.surahName}
         </p>
-        <p className={cardClassnames.data}>Murojaah by using {item.murojaahMethod}</p>
+        <p className={cardClassnames.data}>Murojaah {Show(item.murojaahMethodId)}</p>
         <p className={cardClassnames.data}>Total Murojaah is {item.totalMurojaah}</p>
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
@@ -52,7 +53,7 @@ export const Card = (item: History): JSX.Element => {
         <p className={cardClassnames.data}>
           Surah {item.surah} {item.surahName}
         </p>
-        <p className={cardClassnames.data}>Murojaah by using {item.murojaahMethod}</p>
+        <p className={cardClassnames.data}>Murojaah {Show(item.murojaahMethodId)}</p>
         <p className={cardClassnames.data}>Total Murojaah is {item.totalMurojaah}</p>
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
