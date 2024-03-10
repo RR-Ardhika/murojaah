@@ -6,6 +6,7 @@ import { useData } from '@/context/DataContext';
 import { useAlert } from '@/context/AlertContext';
 import { AlertColor, AlertText } from '@/components/Alert';
 import { Transition, Dialog } from '@headlessui/react';
+import { clsx } from 'clsx';
 import Select from 'react-select';
 
 interface Props {
@@ -31,8 +32,7 @@ export const Form = ({
   const [selectedJuz, setSelectedJuz] = useState(undefined);
   const [selectedSurah, setSelectedSurah] = useState(undefined);
   const [selectedApproach, setSelectedApproach] = useState(undefined);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [repeat, setRepeat] = useState(1); // TODO remove eslint bypass
+  const [repeat, setRepeat] = useState(1);
   const [isJuzDone, setIsJuzDone] = useState(false);
 
   const Title = (): JSX.Element => {
@@ -121,10 +121,7 @@ export const Form = ({
         </div>
 
         <label className="font-light">Repeated Times</label>
-        <input
-          className="px-2 py-1 border border-gray-300 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-          type="number"
-        />
+        <Repeat />
 
         <div className="flex gap-2">
           <label htmlFor="markJuzDone" className="font-light">
@@ -138,6 +135,32 @@ export const Form = ({
             onChange={() => setIsJuzDone(!isJuzDone)}
           />
         </div>
+      </div>
+    );
+  };
+
+  const Repeat = (): JSX.Element => {
+    const baseClass: string = 'border px-4 py-2';
+    const txtClass: string = 'bg-gray-100';
+
+    function increase(): void {
+      setRepeat(repeat + 1);
+    }
+
+    function decrease(): void {
+      if (repeat - 1 < 1) return;
+      setRepeat(repeat - 1);
+    }
+
+    return (
+      <div className="flex">
+        <button className={baseClass} onClick={decrease}>
+          &lt;
+        </button>
+        <p className={clsx(baseClass, txtClass)}>{repeat}</p>
+        <button className={baseClass} onClick={increase}>
+          &gt;
+        </button>
       </div>
     );
   };
