@@ -33,8 +33,7 @@ export const Form = ({
   const [selectedApproach, setSelectedApproach] = useState(undefined);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [repeat, setRepeat] = useState(1); // TODO remove eslint bypass
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isJuzDone, setIsJuzDone] = useState(false); // TODO remove eslint bypass
+  const [isJuzDone, setIsJuzDone] = useState(false);
 
   const Title = (): JSX.Element => {
     return (
@@ -128,8 +127,16 @@ export const Form = ({
         />
 
         <div className="flex gap-2">
-          <label className="font-light">Mark Juz Done</label>
-          <input className="h-5 w-5 mt-0.5" type="checkbox" />
+          <label htmlFor="markJuzDone" className="font-light">
+            Mark Juz Done
+          </label>
+          <input
+            id="markJuzDone"
+            className="h-5 w-5 mt-0.5"
+            type="checkbox"
+            checked={isJuzDone}
+            onChange={() => setIsJuzDone(!isJuzDone)}
+          />
         </div>
       </div>
     );

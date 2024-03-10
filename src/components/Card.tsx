@@ -42,6 +42,7 @@ export const Card = (item: History): JSX.Element => {
         <p className={cardClassnames.data}>
           Repeated {item.repeat} {repeatSuffix}
         </p>
+        {item.markJuzDone && <p className={cardClassnames.data}>Juz was marked as done</p>}
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
     );
