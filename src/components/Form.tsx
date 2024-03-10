@@ -199,7 +199,10 @@ export const Form = ({
       setIsFormVisible(false);
       setTimeout(() => {
         setSelectedJuz(undefined);
+        setSelectedSurah(undefined);
         setSelectedApproach(undefined);
+        setRepeat(1);
+        setIsJuzDone(false);
         setIsCancelConfirmationVisible(false);
       }, 500);
     }
