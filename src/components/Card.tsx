@@ -103,7 +103,7 @@ export const Card = (item: History): JSX.Element => {
         <div onClick={toggleButtons}>{children}</div>
         {isButtonsVisible && (
           <div className="flex flex-col gap-2 w-full mt-2">
-            <button className={clsx(btnClass.base, btnClass.edit)}>Edit</button>
+            {/* <button className={clsx(btnClass.base, btnClass.edit)}>Edit</button> */}
             {!isDeleteConfirmationVisible ? (
               <button
                 className={clsx(btnClass.base, btnClass.delete)}
