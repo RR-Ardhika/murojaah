@@ -68,6 +68,7 @@ export const Card = (item: History): JSX.Element => {
   };
 
   const BaseCard = (children: JSX.Element): JSX.Element => {
+    // TD-2 Move out component
     const btnClass: Record<string, string> = {
       base: 'p-2 rounded',
       edit: 'bg-yellow-500 hover:bg-yellow-700',
@@ -125,7 +126,9 @@ export const Card = (item: History): JSX.Element => {
     );
   };
 
-  switch (item.historyType) {
+  switch (
+    item.historyType // TD-1 Utilize useMemo
+  ) {
     case HistoryType.Juz:
       return BaseCard(JuzCard());
     case HistoryType.Surah:
