@@ -1,11 +1,16 @@
 import { createContext, useContext, useState } from 'react';
+import { AlertColor, AlertText } from '@/components/Alert';
 
 const AlertContext: Context = createContext();
 
 export const AlertProvider = ({ children }: JSX.Element): JSX.Element => {
+  const [alertColor, setAlertColor] = useState();
+  const [alertText, setAlertText] = useState('');
   const [isAlertVisible, setIsAlertVisible] = useState(false);
 
-  function showAlert(): void {
+  function showAlert(color: AlertColor, text: AlertText): void {
+    setAlertColor(color);
+    setAlertText(text);
     setIsAlertVisible(true);
     setTimeout(() => {
       setIsAlertVisible(false);
@@ -13,7 +18,9 @@ export const AlertProvider = ({ children }: JSX.Element): JSX.Element => {
   }
 
   return (
-    <AlertContext.Provider value={{ isAlertVisible, showAlert }}>{children}</AlertContext.Provider>
+    <AlertContext.Provider value={{ alertColor, alertText, isAlertVisible, showAlert }}>
+      {children}
+    </AlertContext.Provider>
   );
 };
 

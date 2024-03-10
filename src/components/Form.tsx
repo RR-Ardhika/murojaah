@@ -3,6 +3,7 @@ import { JuzOptions } from '@/api/module/murojaah/entity';
 import { Create } from '@/api/module/murojaah/service';
 import { useData } from '@/context/DataContext';
 import { useAlert } from '@/context/AlertContext';
+import { AlertColor, AlertText } from '@/components/Alert';
 import { Transition, Dialog } from '@headlessui/react';
 import Select from 'react-select';
 
@@ -60,13 +61,15 @@ export const Form = ({
       if (!selectedOption) return;
 
       try {
-        await Create(selectedOption);
+        const payload: Option = selectedOption;
+        setSelectedOption(null); // Prevent multiple click by disable the button
+        await Create(payload);
         closeForm();
         setIsSubButtonsVisible(false);
-        showAlert();
+        showAlert(AlertColor.Green, AlertText.SuccessCreatedMurojaah);
         fetchData();
       } catch (error) {
-        console.log(error); // TODO handle this by using alert
+        showAlert(AlertColor.Red, AlertText.FailedCreatedMurojaah);
       }
     }
 
@@ -100,7 +103,7 @@ export const Form = ({
           Save
         </button>
 
-        {!isCancelConfirmationVisible && (
+        {!isCancelConfirmationVisible ? (
           <button
             type="button"
             className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
@@ -108,9 +111,7 @@ export const Form = ({
           >
             Cancel
           </button>
-        )}
-
-        {isCancelConfirmationVisible && (
+        ) : (
           <button
             type="button"
             className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
