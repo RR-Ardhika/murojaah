@@ -1,18 +1,18 @@
 import { Option } from '@/api/shared/entity';
 
-export enum HistoryMethod {
+export enum Approach {
   JahrWithMemory = 'jahr with memory',
   JahrWithReading = 'jahr with reading',
   SirrWithMemory = 'sirr with memory',
   SirrWithReading = 'sirr with reading',
 }
 
-export function HistoryMethodOptions(): Option[] {
+export function ApproachOptions(): Option[] {
   const options: Option[] = [];
-  const historyMethods: HistoryMethod[] = Object.values(HistoryMethod);
+  const approachs: Approach[] = Object.values(Approach);
 
   // eslint-disable-next-line @typescript-eslint/typedef
-  historyMethods.forEach((v, i) => {
+  approachs.forEach((v, i) => {
     const option: Option = { value: i, label: v };
     options.push(option);
   });

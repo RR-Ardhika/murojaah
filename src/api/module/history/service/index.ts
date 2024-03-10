@@ -7,13 +7,13 @@ export function Index(): Promise<unknown> {
 }
 
 export function Create(payload: Payload): Promise<unknown> {
-  if (!payload.juz || !payload.historyMethodId)
+  if (!payload.juz || !payload.approachId)
     return Promise.reject(new Error('Error 422 Unprocessable Entity'));
 
   const history: History = {
     historyType: HistoryType.Juz,
     juz: payload.juz,
-    historyMethodId: payload.historyMethodId,
+    approachId: payload.approachId,
     totalHistory: 100, // TODO remove hardcoded
     occuredAt: DateTime.now().toJSDate(),
   };

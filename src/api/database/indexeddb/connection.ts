@@ -12,6 +12,7 @@ export function initJsStore(): Connection {
   try {
     const dataBase: IDataBase = getDatabase();
     idbCon.initDb(dataBase);
+    // idbCon.dropDb(); // TODO remove this later, only use for re-create db in development
   } catch (err) {
     console.error(err);
   }
