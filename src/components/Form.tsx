@@ -211,11 +211,11 @@ export const Form = ({
       switch (formType) {
         case 'Juz':
           return buildJuzPayload();
+        case 'Surah':
+          return buildSurahPayload();
         case 'Ayah':
           // @ts-expect-error not implemented
           return undefined; // TODO Implement for ayah
-        case 'Surah':
-          return buildSurahPayload();
         default:
           // @ts-expect-error expected return value
           return undefined;
@@ -252,10 +252,10 @@ export const Form = ({
       switch (formType) {
         case 'Juz':
           if (!selectedJuz && !selectedApproach) return false;
-        case 'Ayah':
-          return true; // TODO Implement for ayah
         case 'Surah':
           if (!selectedSurah && !selectedApproach) return false;
+        case 'Ayah':
+          return true; // TODO Implement for ayah
         default:
           return true;
       }
@@ -266,10 +266,10 @@ export const Form = ({
       switch (formType) {
         case 'Juz':
           if (!selectedJuz || !selectedApproach) return false;
-        case 'Ayah':
-          return true; // TODO Implement for ayah
         case 'Surah':
           if (!selectedSurah || !selectedApproach) return false;
+        case 'Ayah':
+          return true; // TODO Implement for ayah
         default:
           return true;
       }
@@ -311,10 +311,10 @@ export const Form = ({
     switch (formType) {
       case 'Juz':
         return <JuzContent />;
-      case 'Ayah':
-        return <></>; // TODO Implement for ayah
       case 'Surah':
         return <SurahContent />;
+      case 'Ayah':
+        return <></>; // TODO Implement for ayah
       default:
         return <></>;
     }
