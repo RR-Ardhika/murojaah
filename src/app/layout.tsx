@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { NextFont } from 'next/dist/compiled/@next/font/dist/types';
 import './globals.css';
 import { Header } from '@/components/Header';
 import { Navbar } from '@/components/Navbar';

@@ -1,3 +1,6 @@
+APP_NAME = murojaah
+ROOT_DIR = $(realpath .)
+
 .PHONY: erd
 erd:
 	mmdc -s 3 -b '#242424' -i doc/diagram/erd.mmd -o "./erd.png"
@@ -9,9 +12,23 @@ dep:
 .PHONY: dev
 dev: watch
 
+.PHONY: run
+run: watch
+
 .PHONY: build
 build:
 	pnpm next build
+
+.PHONY: start
+start:
+	docker run -d -p 3000:80 -v $(ROOT_DIR)/dist:/usr/share/nginx/html --name $(APP_NAME) --rm nginx
+
+.PHONY: stop
+stop:
+	docker container stop $(APP_NAME)
+
+.PHONY: prod
+prod: build start
 
 .PHONY: lint
 lint:
@@ -27,7 +44,7 @@ format-check:
 
 .PHONY: watch
 watch:
-	pnpm next dev
+	NODE_ENV=development pnpm next dev
 
 .PHONY: watch-erd
 watch-erd:
