@@ -54,9 +54,7 @@ export const Card = (item: History): JSX.Element => {
         <p className={cardClassnames.title}>
           Ayah {item.startAyah} to {item.endAyah}
         </p>
-        <p className={cardClassnames.data}>
-          Surah {item.surah} {item.surahName}
-        </p>
+        <p className={cardClassnames.data}>Surah {item.surahName}</p>
         <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
         <p className={cardClassnames.data}>
           Repeated {item.repeat} {repeatSuffix}

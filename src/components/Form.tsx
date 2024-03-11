@@ -351,15 +351,15 @@ export const Form = ({
 
     function buildAyahPayload(): Payload {
       return {
-        historyType: HistoryType.Surah,
+        historyType: HistoryType.Ayah,
         // @ts-expect-error handled undefined value
         surah: selectedSurah.value,
         // @ts-expect-error handled undefined value
         surahName: selectedSurah.label,
         // @ts-expect-error handled undefined value
-        startAyah: startRef.current.value,
+        startAyah: parseInt(startRef.current.value),
         // @ts-expect-error handled undefined value
-        endAyah: endRef.current.value,
+        endAyah: parseInt(endRef.current.value),
         markSurahDone: isSurahDone,
         markJuzDone: isJuzDone,
         // @ts-expect-error handled undefined value
@@ -373,13 +373,15 @@ export const Form = ({
       switch (formType) {
         case 'Juz':
           if (!selectedJuz && !selectedApproach) return false;
+          break;
         case 'Surah':
           if (!selectedSurah && !selectedApproach) return false;
+          break;
         case 'Ayah':
-          return true; // TODO Implement for ayah
-        default:
-          return true;
+          if (!selectedSurah && !selectedApproach) return false; // TD-3 Implement for ayah
+          break;
       }
+      return true;
     }
 
     // TD-1 Utilize useMemo
@@ -387,13 +389,15 @@ export const Form = ({
       switch (formType) {
         case 'Juz':
           if (!selectedJuz || !selectedApproach) return false;
+          break;
         case 'Surah':
           if (!selectedSurah || !selectedApproach) return false;
+          break;
         case 'Ayah':
-          return true; // TODO Implement for ayah
-        default:
-          return true;
+          if (!selectedSurah || !selectedApproach) return false; // TD-3 Implement for ayah
+          break;
       }
+      return true;
     }
 
     return (
