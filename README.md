@@ -1,5 +1,5 @@
 # Murojaah
-Application for murojaah Al-Qur'an
+Application for murojaah Al-Qur'an. Built static files hosted at https://rr-murojaah.vercel.app
 
 ## Getting Started
 
