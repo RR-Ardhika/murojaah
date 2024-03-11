@@ -228,6 +228,7 @@ export const Form = ({
   // @ts-expect-error known types
   // eslint-disable-next-line @typescript-eslint/typedef
   const NumberInput = ({ inputRef }): JSX.Element => {
+    // TD-3 Implement proper number input for ayah
     return (
       <div>
         <input
@@ -378,7 +379,8 @@ export const Form = ({
           if (!selectedSurah && !selectedApproach) return false;
           break;
         case 'Ayah':
-          if (!selectedSurah && !selectedApproach) return false; // TD-3 Implement for ayah
+          // TD-3 Implement proper number input for ayah
+          if (!selectedSurah && !selectedApproach) return false;
           break;
       }
       return true;
@@ -394,7 +396,8 @@ export const Form = ({
           if (!selectedSurah || !selectedApproach) return false;
           break;
         case 'Ayah':
-          if (!selectedSurah || !selectedApproach) return false; // TD-3 Implement for ayah
+          // TD-3 Implement proper number input for ayah
+          if (!selectedSurah || !selectedApproach) return false;
           break;
       }
       return true;
