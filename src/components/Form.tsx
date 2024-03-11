@@ -125,7 +125,7 @@ export const Form = ({
 
         <div className="flex flex-col gap-2">
           <label className="font-light">Repeated Times</label>
-          <NumberPicker value={repeat} setValue={setRepeat} />
+          <NumberStepper value={repeat} setValue={setRepeat} />
         </div>
 
         <div className="flex gap-2">
@@ -184,17 +184,17 @@ export const Form = ({
         <div className="flex gap-5">
           <div className="flex flex-col gap-2">
             <label className="font-light">Start Ayah</label>
-            <NumberPicker value={startAyah} setValue={setStartAyah} />
+            <NumberStepper value={startAyah} setValue={setStartAyah} />
           </div>
 
           <div className="flex flex-col gap-2">
             <label className="font-light">End Ayah</label>
-            <NumberPicker value={endAyah} setValue={setEndAyah} />
+            <NumberStepper value={endAyah} setValue={setEndAyah} />
           </div>
         </div>
 
         <label className="font-light">Repeated Times</label>
-        <NumberPicker value={repeat} setValue={setRepeat} />
+        <NumberStepper value={repeat} setValue={setRepeat} />
 
         <div className="grid grid-cols-2 grid-rows-2 gap-2">
           <label htmlFor="markSurahDone" className="font-light">
@@ -227,7 +227,7 @@ export const Form = ({
 
   // @ts-expect-error known types
   // eslint-disable-next-line @typescript-eslint/typedef
-  const NumberPicker = ({ value, setValue }): JSX.Element => {
+  const NumberStepper = ({ value, setValue }): JSX.Element => {
     const baseClass: string = 'border px-4 py-2';
     const txtClass: string = 'bg-gray-100';
 
