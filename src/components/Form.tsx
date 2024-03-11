@@ -32,7 +32,10 @@ export const Form = ({
   const [selectedJuz, setSelectedJuz] = useState(undefined);
   const [selectedSurah, setSelectedSurah] = useState(undefined);
   const [selectedApproach, setSelectedApproach] = useState(undefined);
+  const [startAyah, setStartAyah] = useState(1);
+  const [endAyah, setEndAyah] = useState(1);
   const [repeat, setRepeat] = useState(1);
+  const [isSurahDone, setIsSurahDone] = useState(false);
   const [isJuzDone, setIsJuzDone] = useState(false);
 
   const Title = (): JSX.Element => {
@@ -120,8 +123,10 @@ export const Form = ({
           />
         </div>
 
-        <label className="font-light">Repeated Times</label>
-        <Repeat />
+        <div className="flex flex-col gap-2">
+          <label className="font-light">Repeated Times</label>
+          <NumberPicker value={repeat} setValue={setRepeat} />
+        </div>
 
         <div className="flex gap-2">
           <label htmlFor="markJuzDone" className="font-light">
@@ -139,17 +144,100 @@ export const Form = ({
     );
   };
 
-  const Repeat = (): JSX.Element => {
+  const AyahContent = (): JSX.Element => {
+    // @ts-expect-error react-select component
+    const selectStyle: StylesConfig = {
+      // @ts-expect-error react-select component
+      control: (base: CSSObjectWithLabel) => ({
+        ...base,
+        border: 0,
+        boxShadow: 'none',
+      }),
+    };
+
+    return (
+      <div className="flex flex-col gap-2 mt-2">
+        <label className="font-light">Select Surah</label>
+        <div className="border border-gray-300">
+          <Select
+            defaultValue={selectedSurah}
+            // @ts-expect-error react-select props
+            onChange={setSelectedSurah}
+            options={SurahOptions}
+            isSearchable={true}
+            styles={selectStyle}
+          />
+        </div>
+
+        <label className="font-light">Select Approach</label>
+        <div className="border border-gray-300">
+          <Select
+            defaultValue={selectedApproach}
+            // @ts-expect-error react-select props
+            onChange={setSelectedApproach}
+            options={ApproachOptions()}
+            isSearchable={false}
+            styles={selectStyle}
+          />
+        </div>
+
+        <div className="flex gap-5">
+          <div className="flex flex-col gap-2">
+            <label className="font-light">Start Ayah</label>
+            <NumberPicker value={startAyah} setValue={setStartAyah} />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="font-light">End Ayah</label>
+            <NumberPicker value={endAyah} setValue={setEndAyah} />
+          </div>
+        </div>
+
+        <label className="font-light">Repeated Times</label>
+        <NumberPicker value={repeat} setValue={setRepeat} />
+
+        <div className="grid grid-cols-2 grid-rows-2 gap-2">
+          <label htmlFor="markSurahDone" className="font-light">
+            Mark Surah Done
+          </label>
+
+          <input
+            id="markSurahDone"
+            className="h-5 w-5 mt-0.5"
+            type="checkbox"
+            checked={isSurahDone}
+            onChange={() => setIsSurahDone(!isSurahDone)}
+          />
+
+          <label htmlFor="markJuzDone" className="font-light">
+            Mark Juz Done
+          </label>
+
+          <input
+            id="markJuzDone"
+            className="h-5 w-5 mt-0.5"
+            type="checkbox"
+            checked={isJuzDone}
+            onChange={() => setIsJuzDone(!isJuzDone)}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  // @ts-expect-error known types
+  // eslint-disable-next-line @typescript-eslint/typedef
+  const NumberPicker = ({ value, setValue }): JSX.Element => {
     const baseClass: string = 'border px-4 py-2';
     const txtClass: string = 'bg-gray-100';
 
     function increase(): void {
-      setRepeat(repeat + 1);
+      setValue(value + 1);
     }
 
     function decrease(): void {
-      if (repeat - 1 < 1) return;
-      setRepeat(repeat - 1);
+      if (value - 1 < 1) return;
+      setValue(value - 1);
     }
 
     return (
@@ -157,7 +245,7 @@ export const Form = ({
         <button className={baseClass} onClick={decrease}>
           &lt;
         </button>
-        <p className={clsx(baseClass, txtClass)}>{repeat}</p>
+        <p className={clsx(baseClass, txtClass)}>{value}</p>
         <button className={baseClass} onClick={increase}>
           &gt;
         </button>
@@ -214,8 +302,7 @@ export const Form = ({
         case 'Surah':
           return buildSurahPayload();
         case 'Ayah':
-          // @ts-expect-error not implemented
-          return undefined; // TODO Implement for ayah
+          return buildAyahPayload();
         default:
           // @ts-expect-error expected return value
           return undefined;
@@ -234,6 +321,21 @@ export const Form = ({
     }
 
     function buildSurahPayload(): Payload {
+      return {
+        historyType: HistoryType.Surah,
+        // @ts-expect-error handled undefined value
+        surah: selectedSurah.value,
+        // @ts-expect-error handled undefined value
+        surahName: selectedSurah.label,
+        markJuzDone: isJuzDone,
+        // @ts-expect-error handled undefined value
+        approachId: selectedApproach.value,
+        repeat: repeat,
+      };
+    }
+
+    // TODO Implement for ayah
+    function buildAyahPayload(): Payload {
       return {
         historyType: HistoryType.Surah,
         // @ts-expect-error handled undefined value
@@ -314,7 +416,7 @@ export const Form = ({
       case 'Surah':
         return <SurahContent />;
       case 'Ayah':
-        return <></>; // TODO Implement for ayah
+        return <AyahContent />;
       default:
         return <></>;
     }
