@@ -1,4 +1,4 @@
-import { Dispatch, Fragment, useState, SetStateAction } from 'react';
+import { Dispatch, Fragment, MutableRefObject, useRef, useState, SetStateAction } from 'react';
 import { HistoryType, Payload, JuzOptions, SurahOptions } from '@/api/module/history/entity';
 import { ApproachOptions } from '@/api/module/approach/entity';
 import { Create } from '@/api/module/history/service';
@@ -32,8 +32,8 @@ export const Form = ({
   const [selectedJuz, setSelectedJuz] = useState(undefined);
   const [selectedSurah, setSelectedSurah] = useState(undefined);
   const [selectedApproach, setSelectedApproach] = useState(undefined);
-  const [startAyah, setStartAyah] = useState(1);
-  const [endAyah, setEndAyah] = useState(1);
+  const startRef: MutableRefObject<unknown> = useRef(null);
+  const endRef: MutableRefObject<unknown> = useRef(null);
   const [repeat, setRepeat] = useState(1);
   const [isSurahDone, setIsSurahDone] = useState(false);
   const [isJuzDone, setIsJuzDone] = useState(false);
@@ -184,12 +184,12 @@ export const Form = ({
         <div className="flex gap-5">
           <div className="flex flex-col gap-2">
             <label className="font-light">Start Ayah</label>
-            <NumberStepper value={startAyah} setValue={setStartAyah} />
+            <NumberInput inputRef={startRef} />
           </div>
 
           <div className="flex flex-col gap-2">
             <label className="font-light">End Ayah</label>
-            <NumberStepper value={endAyah} setValue={setEndAyah} />
+            <NumberInput inputRef={endRef} />
           </div>
         </div>
 
@@ -221,6 +221,20 @@ export const Form = ({
             onChange={() => setIsJuzDone(!isJuzDone)}
           />
         </div>
+      </div>
+    );
+  };
+
+  // @ts-expect-error known types
+  // eslint-disable-next-line @typescript-eslint/typedef
+  const NumberInput = ({ inputRef }): JSX.Element => {
+    return (
+      <div>
+        <input
+          className="w-full px-2 py-1 border border-gray-300 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          type="number"
+          ref={inputRef}
+        />
       </div>
     );
   };
@@ -290,6 +304,7 @@ export const Form = ({
         setSelectedSurah(undefined);
         setSelectedApproach(undefined);
         setRepeat(1);
+        setIsSurahDone(false);
         setIsJuzDone(false);
         setIsCancelConfirmationVisible(false);
       }, 500);
@@ -334,7 +349,6 @@ export const Form = ({
       };
     }
 
-    // TODO Implement for ayah
     function buildAyahPayload(): Payload {
       return {
         historyType: HistoryType.Surah,
@@ -342,6 +356,11 @@ export const Form = ({
         surah: selectedSurah.value,
         // @ts-expect-error handled undefined value
         surahName: selectedSurah.label,
+        // @ts-expect-error handled undefined value
+        startAyah: startRef.current.value,
+        // @ts-expect-error handled undefined value
+        endAyah: endRef.current.value,
+        markSurahDone: isSurahDone,
         markJuzDone: isJuzDone,
         // @ts-expect-error handled undefined value
         approachId: selectedApproach.value,

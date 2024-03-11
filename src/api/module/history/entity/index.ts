@@ -20,6 +20,9 @@ export type Payload = {
   juz?: number | undefined;
   surah?: number | undefined;
   surahName?: string | undefined;
+  startAyah?: number | undefined;
+  endAyah?: number | undefined;
+  markSurahDone?: boolean | undefined;
   markJuzDone?: boolean | undefined;
   approachId: number | undefined;
   repeat: number | undefined;
