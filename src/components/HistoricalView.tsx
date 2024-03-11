@@ -36,8 +36,8 @@ export const HistoricalView = (): JSX.Element => {
     },
     {
       historyType: HistoryType.Ayah,
-      start: 200,
-      end: 208,
+      startAyah: 200,
+      endAyah: 208,
       surah: 1,
       surahName: 'Al-Baqarah',
       approachId: 2,

@@ -6,10 +6,10 @@ export type History = {
   juz?: number;
   surah?: number;
   surahName?: string;
-  start?: number;
-  end?: number;
-  markJuzDone?: boolean;
+  startAyah?: number;
+  endAyah?: number;
   markSurahDone?: boolean;
+  markJuzDone?: boolean;
   approachId: number;
   repeat: number;
   occuredAt: Date;
