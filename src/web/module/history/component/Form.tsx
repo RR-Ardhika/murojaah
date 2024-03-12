@@ -105,7 +105,7 @@ export const Form = ({
             defaultValue={selectedSurah}
             // @ts-expect-error react-select props
             onChange={setSelectedSurah}
-            options={SurahOptions}
+            options={SurahOptions()}
             isSearchable={true}
             styles={selectStyle}
           />
@@ -163,7 +163,7 @@ export const Form = ({
             defaultValue={selectedSurah}
             // @ts-expect-error react-select props
             onChange={setSelectedSurah}
-            options={SurahOptions}
+            options={SurahOptions()}
             isSearchable={true}
             styles={selectStyle}
           />
