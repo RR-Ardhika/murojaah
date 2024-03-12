@@ -17,7 +17,7 @@ export const Navbar = (): JSX.Element => {
       <Link href="#" className={navClass.div}>
         C
       </Link>
-      <Link href="/stat" className={navClass.div}>
+      <Link href="/stats" className={navClass.div}>
         S
       </Link>
     </nav>
