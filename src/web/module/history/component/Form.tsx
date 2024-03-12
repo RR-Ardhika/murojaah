@@ -1,5 +1,6 @@
 import { Dispatch, Fragment, MutableRefObject, useRef, useState, SetStateAction } from 'react';
-import { HistoryType, Payload, JuzOptions, SurahOptions } from '@/api/module/history/entity';
+import { JuzOptions, SurahOptions } from '@/api/shared/entity';
+import { HistoryType, Payload } from '@/api/module/history/entity';
 import { ApproachOptions } from '@/api/module/approach/entity';
 import { Create } from '@/api/module/history/service';
 import { useData } from '@/web/module/history/context/DataContext';

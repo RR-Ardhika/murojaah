@@ -127,6 +127,7 @@ const Surah: SurahType[] = [
 export function SurahOptions(): Option[] {
   const options: Option[] = [];
 
+  // eslint-disable-next-line @typescript-eslint/typedef
   for (let i = 0; i < Surah.length; i++) {
     const option: Option = { value: i + 1, label: Surah[i].name };
     options.push(option);

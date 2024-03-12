@@ -1,8 +1,3 @@
-import { JuzOptions } from '@/api/module/history/entity/juz';
-import { SurahOptions } from '@/api/module/history/entity/surah';
-
-export { JuzOptions, SurahOptions };
-
 export type History = {
   id?: number;
   historyType: number;
