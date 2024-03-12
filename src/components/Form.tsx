@@ -2,8 +2,8 @@ import { Dispatch, Fragment, MutableRefObject, useRef, useState, SetStateAction 
 import { HistoryType, Payload, JuzOptions, SurahOptions } from '@/api/module/history/entity';
 import { ApproachOptions } from '@/api/module/approach/entity';
 import { Create } from '@/api/module/history/service';
-import { useData } from '@/context/DataContext';
-import { useAlert } from '@/context/AlertContext';
+import { useData } from '@/web/module/history/context/DataContext';
+import { useAlert } from '@/web/module/history//context/AlertContext';
 import { AlertColor, AlertText } from '@/components/Alert';
 import { Transition, Dialog } from '@headlessui/react';
 import { clsx } from 'clsx';

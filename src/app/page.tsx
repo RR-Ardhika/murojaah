@@ -1,7 +1,7 @@
 'use client';
 
-import { DataProvider } from '@/context/DataContext';
-import { AlertProvider } from '@/context/AlertContext';
+import { DataProvider } from '@/web/module/history/context/DataContext';
+import { AlertProvider } from '@/web/module/history//context/AlertContext';
 import { Alert } from '@/components/Alert';
 import { HistoricalView } from '@/components/HistoricalView';
 import { CreateButton } from '@/components/CreateButton';

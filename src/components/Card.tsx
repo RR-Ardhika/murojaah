@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { History, HistoryType } from '@/api/module/history/entity';
 import { Destroy } from '@/api/module/history/service';
 import { Show } from '@/api/module/approach/service';
-import { useData } from '@/context/DataContext';
-import { useAlert } from '@/context/AlertContext';
+import { useData } from '@/web/module/history/context/DataContext';
+import { useAlert } from '@/web/module/history//context/AlertContext';
 import { AlertColor, AlertText } from '@/components/Alert';
-import { formatDatetime } from '@/util/datetime';
+import { formatDatetime } from '@/web/shared/util/datetime';
 import { clsx } from 'clsx';
 
 export const Card = (item: History): JSX.Element => {

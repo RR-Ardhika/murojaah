@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { History } from '@/api/module/history/entity';
-import { useData } from '@/context/DataContext';
-import { useAlert } from '@/context/AlertContext';
+import { useData } from '@/web/module/history/context/DataContext';
+import { useAlert } from '@/web/module/history//context/AlertContext';
 import { Card } from '@/components/Card';
 import { clsx } from 'clsx';
 
