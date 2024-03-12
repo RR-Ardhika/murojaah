@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { History } from '@/api/module/history/entity';
 import { useData } from '@/web/module/history/context/DataContext';
-import { useAlert } from '@/web/module/history//context/AlertContext';
-import { Card } from '@/components/Card';
+import { useAlert } from '@/web/shared/context/AlertContext';
+import { Card } from '@/web/module/history/component/Card';
 import { clsx } from 'clsx';
 
 export const HistoricalView = (): JSX.Element => {

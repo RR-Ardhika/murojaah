@@ -3,8 +3,8 @@ import { HistoryType, Payload, JuzOptions, SurahOptions } from '@/api/module/his
 import { ApproachOptions } from '@/api/module/approach/entity';
 import { Create } from '@/api/module/history/service';
 import { useData } from '@/web/module/history/context/DataContext';
-import { useAlert } from '@/web/module/history//context/AlertContext';
-import { AlertColor, AlertText } from '@/components/Alert';
+import { useAlert } from '@/web/shared/context/AlertContext';
+import { AlertColor, AlertText } from '@/web/shared/component/Alert';
 import { Transition, Dialog } from '@headlessui/react';
 import { clsx } from 'clsx';
 import Select from 'react-select';

@@ -3,8 +3,8 @@ import { History, HistoryType } from '@/api/module/history/entity';
 import { Destroy } from '@/api/module/history/service';
 import { Show } from '@/api/module/approach/service';
 import { useData } from '@/web/module/history/context/DataContext';
-import { useAlert } from '@/web/module/history//context/AlertContext';
-import { AlertColor, AlertText } from '@/components/Alert';
+import { useAlert } from '@/web/shared/context/AlertContext';
+import { AlertColor, AlertText } from '@/web/shared/component/Alert';
 import { formatDatetime } from '@/web/shared/util/datetime';
 import { clsx } from 'clsx';
 
