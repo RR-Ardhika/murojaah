@@ -12,7 +12,6 @@ export const Card = (item: History): JSX.Element => {
   // @ts-expect-error useAlert
   const { showAlert } = useAlert();
   const { fetchData } = useData();
-  const repeatSuffix: string = item.repeat === 1 ? 'time' : 'times';
 
   const cardClassnames: Record<string, string> = {
     container: 'p-4 mb-5 bg-custom-teal text-white rounded-lg',
@@ -26,9 +25,7 @@ export const Card = (item: History): JSX.Element => {
       <>
         <p className={cardClassnames.title}>Juz {item.juz}</p>
         <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
-        <p className={cardClassnames.data}>
-          Repeated {item.repeat} {repeatSuffix}
-        </p>
+        {item.repeat > 1 && <p className={cardClassnames.data}>Repeated {item.repeat} times</p>}
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
     );
@@ -39,9 +36,7 @@ export const Card = (item: History): JSX.Element => {
       <>
         <p className={cardClassnames.title}>Surah {item.surahName}</p>
         <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
-        <p className={cardClassnames.data}>
-          Repeated {item.repeat} {repeatSuffix}
-        </p>
+        {item.repeat > 1 && <p className={cardClassnames.data}>Repeated {item.repeat} times</p>}
         {item.markJuzDone && <p className={cardClassnames.data}>Juz was marked as done</p>}
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
@@ -56,9 +51,7 @@ export const Card = (item: History): JSX.Element => {
         </p>
         <p className={cardClassnames.data}>Surah {item.surahName}</p>
         <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
-        <p className={cardClassnames.data}>
-          Repeated {item.repeat} {repeatSuffix}
-        </p>
+        {item.repeat > 1 && <p className={cardClassnames.data}>Repeated {item.repeat} times</p>}
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
     );
