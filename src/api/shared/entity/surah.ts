@@ -1,6 +1,6 @@
 import { Option } from '@/api/shared/entity';
 
-type SurahType = {
+export type SurahType = {
   id: number;
   name: string;
   totalLines: number;
@@ -123,6 +123,10 @@ const Surah: SurahType[] = [
   { id: 113, name: '113 Al-Falaq', totalLines: 3, totalAyah: 5 },
   { id: 114, name: '114 An-Nas', totalLines: 4, totalAyah: 6 },
 ];
+
+export function GetSurahById(id: number): SurahType | undefined {
+  return Surah.find((obj: SurahType) => obj.id === id);
+}
 
 export function SurahOptions(): Option[] {
   const options: Option[] = [];
