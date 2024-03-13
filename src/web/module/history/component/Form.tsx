@@ -66,7 +66,7 @@ export const Form = ({
             defaultValue={selectedJuz}
             // @ts-expect-error react-select props
             onChange={setSelectedJuz}
-            options={JuzOptions}
+            options={JuzOptions()}
             isSearchable={false}
             styles={selectStyle}
           />

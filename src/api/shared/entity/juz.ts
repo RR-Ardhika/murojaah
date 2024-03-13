@@ -1,34 +1,52 @@
 import { Option } from '@/api/shared/entity';
 
-export const JuzOptions: Option[] = [
-  { value: 1, label: 1 },
-  { value: 2, label: 2 },
-  { value: 3, label: 3 },
-  { value: 4, label: 4 },
-  { value: 5, label: 5 },
-  { value: 6, label: 6 },
-  { value: 7, label: 7 },
-  { value: 8, label: 8 },
-  { value: 9, label: 9 },
-  { value: 10, label: 10 },
-  { value: 11, label: 11 },
-  { value: 12, label: 12 },
-  { value: 13, label: 13 },
-  { value: 14, label: 14 },
-  { value: 15, label: 15 },
-  { value: 16, label: 16 },
-  { value: 17, label: 17 },
-  { value: 18, label: 18 },
-  { value: 19, label: 19 },
-  { value: 20, label: 20 },
-  { value: 21, label: 21 },
-  { value: 22, label: 22 },
-  { value: 23, label: 23 },
-  { value: 24, label: 24 },
-  { value: 25, label: 25 },
-  { value: 26, label: 26 },
-  { value: 27, label: 27 },
-  { value: 28, label: 28 },
-  { value: 29, label: 29 },
-  { value: 30, label: 30 },
+type JuzType = {
+  id: number;
+  startSurah: number;
+  endSurah: number;
+};
+
+export const Juz: JuzType[] = [
+  { id: 1, startSurah: 1, endSurah: 2 },
+  { id: 2, startSurah: 2, endSurah: 2 },
+  { id: 3, startSurah: 2, endSurah: 3 },
+  { id: 4, startSurah: 3, endSurah: 4 },
+  { id: 5, startSurah: 4, endSurah: 4 },
+  { id: 6, startSurah: 4, endSurah: 5 },
+  { id: 7, startSurah: 5, endSurah: 6 },
+  { id: 8, startSurah: 6, endSurah: 7 },
+  { id: 9, startSurah: 7, endSurah: 8 },
+  { id: 10, startSurah: 8, endSurah: 9 },
+  { id: 11, startSurah: 9, endSurah: 11 },
+  { id: 12, startSurah: 11, endSurah: 12 },
+  { id: 13, startSurah: 12, endSurah: 14 },
+  { id: 14, startSurah: 15, endSurah: 16 },
+  { id: 15, startSurah: 17, endSurah: 18 },
+  { id: 16, startSurah: 18, endSurah: 20 },
+  { id: 17, startSurah: 21, endSurah: 22 },
+  { id: 18, startSurah: 23, endSurah: 25 },
+  { id: 19, startSurah: 25, endSurah: 27 },
+  { id: 20, startSurah: 27, endSurah: 29 },
+  { id: 21, startSurah: 29, endSurah: 33 },
+  { id: 22, startSurah: 33, endSurah: 36 },
+  { id: 23, startSurah: 36, endSurah: 39 },
+  { id: 24, startSurah: 39, endSurah: 41 },
+  { id: 25, startSurah: 41, endSurah: 45 },
+  { id: 26, startSurah: 46, endSurah: 51 },
+  { id: 27, startSurah: 51, endSurah: 57 },
+  { id: 28, startSurah: 58, endSurah: 66 },
+  { id: 29, startSurah: 67, endSurah: 77 },
+  { id: 30, startSurah: 78, endSurah: 114 },
 ];
+
+export function JuzOptions(): Option[] {
+  const options: Option[] = [];
+
+  // eslint-disable-next-line @typescript-eslint/typedef
+  for (let i = 0; i < Juz.length; i++) {
+    const option: Option = { value: Juz[i].id, label: Juz[i].id };
+    options.push(option);
+  }
+
+  return options;
+}
