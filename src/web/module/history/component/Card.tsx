@@ -52,6 +52,8 @@ export const Card = (item: History): JSX.Element => {
         <p className={cardClassnames.data}>Surah {item.surahName}</p>
         <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
         {item.repeat > 1 && <p className={cardClassnames.data}>Repeated {item.repeat} times</p>}
+        {item.markSurahDone && <p className={cardClassnames.data}>Surah was marked as done</p>}
+        {item.markJuzDone && <p className={cardClassnames.data}>Juz was marked as done</p>}
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
     );
