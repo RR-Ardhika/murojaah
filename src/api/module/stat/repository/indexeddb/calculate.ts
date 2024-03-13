@@ -20,6 +20,9 @@ function calculateAllTimeStat(histories: entityHistory.History[]): entity.Stat {
       case entityHistory.HistoryType.Surah:
         totalLinesRead += calculateTotalLinesForSurah(history);
         break;
+      case entityHistory.HistoryType.Ayah:
+        totalLinesRead += calculateTotalLinesForAyah(history);
+        break;
     }
   }
 
@@ -50,4 +53,11 @@ function calculateTotalLinesForSurah(history: entityHistory.History): number {
   // @ts-expect-error known type
   const surah: entitySurah.SurahType = entitySurah.GetSurahById(history.surah);
   return surah.totalLines * history.repeat;
+}
+
+function calculateTotalLinesForAyah(history: entityHistory.History): number {
+  // @ts-expect-error known type
+  const surah: entitySurah.SurahType = entitySurah.GetSurahById(history.surah);
+  if (!history.markSurahDone) return 0;
+  return surah.totalLines;
 }
