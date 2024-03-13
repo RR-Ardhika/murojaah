@@ -49,5 +49,5 @@ function calculateTotalLinesForJuz(history: entityHistory.History): number {
 function calculateTotalLinesForSurah(history: entityHistory.History): number {
   // @ts-expect-error known type
   const surah: entitySurah.SurahType = entitySurah.GetSurahById(history.surah);
-  return surah.totalLines;
+  return surah.totalLines * history.repeat;
 }
