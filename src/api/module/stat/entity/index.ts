@@ -1,16 +1,17 @@
 export type Stat = {
   id?: number;
+  statType: number;
   totalLinesRead: number;
   totalJuzFromLines: number;
   totalMarkedJuzAsDone: number;
 };
 
 export enum StatType {
-  All = 0,
-  Daily = 1,
-  Weekly = 2,
-  BiWeekly = 3,
-  Monthly = 4,
-  Quarterly = 5,
-  Yearly = 6,
+  All = 'All Times',
+  Daily = 'Daily',
+  Weekly = 'Weekly',
+  BiWeekly = 'Bi-Weekly',
+  Monthly = 'Monthly',
+  Quarterly = 'Quarterly',
+  Yearly = 'Yearly',
 }

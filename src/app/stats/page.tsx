@@ -1,3 +1,4 @@
+import { Stat } from '@/api/module/stat/entity';
 import { clsx } from 'clsx';
 
 const Stat = (): JSX.Element => {
@@ -10,6 +11,34 @@ const Stat = (): JSX.Element => {
     fieldNameCol: 'col-span-9',
     fieldValueCol: 'col-span-2',
   };
+
+  // TODO Remove dummy data
+  const dummy: Stat[] = [
+    {
+      statType: 0,
+      totalLinesRead: 100,
+      totalJuzFromLines: 1.5,
+      totalMarkedJuzAsDone: 1,
+    },
+    {
+      statType: 1,
+      totalLinesRead: 100,
+      totalJuzFromLines: 1.5,
+      totalMarkedJuzAsDone: 1,
+    },
+    {
+      statType: 2,
+      totalLinesRead: 100,
+      totalJuzFromLines: 1.5,
+      totalMarkedJuzAsDone: 1,
+    },
+    {
+      statType: 4,
+      totalLinesRead: 100,
+      totalJuzFromLines: 1.5,
+      totalMarkedJuzAsDone: 1,
+    },
+  ];
 
   return (
     <div className={classNames.container}>
