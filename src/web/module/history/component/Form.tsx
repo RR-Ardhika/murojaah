@@ -259,11 +259,11 @@ export const Form = ({
     return (
       <div className="flex">
         <button className={baseClass} onClick={decrease}>
-          &lt;
+          -
         </button>
         <p className={clsx(baseClass, txtClass)}>{value}</p>
         <button className={baseClass} onClick={increase}>
-          &gt;
+          +
         </button>
       </div>
     );
