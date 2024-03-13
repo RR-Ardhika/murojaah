@@ -1,6 +1,6 @@
 import { Option } from '@/api/shared/entity';
 
-type JuzType = {
+export type JuzType = {
   id: number;
   startSurah: number;
   endSurah: number;
@@ -38,6 +38,10 @@ export const Juz: JuzType[] = [
   { id: 29, startSurah: 67, endSurah: 77 },
   { id: 30, startSurah: 78, endSurah: 114 },
 ];
+
+export function GetJuzById(id: number): JuzType | undefined {
+  return Juz.find((obj: JuzType) => obj.id === id);
+}
 
 export function JuzOptions(): Option[] {
   const options: Option[] = [];
