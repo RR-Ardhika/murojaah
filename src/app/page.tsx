@@ -3,19 +3,19 @@
 import { DataProvider } from '@/web/module/history/context/DataContext';
 import { AlertProvider } from '@/web/shared/context/AlertContext';
 import { Alert } from '@/web/shared/component/Alert';
-import { HistoricalView } from '@/web/module/history/component/HistoricalView';
+import { View } from '@/web/module/history/component/View';
 import { CreateButton } from '@/web/module/history/component/CreateButton';
 
-const Home = (): JSX.Element => {
+const Page = (): JSX.Element => {
   return (
     <DataProvider>
       <AlertProvider>
         <Alert />
-        <HistoricalView />
+        <View />
         <CreateButton />
       </AlertProvider>
     </DataProvider>
   );
 };
 
-export default Home;
+export default Page;

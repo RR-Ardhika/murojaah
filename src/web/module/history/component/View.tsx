@@ -5,7 +5,7 @@ import { useAlert } from '@/web/shared/context/AlertContext';
 import { Card } from '@/web/module/history/component/Card';
 import { clsx } from 'clsx';
 
-export const HistoricalView = (): JSX.Element => {
+export const View = (): JSX.Element => {
   // @ts-expect-error useAlert
   const { isAlertVisible } = useAlert();
   const { data, fetchData } = useData();
