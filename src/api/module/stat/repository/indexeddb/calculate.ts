@@ -37,6 +37,7 @@ function calculateTotalLinesForJuz(history: entityHistory.History): number {
   const juz: entityJuz.JuzType = entityJuz.GetJuzById(history.juz);
   let totalLines: number = 0;
 
+  // eslint-disable-next-line @typescript-eslint/typedef
   for (let i = juz.startSurah; i <= juz.endSurah; i++) {
     // @ts-expect-error known type
     totalLines += entitySurah.GetSurahById(i).totalLines;
