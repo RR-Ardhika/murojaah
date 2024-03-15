@@ -1,4 +1,4 @@
-import { useAlert } from '@/context/AlertContext';
+import { useAlert } from '@/web/shared/context/AlertContext';
 import { clsx } from 'clsx';
 
 export enum AlertColor {

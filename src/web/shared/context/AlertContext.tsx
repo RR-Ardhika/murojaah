@@ -1,5 +1,5 @@
 import { Context, createContext, useContext, useState, ReactNode } from 'react';
-import { AlertColor, AlertText } from '@/components/Alert';
+import { AlertColor, AlertText } from '@/web/shared/component/Alert';
 
 // @ts-expect-error AlertContextValues
 const AlertContext: Context<AlertContextValues> = createContext<AlertContextValues>(undefined);

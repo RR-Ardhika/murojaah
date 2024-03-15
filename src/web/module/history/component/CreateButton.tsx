@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { clsx } from 'clsx';
-import { Form } from '@/components/Form';
+import { Form } from '@/web/module/history/component/Form';
 
 export const CreateButton = (): JSX.Element => {
   const btnClass: Record<string, string> = {
