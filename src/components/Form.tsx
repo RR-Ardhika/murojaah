@@ -1,20 +1,23 @@
 import { Dispatch, Fragment, useState, SetStateAction } from 'react';
-import { Payload, JuzOptions } from '@/api/module/history/entity';
+import { HistoryType, Payload, JuzOptions, SurahOptions } from '@/api/module/history/entity';
 import { ApproachOptions } from '@/api/module/approach/entity';
 import { Create } from '@/api/module/history/service';
 import { useData } from '@/context/DataContext';
 import { useAlert } from '@/context/AlertContext';
 import { AlertColor, AlertText } from '@/components/Alert';
 import { Transition, Dialog } from '@headlessui/react';
+import { clsx } from 'clsx';
 import Select from 'react-select';
 
 interface Props {
+  formType: string;
   isFormVisible: boolean;
   setIsFormVisible: Dispatch<SetStateAction<boolean>>;
   setIsSubButtonsVisible: Dispatch<SetStateAction<boolean>>;
 }
 
 export const Form = ({
+  formType,
   isFormVisible,
   setIsFormVisible,
   setIsSubButtonsVisible,
@@ -22,20 +25,25 @@ export const Form = ({
   // @ts-expect-error useAlert
   const { showAlert } = useAlert();
   const { fetchData } = useData();
-  const [selectedJuz, setSelectedJuz] = useState(undefined);
-  const [selectedApproach, setSelectedApproach] = useState(undefined);
+
   const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);
   const [disableSaveButton, setDisableSaveButton] = useState(false);
+
+  const [selectedJuz, setSelectedJuz] = useState(undefined);
+  const [selectedSurah, setSelectedSurah] = useState(undefined);
+  const [selectedApproach, setSelectedApproach] = useState(undefined);
+  const [repeat, setRepeat] = useState(1);
+  const [isJuzDone, setIsJuzDone] = useState(false);
 
   const Title = (): JSX.Element => {
     return (
       <Dialog.Title className="text-lg font-medium leading-6 text-gray-900">
-        Create Juz Murojaah
+        Create {formType} Murojaah
       </Dialog.Title>
     );
   };
 
-  const Content = (): JSX.Element => {
+  const JuzContent = (): JSX.Element => {
     // @ts-expect-error react-select component
     const selectStyle: StylesConfig = {
       // @ts-expect-error react-select component
@@ -75,6 +83,88 @@ export const Form = ({
     );
   };
 
+  const SurahContent = (): JSX.Element => {
+    // @ts-expect-error react-select component
+    const selectStyle: StylesConfig = {
+      // @ts-expect-error react-select component
+      control: (base: CSSObjectWithLabel) => ({
+        ...base,
+        border: 0,
+        boxShadow: 'none',
+      }),
+    };
+
+    return (
+      <div className="flex flex-col gap-2 mt-2">
+        <label className="font-light">Select Surah</label>
+        <div className="border border-gray-300">
+          <Select
+            defaultValue={selectedSurah}
+            // @ts-expect-error react-select props
+            onChange={setSelectedSurah}
+            options={SurahOptions}
+            isSearchable={true}
+            styles={selectStyle}
+          />
+        </div>
+
+        <label className="font-light">Select Approach</label>
+        <div className="border border-gray-300">
+          <Select
+            defaultValue={selectedApproach}
+            // @ts-expect-error react-select props
+            onChange={setSelectedApproach}
+            options={ApproachOptions()}
+            isSearchable={false}
+            styles={selectStyle}
+          />
+        </div>
+
+        <label className="font-light">Repeated Times</label>
+        <Repeat />
+
+        <div className="flex gap-2">
+          <label htmlFor="markJuzDone" className="font-light">
+            Mark Juz Done
+          </label>
+          <input
+            id="markJuzDone"
+            className="h-5 w-5 mt-0.5"
+            type="checkbox"
+            checked={isJuzDone}
+            onChange={() => setIsJuzDone(!isJuzDone)}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  const Repeat = (): JSX.Element => {
+    const baseClass: string = 'border px-4 py-2';
+    const txtClass: string = 'bg-gray-100';
+
+    function increase(): void {
+      setRepeat(repeat + 1);
+    }
+
+    function decrease(): void {
+      if (repeat - 1 < 1) return;
+      setRepeat(repeat - 1);
+    }
+
+    return (
+      <div className="flex">
+        <button className={baseClass} onClick={decrease}>
+          &lt;
+        </button>
+        <p className={clsx(baseClass, txtClass)}>{repeat}</p>
+        <button className={baseClass} onClick={increase}>
+          &gt;
+        </button>
+      </div>
+    );
+  };
+
   const Buttons = (): JSX.Element => {
     async function save(): Promise<void> {
       if (!isSaveable()) return;
@@ -87,8 +177,9 @@ export const Form = ({
         showAlert(AlertColor.Green, AlertText.SuccessCreatedHistory);
         fetchData();
         setDisableSaveButton(false);
-      } catch (error) {
+      } catch (err) {
         setDisableSaveButton(false);
+        console.error(err);
         showAlert(AlertColor.Red, AlertText.FailedCreatedHistory);
       }
     }
@@ -108,30 +199,80 @@ export const Form = ({
       setIsFormVisible(false);
       setTimeout(() => {
         setSelectedJuz(undefined);
+        setSelectedSurah(undefined);
         setSelectedApproach(undefined);
+        setRepeat(1);
+        setIsJuzDone(false);
         setIsCancelConfirmationVisible(false);
       }, 500);
     }
 
     function buildPayload(): Payload {
+      switch (formType) {
+        case 'Juz':
+          return buildJuzPayload();
+        case 'Ayah':
+          // @ts-expect-error not implemented
+          return undefined; // TODO Implement for ayah
+        case 'Surah':
+          return buildSurahPayload();
+        default:
+          // @ts-expect-error expected return value
+          return undefined;
+      }
+    }
+
+    function buildJuzPayload(): Payload {
       return {
+        historyType: HistoryType.Juz,
         // @ts-expect-error handled undefined value
         juz: selectedJuz.value,
         // @ts-expect-error handled undefined value
         approachId: selectedApproach.value,
+        repeat: 1, // Hardcoded to 1 for juz
+      };
+    }
+
+    function buildSurahPayload(): Payload {
+      return {
+        historyType: HistoryType.Surah,
+        // @ts-expect-error handled undefined value
+        surah: selectedSurah.value,
+        // @ts-expect-error handled undefined value
+        surahName: selectedSurah.label,
+        markJuzDone: isJuzDone,
+        // @ts-expect-error handled undefined value
+        approachId: selectedApproach.value,
+        repeat: repeat,
       };
     }
 
     // TD-1 Utilize useMemo
     function isChanged(): boolean {
-      if (!selectedJuz && !selectedApproach) return false;
-      return true;
+      switch (formType) {
+        case 'Juz':
+          if (!selectedJuz && !selectedApproach) return false;
+        case 'Ayah':
+          return true; // TODO Implement for ayah
+        case 'Surah':
+          if (!selectedSurah && !selectedApproach) return false;
+        default:
+          return true;
+      }
     }
 
     // TD-1 Utilize useMemo
     function isSaveable(): boolean {
-      if (!selectedJuz || !selectedApproach) return false;
-      return true;
+      switch (formType) {
+        case 'Juz':
+          if (!selectedJuz || !selectedApproach) return false;
+        case 'Ayah':
+          return true; // TODO Implement for ayah
+        case 'Surah':
+          if (!selectedSurah || !selectedApproach) return false;
+        default:
+          return true;
+      }
     }
 
     return (
@@ -166,6 +307,19 @@ export const Form = ({
     );
   };
 
+  function renderContent(): JSX.Element {
+    switch (formType) {
+      case 'Juz':
+        return <JuzContent />;
+      case 'Ayah':
+        return <></>; // TODO Implement for ayah
+      case 'Surah':
+        return <SurahContent />;
+      default:
+        return <></>;
+    }
+  }
+
   return (
     <Transition appear show={isFormVisible} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={() => {}}>
@@ -194,7 +348,7 @@ export const Form = ({
             >
               <Dialog.Panel className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
                 <Title />
-                <Content />
+                {renderContent()}
                 <Buttons />
               </Dialog.Panel>
             </Transition.Child>

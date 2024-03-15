@@ -10,6 +10,7 @@ export const CreateButton = (): JSX.Element => {
     sub: 'p-2',
   };
 
+  const [formType, setFormType] = useState('');
   const [isSubButtonsVisible, setIsSubButtonsVisible] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
 
@@ -17,19 +18,21 @@ export const CreateButton = (): JSX.Element => {
     setIsSubButtonsVisible((isSubButtonsVisible: boolean) => !isSubButtonsVisible);
   }
 
+  function showForm(type: string): void {
+    setFormType(type);
+    setIsFormVisible(true);
+  }
+
   function renderSubButtons(): JSX.Element {
     return (
       <div className="flex flex-col gap-4">
-        <button
-          className={clsx(btnClass.base, btnClass.sub)}
-          onClick={() => setIsFormVisible(true)}
-        >
+        <button className={clsx(btnClass.base, btnClass.sub)} onClick={() => showForm('Juz')}>
           <span className="text-xl">Juz</span>
         </button>
-        <button className={clsx(btnClass.base, btnClass.sub)}>
+        <button className={clsx(btnClass.base, btnClass.sub)} onClick={() => showForm('Ayah')}>
           <span className="text-xl">Ayah</span>
         </button>
-        <button className={clsx(btnClass.base, btnClass.sub)}>
+        <button className={clsx(btnClass.base, btnClass.sub)} onClick={() => showForm('Surah')}>
           <span className="text-xl">Surah</span>
         </button>
       </div>
@@ -49,6 +52,7 @@ export const CreateButton = (): JSX.Element => {
         </button>
 
         <Form
+          formType={formType}
           isFormVisible={isFormVisible}
           setIsFormVisible={setIsFormVisible}
           setIsSubButtonsVisible={setIsSubButtonsVisible}

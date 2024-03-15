@@ -37,13 +37,12 @@ export const Card = (item: History): JSX.Element => {
   const SurahCard = (): JSX.Element => {
     return (
       <>
-        <p className={cardClassnames.title}>
-          Surah {item.surah} {item.surahName}
-        </p>
+        <p className={cardClassnames.title}>Surah {item.surahName}</p>
         <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
         <p className={cardClassnames.data}>
           Repeated {item.repeat} {repeatSuffix}
         </p>
+        {item.markJuzDone && <p className={cardClassnames.data}>Juz was marked as done</p>}
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
     );
@@ -104,7 +103,7 @@ export const Card = (item: History): JSX.Element => {
         <div onClick={toggleButtons}>{children}</div>
         {isButtonsVisible && (
           <div className="flex flex-col gap-2 w-full mt-2">
-            <button className={clsx(btnClass.base, btnClass.edit)}>Edit</button>
+            {/* <button className={clsx(btnClass.base, btnClass.edit)}>Edit</button> */}
             {!isDeleteConfirmationVisible ? (
               <button
                 className={clsx(btnClass.base, btnClass.delete)}
