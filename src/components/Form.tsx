@@ -1,4 +1,4 @@
-import { Dispatch, Fragment, useState, SetStateAction } from 'react';
+import { Dispatch, Fragment, MutableRefObject, useRef, useState, SetStateAction } from 'react';
 import { HistoryType, Payload, JuzOptions, SurahOptions } from '@/api/module/history/entity';
 import { ApproachOptions } from '@/api/module/approach/entity';
 import { Create } from '@/api/module/history/service';
@@ -32,7 +32,10 @@ export const Form = ({
   const [selectedJuz, setSelectedJuz] = useState(undefined);
   const [selectedSurah, setSelectedSurah] = useState(undefined);
   const [selectedApproach, setSelectedApproach] = useState(undefined);
+  const startRef: MutableRefObject<unknown> = useRef(null);
+  const endRef: MutableRefObject<unknown> = useRef(null);
   const [repeat, setRepeat] = useState(1);
+  const [isSurahDone, setIsSurahDone] = useState(false);
   const [isJuzDone, setIsJuzDone] = useState(false);
 
   const Title = (): JSX.Element => {
@@ -120,8 +123,10 @@ export const Form = ({
           />
         </div>
 
-        <label className="font-light">Repeated Times</label>
-        <Repeat />
+        <div className="flex flex-col gap-2">
+          <label className="font-light">Repeated Times</label>
+          <NumberStepper value={repeat} setValue={setRepeat} />
+        </div>
 
         <div className="flex gap-2">
           <label htmlFor="markJuzDone" className="font-light">
@@ -139,17 +144,115 @@ export const Form = ({
     );
   };
 
-  const Repeat = (): JSX.Element => {
+  const AyahContent = (): JSX.Element => {
+    // @ts-expect-error react-select component
+    const selectStyle: StylesConfig = {
+      // @ts-expect-error react-select component
+      control: (base: CSSObjectWithLabel) => ({
+        ...base,
+        border: 0,
+        boxShadow: 'none',
+      }),
+    };
+
+    return (
+      <div className="flex flex-col gap-2 mt-2">
+        <label className="font-light">Select Surah</label>
+        <div className="border border-gray-300">
+          <Select
+            defaultValue={selectedSurah}
+            // @ts-expect-error react-select props
+            onChange={setSelectedSurah}
+            options={SurahOptions}
+            isSearchable={true}
+            styles={selectStyle}
+          />
+        </div>
+
+        <label className="font-light">Select Approach</label>
+        <div className="border border-gray-300">
+          <Select
+            defaultValue={selectedApproach}
+            // @ts-expect-error react-select props
+            onChange={setSelectedApproach}
+            options={ApproachOptions()}
+            isSearchable={false}
+            styles={selectStyle}
+          />
+        </div>
+
+        <div className="flex gap-5">
+          <div className="flex flex-col gap-2">
+            <label className="font-light">Start Ayah</label>
+            <NumberInput inputRef={startRef} />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="font-light">End Ayah</label>
+            <NumberInput inputRef={endRef} />
+          </div>
+        </div>
+
+        <label className="font-light">Repeated Times</label>
+        <NumberStepper value={repeat} setValue={setRepeat} />
+
+        <div className="grid grid-cols-2 grid-rows-2 gap-2">
+          <label htmlFor="markSurahDone" className="font-light">
+            Mark Surah Done
+          </label>
+
+          <input
+            id="markSurahDone"
+            className="h-5 w-5 mt-0.5"
+            type="checkbox"
+            checked={isSurahDone}
+            onChange={() => setIsSurahDone(!isSurahDone)}
+          />
+
+          <label htmlFor="markJuzDone" className="font-light">
+            Mark Juz Done
+          </label>
+
+          <input
+            id="markJuzDone"
+            className="h-5 w-5 mt-0.5"
+            type="checkbox"
+            checked={isJuzDone}
+            onChange={() => setIsJuzDone(!isJuzDone)}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  // @ts-expect-error known types
+  // eslint-disable-next-line @typescript-eslint/typedef
+  const NumberInput = ({ inputRef }): JSX.Element => {
+    // TD-3 Implement proper number input for ayah
+    return (
+      <div>
+        <input
+          className="w-full px-2 py-1 border border-gray-300 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          type="number"
+          ref={inputRef}
+        />
+      </div>
+    );
+  };
+
+  // @ts-expect-error known types
+  // eslint-disable-next-line @typescript-eslint/typedef
+  const NumberStepper = ({ value, setValue }): JSX.Element => {
     const baseClass: string = 'border px-4 py-2';
     const txtClass: string = 'bg-gray-100';
 
     function increase(): void {
-      setRepeat(repeat + 1);
+      setValue(value + 1);
     }
 
     function decrease(): void {
-      if (repeat - 1 < 1) return;
-      setRepeat(repeat - 1);
+      if (value - 1 < 1) return;
+      setValue(value - 1);
     }
 
     return (
@@ -157,7 +260,7 @@ export const Form = ({
         <button className={baseClass} onClick={decrease}>
           &lt;
         </button>
-        <p className={clsx(baseClass, txtClass)}>{repeat}</p>
+        <p className={clsx(baseClass, txtClass)}>{value}</p>
         <button className={baseClass} onClick={increase}>
           &gt;
         </button>
@@ -202,6 +305,7 @@ export const Form = ({
         setSelectedSurah(undefined);
         setSelectedApproach(undefined);
         setRepeat(1);
+        setIsSurahDone(false);
         setIsJuzDone(false);
         setIsCancelConfirmationVisible(false);
       }, 500);
@@ -211,11 +315,10 @@ export const Form = ({
       switch (formType) {
         case 'Juz':
           return buildJuzPayload();
-        case 'Ayah':
-          // @ts-expect-error not implemented
-          return undefined; // TODO Implement for ayah
         case 'Surah':
           return buildSurahPayload();
+        case 'Ayah':
+          return buildAyahPayload();
         default:
           // @ts-expect-error expected return value
           return undefined;
@@ -247,18 +350,40 @@ export const Form = ({
       };
     }
 
+    function buildAyahPayload(): Payload {
+      return {
+        historyType: HistoryType.Ayah,
+        // @ts-expect-error handled undefined value
+        surah: selectedSurah.value,
+        // @ts-expect-error handled undefined value
+        surahName: selectedSurah.label,
+        // @ts-expect-error handled undefined value
+        startAyah: parseInt(startRef.current.value),
+        // @ts-expect-error handled undefined value
+        endAyah: parseInt(endRef.current.value),
+        markSurahDone: isSurahDone,
+        markJuzDone: isJuzDone,
+        // @ts-expect-error handled undefined value
+        approachId: selectedApproach.value,
+        repeat: repeat,
+      };
+    }
+
     // TD-1 Utilize useMemo
     function isChanged(): boolean {
       switch (formType) {
         case 'Juz':
           if (!selectedJuz && !selectedApproach) return false;
-        case 'Ayah':
-          return true; // TODO Implement for ayah
+          break;
         case 'Surah':
           if (!selectedSurah && !selectedApproach) return false;
-        default:
-          return true;
+          break;
+        case 'Ayah':
+          // TD-3 Implement proper number input for ayah
+          if (!selectedSurah && !selectedApproach) return false;
+          break;
       }
+      return true;
     }
 
     // TD-1 Utilize useMemo
@@ -266,13 +391,16 @@ export const Form = ({
       switch (formType) {
         case 'Juz':
           if (!selectedJuz || !selectedApproach) return false;
-        case 'Ayah':
-          return true; // TODO Implement for ayah
+          break;
         case 'Surah':
           if (!selectedSurah || !selectedApproach) return false;
-        default:
-          return true;
+          break;
+        case 'Ayah':
+          // TD-3 Implement proper number input for ayah
+          if (!selectedSurah || !selectedApproach) return false;
+          break;
       }
+      return true;
     }
 
     return (
@@ -311,10 +439,10 @@ export const Form = ({
     switch (formType) {
       case 'Juz':
         return <JuzContent />;
-      case 'Ayah':
-        return <></>; // TODO Implement for ayah
       case 'Surah':
         return <SurahContent />;
+      case 'Ayah':
+        return <AyahContent />;
       default:
         return <></>;
     }
