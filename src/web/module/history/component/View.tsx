@@ -3,7 +3,7 @@ import { History } from '@/api/module/history/entity';
 import { useData } from '@/web/module/history/context/DataContext';
 import { useAlert } from '@/web/shared/context/AlertContext';
 import { Card } from '@/web/module/history/component/Card';
-import { formatDatetime } from '@/web/shared/util/datetime';
+import { formatDate } from '@/web/shared/util/datetime';
 import { DateTime } from 'luxon';
 import { clsx } from 'clsx';
 
@@ -28,7 +28,7 @@ export const View = (): JSX.Element => {
     currentDate = item.occuredAt;
     return (
       <>
-        <p className="text-custom-teal">{formatDatetime(item.occuredAt)}</p>
+        <p className="text-custom-teal">{formatDate(item.occuredAt)}</p>
         <hr className="mb-2 border-custom-teal" />
       </>
     );
