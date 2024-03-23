@@ -28,7 +28,7 @@ export const View = (): JSX.Element => {
     currentDate = item.occuredAt;
     return (
       <>
-        <p className="text-custom-teal">{formatDate(item.occuredAt)}</p>
+        <p className="text-2xl font-medium text-custom-teal">{formatDate(item.occuredAt)}</p>
         <hr className="mb-2 border-custom-teal" />
       </>
     );
