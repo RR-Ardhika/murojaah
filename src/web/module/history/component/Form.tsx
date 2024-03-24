@@ -1,5 +1,6 @@
 import { Dispatch, Fragment, MutableRefObject, useRef, useState, SetStateAction } from 'react';
-import { HistoryType, Payload, JuzOptions, SurahOptions } from '@/api/module/history/entity';
+import { JuzOptions, SurahOptions } from '@/api/shared/entity';
+import { HistoryType, Payload } from '@/api/module/history/entity';
 import { ApproachOptions } from '@/api/module/approach/entity';
 import { Create } from '@/api/module/history/service';
 import { useData } from '@/web/module/history/context/DataContext';
@@ -65,7 +66,7 @@ export const Form = ({
             defaultValue={selectedJuz}
             // @ts-expect-error react-select props
             onChange={setSelectedJuz}
-            options={JuzOptions}
+            options={JuzOptions()}
             isSearchable={false}
             styles={selectStyle}
           />
@@ -105,7 +106,7 @@ export const Form = ({
             defaultValue={selectedSurah}
             // @ts-expect-error react-select props
             onChange={setSelectedSurah}
-            options={SurahOptions}
+            options={SurahOptions()}
             isSearchable={true}
             styles={selectStyle}
           />
@@ -163,7 +164,7 @@ export const Form = ({
             defaultValue={selectedSurah}
             // @ts-expect-error react-select props
             onChange={setSelectedSurah}
-            options={SurahOptions}
+            options={SurahOptions()}
             isSearchable={true}
             styles={selectStyle}
           />
@@ -258,11 +259,11 @@ export const Form = ({
     return (
       <div className="flex">
         <button className={baseClass} onClick={decrease}>
-          &lt;
+          -
         </button>
         <p className={clsx(baseClass, txtClass)}>{value}</p>
         <button className={baseClass} onClick={increase}>
-          &gt;
+          +
         </button>
       </div>
     );

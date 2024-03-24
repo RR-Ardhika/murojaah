@@ -1,4 +1,5 @@
 APP_NAME = murojaah
+OUTPUT_DIR = dist
 ROOT_DIR = $(realpath .)
 
 .PHONY: erd
@@ -15,8 +16,12 @@ dev: watch
 .PHONY: run
 run: watch
 
+.PHONY: clean
+clean:
+	rm -rf $(OUTPUT_DIR)
+
 .PHONY: build
-build:
+build: clean
 	pnpm next build
 
 .PHONY: start
@@ -43,7 +48,7 @@ format-check:
 	pnpm exec prettier -c .
 
 .PHONY: watch
-watch:
+watch: clean
 	NODE_ENV=development pnpm next dev
 
 .PHONY: watch-erd
