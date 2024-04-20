@@ -58,6 +58,25 @@ function calculateTotalLinesForSurah(history: entityHistory.History): number {
 function calculateTotalLinesForAyah(history: entityHistory.History): number {
   // @ts-expect-error known type
   const surah: entitySurah.SurahType = entitySurah.GetSurahById(history.surah);
-  if (!history.markSurahDone) return 0;
-  return surah.totalLines;
+  // @ts-expect-error known type
+  const surahJuz: number[] | SurahJuz[] = entitySurah.GetJuzBySurahId(history.surah);
+  let totalLines: number = 0;
+
+  if (history.markJuzDone) {
+    // eslint-disable-next-line @typescript-eslint/typedef
+    if (surahJuz.every((i) => typeof i === 'number')) {
+      const juzId: number = surahJuz[0];
+      const juz: entityJuz.JuzType | undefined = entityJuz.GetJuzById(juzId);
+      if (!juz) return totalLines;
+      // eslint-disable-next-line @typescript-eslint/typedef
+      for (let i = juz.startSurah; i <= juz.endSurah; i++) {
+        // @ts-expect-error known type
+        totalLines += entitySurah.GetSurahById(i).totalLines;
+      } // TODO Handle for type SurahJuz
+    }
+  } else if (history.markSurahDone) {
+    totalLines += surah.totalLines;
+  }
+
+  return totalLines;
 }

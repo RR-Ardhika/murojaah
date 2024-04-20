@@ -1,6 +1,6 @@
 import { Option } from '@/api/shared/entity';
 
-type Juz = {
+export type SurahJuz = {
   id: number;
   startAyah: number;
   endAyah: number;
@@ -9,7 +9,7 @@ type Juz = {
 export type SurahType = {
   id: number;
   name: string;
-  juz: Juz[] | number[]; // TODO Only use Juz[] later
+  juz: number[] | SurahJuz[];
   totalLines: number;
   totalAyah: number;
 };
@@ -142,6 +142,12 @@ const Surah: SurahType[] = [
 
 export function GetSurahById(id: number): SurahType | undefined {
   return Surah.find((obj: SurahType) => obj.id === id);
+}
+
+export function GetJuzBySurahId(id: number): number[] | SurahJuz[] {
+  const surah: SurahType | undefined = GetSurahById(id);
+  if (!surah) return [];
+  return surah.juz;
 }
 
 export function SurahOptions(): Option[] {
