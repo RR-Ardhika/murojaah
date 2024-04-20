@@ -14,6 +14,7 @@ export type SurahType = {
   totalAyah: number;
 };
 
+// TODO Fill the rest
 const Surah: SurahType[] = [
   { id: 1, name: '1 Al-Fatihah', juz: [1], totalLines: 0, totalAyah: 0 },
   { id: 2, name: '2 Al-Baqarah', juz: [1, 2, 3], totalLines: 0, totalAyah: 0 },
