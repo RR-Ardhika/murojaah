@@ -2,37 +2,59 @@ import * as entity from '@/api/module/stat/entity';
 import * as entityHistory from '@/api/module/history/entity';
 import * as entityJuz from '@/api/shared/entity/juz';
 import * as entitySurah from '@/api/shared/entity/surah';
+import { DateTime } from 'luxon';
 
 export function CalculateStats(histories: entityHistory.History[]): entity.Stat[] {
   const stats: entity.Stat[] = [];
   stats.push(calculateAllTimeStat(histories));
+  stats.push(calculateDailyStat(histories));
   return stats;
 }
 
 function calculateAllTimeStat(histories: entityHistory.History[]): entity.Stat {
   let totalLinesRead: number = 0;
 
-  for (const history of histories) {
-    switch (history.historyType) {
-      case entityHistory.HistoryType.Juz:
-        totalLinesRead += calculateTotalLinesForJuz(history);
-        break;
-      case entityHistory.HistoryType.Surah:
-        totalLinesRead += calculateTotalLinesForSurah(history);
-        break;
-      case entityHistory.HistoryType.Ayah:
-        totalLinesRead += calculateTotalLinesForAyah(history);
-        break;
-    }
-  }
+  for (const history of histories) totalLinesRead += calculateTotalLinesFromHistory(history);
 
   return {
     id: Math.floor(Math.random() * 10),
     statType: Object.values(entity.StatType).indexOf(entity.StatType.All),
     totalLinesRead: totalLinesRead,
-    totalJuzFromLines: (totalLinesRead / 300).toFixed(2),
+    totalJuzFromLines: getTotalJuzFromLines(totalLinesRead),
     totalMarkedJuzAsDone: 0, // TODO Implement this
   };
+}
+
+function calculateDailyStat(histories: entityHistory.History[]): entity.Stat {
+  const now: DateTime = DateTime.now();
+  let totalLinesRead: number = 0;
+
+  for (const history of histories) {
+    const occuredAt: DateTime = DateTime.fromJSDate(history.occuredAt);
+    if (!occuredAt.hasSame(now, 'day')) continue;
+    totalLinesRead += calculateTotalLinesFromHistory(history);
+  }
+
+  return {
+    id: Math.floor(Math.random() * 10),
+    statType: Object.values(entity.StatType).indexOf(entity.StatType.Daily),
+    totalLinesRead: totalLinesRead,
+    totalJuzFromLines: getTotalJuzFromLines(totalLinesRead),
+    totalMarkedJuzAsDone: 0, // TODO Implement this
+  };
+}
+
+function calculateTotalLinesFromHistory(history: entityHistory.History): number {
+  switch (history.historyType) {
+    case entityHistory.HistoryType.Juz:
+      return calculateTotalLinesForJuz(history);
+    case entityHistory.HistoryType.Surah:
+      return calculateTotalLinesForSurah(history);
+    case entityHistory.HistoryType.Ayah:
+      return calculateTotalLinesForAyah(history);
+    default:
+      return 0;
+  }
 }
 
 function calculateTotalLinesForJuz(history: entityHistory.History): number {
@@ -79,4 +101,8 @@ function calculateTotalLinesForAyah(history: entityHistory.History): number {
   }
 
   return totalLines;
+}
+
+function getTotalJuzFromLines(n: number): string {
+  return (n / 300).toFixed(2);
 }
