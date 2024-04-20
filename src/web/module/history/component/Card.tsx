@@ -20,12 +20,16 @@ export const Card = (item: History): JSX.Element => {
     date: 'font-extralight',
   };
 
+  function getRepeatString(): string {
+    if (item.repeat <= 1) return '';
+    return `${item.repeat}x`;
+  }
+
   const JuzCard = (): JSX.Element => {
     return (
       <>
         <p className={cardClassnames.title}>Juz {item.juz}</p>
         <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
-        {item.repeat > 1 && <p className={cardClassnames.data}>Repeated {item.repeat} times</p>}
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
     );
@@ -34,9 +38,10 @@ export const Card = (item: History): JSX.Element => {
   const SurahCard = (): JSX.Element => {
     return (
       <>
-        <p className={cardClassnames.title}>Surah {item.surahName}</p>
+        <p className={cardClassnames.title}>
+          {getRepeatString()} Surah {item.surahName}
+        </p>
         <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
-        {item.repeat > 1 && <p className={cardClassnames.data}>Repeated {item.repeat} times</p>}
         {item.markJuzDone && <p className={cardClassnames.data}>Juz was marked as done</p>}
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
@@ -47,11 +52,10 @@ export const Card = (item: History): JSX.Element => {
     return (
       <>
         <p className={cardClassnames.title}>
-          Ayah {item.startAyah} to {item.endAyah}
+          {getRepeatString()} Ayah {item.startAyah} to {item.endAyah}
         </p>
         <p className={cardClassnames.data}>Surah {item.surahName}</p>
         <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
-        {item.repeat > 1 && <p className={cardClassnames.data}>Repeated {item.repeat} times</p>}
         {item.markSurahDone && <p className={cardClassnames.data}>Surah was marked as done</p>}
         {item.markJuzDone && <p className={cardClassnames.data}>Juz was marked as done</p>}
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
