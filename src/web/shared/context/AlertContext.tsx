@@ -19,8 +19,12 @@ export const AlertProvider = ({ children }: { children: ReactNode }): JSX.Elemen
     }, 3000);
   }
 
+  function hideAlert(): void {
+    setIsAlertVisible(false);
+  }
+
   return (
-    <AlertContext.Provider value={{ alertColor, alertText, isAlertVisible, showAlert }}>
+    <AlertContext.Provider value={{ alertColor, alertText, isAlertVisible, showAlert, hideAlert }}>
       {children}
     </AlertContext.Provider>
   );
