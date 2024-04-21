@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { History } from '@/api/module/history/entity';
 import { GetTotalJuzFromLines } from '@/api/shared/entity/juz';
-import { DateData, GetHistoryDateStats } from '@/api/module/stat/service';
+import { DateData, GetHistoryStats } from '@/api/module/stat/service';
 import { useData } from '@/web/module/history/context/DataContext';
 import { useAlert } from '@/web/shared/context/AlertContext';
 import { Card } from '@/web/module/history/component/Card';
@@ -32,7 +32,7 @@ export const View = (): JSX.Element => {
         const itemId: number = item.id;
 
         if (!newMapDateData.has(formattedDate)) {
-          newMapDateData.set(formattedDate, GetHistoryDateStats(item));
+          newMapDateData.set(formattedDate, GetHistoryStats(item));
           newMapIsProcessed.set(itemId, true);
           return;
         }
@@ -42,7 +42,7 @@ export const View = (): JSX.Element => {
 
         if (isProcessed || !dateData) return;
 
-        const stats: DateData = GetHistoryDateStats(item);
+        const stats: DateData = GetHistoryStats(item);
         dateData.ayah += stats.ayah;
         dateData.lines += stats.lines;
         dateData.juz = GetTotalJuzFromLines(dateData.lines);

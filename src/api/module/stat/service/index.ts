@@ -18,7 +18,7 @@ export async function Index(): entity.Stat[] {
   return repo.CalculateStats(histories);
 }
 
-export function GetHistoryDateStats(history: entityHistory.History): DateData {
+export function GetHistoryStats(history: entityHistory.History): DateData {
   const lines: number = repo.CalculateTotalLinesFromHistory(history);
   return {
     juz: entityJuz.GetTotalJuzFromLines(lines),
