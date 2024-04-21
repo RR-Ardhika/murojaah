@@ -14,13 +14,13 @@ export function CalculateStats(histories: entityHistory.History[]): entity.Stat[
 function calculateAllTimeStat(histories: entityHistory.History[]): entity.Stat {
   let totalLinesRead: number = 0;
 
-  for (const history of histories) totalLinesRead += calculateTotalLinesFromHistory(history);
+  for (const history of histories) totalLinesRead += CalculateTotalLinesFromHistory(history);
 
   return {
     id: Math.floor(Math.random() * 10),
     statType: Object.values(entity.StatType).indexOf(entity.StatType.All),
     totalLinesRead: totalLinesRead,
-    totalJuzFromLines: getTotalJuzFromLines(totalLinesRead),
+    totalJuzFromLines: GetTotalJuzFromLines(totalLinesRead),
     totalMarkedJuzAsDone: 0, // TODO Implement this
   };
 }
@@ -32,19 +32,19 @@ function calculateDailyStat(histories: entityHistory.History[]): entity.Stat {
   for (const history of histories) {
     const occuredAt: DateTime = DateTime.fromJSDate(history.occuredAt);
     if (!occuredAt.hasSame(now, 'day')) continue;
-    totalLinesRead += calculateTotalLinesFromHistory(history);
+    totalLinesRead += CalculateTotalLinesFromHistory(history);
   }
 
   return {
     id: Math.floor(Math.random() * 10),
     statType: Object.values(entity.StatType).indexOf(entity.StatType.Daily),
     totalLinesRead: totalLinesRead,
-    totalJuzFromLines: getTotalJuzFromLines(totalLinesRead),
+    totalJuzFromLines: GetTotalJuzFromLines(totalLinesRead),
     totalMarkedJuzAsDone: 0, // TODO Implement this
   };
 }
 
-function calculateTotalLinesFromHistory(history: entityHistory.History): number {
+export function CalculateTotalLinesFromHistory(history: entityHistory.History): number {
   switch (history.historyType) {
     case entityHistory.HistoryType.Juz:
       return calculateTotalLinesForJuz(history);
@@ -103,6 +103,7 @@ function calculateTotalLinesForAyah(history: entityHistory.History): number {
   return totalLines;
 }
 
-function getTotalJuzFromLines(n: number): string {
-  return (n / 300).toFixed(2);
+export function GetTotalJuzFromLines(n: number): number {
+  const juz: string = (n / 300).toFixed(3);
+  return juz.endsWith('.00') ? parseInt(juz) : parseFloat(juz);
 }

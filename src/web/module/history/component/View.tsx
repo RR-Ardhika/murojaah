@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { History } from '@/api/module/history/entity';
+import { DateData, GetHistoryDateStats } from '@/api/module/stat/service';
 import { useData } from '@/web/module/history/context/DataContext';
 import { useAlert } from '@/web/shared/context/AlertContext';
 import { Card } from '@/web/module/history/component/Card';
@@ -14,12 +15,6 @@ export const View = (): JSX.Element => {
   const [mapDateData, setMapDateData] = useState<Map<string, DateData>>(new Map());
   const [mapIsProcessed, setMapIsProcessed] = useState<Map<number, boolean>>(new Map());
   let currentDate: Date;
-
-  type DateData = {
-    juz: number;
-    ayah: number;
-    lines: number;
-  };
 
   useEffect(() => {
     fetchData();
@@ -37,7 +32,7 @@ export const View = (): JSX.Element => {
         const itemId: number = item.id;
 
         if (!newMapDateData.has(formattedDate)) {
-          newMapDateData.set(formattedDate, { juz: 1, ayah: 1, lines: 1 });
+          newMapDateData.set(formattedDate, GetHistoryDateStats(item));
           newMapIsProcessed.set(itemId, true);
           return;
         }
@@ -47,9 +42,11 @@ export const View = (): JSX.Element => {
 
         if (isProcessed || !dateData) return;
 
-        dateData.juz++;
-        dateData.ayah++;
-        dateData.lines++;
+        const stats: DateData = GetHistoryDateStats(item);
+        dateData.juz += stats.juz;
+        dateData.ayah += stats.ayah;
+        dateData.lines += stats.lines;
+
         newMapDateData.set(formattedDate, dateData);
         newMapIsProcessed.set(itemId, true);
       });
@@ -68,13 +65,14 @@ export const View = (): JSX.Element => {
     }
 
     currentDate = item.occuredAt;
+    const formattedDate: string = formatDate(item.occuredAt);
     return (
       <>
-        <p className="text-2xl font-medium text-custom-teal">{formatDate(item.occuredAt)}</p>
+        <p className="text-2xl font-medium text-custom-teal">{formattedDate}</p>
         <p className="font-light text-custom-teal">
-          <span>{mapDateData.get(formatDate(item.occuredAt))?.juz} juz, </span>
-          <span>{mapDateData.get(formatDate(item.occuredAt))?.ayah} ayah, </span>
-          <span>{mapDateData.get(formatDate(item.occuredAt))?.lines} lines</span>
+          <span>{mapDateData.get(formattedDate)?.juz} juz, </span>
+          <span>{mapDateData.get(formattedDate)?.ayah} ayah, </span>
+          <span>{mapDateData.get(formattedDate)?.lines} lines</span>
         </p>
         <hr className="mb-2 border-custom-teal" />
       </>

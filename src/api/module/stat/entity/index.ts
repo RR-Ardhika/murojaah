@@ -2,7 +2,7 @@ export type Stat = {
   id?: number;
   statType: number;
   totalLinesRead: number;
-  totalJuzFromLines: string;
+  totalJuzFromLines: number;
   totalMarkedJuzAsDone: number;
 };
 
