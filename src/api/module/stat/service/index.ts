@@ -21,7 +21,7 @@ export async function Index(): entity.Stat[] {
 export function GetHistoryDateStats(history: entityHistory.History): DateData {
   const lines: number = repo.CalculateTotalLinesFromHistory(history);
   return {
-    juz: repo.GetTotalJuzFromLines(lines),
+    juz: entityJuz.GetTotalJuzFromLines(lines),
     ayah: getTotalAyah(history),
     lines: lines,
   };
@@ -43,11 +43,11 @@ function getTotalAyah(history: entityHistory.History): number {
     case entityHistory.HistoryType.Surah:
       // @ts-expect-error expected undefined
       const surah: entitySurah.SurahType = entitySurah.GetSurahById(history.surah);
-      totalAyah = surah.totalAyah;
+      totalAyah = surah.totalAyah * history.repeat;
       break;
     case entityHistory.HistoryType.Ayah:
       // @ts-expect-error expected undefined
-      totalAyah = history.endAyah - history.startAyah + 1;
+      totalAyah = (history.endAyah - history.startAyah + 1) * history.repeat;
       break;
   }
 

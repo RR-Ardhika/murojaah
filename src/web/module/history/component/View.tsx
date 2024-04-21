@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { History } from '@/api/module/history/entity';
+import { GetTotalJuzFromLines } from '@/api/shared/entity/juz';
 import { DateData, GetHistoryDateStats } from '@/api/module/stat/service';
 import { useData } from '@/web/module/history/context/DataContext';
 import { useAlert } from '@/web/shared/context/AlertContext';
@@ -13,7 +14,6 @@ export const View = (): JSX.Element => {
   const { isAlertVisible } = useAlert();
   const { data, fetchData } = useData();
   const [mapDateData, setMapDateData] = useState<Map<string, DateData>>(new Map());
-  const [mapIsProcessed, setMapIsProcessed] = useState<Map<number, boolean>>(new Map());
   let currentDate: Date;
 
   useEffect(() => {
@@ -23,8 +23,8 @@ export const View = (): JSX.Element => {
 
   useEffect(() => {
     if (data) {
-      const newMapDateData: Map<string, DateData> = new Map(mapDateData);
-      const newMapIsProcessed: Map<number, boolean> = new Map(mapIsProcessed);
+      const newMapDateData: Map<string, DateData> = new Map(new Map());
+      const newMapIsProcessed: Map<number, boolean> = new Map(new Map());
 
       data.forEach((item: History) => {
         const formattedDate: string = formatDate(item.occuredAt);
@@ -43,16 +43,15 @@ export const View = (): JSX.Element => {
         if (isProcessed || !dateData) return;
 
         const stats: DateData = GetHistoryDateStats(item);
-        dateData.juz += stats.juz;
         dateData.ayah += stats.ayah;
         dateData.lines += stats.lines;
+        dateData.juz = GetTotalJuzFromLines(dateData.lines);
 
         newMapDateData.set(formattedDate, dateData);
         newMapIsProcessed.set(itemId, true);
       });
 
       setMapDateData(newMapDateData);
-      setMapIsProcessed(newMapIsProcessed);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);

@@ -20,7 +20,7 @@ function calculateAllTimeStat(histories: entityHistory.History[]): entity.Stat {
     id: Math.floor(Math.random() * 10),
     statType: Object.values(entity.StatType).indexOf(entity.StatType.All),
     totalLinesRead: totalLinesRead,
-    totalJuzFromLines: GetTotalJuzFromLines(totalLinesRead),
+    totalJuzFromLines: entityJuz.GetTotalJuzFromLines(totalLinesRead),
     totalMarkedJuzAsDone: 0, // TODO Implement this
   };
 }
@@ -39,7 +39,7 @@ function calculateDailyStat(histories: entityHistory.History[]): entity.Stat {
     id: Math.floor(Math.random() * 10),
     statType: Object.values(entity.StatType).indexOf(entity.StatType.Daily),
     totalLinesRead: totalLinesRead,
-    totalJuzFromLines: GetTotalJuzFromLines(totalLinesRead),
+    totalJuzFromLines: entityJuz.GetTotalJuzFromLines(totalLinesRead),
     totalMarkedJuzAsDone: 0, // TODO Implement this
   };
 }
@@ -101,9 +101,4 @@ function calculateTotalLinesForAyah(history: entityHistory.History): number {
   }
 
   return totalLines;
-}
-
-export function GetTotalJuzFromLines(n: number): number {
-  const juz: string = (n / 300).toFixed(3);
-  return juz.endsWith('.00') ? parseInt(juz) : parseFloat(juz);
 }
