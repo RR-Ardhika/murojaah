@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { History, HistoryType } from '@/api/module/history/entity';
+import { HistoryStat } from '@/api/module/stat/entity';
 import { Destroy } from '@/api/module/history/service';
-import { DateData, GetHistoryStats } from '@/api/module/stat/service';
+import { GetHistoryStat } from '@/api/module/stat/service';
 import { Show } from '@/api/module/approach/service';
 import { useData } from '@/web/module/history/context/DataContext';
 import { useAlert } from '@/web/shared/context/AlertContext';
@@ -13,7 +14,7 @@ export const Card = (item: History): JSX.Element => {
   // @ts-expect-error useAlert
   const { showAlert } = useAlert();
   const { fetchData } = useData();
-  const stats: DateData = GetHistoryStats(item);
+  const historyStat: HistoryStat = GetHistoryStat(item);
 
   const cardClassnames: Record<string, string> = {
     container: 'p-4 mb-5 bg-custom-teal text-white rounded-lg',
@@ -33,9 +34,9 @@ export const Card = (item: History): JSX.Element => {
         <p className={cardClassnames.title}>Juz {item.juz}</p>
         <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
         <p className={cardClassnames.data}>
-          <span>{stats.juz} juz, </span>
-          <span>{stats.ayah} ayah, </span>
-          <span>{stats.lines} lines</span>
+          <span>{historyStat.juz} juz, </span>
+          <span>{historyStat.ayah} ayah, </span>
+          <span>{historyStat.lines} lines</span>
         </p>
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
@@ -51,9 +52,9 @@ export const Card = (item: History): JSX.Element => {
         <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
         {item.markJuzDone && <p className={cardClassnames.data}>Juz was marked as done</p>}
         <p className={cardClassnames.data}>
-          <span>{stats.juz} juz, </span>
-          <span>{stats.ayah} ayah, </span>
-          <span>{stats.lines} lines</span>
+          <span>{historyStat.juz} juz, </span>
+          <span>{historyStat.ayah} ayah, </span>
+          <span>{historyStat.lines} lines</span>
         </p>
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
@@ -71,9 +72,9 @@ export const Card = (item: History): JSX.Element => {
         {item.markSurahDone && <p className={cardClassnames.data}>Surah was marked as done</p>}
         {item.markJuzDone && <p className={cardClassnames.data}>Juz was marked as done</p>}
         <p className={cardClassnames.data}>
-          <span>{stats.juz} juz, </span>
-          <span>{stats.ayah} ayah, </span>
-          <span>{stats.lines} lines</span>
+          <span>{historyStat.juz} juz, </span>
+          <span>{historyStat.ayah} ayah, </span>
+          <span>{historyStat.lines} lines</span>
         </p>
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>

@@ -5,12 +5,6 @@ import * as entityJuz from '@/api/shared/entity/juz';
 import * as repo from '@/api/module/stat/repository/indexeddb';
 import * as repoHistory from '@/api/module/history/repository/indexeddb';
 
-export type DateData = {
-  juz: number;
-  ayah: number;
-  lines: number;
-};
-
 // @ts-expect-error expected return value type
 export async function Index(): entity.Stat[] {
   // @ts-expect-error expected return value type
@@ -18,7 +12,7 @@ export async function Index(): entity.Stat[] {
   return repo.CalculateStats(histories);
 }
 
-export function GetHistoryStats(history: entityHistory.History): DateData {
+export function GetHistoryStat(history: entityHistory.History): entity.HistoryStat {
   const lines: number = repo.CalculateTotalLinesFromHistory(history);
   return {
     juz: entityJuz.GetTotalJuzFromLines(lines),

@@ -6,6 +6,12 @@ export type Stat = {
   totalMarkedJuzAsDone: number;
 };
 
+export type HistoryStat = {
+  juz: number;
+  ayah: number;
+  lines: number;
+};
+
 export enum StatType {
   All = 'All Times',
   Daily = 'Daily',
