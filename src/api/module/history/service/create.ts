@@ -40,20 +40,25 @@ function CreateBySurah(payload: Payload): Promise<unknown> {
       new Error('Error 422 Unprocessable Entity error validating surah payload')
     );
 
-  const history: History = {
-    // @ts-expect-error handled undefined value
-    historyType: payload.historyType,
-    surah: payload.surah,
-    surahName: payload.surahName,
-    markJuzDone: payload.markJuzDone,
-    // @ts-expect-error handled undefined value
-    approachId: payload.approachId,
-    // @ts-expect-error handled undefined value
-    repeat: payload.repeat,
-    occuredAt: DateTime.now().toJSDate(),
-  };
+  // @ts-expect-error handled undefined value
+  for (const s of payload.surah) {
+    const history: History = {
+      // @ts-expect-error handled undefined value
+      historyType: payload.historyType,
+      surah: s.value,
+      surahName: s.label,
+      markJuzDone: payload.markJuzDone,
+      // @ts-expect-error handled undefined value
+      approachId: payload.approachId,
+      // @ts-expect-error handled undefined value
+      repeat: payload.repeat,
+      occuredAt: DateTime.now().toJSDate(),
+    };
 
-  return Insert(history);
+    Insert(history);
+  }
+
+  return Promise.resolve();
 }
 
 function CreateByAyah(payload: Payload): Promise<unknown> {
@@ -65,6 +70,7 @@ function CreateByAyah(payload: Payload): Promise<unknown> {
   const history: History = {
     // @ts-expect-error handled undefined value
     historyType: payload.historyType,
+    // @ts-expect-error handled variant value
     surah: payload.surah,
     surahName: payload.surahName,
     startAyah: payload.startAyah,

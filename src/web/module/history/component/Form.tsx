@@ -108,6 +108,7 @@ export const Form = ({
             onChange={setSelectedSurah}
             options={SurahOptions()}
             isSearchable={true}
+            isMulti={true}
             styles={selectStyle}
           />
         </div>
@@ -339,10 +340,7 @@ export const Form = ({
     function buildSurahPayload(): Payload {
       return {
         historyType: HistoryType.Surah,
-        // @ts-expect-error handled undefined value
-        surah: selectedSurah.value,
-        // @ts-expect-error handled undefined value
-        surahName: selectedSurah.label,
+        surah: selectedSurah,
         markJuzDone: isJuzDone,
         approachId: selectedApproach.value,
         repeat: repeat,
