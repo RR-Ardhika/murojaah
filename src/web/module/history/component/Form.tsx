@@ -32,7 +32,7 @@ export const Form = ({
 
   const [selectedJuz, setSelectedJuz] = useState(undefined);
   const [selectedSurah, setSelectedSurah] = useState(undefined);
-  const [selectedApproach, setSelectedApproach] = useState(undefined);
+  const [selectedApproach, setSelectedApproach] = useState(ApproachOptions()[0]);
   const startRef: MutableRefObject<unknown> = useRef(null);
   const endRef: MutableRefObject<unknown> = useRef(null);
   const [repeat, setRepeat] = useState(1);
@@ -304,7 +304,7 @@ export const Form = ({
       setTimeout(() => {
         setSelectedJuz(undefined);
         setSelectedSurah(undefined);
-        setSelectedApproach(undefined);
+        setSelectedApproach(ApproachOptions()[0]);
         setRepeat(1);
         setIsSurahDone(false);
         setIsJuzDone(false);
@@ -331,7 +331,6 @@ export const Form = ({
         historyType: HistoryType.Juz,
         // @ts-expect-error handled undefined value
         juz: selectedJuz.value,
-        // @ts-expect-error handled undefined value
         approachId: selectedApproach.value,
         repeat: 1, // Hardcoded to 1 for juz
       };
@@ -345,7 +344,6 @@ export const Form = ({
         // @ts-expect-error handled undefined value
         surahName: selectedSurah.label,
         markJuzDone: isJuzDone,
-        // @ts-expect-error handled undefined value
         approachId: selectedApproach.value,
         repeat: repeat,
       };
@@ -364,7 +362,6 @@ export const Form = ({
         endAyah: parseInt(endRef.current.value),
         markSurahDone: isSurahDone,
         markJuzDone: isJuzDone,
-        // @ts-expect-error handled undefined value
         approachId: selectedApproach.value,
         repeat: repeat,
       };
@@ -374,14 +371,14 @@ export const Form = ({
     function isChanged(): boolean {
       switch (formType) {
         case 'Juz':
-          if (!selectedJuz && !selectedApproach) return false;
+          if (!selectedJuz) return false;
           break;
         case 'Surah':
-          if (!selectedSurah && !selectedApproach) return false;
+          if (!selectedSurah) return false;
           break;
         case 'Ayah':
           // TD-3 Implement proper number input for ayah
-          if (!selectedSurah && !selectedApproach) return false;
+          if (!selectedSurah) return false;
           break;
       }
       return true;
@@ -391,14 +388,14 @@ export const Form = ({
     function isSaveable(): boolean {
       switch (formType) {
         case 'Juz':
-          if (!selectedJuz || !selectedApproach) return false;
+          if (!selectedJuz) return false;
           break;
         case 'Surah':
-          if (!selectedSurah || !selectedApproach) return false;
+          if (!selectedSurah) return false;
           break;
         case 'Ayah':
           // TD-3 Implement proper number input for ayah
-          if (!selectedSurah || !selectedApproach) return false;
+          if (!selectedSurah) return false;
           break;
       }
       return true;

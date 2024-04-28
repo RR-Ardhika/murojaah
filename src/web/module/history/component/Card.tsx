@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { History, HistoryType } from '@/api/module/history/entity';
+import { HistoryStat } from '@/api/module/stat/entity';
 import { Destroy } from '@/api/module/history/service';
+import { GetHistoryStat } from '@/api/module/stat/service';
 import { Show } from '@/api/module/approach/service';
 import { useData } from '@/web/module/history/context/DataContext';
 import { useAlert } from '@/web/shared/context/AlertContext';
@@ -12,6 +14,7 @@ export const Card = (item: History): JSX.Element => {
   // @ts-expect-error useAlert
   const { showAlert } = useAlert();
   const { fetchData } = useData();
+  const historyStat: HistoryStat = GetHistoryStat(item);
 
   const cardClassnames: Record<string, string> = {
     container: 'p-4 mb-5 bg-custom-teal text-white rounded-lg',
@@ -20,12 +23,21 @@ export const Card = (item: History): JSX.Element => {
     date: 'font-extralight',
   };
 
+  function getRepeatString(): string {
+    if (item.repeat <= 1) return '';
+    return `${item.repeat}x`;
+  }
+
   const JuzCard = (): JSX.Element => {
     return (
       <>
         <p className={cardClassnames.title}>Juz {item.juz}</p>
         <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
-        {item.repeat > 1 && <p className={cardClassnames.data}>Repeated {item.repeat} times</p>}
+        <p className={cardClassnames.data}>
+          <span>{historyStat.juz} juz, </span>
+          <span>{historyStat.ayah} ayah, </span>
+          <span>{historyStat.lines} lines</span>
+        </p>
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
     );
@@ -34,10 +46,16 @@ export const Card = (item: History): JSX.Element => {
   const SurahCard = (): JSX.Element => {
     return (
       <>
-        <p className={cardClassnames.title}>Surah {item.surahName}</p>
+        <p className={cardClassnames.title}>
+          {getRepeatString()} Surah {item.surahName}
+        </p>
         <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
-        {item.repeat > 1 && <p className={cardClassnames.data}>Repeated {item.repeat} times</p>}
         {item.markJuzDone && <p className={cardClassnames.data}>Juz was marked as done</p>}
+        <p className={cardClassnames.data}>
+          <span>{historyStat.juz} juz, </span>
+          <span>{historyStat.ayah} ayah, </span>
+          <span>{historyStat.lines} lines</span>
+        </p>
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
     );
@@ -47,13 +65,17 @@ export const Card = (item: History): JSX.Element => {
     return (
       <>
         <p className={cardClassnames.title}>
-          Ayah {item.startAyah} to {item.endAyah}
+          {getRepeatString()} Ayah {item.startAyah} to {item.endAyah}
         </p>
         <p className={cardClassnames.data}>Surah {item.surahName}</p>
         <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
-        {item.repeat > 1 && <p className={cardClassnames.data}>Repeated {item.repeat} times</p>}
         {item.markSurahDone && <p className={cardClassnames.data}>Surah was marked as done</p>}
         {item.markJuzDone && <p className={cardClassnames.data}>Juz was marked as done</p>}
+        <p className={cardClassnames.data}>
+          <span>{historyStat.juz} juz, </span>
+          <span>{historyStat.ayah} ayah, </span>
+          <span>{historyStat.lines} lines</span>
+        </p>
         <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
     );

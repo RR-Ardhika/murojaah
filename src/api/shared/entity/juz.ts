@@ -54,3 +54,8 @@ export function JuzOptions(): Option[] {
 
   return options;
 }
+
+export function GetTotalJuzFromLines(n: number): number {
+  const juz: string = (n / 300).toFixed(3);
+  return juz.endsWith('.00') ? parseInt(juz) : parseFloat(juz);
+}

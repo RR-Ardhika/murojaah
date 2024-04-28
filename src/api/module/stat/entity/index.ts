@@ -2,8 +2,14 @@ export type Stat = {
   id?: number;
   statType: number;
   totalLinesRead: number;
-  totalJuzFromLines: string;
+  totalJuzFromLines: number;
   totalMarkedJuzAsDone: number;
+};
+
+export type HistoryStat = {
+  juz: number;
+  ayah: number;
+  lines: number;
 };
 
 export enum StatType {
