@@ -352,7 +352,7 @@ export const Form = ({
     function buildSurahPayload(): Payload {
       return {
         historyType: HistoryType.Surah,
-        surah: selectedSurah,
+        surahOptions: selectedSurah,
         markJuzDone: isJuzDone,
         approachId: selectedApproach.value,
         repeat: repeat,

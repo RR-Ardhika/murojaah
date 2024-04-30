@@ -18,7 +18,8 @@ export type History = {
 export type Payload = {
   historyType: number | undefined;
   juz?: number | undefined;
-  surah?: Option[] | number | undefined;
+  surah?: number | undefined;
+  surahOptions?: Option[] | undefined;
   surahName?: string | undefined;
   startAyah?: number | undefined;
   endAyah?: number | undefined;

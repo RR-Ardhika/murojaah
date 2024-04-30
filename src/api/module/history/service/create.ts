@@ -41,12 +41,13 @@ function CreateBySurah(payload: Payload): Promise<unknown> {
     );
 
   // @ts-expect-error handled undefined value
-  for (const s of payload.surah) {
+  for (const option of payload.surahOptions) {
     const history: History = {
       // @ts-expect-error handled undefined value
       historyType: payload.historyType,
-      surah: s.value,
-      surahName: s.label,
+      surah: option.value,
+      // @ts-expect-error handled undefined value
+      surahName: option.label,
       markJuzDone: payload.markJuzDone,
       // @ts-expect-error handled undefined value
       approachId: payload.approachId,
@@ -70,7 +71,6 @@ function CreateByAyah(payload: Payload): Promise<unknown> {
   const history: History = {
     // @ts-expect-error handled undefined value
     historyType: payload.historyType,
-    // @ts-expect-error handled variant value
     surah: payload.surah,
     surahName: payload.surahName,
     startAyah: payload.startAyah,
