@@ -41,20 +41,21 @@ function CreateBySurah(payload: Payload): Promise<unknown> {
     );
 
   // @ts-expect-error handled undefined value
-  for (const option of payload.surahOptions) {
+  for (const [i, opt] of payload.surahOptions.entries()) {
     const history: History = {
       // @ts-expect-error handled undefined value
       historyType: payload.historyType,
-      surah: option.value,
-      // @ts-expect-error handled undefined value
-      surahName: option.label,
-      markJuzDone: payload.markJuzDone,
+      surah: opt.value,
+      surahName: opt.label,
       // @ts-expect-error handled undefined value
       approachId: payload.approachId,
       // @ts-expect-error handled undefined value
       repeat: payload.repeat,
       occuredAt: DateTime.now().toJSDate(),
     };
+
+    // @ts-expect-error handled undefined value
+    if (i === payload.surahOptions.length - 1) history.markJuzDone = payload.markJuzDone;
 
     Insert(history);
   }
