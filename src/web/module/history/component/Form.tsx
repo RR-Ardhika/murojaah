@@ -35,6 +35,7 @@ export const Form = ({
   const [selectedApproach, setSelectedApproach] = useState(ApproachOptions()[0]);
   const startRef: MutableRefObject<unknown> = useRef(null);
   const endRef: MutableRefObject<unknown> = useRef(null);
+  const selectSurahRef: MutableRefObject<unknown> = useRef(null);
   const [repeat, setRepeat] = useState(1);
   const [isSurahDone, setIsSurahDone] = useState(false);
   const [isJuzDone, setIsJuzDone] = useState(false);
@@ -98,17 +99,29 @@ export const Form = ({
       }),
     };
 
+    function handleSurahMenuClose(): void {
+      // @ts-expect-error known type
+      const value: Option[] = selectSurahRef.current.getValue();
+      // @ts-expect-error known type
+      if (value.length > 0) setSelectedSurah(value);
+    }
+
     return (
       <div className="flex flex-col gap-2 mt-2">
         <label className="font-light">Select Surah</label>
         <div className="border border-gray-300">
           <Select
-            defaultValue={selectedSurah}
-            // @ts-expect-error react-select props
-            onChange={setSelectedSurah}
+            styles={selectStyle}
+            // @ts-expect-error known type
+            ref={selectSurahRef}
+            value={selectedSurah}
             options={SurahOptions()}
             isSearchable={true}
-            styles={selectStyle}
+            isMulti={true}
+            isClearable={false}
+            closeMenuOnSelect={false}
+            blurInputOnSelect={false}
+            onMenuClose={handleSurahMenuClose}
           />
         </div>
 
@@ -339,10 +352,7 @@ export const Form = ({
     function buildSurahPayload(): Payload {
       return {
         historyType: HistoryType.Surah,
-        // @ts-expect-error handled undefined value
-        surah: selectedSurah.value,
-        // @ts-expect-error handled undefined value
-        surahName: selectedSurah.label,
+        surahOptions: selectedSurah,
         markJuzDone: isJuzDone,
         approachId: selectedApproach.value,
         repeat: repeat,
