@@ -1,5 +1,5 @@
 import { Dispatch, Fragment, MutableRefObject, useRef, useState, SetStateAction } from 'react';
-import { JuzOptions, SurahOptions } from '@/api/shared/entity';
+import { Option, JuzOptions, SurahOptions } from '@/api/shared/entity';
 import { HistoryType, Payload } from '@/api/module/history/entity';
 import { ApproachOptions } from '@/api/module/approach/entity';
 import { Create } from '@/api/module/history/service';
@@ -31,14 +31,19 @@ export const Form = ({
   const [disableSaveButton, setDisableSaveButton] = useState(false);
 
   const [selectedJuz, setSelectedJuz] = useState(undefined);
-  const [selectedSurah, setSelectedSurah] = useState(undefined);
   const [selectedApproach, setSelectedApproach] = useState(ApproachOptions()[0]);
-  const startRef: MutableRefObject<unknown> = useRef(null);
-  const endRef: MutableRefObject<unknown> = useRef(null);
-  const selectSurahRef: MutableRefObject<unknown> = useRef(null);
   const [repeat, setRepeat] = useState(1);
   const [isSurahDone, setIsSurahDone] = useState(false);
   const [isJuzDone, setIsJuzDone] = useState(false);
+
+  const startRef: MutableRefObject<unknown> = useRef(null);
+  const endRef: MutableRefObject<unknown> = useRef(null);
+  const selectSurahRef: MutableRefObject<unknown> = useRef(null);
+  const selectedSurah: MutableRefObject<unknown> = useRef(undefined);
+
+  function setSelectedSurah(value: Option): void {
+    selectedSurah.current = value;
+  }
 
   const Title = (): JSX.Element => {
     return (
@@ -99,13 +104,6 @@ export const Form = ({
       }),
     };
 
-    function handleSurahMenuClose(): void {
-      // @ts-expect-error known type
-      const value: Option[] = selectSurahRef.current.getValue();
-      // @ts-expect-error known type
-      if (value.length > 0) setSelectedSurah(value);
-    }
-
     return (
       <div className="flex flex-col gap-2 mt-2">
         <label className="font-light">Select Surah</label>
@@ -114,14 +112,15 @@ export const Form = ({
             styles={selectStyle}
             // @ts-expect-error known type
             ref={selectSurahRef}
-            value={selectedSurah}
+            value={selectedSurah.current}
             options={SurahOptions()}
             isSearchable={true}
             isMulti={true}
             isClearable={false}
             closeMenuOnSelect={false}
             blurInputOnSelect={false}
-            onMenuClose={handleSurahMenuClose}
+            // @ts-expect-error known type
+            onChange={setSelectedSurah}
           />
         </div>
 
@@ -352,7 +351,7 @@ export const Form = ({
     function buildSurahPayload(): Payload {
       return {
         historyType: HistoryType.Surah,
-        surahOptions: selectedSurah,
+        surahOptions: selectedSurah.current,
         markJuzDone: isJuzDone,
         approachId: selectedApproach.value,
         repeat: repeat,
