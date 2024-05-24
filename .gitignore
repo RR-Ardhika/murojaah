@@ -17,6 +17,9 @@
 # production
 /build
 
+# poc
+/src/app/poc/**
+
 # misc
 .DS_Store
 *.pem
