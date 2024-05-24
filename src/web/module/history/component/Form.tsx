@@ -1,4 +1,4 @@
-import { Dispatch, Fragment, MutableRefObject, useRef, useState, SetStateAction } from 'react';
+import { Dispatch, Fragment, useState, SetStateAction } from 'react';
 import { JuzOptions, SurahOptions } from '@/api/shared/entity';
 import { HistoryType, Payload } from '@/api/module/history/entity';
 import { ApproachOptions } from '@/api/module/approach/entity';
@@ -33,13 +33,11 @@ export const Form = ({
   const [selectedJuz, setSelectedJuz] = useState(undefined);
   const [selectedSurah, setSelectedSurah] = useState(undefined);
   const [selectedApproach, setSelectedApproach] = useState(ApproachOptions()[0]);
+  const [startAyah, setStartAyah] = useState(undefined);
+  const [endAyah, setEndAyah] = useState(undefined);
   const [repeat, setRepeat] = useState(1);
   const [isSurahDone, setIsSurahDone] = useState(false);
   const [isJuzDone, setIsJuzDone] = useState(false);
-
-  const startRef: MutableRefObject<unknown> = useRef(null);
-  const endRef: MutableRefObject<unknown> = useRef(null);
-  const selectSurahRef: MutableRefObject<unknown> = useRef(null);
 
   // @ts-expect-error react-select component
   const selectStyle: StylesConfig = {
@@ -96,8 +94,6 @@ export const Form = ({
         <div className="border border-gray-300">
           <Select
             styles={selectStyle}
-            // @ts-expect-error known type
-            ref={selectSurahRef}
             value={selectedSurah}
             options={SurahOptions()}
             isSearchable={true}
@@ -173,12 +169,12 @@ export const Form = ({
         <div className="flex gap-5">
           <div className="flex flex-col gap-2">
             <label className="font-light">Start Ayah</label>
-            <NumberInput inputRef={startRef} />
+            {numberInput(startAyah, setStartAyah)}
           </div>
 
           <div className="flex flex-col gap-2">
             <label className="font-light">End Ayah</label>
-            <NumberInput inputRef={endRef} />
+            {numberInput(endAyah, setEndAyah)}
           </div>
         </div>
 
@@ -216,18 +212,24 @@ export const Form = ({
 
   // @ts-expect-error known types
   // eslint-disable-next-line @typescript-eslint/typedef
-  const NumberInput = ({ inputRef }): JSX.Element => {
+  function numberInput(value, setValue): JSX.Element {
     // TD-3 Implement proper number input for ayah
+
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
+      setValue(e.target.value);
+    }
+
     return (
       <div>
         <input
           className="w-full px-2 py-1 border border-gray-300 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           type="number"
-          ref={inputRef}
+          defaultValue={value}
+          onChange={handleChange}
         />
       </div>
     );
-  };
+  }
 
   // @ts-expect-error known types
   // eslint-disable-next-line @typescript-eslint/typedef
@@ -342,9 +344,9 @@ export const Form = ({
         // @ts-expect-error handled undefined value
         surahName: selectedSurah.label,
         // @ts-expect-error handled undefined value
-        startAyah: parseInt(startRef.current.value),
+        startAyah: parseInt(startAyah),
         // @ts-expect-error handled undefined value
-        endAyah: parseInt(endRef.current.value),
+        endAyah: parseInt(endAyah),
         markSurahDone: isSurahDone,
         markJuzDone: isJuzDone,
         approachId: selectedApproach.value,
