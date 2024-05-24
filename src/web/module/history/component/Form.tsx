@@ -169,12 +169,12 @@ export const Form = ({
         <div className="flex gap-5">
           <div className="flex flex-col gap-2">
             <label className="font-light">Start Ayah</label>
-            {numberInput(startAyah, setStartAyah)}
+            <NumberInput value={startAyah} setValue={setStartAyah} />
           </div>
 
           <div className="flex flex-col gap-2">
             <label className="font-light">End Ayah</label>
-            {numberInput(endAyah, setEndAyah)}
+            <NumberInput value={endAyah} setValue={setEndAyah} />
           </div>
         </div>
 
@@ -212,24 +212,19 @@ export const Form = ({
 
   // @ts-expect-error known types
   // eslint-disable-next-line @typescript-eslint/typedef
-  function numberInput(value, setValue): JSX.Element {
+  const NumberInput = ({ value, setValue }): JSX.Element => {
     // TD-3 Implement proper number input for ayah
-
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
-      setValue(e.target.value);
-    }
-
     return (
       <div>
         <input
           className="w-full px-2 py-1 border border-gray-300 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           type="number"
-          defaultValue={value}
-          onChange={handleChange}
+          value={value}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
         />
       </div>
     );
-  }
+  };
 
   // @ts-expect-error known types
   // eslint-disable-next-line @typescript-eslint/typedef
