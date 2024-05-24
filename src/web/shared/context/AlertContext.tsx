@@ -4,7 +4,15 @@ import { AlertColor, AlertText } from '@/web/shared/component/Alert';
 // @ts-expect-error AlertContextValues
 const AlertContext: Context<AlertContextValues> = createContext<AlertContextValues>(undefined);
 
-export const AlertProvider = ({ children }: { children: ReactNode }): JSX.Element => {
+// @ts-expect-error AlertContextValues
+export const useAlert = (): Context<AlertContextValues> => {
+  // @ts-expect-error AlertContextValues
+  const context: Context<AlertContextValues> = useContext(AlertContext);
+  if (!context) throw new Error('useAlert must be used within AlertProvider');
+  return context;
+};
+
+const AlertProvider = ({ children }: { children: ReactNode }): JSX.Element => {
   const [alertColor, setAlertColor] = useState();
   const [alertText, setAlertText] = useState('');
   const [isAlertVisible, setIsAlertVisible] = useState(false);
@@ -30,10 +38,4 @@ export const AlertProvider = ({ children }: { children: ReactNode }): JSX.Elemen
   );
 };
 
-// @ts-expect-error AlertContextValues
-export const useAlert = (): Context<AlertContextValues> => {
-  // @ts-expect-error AlertContextValues
-  const context: Context<AlertContextValues> = useContext(AlertContext);
-  if (!context) throw new Error('useAlert must be used within AlertProvider');
-  return context;
-};
+export default AlertProvider;

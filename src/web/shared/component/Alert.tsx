@@ -13,7 +13,7 @@ export enum AlertText {
   FailedDeletedHistory = 'Failed deleted murojaah',
 }
 
-export const Alert = (): JSX.Element => {
+const Alert = (): JSX.Element => {
   // @ts-expect-error useAlert
   const { alertColor, alertText, isAlertVisible } = useAlert();
 
@@ -39,3 +39,5 @@ export const Alert = (): JSX.Element => {
     </div>
   );
 };
+
+export default Alert;

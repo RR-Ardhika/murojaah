@@ -1,7 +1,7 @@
 import { Stat } from '@/api/module/stat/entity';
 import { GetStatType } from '@/api/module/stat/service';
 
-export const Card = (item: Stat): JSX.Element => {
+const Card = (item: Stat): JSX.Element => {
   const classNames: Record<string, string> = {
     title: 'text-xl font-black',
     dataContainer: 'grid grid-cols-12 gap-x-2 items-center',
@@ -29,3 +29,5 @@ export const Card = (item: Stat): JSX.Element => {
     </div>
   );
 };
+
+export default Card;
