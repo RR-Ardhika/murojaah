@@ -17,7 +17,7 @@ interface Props {
   setIsSubButtonsVisible: Dispatch<SetStateAction<boolean>>;
 }
 
-export const Form = ({
+const Form = ({
   formType,
   isFormVisible,
   setIsFormVisible,
@@ -466,3 +466,5 @@ export const Form = ({
     </Transition>
   );
 };
+
+export default Form;

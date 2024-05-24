@@ -5,7 +5,15 @@ import { Index } from '@/api/module/history/service';
 // @ts-expect-error DataContextValues
 const DataContext: Context<DataContextValues> = createContext<DataContextValues>(undefined);
 
-export const DataProvider = ({ children }: { children: ReactNode }): JSX.Element => {
+// @ts-expect-error DataContextValues
+export const useData = (): Context<DataContextValues> => {
+  // @ts-expect-error DataContextValues
+  const context: Context<DataContextValues> = useContext(DataContext);
+  if (!context) throw new Error('useData must be used within DataProvider');
+  return context;
+};
+
+const DataProvider = ({ children }: { children: ReactNode }): JSX.Element => {
   const [data, setData] = useState(undefined);
 
   function fetchData(): void {
@@ -16,10 +24,4 @@ export const DataProvider = ({ children }: { children: ReactNode }): JSX.Element
   return <DataContext.Provider value={{ data, fetchData }}>{children}</DataContext.Provider>;
 };
 
-// @ts-expect-error DataContextValues
-export const useData = (): Context<DataContextValues> => {
-  // @ts-expect-error DataContextValues
-  const context: Context<DataContextValues> = useContext(DataContext);
-  if (!context) throw new Error('useData must be used within DataProvider');
-  return context;
-};
+export default DataProvider
