@@ -5,8 +5,8 @@ import { History } from '@/api/module/history/entity';
 const idbCon: Connection = initJsStore();
 
 export function FindAll(): Promise<unknown> {
-  const pageSize = 5;
-  const pageNumber = 1;
+  const pageSize: number = 5;
+  const pageNumber: number = 1;
 
   return idbCon.select<History>({
     from: 'histories',
