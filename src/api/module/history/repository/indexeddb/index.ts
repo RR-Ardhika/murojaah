@@ -5,7 +5,15 @@ import { History } from '@/api/module/history/entity';
 const idbCon: Connection = initJsStore();
 
 export function FindAll(): Promise<unknown> {
-  return idbCon.select<History>({ from: 'histories', order: { by: 'id', type: 'desc' } });
+  const pageSize = 5;
+  const pageNumber = 1;
+
+  return idbCon.select<History>({
+    from: 'histories',
+    limit: pageSize,
+    skip: (pageNumber - 1) * pageSize,
+    order: { by: 'id', type: 'desc' },
+  });
 }
 
 export function Insert(item: History): Promise<unknown> {
