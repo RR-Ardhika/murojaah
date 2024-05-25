@@ -169,12 +169,12 @@ const Form = ({
         <div className="flex gap-5">
           <div className="flex flex-col gap-2">
             <label className="font-light">Start Ayah</label>
-            <NumberInput value={startAyah} setValue={setStartAyah} />
+            {numberInput(startAyah, setStartAyah)}
           </div>
 
           <div className="flex flex-col gap-2">
             <label className="font-light">End Ayah</label>
-            <NumberInput value={endAyah} setValue={setEndAyah} />
+            {numberInput(endAyah, setEndAyah)}
           </div>
         </div>
 
@@ -212,7 +212,7 @@ const Form = ({
 
   // @ts-expect-error known types
   // eslint-disable-next-line @typescript-eslint/typedef
-  const NumberInput = ({ value, setValue }): JSX.Element => {
+  function numberInput(value, setValue): JSX.Element {
     // TD-3 Implement proper number input for ayah
     return (
       <div>
@@ -224,7 +224,7 @@ const Form = ({
         />
       </div>
     );
-  };
+  }
 
   // @ts-expect-error known types
   // eslint-disable-next-line @typescript-eslint/typedef
