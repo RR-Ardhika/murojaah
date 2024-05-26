@@ -1,5 +1,5 @@
 export type Counter = {
   id?: number;
   name: string;
-  lastRead: string;
+  lastRead: Date;
 };

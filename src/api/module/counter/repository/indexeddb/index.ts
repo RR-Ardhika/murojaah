@@ -11,13 +11,12 @@ export function CalculateCounters(histories: entityHistory.History[]): entity.Co
     // @ts-expect-error known type
     const surah: entitySurah.SurahType = entitySurah.GetSurahById(history.surah);
 
-    const counter = {
+    const counter: entity.Counter = {
       id: Math.floor(Math.random() * 10),
       name: surah.name,
       lastRead: history.occuredAt,
     };
 
-    // @ts-expect-error known type
     counters.push(counter);
   }
 
