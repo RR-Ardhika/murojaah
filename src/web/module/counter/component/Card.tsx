@@ -1,5 +1,5 @@
-// import { Counter } from '@/api/module/counter/entity';
-// import { GetCounterType } from '@/api/module/counter/service';
+import { Counter } from '@/api/module/counter/entity';
+import { formatDate } from '@/web/shared/util/datetime';
 
 const Card = (item: Counter): JSX.Element => {
   const cardClassnames: Record<string, string> = {
@@ -11,7 +11,7 @@ const Card = (item: Counter): JSX.Element => {
   return (
     <div className={cardClassnames.container}>
       <p className={cardClassnames.data}>{item.name}</p>
-      <p className={cardClassnames.date}>Sun, May 26 '24</p>
+      <p className={cardClassnames.date}>{formatDate(item.lastRead)}</p>
     </div>
   );
 };
