@@ -13,9 +13,11 @@ const View = (): JSX.Element => {
 
   return (
     <div className="gap-[20px] mt-[72px] pt-4 px-4">
-      <div className="flex flex-col gap-4 p-4 bg-custom-teal text-white rounded-lg">
-        {data ? data.map((item: Stat) => <Card key={item.id} {...item} />) : <></>}
-      </div>
+      {data && (
+        <div className="flex flex-col gap-4 p-4 bg-custom-teal text-white rounded-lg">
+          {data ? data.map((item: Stat) => <Card key={item.id} {...item} />) : <></>}
+        </div>
+      )}
     </div>
   );
 };

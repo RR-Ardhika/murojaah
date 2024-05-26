@@ -13,8 +13,14 @@ const View = (): JSX.Element => {
 
   return (
     <div className="gap-[20px] mt-[72px] pt-4 px-4">
-      <p className="mb-2 text-2xl font-medium text-custom-teal">Last Read</p>
-      {data ? data.map((item: Counter) => <Card key={item.id} {...item} />) : <></>}
+      {data && (
+        <>
+          <p className="mb-2 text-2xl font-medium text-custom-teal">Last Read</p>
+          {data.map((item: Counter) => (
+            <Card key={item.id} {...item} />
+          ))}
+        </>
+      )}
     </div>
   );
 };
