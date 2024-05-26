@@ -1,4 +1,5 @@
-import { DateTime } from 'luxon';
+import { DateTime, Duration } from 'luxon';
+import humanizeDuration from 'humanize-duration';
 
 export function formatDatetime(date: Date): string {
   const parsedTime: DateTime = DateTime.fromJSDate(date);
@@ -14,4 +15,43 @@ export function formatDate(date: Date): string {
   const front: string = parsedTime.toFormat('EEE, MMM dd ');
   const back: string = parsedTime.toFormat('yy');
   return front + "'" + back;
+}
+
+export function getDurationFromNow(date: Date): string {
+  const now: DateTime = DateTime.now();
+  const parsedDate: DateTime = DateTime.fromJSDate(date);
+  return humanizeDurationShort(now.diff(parsedDate));
+}
+
+function humanizeDurationShort(duration: Duration): string {
+  // eslint-disable-next-line @typescript-eslint/typedef
+  const shortEnglishHumanizer = humanizeDuration.humanizer({
+    language: 'shortEn',
+    languages: {
+      shortEn: {
+        y: () => 'y',
+        mo: () => 'mo',
+        w: () => 'w',
+        d: () => 'd',
+        h: () => 'h',
+        m: () => 'm',
+        s: () => 's',
+        ms: () => 'ms',
+      },
+    },
+    unitMeasures: {
+      y: 31557600000,
+      mo: 30 * 86400000,
+      w: 604800000,
+      d: 86400000,
+      h: 3600000,
+      m: 60000,
+      s: 1000,
+      ms: 1,
+    },
+    largest: 1,
+  });
+
+  // @ts-expect-error known type
+  return shortEnglishHumanizer(duration, { round: true, spacer: '', delimiter: ' ' });
 }
