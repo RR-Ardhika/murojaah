@@ -21,7 +21,7 @@ export function CalculateCounters(histories: entityHistory.History[]): entity.Co
     if (!mapCounter.get(surah.id)) mapCounter.set(surah.id, counter);
   }
 
-  const sortedKeys: number[] = Array.from(mapCounter.keys()).sort();
+  const sortedKeys: number[] = Array.from(mapCounter.keys()).sort((a, b) => a - b);
   // @ts-expect-error known type
   for (const key of sortedKeys) counters.push(mapCounter.get(key));
 
