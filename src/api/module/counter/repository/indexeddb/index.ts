@@ -14,6 +14,7 @@ export function CalculateCounters(histories: entityHistory.History[]): entity.Co
 
     const counter: entity.Counter = {
       id: surah.id,
+      juz: surah.juz[0],
       name: surah.name,
       lastRead: history.occuredAt,
     };

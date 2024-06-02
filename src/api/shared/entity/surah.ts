@@ -9,7 +9,8 @@ export type SurahJuz = {
 export type SurahType = {
   id: number;
   name: string;
-  juz: number[] | SurahJuz[];
+  juz: number[];
+  juzDetail?: SurahJuz[];
   totalLines: number;
   totalAyah: number;
 };
@@ -69,7 +70,8 @@ const Surah: SurahType[] = [
   {
     id: 51,
     name: '51 Adz-Dzariyat',
-    juz: [
+    juz: [26, 27],
+    juzDetail: [
       { id: 26, startAyah: 1, endAyah: 30 },
       { id: 27, startAyah: 31, endAyah: 60 },
     ],
