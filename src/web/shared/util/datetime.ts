@@ -17,7 +17,14 @@ export function formatDate(date: Date): string {
   return front + "'" + back;
 }
 
-export function getDurationFromNow(date: Date): string {
+export function getDurationFromNow(date: Date): number {
+  const now: DateTime = DateTime.now();
+  const parsedDate: DateTime = DateTime.fromJSDate(date);
+  const duration: Duration = now.diff(parsedDate);
+  return Math.round(duration.as('days'));
+}
+
+export function formatDurationFromNow(date: Date): string {
   const now: DateTime = DateTime.now();
   const parsedDate: DateTime = DateTime.fromJSDate(date);
   return humanizeDurationShort(now.diff(parsedDate));
