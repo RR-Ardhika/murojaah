@@ -15,9 +15,9 @@ const Card = (item: Counter): JSX.Element => {
       case duration <= 7:
         return 'bg-custom-teal';
       case duration <= 30:
-        return 'bg-yellow-400';
+        return 'bg-amber-500';
       default:
-        return 'bg-red-500';
+        return 'bg-red-700';
     }
   }
 
