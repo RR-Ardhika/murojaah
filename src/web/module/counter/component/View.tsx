@@ -24,11 +24,6 @@ const View = (): JSX.Element => {
 
   return (
     <div className="gap-[20px] mt-[72px] pt-4 px-4">
-      {data && (
-        <>
-          <p className="mb-2 text-2xl font-medium text-custom-teal">Last Read</p>
-        </>
-      )}
       {data &&
         data.map((item: Counter) => {
           return (
