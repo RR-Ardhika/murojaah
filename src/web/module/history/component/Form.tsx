@@ -1,4 +1,4 @@
-import { Dispatch, Fragment, useState, SetStateAction } from 'react';
+import { Dispatch, Fragment, useEffect, useState, SetStateAction } from 'react';
 import { JuzOptions, SurahOptions } from '@/api/shared/entity';
 import { HistoryType, Payload } from '@/api/module/history/entity';
 import { ApproachOptions } from '@/api/module/approach/entity';
@@ -40,7 +40,7 @@ const Form = ({
   const [repeat, setRepeat] = useState(1);
   const [isSurahDone, setIsSurahDone] = useState(false);
   const [isJuzDone, setIsJuzDone] = useState(false);
-  const [occuredAt, setOccuredAt] = useState(undefined);
+  const [occuredAt, setOccuredAt] = useState('');
 
   // @ts-expect-error react-select component
   const selectStyle: StylesConfig = {
@@ -51,6 +51,10 @@ const Form = ({
       boxShadow: 'none',
     }),
   };
+
+  useEffect(() => {
+    setOccuredAt(DateTime.now().toFormat(formFormatDatetime));
+  }, [isFormVisible]);
 
   const Title = (): JSX.Element => {
     return (
@@ -85,6 +89,11 @@ const Form = ({
             isSearchable={false}
             styles={selectStyle}
           />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="font-light">Occured At</label>
+          {occuredAtInput(occuredAt, setOccuredAt)}
         </div>
       </div>
     );
@@ -137,6 +146,11 @@ const Form = ({
             checked={isJuzDone}
             onChange={() => setIsJuzDone(!isJuzDone)}
           />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="font-light">Occured At</label>
+          {occuredAtInput(occuredAt, setOccuredAt)}
         </div>
       </div>
     );
@@ -237,7 +251,6 @@ const Form = ({
   // @ts-expect-error known types
   // eslint-disable-next-line @typescript-eslint/typedef
   function occuredAtInput(value, setValue): JSX.Element {
-    if (value === undefined) setValue(DateTime.now().toFormat(formFormatDatetime));
     return (
       <div>
         <input
