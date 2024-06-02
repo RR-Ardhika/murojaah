@@ -6,7 +6,7 @@ const idbCon: Connection = initJsStore();
 
 export function FindAll(): Promise<unknown> {
   // TD-4 Implement order by date
-  return idbCon.select<History>({ from: 'histories', order: { by: 'id', type: 'desc' } });
+  return idbCon.select<History>({ from: 'histories', order: { by: 'occuredAt', type: 'desc' } });
 }
 
 export function Insert(item: History): Promise<unknown> {
