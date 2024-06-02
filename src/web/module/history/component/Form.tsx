@@ -5,8 +5,10 @@ import { ApproachOptions } from '@/api/module/approach/entity';
 import { Create } from '@/api/module/history/service';
 import { useData } from '@/web/module/history/context/DataContext';
 import { useAlert } from '@/web/shared/context/AlertContext';
+import { formFormatDatetime } from '@/web/shared/util/datetime';
 import { AlertColor, AlertText } from '@/web/shared/component/Alert';
 import { Transition, Dialog } from '@headlessui/react';
+import { DateTime } from 'luxon';
 import { clsx } from 'clsx';
 import Select from 'react-select';
 
@@ -38,6 +40,7 @@ const Form = ({
   const [repeat, setRepeat] = useState(1);
   const [isSurahDone, setIsSurahDone] = useState(false);
   const [isJuzDone, setIsJuzDone] = useState(false);
+  const [occuredAt, setOccuredAt] = useState(undefined);
 
   // @ts-expect-error react-select component
   const selectStyle: StylesConfig = {
@@ -206,6 +209,11 @@ const Form = ({
             onChange={() => setIsJuzDone(!isJuzDone)}
           />
         </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="font-light">Occured At</label>
+          {occuredAtInput(occuredAt, setOccuredAt)}
+        </div>
       </div>
     );
   }
@@ -219,6 +227,22 @@ const Form = ({
         <input
           className="w-full px-2 py-1 border border-gray-300 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           type="number"
+          value={value}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
+        />
+      </div>
+    );
+  }
+
+  // @ts-expect-error known types
+  // eslint-disable-next-line @typescript-eslint/typedef
+  function occuredAtInput(value, setValue): JSX.Element {
+    if (value === undefined) setValue(DateTime.now().toFormat(formFormatDatetime));
+    return (
+      <div>
+        <input
+          className="w-full px-2 py-1 border border-gray-300 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          type="text"
           value={value}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
         />
