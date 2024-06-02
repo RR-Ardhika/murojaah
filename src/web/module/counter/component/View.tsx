@@ -1,10 +1,17 @@
 import { useEffect } from 'react';
 import { Counter } from '@/api/module/counter/entity';
 import { useData } from '@/web/module/counter/context/DataContext';
+import { clsx } from 'clsx';
 import Card from '@/web/module/counter/component/Card';
 
 const View = (): JSX.Element => {
+  const viewClass: Record<string, string> = {
+    juz: 'text-2xl font-medium text-custom-teal',
+    juzRuler: 'mb-2 border-custom-teal',
+  };
+
   const { data, fetchData } = useData();
+
   let currentJuz: number;
 
   useEffect(() => {
@@ -16,8 +23,8 @@ const View = (): JSX.Element => {
     currentJuz = item.juz;
     return (
       <>
-        <p className="text-2xl font-medium text-custom-teal">Juz {item.juz}</p>
-        <hr className="mb-2 border-custom-teal" />
+        <p className={clsx(viewClass.juz, data[0].juz !== item.juz && 'mt-5')}>Juz {item.juz}</p>
+        <hr className={viewClass.juzRuler} />
       </>
     );
   }
