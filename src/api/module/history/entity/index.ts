@@ -16,7 +16,7 @@ export type History = {
 };
 
 export type Payload = {
-  historyType: number | undefined;
+  historyType: number;
   juz?: number | undefined;
   surah?: number | undefined;
   surahOptions?: Option[] | undefined;
@@ -25,8 +25,9 @@ export type Payload = {
   endAyah?: number | undefined;
   markSurahDone?: boolean | undefined;
   markJuzDone?: boolean | undefined;
-  approachId: number | undefined;
-  repeat: number | undefined;
+  approachId: number;
+  repeat: number;
+  occuredAt: Date;
 };
 
 export enum HistoryType {

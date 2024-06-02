@@ -1,7 +1,7 @@
 import { DateTime, Duration } from 'luxon';
 import humanizeDuration from 'humanize-duration';
 
-export const formFormatDatetime = 'yyyy-MM-dd HH:mm';
+export const formFormatDatetime: string = 'yyyy-MM-dd HH:mm';
 
 export function formatDatetime(date: Date): string {
   const parsedTime: DateTime = DateTime.fromJSDate(date);

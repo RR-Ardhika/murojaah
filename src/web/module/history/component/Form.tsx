@@ -355,6 +355,7 @@ const Form = ({
         juz: selectedJuz.value,
         approachId: selectedApproach.value,
         repeat: 1, // Hardcoded to 1 for juz
+        occuredAt: DateTime.fromFormat(occuredAt, formFormatDatetime).toJSDate(),
       };
     }
 
@@ -365,6 +366,7 @@ const Form = ({
         markJuzDone: isJuzDone,
         approachId: selectedApproach.value,
         repeat: repeat,
+        occuredAt: DateTime.fromFormat(occuredAt, formFormatDatetime).toJSDate(),
       };
     }
 
@@ -383,6 +385,7 @@ const Form = ({
         markJuzDone: isJuzDone,
         approachId: selectedApproach.value,
         repeat: repeat,
+        occuredAt: DateTime.fromFormat(occuredAt, formFormatDatetime).toJSDate(),
       };
     }
 
