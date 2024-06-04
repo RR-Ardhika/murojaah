@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
+import { GetTotalJuzFromLines } from '@/api/shared/entity/juz';
 import { History } from '@/api/module/history/entity';
 import { HistoryStat } from '@/api/module/stat/entity';
-import { GetTotalJuzFromLines } from '@/api/shared/entity/juz';
 import { GetHistoryStat } from '@/api/module/stat/service';
-import { useData } from '@/web/module/history/context/DataContext';
 import { useAlert } from '@/web/shared/context/AlertContext';
-import { Card } from '@/web/module/history/component/Card';
 import { formatDate } from '@/web/shared/util/datetime';
+import { useData } from '@/web/module/history/context/DataContext';
 import { DateTime } from 'luxon';
 import { clsx } from 'clsx';
+import Card from '@/web/module/history/component/Card';
 
-export const View = (): JSX.Element => {
+const View = (): JSX.Element => {
   // @ts-expect-error useAlert
   const { isAlertVisible } = useAlert();
   const { data, fetchData } = useData();
@@ -93,3 +93,5 @@ export const View = (): JSX.Element => {
     </div>
   );
 };
+
+export default View;
