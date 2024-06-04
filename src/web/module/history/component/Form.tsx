@@ -33,12 +33,23 @@ export const Form = ({
   const [selectedJuz, setSelectedJuz] = useState(undefined);
   const [selectedSurah, setSelectedSurah] = useState(undefined);
   const [selectedApproach, setSelectedApproach] = useState(ApproachOptions()[0]);
-  const startRef: MutableRefObject<unknown> = useRef(null);
-  const endRef: MutableRefObject<unknown> = useRef(null);
-  const selectSurahRef: MutableRefObject<unknown> = useRef(null);
   const [repeat, setRepeat] = useState(1);
   const [isSurahDone, setIsSurahDone] = useState(false);
   const [isJuzDone, setIsJuzDone] = useState(false);
+
+  const startRef: MutableRefObject<unknown> = useRef(null);
+  const endRef: MutableRefObject<unknown> = useRef(null);
+  const selectSurahRef: MutableRefObject<unknown> = useRef(null);
+
+  // @ts-expect-error react-select component
+  const selectStyle: StylesConfig = {
+    // @ts-expect-error react-select component
+    control: (base: CSSObjectWithLabel) => ({
+      ...base,
+      border: 0,
+      boxShadow: 'none',
+    }),
+  };
 
   const Title = (): JSX.Element => {
     return (
@@ -48,17 +59,7 @@ export const Form = ({
     );
   };
 
-  const JuzContent = (): JSX.Element => {
-    // @ts-expect-error react-select component
-    const selectStyle: StylesConfig = {
-      // @ts-expect-error react-select component
-      control: (base: CSSObjectWithLabel) => ({
-        ...base,
-        border: 0,
-        boxShadow: 'none',
-      }),
-    };
-
+  function juzContent(): JSX.Element {
     return (
       <div className="flex flex-col gap-2 mt-2">
         <label className="font-light">Select Juz</label>
@@ -86,26 +87,9 @@ export const Form = ({
         </div>
       </div>
     );
-  };
+  }
 
-  const SurahContent = (): JSX.Element => {
-    // @ts-expect-error react-select component
-    const selectStyle: StylesConfig = {
-      // @ts-expect-error react-select component
-      control: (base: CSSObjectWithLabel) => ({
-        ...base,
-        border: 0,
-        boxShadow: 'none',
-      }),
-    };
-
-    function handleSurahMenuClose(): void {
-      // @ts-expect-error known type
-      const value: Option[] = selectSurahRef.current.getValue();
-      // @ts-expect-error known type
-      if (value.length > 0) setSelectedSurah(value);
-    }
-
+  function surahContent(): JSX.Element {
     return (
       <div className="flex flex-col gap-2 mt-2">
         <label className="font-light">Select Surah</label>
@@ -121,7 +105,8 @@ export const Form = ({
             isClearable={false}
             closeMenuOnSelect={false}
             blurInputOnSelect={false}
-            onMenuClose={handleSurahMenuClose}
+            // @ts-expect-error known type
+            onChange={setSelectedSurah}
           />
         </div>
 
@@ -156,19 +141,9 @@ export const Form = ({
         </div>
       </div>
     );
-  };
+  }
 
-  const AyahContent = (): JSX.Element => {
-    // @ts-expect-error react-select component
-    const selectStyle: StylesConfig = {
-      // @ts-expect-error react-select component
-      control: (base: CSSObjectWithLabel) => ({
-        ...base,
-        border: 0,
-        boxShadow: 'none',
-      }),
-    };
-
+  function ayahContent(): JSX.Element {
     return (
       <div className="flex flex-col gap-2 mt-2">
         <label className="font-light">Select Surah</label>
@@ -237,7 +212,7 @@ export const Form = ({
         </div>
       </div>
     );
-  };
+  }
 
   // @ts-expect-error known types
   // eslint-disable-next-line @typescript-eslint/typedef
@@ -446,11 +421,11 @@ export const Form = ({
   function renderContent(): JSX.Element {
     switch (formType) {
       case 'Juz':
-        return <JuzContent />;
+        return juzContent();
       case 'Surah':
-        return <SurahContent />;
+        return surahContent();
       case 'Ayah':
-        return <AyahContent />;
+        return ayahContent();
       default:
         return <></>;
     }

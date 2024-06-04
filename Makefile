@@ -11,10 +11,11 @@ dep:
 	pnpm i
 
 .PHONY: dev
-dev: watch
+dev: clean
+	NODE_ENV=development pnpm next dev
 
 .PHONY: run
-run: watch
+run: dev
 
 .PHONY: clean
 clean:
@@ -48,8 +49,7 @@ format-check:
 	pnpm exec prettier -c .
 
 .PHONY: watch
-watch: clean
-	NODE_ENV=development pnpm next dev
+watch: dev
 
 .PHONY: watch-erd
 watch-erd:

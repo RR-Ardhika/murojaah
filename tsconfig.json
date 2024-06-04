@@ -35,6 +35,7 @@
     "dist/types/**/*.ts"
   ],
   "exclude": [
+    "doc",
     "node_modules"
   ]
 }
