@@ -14,7 +14,7 @@ const Navbar = (): JSX.Element => {
       <Link href="#" className={navClass.div}>
         A
       </Link>
-      <Link href="#" className={navClass.div}>
+      <Link href="/counters" className={navClass.div}>
         C
       </Link>
       <Link href="/stats" className={navClass.div}>

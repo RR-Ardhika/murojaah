@@ -19,6 +19,9 @@ devDependencies:
   '@headlessui/react':
     specifier: ^1.7.18
     version: 1.7.18(react-dom@18.2.0)(react@18.2.0)
+  '@types/humanize-duration':
+    specifier: ^3.27.4
+    version: 3.27.4
   '@types/luxon':
     specifier: ^3.4.2
     version: 3.4.2
@@ -49,6 +52,9 @@ devDependencies:
   eslint-config-next:
     specifier: 14.1.0
     version: 14.1.0(eslint@8.56.0)(typescript@5.3.3)
+  humanize-duration:
+    specifier: ^3.32.1
+    version: 3.32.1
   jsstore:
     specifier: ^4.7.3
     version: 4.7.3
@@ -493,6 +499,10 @@ packages:
 
   /@tanstack/virtual-core@3.0.0:
     resolution: {integrity: sha512-SYXOBTjJb05rXa2vl55TTwO40A6wKu0R5i1qQwhJYNDIqaIGF7D0HsLw+pJAyi2OvntlEIVusx3xtbbgSUi6zg==}
+    dev: true
+
+  /@types/humanize-duration@3.27.4:
+    resolution: {integrity: sha512-yaf7kan2Sq0goxpbcwTQ+8E9RP6HutFBPv74T/IA/ojcHKhuKVlk2YFYyHhWZeLvZPzzLE3aatuQB4h0iqyyUA==}
     dev: true
 
   /@types/json-schema@7.0.15:
@@ -1854,6 +1864,10 @@ packages:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
     dependencies:
       react-is: 16.13.1
+    dev: true
+
+  /humanize-duration@3.32.1:
+    resolution: {integrity: sha512-inh5wue5XdfObhu/IGEMiA1nUXigSGcaKNemcbLRKa7jXYGDZXr3LoT9pTIzq2hPEbld7w/qv9h+ikWGz8fL1g==}
     dev: true
 
   /ignore@5.3.1:

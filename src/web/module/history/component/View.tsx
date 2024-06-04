@@ -24,8 +24,8 @@ const View = (): JSX.Element => {
 
   useEffect(() => {
     if (data) {
-      const newMapHistoryStats: Map<string, HistoryStat> = new Map(new Map());
-      const newMapIsProcessed: Map<number, boolean> = new Map(new Map());
+      const newMapHistoryStats: Map<string, HistoryStat> = new Map();
+      const newMapIsProcessed: Map<number, boolean> = new Map();
 
       data.forEach((item: History) => {
         const formattedDate: string = formatDate(item.occuredAt);
