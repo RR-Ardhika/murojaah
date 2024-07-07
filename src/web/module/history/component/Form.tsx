@@ -5,7 +5,7 @@ import { ApproachOptions } from '@/api/module/approach/entity';
 import { Create } from '@/api/module/history/service';
 import { useData } from '@/web/module/history/context/DataContext';
 import { useAlert } from '@/web/shared/context/AlertContext';
-import { formFormatDatetime } from '@/web/shared/util/datetime';
+import { formFormatDatetimes } from '@/web/shared/util/datetime';
 import { AlertColor, AlertText } from '@/web/shared/component/Alert';
 import { Transition, Dialog } from '@headlessui/react';
 import { DateTime } from 'luxon';
@@ -53,7 +53,7 @@ const Form = ({
   };
 
   useEffect(() => {
-    setOccuredAt(DateTime.now().toFormat(formFormatDatetime));
+    setOccuredAt(DateTime.now().toFormat(formFormatDatetimes[0]));
   }, [isFormVisible]);
 
   const Title = (): JSX.Element => {
@@ -355,7 +355,7 @@ const Form = ({
         juz: selectedJuz.value,
         approachId: selectedApproach.value,
         repeat: 1, // Hardcoded to 1 for juz
-        occuredAt: DateTime.fromFormat(occuredAt, formFormatDatetime).toJSDate(),
+        occuredAt: getOccuredAt(),
       };
     }
 
@@ -366,7 +366,7 @@ const Form = ({
         markJuzDone: isJuzDone,
         approachId: selectedApproach.value,
         repeat: repeat,
-        occuredAt: DateTime.fromFormat(occuredAt, formFormatDatetime).toJSDate(),
+        occuredAt: getOccuredAt(),
       };
     }
 
@@ -385,8 +385,16 @@ const Form = ({
         markJuzDone: isJuzDone,
         approachId: selectedApproach.value,
         repeat: repeat,
-        occuredAt: DateTime.fromFormat(occuredAt, formFormatDatetime).toJSDate(),
+        occuredAt: getOccuredAt(),
       };
+    }
+
+    function getOccuredAt(): Date {
+      for (const format of formFormatDatetimes) {
+        const dt: DateTime = DateTime.fromFormat(occuredAt, format);
+        if (dt.isValid) return dt.toJSDate();
+      }
+      throw new Error('Invalid DateTime');
     }
 
     // TD-1 Utilize useMemo
