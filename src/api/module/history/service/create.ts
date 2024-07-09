@@ -1,7 +1,6 @@
 import { FindEmpty } from '@/api/shared/util/validator';
 import { Payload, History, HistoryType } from '@/api/module/history/entity';
 import { Insert } from '@/api/module/history/repository/indexeddb';
-import { DateTime } from 'luxon';
 
 export function Create(payload: Payload): Promise<unknown> {
   switch (payload.historyType) {
@@ -21,14 +20,11 @@ function CreateByJuz(payload: Payload): Promise<unknown> {
     return Promise.reject(new Error('Error 422 Unprocessable Entity error validating juz payload'));
 
   const history: History = {
-    // @ts-expect-error handled undefined value
     historyType: payload.historyType,
     juz: payload.juz,
-    // @ts-expect-error handled undefined value
     approachId: payload.approachId,
-    // @ts-expect-error handled undefined value
     repeat: payload.repeat,
-    occuredAt: DateTime.now().toJSDate(),
+    occuredAt: payload.occuredAt,
   };
 
   return Insert(history);
@@ -43,15 +39,12 @@ function CreateBySurah(payload: Payload): Promise<unknown> {
   // @ts-expect-error handled undefined value
   for (const [i, opt] of payload.surahOptions.entries()) {
     const history: History = {
-      // @ts-expect-error handled undefined value
       historyType: payload.historyType,
       surah: opt.value,
       surahName: opt.label,
-      // @ts-expect-error handled undefined value
       approachId: payload.approachId,
-      // @ts-expect-error handled undefined value
       repeat: payload.repeat,
-      occuredAt: DateTime.now().toJSDate(),
+      occuredAt: payload.occuredAt,
     };
 
     // @ts-expect-error handled undefined value
@@ -70,7 +63,6 @@ function CreateByAyah(payload: Payload): Promise<unknown> {
     );
 
   const history: History = {
-    // @ts-expect-error handled undefined value
     historyType: payload.historyType,
     surah: payload.surah,
     surahName: payload.surahName,
@@ -78,11 +70,9 @@ function CreateByAyah(payload: Payload): Promise<unknown> {
     endAyah: payload.endAyah,
     markSurahDone: payload.markSurahDone,
     markJuzDone: payload.markJuzDone,
-    // @ts-expect-error handled undefined value
     approachId: payload.approachId,
-    // @ts-expect-error handled undefined value
     repeat: payload.repeat,
-    occuredAt: DateTime.now().toJSDate(),
+    occuredAt: payload.occuredAt,
   };
 
   return Insert(history);
