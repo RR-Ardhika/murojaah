@@ -12,10 +12,12 @@ const Card = (item: Counter): JSX.Element => {
 
   function getContainerColor(duration: number): string {
     switch (true) {
-      case duration <= 7:
+      case duration < 3:
         return 'bg-custom-teal';
-      case duration <= 30:
-        return 'bg-amber-500';
+      case duration < 7:
+        return 'bg-yellow-400';
+      case duration < 30:
+        return 'bg-amber-600';
       default:
         return 'bg-red-700';
     }
