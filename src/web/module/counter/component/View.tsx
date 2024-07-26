@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Counter } from '@/api/module/counter/entity';
 import { useData } from '@/web/module/counter/context/DataContext';
+import { useAlert } from '@/web/shared/context/AlertContext';
+import { Counter } from '@/api/module/counter/entity';
 import { clsx } from 'clsx';
 import Card from '@/web/module/counter/component/Card';
 import Form from '@/web/shared/component/Form';
@@ -12,8 +13,11 @@ const View = (): JSX.Element => {
   };
 
   const { data, fetchData } = useData();
-  const [formType, setFormType] = useState('');
+  // @ts-expect-error useAlert
+  const { hideAlert } = useAlert();
   const [isFormVisible, setIsFormVisible] = useState(false);
+
+  const formType: string = 'Surah';
 
   let currentJuz: number;
 
@@ -32,6 +36,11 @@ const View = (): JSX.Element => {
     );
   }
 
+  function showForm(): void {
+    hideAlert();
+    setIsFormVisible(true);
+  }
+
   return (
     <div className="gap-[20px] mt-[72px] pt-4 px-4">
       {data &&
@@ -39,12 +48,17 @@ const View = (): JSX.Element => {
           return (
             <div key={Math.random()}>
               {currentJuz !== item.juz ? updateAndRenderCurrentJuz(item) : <></>}
-              <Card key={item.id} {...item} />
+              <Card key={item.id} item={item} showForm={showForm} />
             </div>
           );
         })}
 
-      <Form formType={formType} isFormVisible={isFormVisible} setIsFormVisible={setIsFormVisible} />
+      <Form
+        formType={formType}
+        isFormVisible={isFormVisible}
+        setIsFormVisible={setIsFormVisible}
+        fetchData={fetchData}
+      />
     </div>
   );
 };
