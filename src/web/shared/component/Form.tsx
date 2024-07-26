@@ -115,6 +115,7 @@ const Form = ({
         <div className="border border-gray-300">
           <Select
             styles={selectStyle}
+            tabIndex={-1}
             value={selectedSurah}
             inputValue={searchInput}
             options={SurahOptions()}
