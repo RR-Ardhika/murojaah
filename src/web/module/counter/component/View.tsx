@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
+import { GetOptionsFromSurahId } from '@/api/shared/entity/surah';
+import { Counter } from '@/api/module/counter/entity';
 import { useData } from '@/web/module/counter/context/DataContext';
 import { useAlert } from '@/web/shared/context/AlertContext';
-import { Counter } from '@/api/module/counter/entity';
 import { clsx } from 'clsx';
 import Card from '@/web/module/counter/component/Card';
 import Form from '@/web/shared/component/Form';
@@ -16,6 +17,7 @@ const View = (): JSX.Element => {
   // @ts-expect-error useAlert
   const { hideAlert } = useAlert();
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [parentSurah, setParentSurah] = useState(undefined);
 
   const formType: string = 'Surah';
 
@@ -36,8 +38,10 @@ const View = (): JSX.Element => {
     );
   }
 
-  function showForm(): void {
+  function showForm(item: Counter): void {
     hideAlert();
+    // @ts-expect-error expected undefined
+    setParentSurah(GetOptionsFromSurahId(item.id));
     setIsFormVisible(true);
   }
 
@@ -48,7 +52,7 @@ const View = (): JSX.Element => {
           return (
             <div key={Math.random()}>
               {currentJuz !== item.juz ? updateAndRenderCurrentJuz(item) : <></>}
-              <Card key={item.id} item={item} showForm={showForm} />
+              <Card key={item.id} item={item} showForm={showForm} setParentSurah={setParentSurah} />
             </div>
           );
         })}
@@ -57,6 +61,7 @@ const View = (): JSX.Element => {
         formType={formType}
         isFormVisible={isFormVisible}
         setIsFormVisible={setIsFormVisible}
+        parentSurah={parentSurah}
         fetchData={fetchData}
       />
     </div>
