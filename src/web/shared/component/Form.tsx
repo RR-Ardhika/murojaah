@@ -1,9 +1,8 @@
 import { Dispatch, Fragment, useEffect, useState, SetStateAction } from 'react';
-import { JuzOptions, SurahOptions } from '@/api/shared/entity';
+import { Option, JuzOptions, SurahOptions } from '@/api/shared/entity';
 import { HistoryType, Payload } from '@/api/module/history/entity';
 import { ApproachOptions } from '@/api/module/approach/entity';
 import { Create } from '@/api/module/history/service';
-import { useData } from '@/web/module/history/context/DataContext';
 import { useAlert } from '@/web/shared/context/AlertContext';
 import { formFormatDatetimes } from '@/web/shared/util/datetime';
 import { AlertColor, AlertText } from '@/web/shared/component/Alert';
@@ -16,7 +15,10 @@ interface Props {
   formType: string;
   isFormVisible: boolean;
   setIsFormVisible: Dispatch<SetStateAction<boolean>>;
-  setIsSubButtonsVisible: Dispatch<SetStateAction<boolean>>;
+  setIsSubButtonsVisible?: Dispatch<SetStateAction<boolean>>;
+  parentSurah?: Option;
+  // @ts-expect-error DataContextValues
+  fetchData?: Context<DataContextValues>;
 }
 
 const Form = ({
@@ -24,10 +26,11 @@ const Form = ({
   isFormVisible,
   setIsFormVisible,
   setIsSubButtonsVisible,
+  parentSurah,
+  fetchData,
 }: Props): JSX.Element => {
   // @ts-expect-error useAlert
   const { showAlert } = useAlert();
-  const { fetchData } = useData();
 
   const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);
   const [disableSaveButton, setDisableSaveButton] = useState(false);
@@ -56,6 +59,11 @@ const Form = ({
   useEffect(() => {
     setOccuredAt(DateTime.now().toFormat(formFormatDatetimes[0]));
   }, [isFormVisible]);
+
+  useEffect(() => {
+    // @ts-expect-error expected type
+    if (parentSurah) setSelectedSurah(parentSurah);
+  }, [parentSurah]);
 
   const Title = (): JSX.Element => {
     return (
@@ -107,6 +115,7 @@ const Form = ({
         <div className="border border-gray-300">
           <Select
             styles={selectStyle}
+            tabIndex={-1}
             value={selectedSurah}
             inputValue={searchInput}
             options={SurahOptions()}
@@ -305,7 +314,7 @@ const Form = ({
         setDisableSaveButton(true); // Prevent multiple click by disable the button
         await Create(buildPayload());
         closeForm();
-        setIsSubButtonsVisible(false);
+        if (setIsSubButtonsVisible) setIsSubButtonsVisible(false);
         showAlert(AlertColor.Green, AlertText.SuccessCreatedHistory);
         fetchData();
         setDisableSaveButton(false);
