@@ -3,7 +3,6 @@ import { JuzOptions, SurahOptions } from '@/api/shared/entity';
 import { HistoryType, Payload } from '@/api/module/history/entity';
 import { ApproachOptions } from '@/api/module/approach/entity';
 import { Create } from '@/api/module/history/service';
-import { useData } from '@/web/module/history/context/DataContext';
 import { useAlert } from '@/web/shared/context/AlertContext';
 import { formFormatDatetimes } from '@/web/shared/util/datetime';
 import { AlertColor, AlertText } from '@/web/shared/component/Alert';
@@ -16,7 +15,9 @@ interface Props {
   formType: string;
   isFormVisible: boolean;
   setIsFormVisible: Dispatch<SetStateAction<boolean>>;
-  setIsSubButtonsVisible: Dispatch<SetStateAction<boolean>>;
+  setIsSubButtonsVisible?: Dispatch<SetStateAction<boolean>>;
+  // @ts-expect-error DataContextValues
+  fetchData?: Context<DataContextValues>;
 }
 
 const Form = ({
@@ -24,10 +25,10 @@ const Form = ({
   isFormVisible,
   setIsFormVisible,
   setIsSubButtonsVisible,
+  fetchData,
 }: Props): JSX.Element => {
   // @ts-expect-error useAlert
   const { showAlert } = useAlert();
-  const { fetchData } = useData();
 
   const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);
   const [disableSaveButton, setDisableSaveButton] = useState(false);
@@ -305,7 +306,7 @@ const Form = ({
         setDisableSaveButton(true); // Prevent multiple click by disable the button
         await Create(buildPayload());
         closeForm();
-        setIsSubButtonsVisible(false);
+        if (setIsSubButtonsVisible) setIsSubButtonsVisible(false);
         showAlert(AlertColor.Green, AlertText.SuccessCreatedHistory);
         fetchData();
         setDisableSaveButton(false);
