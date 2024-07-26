@@ -1,5 +1,5 @@
 import { Dispatch, Fragment, useEffect, useState, SetStateAction } from 'react';
-import { JuzOptions, SurahOptions } from '@/api/shared/entity';
+import { Option, JuzOptions, SurahOptions } from '@/api/shared/entity';
 import { HistoryType, Payload } from '@/api/module/history/entity';
 import { ApproachOptions } from '@/api/module/approach/entity';
 import { Create } from '@/api/module/history/service';
@@ -16,6 +16,7 @@ interface Props {
   isFormVisible: boolean;
   setIsFormVisible: Dispatch<SetStateAction<boolean>>;
   setIsSubButtonsVisible?: Dispatch<SetStateAction<boolean>>;
+  parentSurah?: Option;
   // @ts-expect-error DataContextValues
   fetchData?: Context<DataContextValues>;
 }
@@ -25,6 +26,7 @@ const Form = ({
   isFormVisible,
   setIsFormVisible,
   setIsSubButtonsVisible,
+  parentSurah,
   fetchData,
 }: Props): JSX.Element => {
   // @ts-expect-error useAlert
@@ -57,6 +59,11 @@ const Form = ({
   useEffect(() => {
     setOccuredAt(DateTime.now().toFormat(formFormatDatetimes[0]));
   }, [isFormVisible]);
+
+  useEffect(() => {
+    // @ts-expect-error expected type
+    if (parentSurah) setSelectedSurah(parentSurah);
+  }, [parentSurah]);
 
   const Title = (): JSX.Element => {
     return (

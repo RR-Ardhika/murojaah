@@ -1,10 +1,12 @@
+import { Dispatch, SetStateAction } from 'react';
 import { Counter } from '@/api/module/counter/entity';
 import { formatDate, formatDurationFromNow, getDurationFromNow } from '@/web/shared/util/datetime';
 import { clsx } from 'clsx';
 
 interface Props {
   item: Counter;
-  showForm: () => void;
+  showForm: (item: Counter) => void;
+  setParentSurah: Dispatch<SetStateAction<undefined>>;
 }
 
 const Card = ({ item, showForm }: Props): JSX.Element => {
@@ -34,7 +36,7 @@ const Card = ({ item, showForm }: Props): JSX.Element => {
         cardClassnames.container,
         getContainerColor(getDurationFromNow(item.lastRead))
       )}
-      onClick={showForm}
+      onClick={() => showForm(item)}
     >
       <p className={cardClassnames.data}>{item.name}</p>
       <div className="flex gap-1">
