@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { useData } from '@/web/module/history/context/DataContext';
 import { useAlert } from '@/web/shared/context/AlertContext';
 import { clsx } from 'clsx';
-import Form from '@/web/module/history/component/Form';
+import Form from '@/web/shared/component/Form';
 
 const CreateButton = (): JSX.Element => {
   const btnClass: Record<string, string> = {
@@ -14,6 +15,7 @@ const CreateButton = (): JSX.Element => {
   const [formType, setFormType] = useState('');
   const [isSubButtonsVisible, setIsSubButtonsVisible] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const { fetchData } = useData();
   // @ts-expect-error useAlert
   const { hideAlert } = useAlert();
 
@@ -60,6 +62,7 @@ const CreateButton = (): JSX.Element => {
           isFormVisible={isFormVisible}
           setIsFormVisible={setIsFormVisible}
           setIsSubButtonsVisible={setIsSubButtonsVisible}
+          fetchData={fetchData}
         />
       </div>
     </div>
