@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Counter } from '@/api/module/counter/entity';
 import { useData } from '@/web/module/counter/context/DataContext';
 import { clsx } from 'clsx';
 import Card from '@/web/module/counter/component/Card';
+import Form from '@/web/shared/component/Form';
 
 const View = (): JSX.Element => {
   const viewClass: Record<string, string> = {
@@ -11,6 +12,8 @@ const View = (): JSX.Element => {
   };
 
   const { data, fetchData } = useData();
+  const [formType, setFormType] = useState('');
+  const [isFormVisible, setIsFormVisible] = useState(false);
 
   let currentJuz: number;
 
@@ -40,6 +43,8 @@ const View = (): JSX.Element => {
             </div>
           );
         })}
+
+      <Form formType={formType} isFormVisible={isFormVisible} setIsFormVisible={setIsFormVisible} />
     </div>
   );
 };

@@ -1,8 +1,6 @@
-import { useState } from 'react';
 import { Counter } from '@/api/module/counter/entity';
 import { formatDate, formatDurationFromNow, getDurationFromNow } from '@/web/shared/util/datetime';
 import { clsx } from 'clsx';
-import Form from '@/web/shared/component/Form';
 
 const Card = (item: Counter): JSX.Element => {
   const cardClassnames: Record<string, string> = {
@@ -11,9 +9,6 @@ const Card = (item: Counter): JSX.Element => {
     duration: 'text-xs pt-1 font-light',
     date: 'text-sm pt-0.5 font-normal',
   };
-
-  const [formType, setFormType] = useState('');
-  const [isFormVisible, setIsFormVisible] = useState(false);
 
   function getContainerColor(duration: number): string {
     switch (true) {
@@ -40,8 +35,6 @@ const Card = (item: Counter): JSX.Element => {
         <p className={cardClassnames.duration}>({formatDurationFromNow(item.lastRead)})</p>
         <p className={cardClassnames.date}>{formatDate(item.lastRead)}</p>
       </div>
-
-      <Form formType={formType} isFormVisible={isFormVisible} setIsFormVisible={setIsFormVisible} />
     </div>
   );
 };
