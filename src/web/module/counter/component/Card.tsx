@@ -2,7 +2,12 @@ import { Counter } from '@/api/module/counter/entity';
 import { formatDate, formatDurationFromNow, getDurationFromNow } from '@/web/shared/util/datetime';
 import { clsx } from 'clsx';
 
-const Card = (item: Counter): JSX.Element => {
+interface Props {
+  item: Counter;
+  showForm: () => void;
+}
+
+const Card = ({ item, showForm }: Props): JSX.Element => {
   const cardClassnames: Record<string, string> = {
     container: 'flex justify-between gap-2 p-4 mb-2 text-white rounded-lg',
     data: 'font-normal',
@@ -29,6 +34,7 @@ const Card = (item: Counter): JSX.Element => {
         cardClassnames.container,
         getContainerColor(getDurationFromNow(item.lastRead))
       )}
+      onClick={showForm}
     >
       <p className={cardClassnames.data}>{item.name}</p>
       <div className="flex gap-1">
