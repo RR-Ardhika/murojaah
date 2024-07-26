@@ -34,10 +34,10 @@ const View = (): JSX.Element => {
       {data &&
         data.map((item: Counter) => {
           return (
-            <>
+            <div key={Math.random()}>
               {currentJuz !== item.juz ? updateAndRenderCurrentJuz(item) : <></>}
               <Card key={item.id} {...item} />
-            </>
+            </div>
           );
         })}
     </div>
