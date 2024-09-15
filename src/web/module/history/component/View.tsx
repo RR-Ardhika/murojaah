@@ -84,7 +84,8 @@ const View = (): JSX.Element => {
       {data &&
         data.map((item: History) => {
           return (
-            <div key={Math.random()}>
+            // @ts-expect-error expected type
+            <div key={currentDate ? currentDate : Math.random()}>
               {currentDate !== item.occuredAt ? updateAndRenderCurrentDate(item) : <></>}
               <Card key={item.id} {...item} />
             </div>
