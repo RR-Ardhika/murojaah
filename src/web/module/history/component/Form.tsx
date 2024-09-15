@@ -32,6 +32,7 @@ const Form = ({
   const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);
   const [disableSaveButton, setDisableSaveButton] = useState(false);
 
+  const [searchInput, setSearchInput] = useState('');
   const [selectedJuz, setSelectedJuz] = useState(undefined);
   const [selectedSurah, setSelectedSurah] = useState(undefined);
   const [selectedApproach, setSelectedApproach] = useState(ApproachOptions()[0]);
@@ -107,6 +108,7 @@ const Form = ({
           <Select
             styles={selectStyle}
             value={selectedSurah}
+            inputValue={searchInput}
             options={SurahOptions()}
             isSearchable={true}
             isMulti={true}
@@ -115,6 +117,10 @@ const Form = ({
             blurInputOnSelect={false}
             // @ts-expect-error known type
             onChange={setSelectedSurah}
+            // eslint-disable-next-line @typescript-eslint/typedef
+            onInputChange={(value, action) => {
+              if (action.action !== 'set-value') setSearchInput(value);
+            }}
           />
         </div>
 
