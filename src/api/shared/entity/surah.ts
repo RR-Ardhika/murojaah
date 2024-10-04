@@ -153,6 +153,15 @@ export function GetJuzBySurahId(id: number): number[] | SurahJuz[] {
   return surah.juz;
 }
 
+export function GetOptionsFromSurahId(id: number): Option[] {
+  const options: Option[] = [];
+  const surah: SurahType | undefined = GetSurahById(id);
+  // @ts-expect-error expected undefined
+  const option: Option = { value: id, label: surah.name };
+  options.push(option);
+  return options;
+}
+
 export function SurahOptions(): Option[] {
   const options: Option[] = [];
 
