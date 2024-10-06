@@ -2,6 +2,7 @@
 
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { Bars3Icon, ArrowUpTrayIcon, ArrowDownTrayIcon } from '@heroicons/react/16/solid';
+import Links from '@/web/shared/util/const';
 
 export default function Component(): JSX.Element {
   function doExport(): void {
@@ -47,7 +48,7 @@ export default function Component(): JSX.Element {
         <MenuItem>
           <a
             className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 bg-custom-teal data-[focus]:bg-teal-700 text-white"
-            href="https://github.com/RR-Ardhika/murojaah"
+            href={Links.GitHub}
             target="_blank"
           >
             <img className="w-4 h-4" src="/github-mark-white.svg" alt="icon" />

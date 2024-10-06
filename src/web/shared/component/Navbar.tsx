@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Links from '@/web/shared/util/const';
 
 const Navbar = (): JSX.Element => {
   const navClass: Record<string, string> = {
@@ -8,16 +9,16 @@ const Navbar = (): JSX.Element => {
 
   return (
     <nav className={navClass.container}>
-      <Link href="/" className={navClass.div}>
+      <Link href={Links.Home} className={navClass.div}>
         H
       </Link>
-      <Link href="#" className={navClass.div}>
+      <Link href={Links.Activity} className={navClass.div}>
         A
       </Link>
-      <Link href="/counters" className={navClass.div}>
+      <Link href={Links.Counter} className={navClass.div}>
         C
       </Link>
-      <Link href="/stats" className={navClass.div}>
+      <Link href={Links.Stat} className={navClass.div}>
         S
       </Link>
     </nav>
