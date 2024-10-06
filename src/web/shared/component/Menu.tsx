@@ -12,10 +12,6 @@ export default function Component(): JSX.Element {
     console.log('import'); // TODO remove this
   }
 
-  function github(): void {
-    console.log('github'); // TODO remove this
-  }
-
   return (
     <Menu>
       <MenuButton>
@@ -49,12 +45,14 @@ export default function Component(): JSX.Element {
         <div className="my-1 h-px bg-white/20" />
 
         <MenuItem>
-          <button
+          <a
             className="group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 bg-custom-teal data-[focus]:bg-teal-700 text-white"
-            onClick={github}
+            href="https://github.com/RR-Ardhika/murojaah"
+            target="_blank"
           >
+            <img className="w-4 h-4" src="/github-mark-white.svg" alt="icon" />
             GitHub
-          </button>
+          </a>
         </MenuItem>
       </MenuItems>
     </Menu>
