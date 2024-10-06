@@ -108,7 +108,7 @@ const Card = (item: History): JSX.Element => {
         await Destroy(item);
         fetchData();
         showAlert(AlertColor.Red, AlertText.SuccessDeletedHistory);
-      } catch (error) {
+      } catch {
         showAlert(AlertColor.Red, AlertText.FailedDeletedHistory);
       }
     }
