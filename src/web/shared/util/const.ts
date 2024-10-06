@@ -1,4 +1,4 @@
-const Links = {
+const Links: Record<string, string> = {
   Home: '/',
   Activity: '#', // TODO Implement this
   Counter: '/counters',

@@ -2,15 +2,16 @@
 
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { Bars3Icon, ArrowUpTrayIcon, ArrowDownTrayIcon } from '@heroicons/react/16/solid';
+import { Export, Import } from '@/api/module/history/service';
 import Links from '@/web/shared/util/const';
 
 export default function Component(): JSX.Element {
   function doExport(): void {
-    console.log('export'); // TODO remove this
+    Export();
   }
 
   function doImport(): void {
-    console.log('import'); // TODO remove this
+    Import();
   }
 
   return (
