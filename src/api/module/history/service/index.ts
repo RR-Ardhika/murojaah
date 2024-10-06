@@ -12,7 +12,7 @@ export function Destroy(item: entity.History): Promise<unknown> {
   return repo.DeleteRecord(item);
 }
 
-export function Export(): void {
+export function Export(): Promise<unknown> {
   return repo.Export();
 }
 
