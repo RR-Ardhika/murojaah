@@ -49,6 +49,9 @@ devDependencies:
   clsx:
     specifier: ^2.1.0
     version: 2.1.0
+  dexie:
+    specifier: ^4.0.8
+    version: 4.0.8
   eslint:
     specifier: ^8
     version: 8.56.0
@@ -58,6 +61,9 @@ devDependencies:
   humanize-duration:
     specifier: ^3.32.1
     version: 3.32.1
+  indexeddb-export-import:
+    specifier: ^2.1.5
+    version: 2.1.5
   jsstore:
     specifier: ^4.7.3
     version: 4.7.3
@@ -1252,6 +1258,10 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
+  /dexie@4.0.8:
+    resolution: {integrity: sha512-1G6cJevS17KMDK847V3OHvK2zei899GwpDiqfEXHP1ASvme6eWJmAp9AU4s1son2TeGkWmC0g3y8ezOBPnalgQ==}
+    dev: true
+
   /didyoumean@1.2.2:
     resolution: {integrity: sha512-gxtyfqMg7GKyhQmb056K7M3xszy/myH8w+B4RT+QXBQsvAOdc3XymqDDPHx1BgPgsdAA5SIifona89YtRATDzw==}
     dev: true
@@ -1995,6 +2005,11 @@ packages:
   /imurmurhash@0.1.4:
     resolution: {integrity: sha512-JmXMZ6wuvDmLiHEml9ykzqO6lwFbof0GG4IkcGaENdCRDDmMVnny7s5HsIgHCbaq0w2MyPhDqkhTUgS2LU2PHA==}
     engines: {node: '>=0.8.19'}
+    dev: true
+
+  /indexeddb-export-import@2.1.5:
+    resolution: {integrity: sha512-gS6gVzFTDuT+r7KyZ3yrzflC8HfktezxAGyImCpICGX5WemMhBLnGaZMkZ0KYj+9hwVAM3dmXMTYy/NvtKAFlQ==}
+    engines: {node: '>=12'}
     dev: true
 
   /inflight@1.0.6:
