@@ -33,24 +33,48 @@ export async function Export(): Promise<string> {
 
   try {
     await db.open();
-    const idbDatabase: IDBDatabase = db.backendDB(); // Get native IndexedDB Database object
+    const idbDatabase: IDBDatabase = db.backendDB();
+
     const jsonString: string = await new Promise<string>((resolve, reject) => {
       IDBExportImport.exportToJsonString(idbDatabase, (err: Error, result: string) => {
-        if (err) {
-          console.error('Export failed:', err);
-          return reject(err);
-        }
-
+        if (err) return reject(err);
         resolve(result);
       });
     });
 
     return jsonString;
   } catch (err) {
+    console.error('Export failed:', err);
     throw err;
   }
 }
 
-export function Import(jsonString: string): void {
-  console.log(jsonString);
+export async function Import(jsonString: string): Promise<boolean> {
+  const db: Dexie = new Dexie('murojaah');
+
+  db.version(0.1).stores({
+    histories:
+      'id, historyType, juz, surah, surahName, startAyah, endAyah, markSurahDone, markJuzDone, approachId, repeat, occuredAt',
+  });
+
+  try {
+    await db.open();
+    const idbDatabase: IDBDatabase = db.backendDB();
+
+    const success: boolean = await new Promise<boolean>((resolve, reject) => {
+      IDBExportImport.clearDatabase(idbDatabase, function (err: Error) {
+        if (err) return reject(err);
+
+        IDBExportImport.importFromJsonString(idbDatabase, jsonString, function (err: Error) {
+          if (err) return reject(err);
+          resolve(true);
+        });
+      });
+    });
+
+    return success;
+  } catch (err) {
+    console.error('Import failed:', err);
+    throw err;
+  }
 }

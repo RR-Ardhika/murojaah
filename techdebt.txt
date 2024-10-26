@@ -1,0 +1,5 @@
+TD-1 Utilize useMemo
+TD-2 Move out component
+TD-3 Implement proper number input for ayah
+TD-5 Refactor random after fix multiple render
+TD-6 Implement proper success import notification

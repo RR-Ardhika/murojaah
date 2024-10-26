@@ -39,7 +39,7 @@ export default function Component(): JSX.Element {
     fileInputRef.current?.click();
   }
 
-  async function handleImportedFile(event: React.ChangeEvent<HTMLInputElement>): Promise<void> {
+  function handleImportedFile(event: React.ChangeEvent<HTMLInputElement>): void {
     const file: File | undefined = event.target.files?.[0];
     if (!file) return;
 
@@ -48,7 +48,8 @@ export default function Component(): JSX.Element {
     reader.onload = async (): void => {
       try {
         const jsonString: string = reader.result as string;
-        await Import(jsonString);
+        Import(jsonString);
+        window.location.reload(); // TD-6 Implement proper success import notification
       } catch (err) {
         console.error('Import failed:', err);
       }
