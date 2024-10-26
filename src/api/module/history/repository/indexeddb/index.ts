@@ -51,6 +51,6 @@ export async function Export(): Promise<string> {
   }
 }
 
-export function Import(): void {
-  console.log('import');
+export function Import(jsonString: string): void {
+  console.log(jsonString);
 }
