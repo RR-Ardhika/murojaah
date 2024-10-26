@@ -25,7 +25,7 @@ export function DeleteRecord(item: History): Promise<number> {
 
 export async function Export(): Promise<unknown> {
   const db: Dexie = new Dexie('murojaah');
-  db.version(1).stores({
+  db.version(0.1).stores({
     histories:
       'id, historyType, juz, surah, surahName, startAyah, endAyah, markSurahDone, markJuzDone, approachId, repeat, occuredAt',
   });
