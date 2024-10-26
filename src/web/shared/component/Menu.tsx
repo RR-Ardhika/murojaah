@@ -6,8 +6,30 @@ import { Export, Import } from '@/api/module/history/service';
 import Links from '@/web/shared/util/const';
 
 export default function Component(): JSX.Element {
-  function doExport(): void {
-    Export();
+  // @ts-expect-error expected return value type
+  async function doExport(): void {
+    try {
+      const jsonString: string = await Export();
+
+      // Create a blob with the JSON data
+      const blob: Blob = new Blob([jsonString], { type: 'application/json' });
+      const url: string = URL.createObjectURL(blob);
+
+      // Create a temporary link element
+      const link: HTMLAnchorElement = document.createElement('a');
+      link.href = url;
+      link.download = 'murojaah.json'; // Set the download file name
+      document.body.appendChild(link);
+
+      // Programmatically click the link to trigger the download
+      link.click();
+
+      // Clean up by removing the link and releasing the blob URL
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   function doImport(): void {

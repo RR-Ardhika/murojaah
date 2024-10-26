@@ -23,27 +23,31 @@ export function DeleteRecord(item: History): Promise<number> {
   });
 }
 
-export async function Export(): Promise<unknown> {
+export async function Export(): Promise<string> {
   const db: Dexie = new Dexie('murojaah');
+
   db.version(0.1).stores({
     histories:
       'id, historyType, juz, surah, surahName, startAyah, endAyah, markSurahDone, markJuzDone, approachId, repeat, occuredAt',
   });
+
   try {
     await db.open();
     const idbDatabase: IDBDatabase = db.backendDB(); // Get native IndexedDB Database object
-    IDBExportImport.exportToJsonString(idbDatabase, (err: Error, jsonString: string) => {
-      if (err) {
-        console.error('Export failed:', err);
-        return err;
-      }
+    const jsonString: string = await new Promise<string>((resolve, reject) => {
+      IDBExportImport.exportToJsonString(idbDatabase, (err: Error, result: string) => {
+        if (err) {
+          console.error('Export failed:', err);
+          return reject(err);
+        }
 
-      console.log('Exported JSON:', jsonString);
-      return jsonString;
+        resolve(result);
+      });
     });
+
+    return jsonString;
   } catch (err) {
-    console.error(err);
-    return err;
+    throw err;
   }
 }
 
