@@ -49,7 +49,7 @@ export async function Export(): Promise<string> {
   }
 }
 
-export async function Import(jsonString: string): Promise<boolean> {
+export async function Import(jsonString: string): Promise<void> {
   const db: Dexie = new Dexie('murojaah');
 
   db.version(0.1).stores({
@@ -61,20 +61,24 @@ export async function Import(jsonString: string): Promise<boolean> {
     await db.open();
     const idbDatabase: IDBDatabase = db.backendDB();
 
-    const success: boolean = await new Promise<boolean>((resolve, reject) => {
-      IDBExportImport.clearDatabase(idbDatabase, function (err: Error) {
-        if (err) return reject(err);
-
-        IDBExportImport.importFromJsonString(idbDatabase, jsonString, function (err: Error) {
+    await new Promise<boolean>((resolve, reject) => {
+      IDBExportImport.importFromJsonString(
+        idbDatabase,
+        transformImportedData(jsonString),
+        function (err: Error) {
           if (err) return reject(err);
           resolve(true);
-        });
-      });
+        }
+      );
     });
-
-    return success;
   } catch (err) {
     console.error('Import failed:', err);
     throw err;
   }
+}
+
+function transformImportedData(jsonString: string): string {
+  const jsonObject = JSON.parse(jsonString);
+  delete jsonObject.JsStore_Meta; // TD-11 Implement handler for lower version
+  return JSON.stringify(jsonObject);
 }

@@ -16,6 +16,6 @@ export function Export(): Promise<string> {
   return repo.Export();
 }
 
-export function Import(jsonString: string): void {
+export function Import(jsonString: string): Promise<void> {
   return repo.Import(jsonString);
 }
