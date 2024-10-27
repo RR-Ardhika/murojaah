@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { Bars3Icon, ArrowUpTrayIcon, ArrowDownTrayIcon } from '@heroicons/react/16/solid';
 import { Export, Import } from '@/api/module/history/service';
+import Image from 'next/image';
 import Links from '@/web/shared/util/const';
 
 export default function Component(): JSX.Element {
@@ -90,7 +91,13 @@ export default function Component(): JSX.Element {
 
           <MenuItem>
             <a className={classNames.menuItem} href={Links.GitHub} target="_blank">
-              <img className="w-4 h-4" src="/github-mark-white.svg" alt="icon" />
+              <Image
+                className="w-4 h-4"
+                width={16}
+                height={16}
+                src="/github-mark-white.svg"
+                alt="icon"
+              />
               GitHub
             </a>
           </MenuItem>

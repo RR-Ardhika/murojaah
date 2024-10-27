@@ -35,6 +35,7 @@ export async function Export(): Promise<string> {
     await db.open();
     const idbDatabase: IDBDatabase = db.backendDB();
 
+    // eslint-disable-next-line @typescript-eslint/typedef
     const jsonString: string = await new Promise<string>((resolve, reject) => {
       IDBExportImport.exportToJsonString(idbDatabase, (err: Error, result: string) => {
         if (err) return reject(err);
@@ -61,6 +62,7 @@ export async function Import(jsonString: string): Promise<void> {
     await db.open();
     const idbDatabase: IDBDatabase = db.backendDB();
 
+    // eslint-disable-next-line @typescript-eslint/typedef
     await new Promise<boolean>((resolve, reject) => {
       IDBExportImport.importFromJsonString(
         idbDatabase,
@@ -78,7 +80,7 @@ export async function Import(jsonString: string): Promise<void> {
 }
 
 function transformImportedData(jsonString: string): string {
-  const jsonObject = JSON.parse(jsonString);
+  const jsonObject: Record<string, string> = JSON.parse(jsonString);
   delete jsonObject.JsStore_Meta; // TD-11 Implement handler for lower version
   return JSON.stringify(jsonObject);
 }
