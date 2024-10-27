@@ -8,7 +8,7 @@ import Card from '@/web/module/counter/component/Card';
 import Form from '@/web/shared/component/Form';
 
 const View = (): JSX.Element => {
-  const viewClass: Record<string, string> = {
+  const classNames: Record<string, string> = {
     juz: 'text-2xl font-medium text-custom-teal',
     juzRuler: 'mb-2 border-custom-teal',
   };
@@ -32,8 +32,8 @@ const View = (): JSX.Element => {
     currentJuz = item.juz;
     return (
       <>
-        <p className={clsx(viewClass.juz, data[0].juz !== item.juz && 'mt-5')}>Juz {item.juz}</p>
-        <hr className={viewClass.juzRuler} />
+        <p className={clsx(classNames.juz, data[0].juz !== item.juz && 'mt-5')}>Juz {item.juz}</p>
+        <hr className={classNames.juzRuler} />
       </>
     );
   }

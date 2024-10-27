@@ -10,7 +10,7 @@ interface Props {
 }
 
 const Card = ({ item, showForm }: Props): JSX.Element => {
-  const cardClassnames: Record<string, string> = {
+  const classNames: Record<string, string> = {
     container: 'flex justify-between gap-2 p-4 mb-2 text-white rounded-lg',
     data: 'font-normal',
     duration: 'text-xs pt-1 font-light',
@@ -32,16 +32,13 @@ const Card = ({ item, showForm }: Props): JSX.Element => {
 
   return (
     <div
-      className={clsx(
-        cardClassnames.container,
-        getContainerColor(getDurationFromNow(item.lastRead))
-      )}
+      className={clsx(classNames.container, getContainerColor(getDurationFromNow(item.lastRead)))}
       onClick={() => showForm(item)}
     >
-      <p className={cardClassnames.data}>{item.name}</p>
+      <p className={classNames.data}>{item.name}</p>
       <div className="flex gap-1">
-        <p className={cardClassnames.duration}>({formatDurationFromNow(item.lastRead)})</p>
-        <p className={cardClassnames.date}>{formatDate(item.lastRead)}</p>
+        <p className={classNames.duration}>({formatDurationFromNow(item.lastRead)})</p>
+        <p className={classNames.date}>{formatDate(item.lastRead)}</p>
       </div>
     </div>
   );
