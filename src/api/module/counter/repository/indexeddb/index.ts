@@ -15,7 +15,7 @@ export function CalculateCounters(histories: entityHistory.History[]): entity.Co
       case entityHistory.HistoryType.Surah:
         calculateBySurah(history, mapCounter);
         break;
-      // TODO Implement this
+      // TD-8 Implement calculateByAyah() for module counter
       // case entityHistory.HistoryType.Ayah:
       //   return calculateByAyah(history);
     }

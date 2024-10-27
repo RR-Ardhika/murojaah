@@ -21,7 +21,7 @@ function calculateAllTimeStat(histories: entityHistory.History[]): entity.Stat {
     statType: Object.values(entity.StatType).indexOf(entity.StatType.All),
     totalLinesRead: totalLinesRead,
     totalJuzFromLines: entityJuz.GetTotalJuzFromLines(totalLinesRead),
-    totalMarkedJuzAsDone: 0, // TODO Implement this
+    totalMarkedJuzAsDone: 0, // TD-10 Implement totalMarkedJuzAsDone calculation in module stat
   };
 }
 
@@ -40,7 +40,7 @@ function calculateDailyStat(histories: entityHistory.History[]): entity.Stat {
     statType: Object.values(entity.StatType).indexOf(entity.StatType.Daily),
     totalLinesRead: totalLinesRead,
     totalJuzFromLines: entityJuz.GetTotalJuzFromLines(totalLinesRead),
-    totalMarkedJuzAsDone: 0, // TODO Implement this
+    totalMarkedJuzAsDone: 0, // TD-10 Implement totalMarkedJuzAsDone calculation in module stat
   };
 }
 
@@ -94,7 +94,7 @@ function calculateTotalLinesForAyah(history: entityHistory.History): number {
       for (let i = juz.startSurah; i <= juz.endSurah; i++) {
         // @ts-expect-error known type
         totalLines += entitySurah.GetSurahById(i).totalLines;
-      } // TODO Handle for type SurahJuz
+      } // TD-9 Implement handler for type SurahJuz in module stat
     }
   } else if (history.markSurahDone) {
     totalLines += surah.totalLines;
