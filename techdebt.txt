@@ -8,4 +8,4 @@ TD-7 Implement activity router
 TD-8 Implement calculateByAyah() for module counter
 TD-9 Implement handler for type SurahJuz in module stat
 TD-10 Implement totalMarkedJuzAsDone calculation in module stat
-TD-11 Implement handler for lower version
+TD-11 Handle when version is different

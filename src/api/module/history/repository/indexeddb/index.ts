@@ -81,6 +81,6 @@ export async function Import(jsonString: string): Promise<void> {
 
 function transformImportedData(jsonString: string): string {
   const jsonObject: Record<string, string> = JSON.parse(jsonString);
-  delete jsonObject.JsStore_Meta; // TD-11 Implement handler for lower version
+  delete jsonObject.JsStore_Meta; // TD-11 Handle when version is different
   return JSON.stringify(jsonObject);
 }
