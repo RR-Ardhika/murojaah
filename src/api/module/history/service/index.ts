@@ -4,11 +4,11 @@ import { Create } from '@/api/module/history/service/create';
 
 export { Create };
 
-export function Index(): Promise<unknown> {
+export function Index(): Promise<History[]> {
   return repo.FindAll();
 }
 
-export function Destroy(item: entity.History): Promise<unknown> {
+export function Destroy(item: entity.History): Promise<number> {
   return repo.DeleteRecord(item);
 }
 

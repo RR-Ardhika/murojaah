@@ -12,11 +12,11 @@ export function FindAll(): Promise<History[]> {
   return idbCon.select<History>({ from: 'histories', order: { by: 'occuredAt', type: 'desc' } });
 }
 
-export function Insert(item: entity.History): Promise<unknown> {
+export function Insert(item: entity.History): Promise<number | unknown[]> {
   return idbCon.insert({ into: 'histories', values: [item] });
 }
 
-export function DeleteRecord(item: History): Promise<number> {
+export function DeleteRecord(item: entity.History): Promise<number> {
   return idbCon.remove({
     from: 'histories',
     where: { id: item.id },
