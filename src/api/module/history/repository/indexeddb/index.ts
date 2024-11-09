@@ -31,7 +31,7 @@ export async function Export(): Promise<string> {
 
   db.version(0.1).stores({
     histories:
-      'id, historyType, juz, surah, surahName, startAyah, endAyah, markSurahDone, markJuzDone, approachId, repeat, occuredAt',
+      'id, historyType, juz, surah, startAyah, endAyah, markSurahDone, markJuzDone, approachId, repeat, occuredAt',
   });
 
   try {
