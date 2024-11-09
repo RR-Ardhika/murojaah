@@ -8,8 +8,11 @@ import * as IDBExportImport from 'indexeddb-export-import';
 
 const idbCon: Connection = initJsStore();
 
-export function FindAll(): Promise<History[]> {
-  return idbCon.select<History>({ from: 'histories', order: { by: 'occuredAt', type: 'desc' } });
+export function FindAll(): Promise<entity.History[]> {
+  return idbCon.select<entity.History>({
+    from: 'histories',
+    order: { by: 'occuredAt', type: 'desc' },
+  });
 }
 
 export function Insert(item: entity.History): Promise<number | unknown[]> {

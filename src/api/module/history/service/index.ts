@@ -4,7 +4,7 @@ import { Create } from '@/api/module/history/service/create';
 
 export { Create };
 
-export function Index(): Promise<History[]> {
+export function Index(): Promise<entity.History[]> {
   return repo.FindAll();
 }
 

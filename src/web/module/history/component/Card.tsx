@@ -54,7 +54,7 @@ const Card = (item: History): JSX.Element => {
   const SurahCard = (): JSX.Element => {
     return (
       <>
-        <p className={cardClassnames.title}>
+        <p className={classNames.title}>
           {getRepeatString()} Surah {convertSurahIdToName(item.surah)}
         </p>
         <p className={classNames.data}>Murojaah {Show(item.approachId)}</p>
@@ -75,11 +75,11 @@ const Card = (item: History): JSX.Element => {
         <p className={classNames.title}>
           {getRepeatString()} Ayah {item.startAyah} to {item.endAyah}
         </p>
-        <p className={cardClassnames.data}>Surah {convertSurahIdToName(item.surah)}</p>
-        <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
-        {item.markSurahDone && <p className={cardClassnames.data}>Surah was marked as done</p>}
-        {item.markJuzDone && <p className={cardClassnames.data}>Juz was marked as done</p>}
-        <p className={cardClassnames.data}>
+        <p className={classNames.data}>Surah {convertSurahIdToName(item.surah)}</p>
+        <p className={classNames.data}>Murojaah {Show(item.approachId)}</p>
+        {item.markSurahDone && <p className={classNames.data}>Surah was marked as done</p>}
+        {item.markJuzDone && <p className={classNames.data}>Juz was marked as done</p>}
+        <p className={classNames.data}>
           <span>{historyStat.juz} juz, </span>
           <span>{historyStat.ayah} ayah, </span>
           <span>{historyStat.lines} lines</span>
