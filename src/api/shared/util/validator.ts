@@ -1,3 +1,5 @@
+import { validate as validateUUID, version as uuidVersion } from 'uuid';
+
 // @ts-expect-error known type param
 // eslint-disable-next-line
 export function FindEmpty(obj): boolean {
@@ -20,4 +22,8 @@ export function IsEmpty(value): boolean {
   else if (value === null) return true;
   else if (value === '') return true;
   return false;
+}
+
+export function IsValidUUID(uuid: string): boolean {
+  return validateUUID(uuid) && uuidVersion(uuid) === 4;
 }

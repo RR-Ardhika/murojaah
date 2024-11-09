@@ -5,7 +5,7 @@ import { History } from '@/api/module/history/entity';
 
 const idbCon: Connection = initJsStore();
 
-export function FindAll(): Promise<unknown> {
+export function FindAll(): Promise<History[]> {
   return idbCon.select<History>({ from: 'histories', order: { by: 'occuredAt', type: 'desc' } });
 }
 
@@ -13,10 +13,10 @@ export function Insert(item: History): Promise<unknown> {
   return idbCon.insert({ into: 'histories', values: [item] });
 }
 
-export function DeleteRecord(item: History): Promise<unknown> {
-  const id: number = item.id ?? -1;
+export function DeleteRecord(item: History): Promise<number> {
+  if (!item.id) return Promise.reject(new Error('Invalid id'));
   return idbCon.remove({
     from: 'histories',
-    where: { id: id },
+    where: { id: item.id },
   });
 }
