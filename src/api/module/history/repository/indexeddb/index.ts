@@ -14,7 +14,6 @@ export function Insert(item: History): Promise<unknown> {
 }
 
 export function DeleteRecord(item: History): Promise<number> {
-  if (!item.id) return Promise.reject(new Error('Invalid id'));
   return idbCon.remove({
     from: 'histories',
     where: { id: item.id },
