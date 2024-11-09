@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { History, HistoryType } from '@/api/module/history/entity';
 import { HistoryStat } from '@/api/module/stat/entity';
+import { GetSurahById, SurahType } from '@/api/shared/entity';
 import { Destroy } from '@/api/module/history/service';
 import { GetHistoryStat } from '@/api/module/stat/service';
 import { Show } from '@/api/module/approach/service';
@@ -28,6 +29,13 @@ const Card = (item: History): JSX.Element => {
     return `${item.repeat}x`;
   }
 
+  function convertSurahIdToName(id: number | undefined): string {
+    if (!id) return '';
+    const surah: SurahType | undefined = GetSurahById(id);
+    if (!surah) return '';
+    return surah.name;
+  }
+
   const JuzCard = (): JSX.Element => {
     return (
       <>
@@ -47,7 +55,7 @@ const Card = (item: History): JSX.Element => {
     return (
       <>
         <p className={cardClassnames.title}>
-          {getRepeatString()} Surah {item.surahName}
+          {getRepeatString()} Surah {convertSurahIdToName(item.surah)}
         </p>
         <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
         {item.markJuzDone && <p className={cardClassnames.data}>Juz was marked as done</p>}
@@ -67,7 +75,7 @@ const Card = (item: History): JSX.Element => {
         <p className={cardClassnames.title}>
           {getRepeatString()} Ayah {item.startAyah} to {item.endAyah}
         </p>
-        <p className={cardClassnames.data}>Surah {item.surahName}</p>
+        <p className={cardClassnames.data}>Surah {convertSurahIdToName(item.surah)}</p>
         <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
         {item.markSurahDone && <p className={cardClassnames.data}>Surah was marked as done</p>}
         {item.markJuzDone && <p className={cardClassnames.data}>Juz was marked as done</p>}

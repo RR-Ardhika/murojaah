@@ -18,7 +18,6 @@ const histories: ITable = {
     historyType: { dataType: DATA_TYPE.Number, notNull: true },
     juz: { dataType: DATA_TYPE.Number },
     surah: { dataType: DATA_TYPE.Number },
-    surahName: { dataType: DATA_TYPE.String, enableSearch: false },
     startAyah: { dataType: DATA_TYPE.Number, enableSearch: false },
     endAyah: { dataType: DATA_TYPE.Number, enableSearch: false },
     markSurahDone: { dataType: DATA_TYPE.Boolean, enableSearch: false },

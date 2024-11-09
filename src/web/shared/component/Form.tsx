@@ -391,8 +391,6 @@ const Form = ({
         // @ts-expect-error handled undefined value
         surah: selectedSurah.value,
         // @ts-expect-error handled undefined value
-        surahName: selectedSurah.label,
-        // @ts-expect-error handled undefined value
         startAyah: parseInt(startAyah),
         // @ts-expect-error handled undefined value
         endAyah: parseInt(endAyah),
