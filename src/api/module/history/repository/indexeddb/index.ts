@@ -1,11 +1,11 @@
 import { Connection } from 'jsstore';
+
 import { initJsStore } from '@/api/database/indexeddb/connection';
 import { History } from '@/api/module/history/entity';
 
 const idbCon: Connection = initJsStore();
 
 export function FindAll(): Promise<unknown> {
-  // TD-4 Implement order by date
   return idbCon.select<History>({ from: 'histories', order: { by: 'occuredAt', type: 'desc' } });
 }
 

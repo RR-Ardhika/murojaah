@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import { FindEmpty } from '@/api/shared/util/validator';
 import { Payload, History, HistoryType } from '@/api/module/history/entity';
 import { Insert } from '@/api/module/history/repository/indexeddb';
@@ -20,6 +22,7 @@ function CreateByJuz(payload: Payload): Promise<unknown> {
     return Promise.reject(new Error('Error 422 Unprocessable Entity error validating juz payload'));
 
   const history: History = {
+    id: uuidv4(),
     historyType: payload.historyType,
     juz: payload.juz,
     approachId: payload.approachId,
@@ -39,6 +42,7 @@ function CreateBySurah(payload: Payload): Promise<unknown> {
   // @ts-expect-error handled undefined value
   for (const [i, opt] of payload.surahOptions.entries()) {
     const history: History = {
+      id: uuidv4(),
       historyType: payload.historyType,
       surah: opt.value,
       surahName: opt.label,
@@ -63,6 +67,7 @@ function CreateByAyah(payload: Payload): Promise<unknown> {
     );
 
   const history: History = {
+    id: uuidv4(),
     historyType: payload.historyType,
     surah: payload.surah,
     surahName: payload.surahName,

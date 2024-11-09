@@ -1,7 +1,7 @@
 import { Option } from '@/api/shared/entity';
 
 export type History = {
-  id?: number;
+  id?: string;
   historyType: number;
   juz?: number;
   surah?: number;
