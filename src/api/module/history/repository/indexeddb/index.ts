@@ -63,15 +63,15 @@ export async function Import(blob: Blob): Promise<void> {
   try {
     const { importDB } = await import('dexie-export-import');
     await db.open();
-    const transformedData: Blob = await transformImportedData(blob);
     // @ts-expect-error db is exist
-    await importDB(transformedData, { db });
+    await importDB(blob, { db });
   } catch (err) {
     console.error('Import failed:', err);
     throw err;
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function transformImportedData(blob: Blob): Promise<Blob> {
   const jsonString: string = await blob.text();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
