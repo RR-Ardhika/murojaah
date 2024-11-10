@@ -51,7 +51,8 @@ function CreateBySurah(payload: entity.Payload): Promise<number | unknown[]> {
     };
 
     // @ts-expect-error handled undefined value
-    if (i === payload.surahOptions.length - 1) history.markJuzDone = payload.markJuzDone;
+    if (i === payload.surahOptions.length - 1 && payload.markJuzDone)
+      history.markJuzDone = payload.markJuzDone;
 
     repo.Insert(history);
   }
