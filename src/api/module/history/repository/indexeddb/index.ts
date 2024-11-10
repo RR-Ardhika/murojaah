@@ -74,15 +74,15 @@ export async function Import(blob: Blob): Promise<void> {
 
 async function transformImportedData(blob: Blob): Promise<Blob> {
   const jsonString: string = await blob.text();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const jsonObject: Record<string, any> = JSON.parse(jsonString);
-  const rows = jsonObject?.data?.data[0]?.rows;
+  const rows: Array<unknown> = jsonObject?.data?.data[0]?.rows;
 
   if (Array.isArray(rows)) {
-    // eslint-disable-next-line @typescript-eslint/typedef
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     jsonObject.data.data[0].rows = rows.map((history: any) => {
-      // Remove surahName
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { id, surahName, ...rest } = history;
+      const { id, surahName, ...rest } = history; // Remove surahName
 
       // Convert id to UUID v4
       return { id: uuidv4(), ...rest };
