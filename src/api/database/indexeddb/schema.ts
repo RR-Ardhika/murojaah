@@ -14,17 +14,16 @@ export function getDatabase(): IDataBase {
 const histories: ITable = {
   name: 'histories',
   columns: {
-    id: { primaryKey: true, autoIncrement: true },
+    id: { primaryKey: true, dataType: DATA_TYPE.String },
     historyType: { dataType: DATA_TYPE.Number, notNull: true },
     juz: { dataType: DATA_TYPE.Number },
     surah: { dataType: DATA_TYPE.Number },
-    surahName: { dataType: DATA_TYPE.String },
-    startAyah: { dataType: DATA_TYPE.Number },
-    endAyah: { dataType: DATA_TYPE.Number },
-    markSurahDone: { dataType: DATA_TYPE.Boolean },
-    markJuzDone: { dataType: DATA_TYPE.Boolean },
+    startAyah: { dataType: DATA_TYPE.Number, enableSearch: false },
+    endAyah: { dataType: DATA_TYPE.Number, enableSearch: false },
+    markSurahDone: { dataType: DATA_TYPE.Boolean, enableSearch: false },
+    markJuzDone: { dataType: DATA_TYPE.Boolean, enableSearch: false },
     approachId: { dataType: DATA_TYPE.Number, notNull: true },
-    repeat: { dataType: DATA_TYPE.Number, notNull: true },
+    repeat: { dataType: DATA_TYPE.Number, notNull: true, enableSearch: false },
     occuredAt: { dataType: DATA_TYPE.DateTime, notNull: true },
   },
 };
