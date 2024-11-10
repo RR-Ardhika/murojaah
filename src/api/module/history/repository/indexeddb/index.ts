@@ -1,10 +1,10 @@
-import * as entity from '@/api/module/history/entity';
 import { Connection } from 'jsstore';
+import { v4 as uuidv4 } from 'uuid';
+import { exportDB, importDB } from 'dexie-export-import';
+import Dexie from 'dexie';
 
 import { initJsStore } from '@/api/database/indexeddb/connection';
-import Dexie from 'dexie';
-// @ts-expect-error valid import
-import * as IDBExportImport from 'indexeddb-export-import';
+import * as entity from '@/api/module/history/entity';
 
 const idbCon: Connection = initJsStore();
 
@@ -26,7 +26,7 @@ export function DeleteRecord(item: entity.History): Promise<number> {
   });
 }
 
-export async function Export(): Promise<string> {
+export async function Export(): Promise<Blob> {
   const db: Dexie = new Dexie('murojaah');
 
   db.version(0.1).stores({
@@ -36,54 +36,46 @@ export async function Export(): Promise<string> {
 
   try {
     await db.open();
-    const idbDatabase: IDBDatabase = db.backendDB();
-
-    // eslint-disable-next-line @typescript-eslint/typedef
-    const jsonString: string = await new Promise<string>((resolve, reject) => {
-      IDBExportImport.exportToJsonString(idbDatabase, (err: Error, result: string) => {
-        if (err) return reject(err);
-        resolve(result);
-      });
-    });
-
-    return jsonString;
+    const blob = await exportDB(db);
+    return blob;
   } catch (err) {
     console.error('Export failed:', err);
     throw err;
   }
 }
 
-export async function Import(jsonString: string): Promise<void> {
+export async function Import(blob: Blob): Promise<void> {
   const db: Dexie = new Dexie('murojaah');
 
   db.version(0.1).stores({
     histories:
-      'id, historyType, juz, surah, surahName, startAyah, endAyah, markSurahDone, markJuzDone, approachId, repeat, occuredAt',
+      'id, historyType, juz, surah, startAyah, endAyah, markSurahDone, markJuzDone, approachId, repeat, occuredAt',
   });
 
   try {
     await db.open();
-    const idbDatabase: IDBDatabase = db.backendDB();
-
-    // eslint-disable-next-line @typescript-eslint/typedef
-    await new Promise<boolean>((resolve, reject) => {
-      IDBExportImport.importFromJsonString(
-        idbDatabase,
-        transformImportedData(jsonString),
-        function (err: Error) {
-          if (err) return reject(err);
-          resolve(true);
-        }
-      );
-    });
+    const transformedData = await transformImportedData(blob);
+    // @ts-expect-error db is exist
+    await importDB(transformedData, { db });
   } catch (err) {
     console.error('Import failed:', err);
     throw err;
   }
 }
 
-function transformImportedData(jsonString: string): string {
-  const jsonObject: Record<string, string> = JSON.parse(jsonString);
-  delete jsonObject.JsStore_Meta; // TD-11 Handle when version is different
-  return JSON.stringify(jsonObject);
+async function transformImportedData(blob: Blob): Promise<Blob> {
+  const jsonString = await blob.text();
+  const jsonObject: Record<string, any> = JSON.parse(jsonString);
+
+  if (Array.isArray(jsonObject.histories)) {
+    jsonObject.histories = jsonObject.histories.map((history) => {
+      // Remove surahName
+      const { id, surahName, occuredAt, ...rest } = history;
+
+      // Convert id to UUID v4
+      return { id: uuidv4(), ...rest };
+    });
+  }
+
+  return new Blob([JSON.stringify(jsonObject)], { type: 'application/json' });
 }

@@ -20,10 +20,9 @@ export default function Component(): JSX.Element {
   // @ts-expect-error expected return value type
   async function doExport(): void {
     try {
-      const jsonString: string = await Export();
+      const blob: Blob = await Export();
 
       // Create a blob with the JSON data
-      const blob: Blob = new Blob([jsonString], { type: 'application/json' });
       const url: string = URL.createObjectURL(blob);
 
       // Create a temporary link element
@@ -56,7 +55,8 @@ export default function Component(): JSX.Element {
     reader.onload = async (): void => {
       try {
         const jsonString: string = reader.result as string;
-        Import(jsonString);
+        const blob: Blob = new Blob([jsonString], { type: 'application/json' });
+        await Import(blob);
         window.location.reload(); // TD-6 Implement proper success import notification
       } catch (err) {
         console.error('Import failed:', err);

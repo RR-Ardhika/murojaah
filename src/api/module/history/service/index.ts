@@ -12,10 +12,10 @@ export function Destroy(item: entity.History): Promise<number> {
   return repo.DeleteRecord(item);
 }
 
-export function Export(): Promise<string> {
+export function Export(): Promise<Blob> {
   return repo.Export();
 }
 
-export function Import(jsonString: string): Promise<void> {
+export function Import(jsonString: Blob): Promise<void> {
   return repo.Import(jsonString);
 }
