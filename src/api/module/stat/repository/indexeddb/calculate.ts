@@ -1,8 +1,10 @@
-import * as entity from '@/api/module/stat/entity';
+import { DateTime } from 'luxon';
+
 import * as entityHistory from '@/api/module/history/entity';
+import * as entity from '@/api/module/stat/entity';
 import * as entityJuz from '@/api/shared/entity/juz';
 import * as entitySurah from '@/api/shared/entity/surah';
-import { DateTime } from 'luxon';
+
 
 export function CalculateStats(histories: entityHistory.History[]): entity.Stat[] {
   const stats: entity.Stat[] = [];

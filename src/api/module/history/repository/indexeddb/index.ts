@@ -1,6 +1,6 @@
+import Dexie from 'dexie';
 import { Connection } from 'jsstore';
 import { v4 as uuidv4 } from 'uuid';
-import Dexie from 'dexie';
 
 import { initJsStore } from '@/api/database/indexeddb/connection';
 import * as entity from '@/api/module/history/entity';

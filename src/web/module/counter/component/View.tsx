@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
-import { GetOptionsFromSurahId } from '@/api/shared/entity/surah';
-import { Counter } from '@/api/module/counter/entity';
-import { useData } from '@/web/module/counter/context/DataContext';
-import { useAlert } from '@/web/shared/context/AlertContext';
 import { clsx } from 'clsx';
+import { useEffect, useState } from 'react';
+
+import { Counter } from '@/api/module/counter/entity';
+import { GetOptionsFromSurahId } from '@/api/shared/entity/surah';
 import Card from '@/web/module/counter/component/Card';
+import { useData } from '@/web/module/counter/context/DataContext';
 import Form from '@/web/shared/component/Form';
+import { useAlert } from '@/web/shared/context/AlertContext';
 
 const View = (): JSX.Element => {
   const classNames: Record<string, string> = {

@@ -1,14 +1,15 @@
+import { clsx } from 'clsx';
+import { DateTime } from 'luxon';
 import { useState, useEffect } from 'react';
-import { GetTotalJuzFromLines } from '@/api/shared/entity/juz';
+
 import { History } from '@/api/module/history/entity';
 import { HistoryStat } from '@/api/module/stat/entity';
 import { GetHistoryStat } from '@/api/module/stat/service';
+import { GetTotalJuzFromLines } from '@/api/shared/entity/juz';
+import Card from '@/web/module/history/component/Card';
+import { useData } from '@/web/module/history/context/DataContext';
 import { useAlert } from '@/web/shared/context/AlertContext';
 import { formatDate } from '@/web/shared/util/datetime';
-import { useData } from '@/web/module/history/context/DataContext';
-import { DateTime } from 'luxon';
-import { clsx } from 'clsx';
-import Card from '@/web/module/history/component/Card';
 
 const View = (): JSX.Element => {
   // @ts-expect-error useAlert

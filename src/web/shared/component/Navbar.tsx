@@ -1,4 +1,5 @@
 import Link from 'next/link';
+
 import Links from '@/web/shared/util/const';
 
 const Navbar = (): JSX.Element => {

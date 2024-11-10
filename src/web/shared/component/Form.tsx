@@ -1,15 +1,17 @@
+import { Transition, Dialog } from '@headlessui/react';
+import { clsx } from 'clsx';
+import { DateTime } from 'luxon';
 import { Dispatch, Fragment, useEffect, useState, SetStateAction } from 'react';
-import { Option, JuzOptions, SurahOptions } from '@/api/shared/entity';
-import { HistoryType, Payload } from '@/api/module/history/entity';
+import Select from 'react-select';
+
 import { ApproachOptions } from '@/api/module/approach/entity';
+import { HistoryType, Payload } from '@/api/module/history/entity';
 import { Create } from '@/api/module/history/service';
+import { Option, JuzOptions, SurahOptions } from '@/api/shared/entity';
+import { AlertColor, AlertText } from '@/web/shared/component/Alert';
 import { useAlert } from '@/web/shared/context/AlertContext';
 import { formFormatDatetimes } from '@/web/shared/util/datetime';
-import { AlertColor, AlertText } from '@/web/shared/component/Alert';
-import { Transition, Dialog } from '@headlessui/react';
-import { DateTime } from 'luxon';
-import { clsx } from 'clsx';
-import Select from 'react-select';
+
 
 interface Props {
   formType: string;

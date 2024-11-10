@@ -1,9 +1,9 @@
-import * as entity from '@/api/module/stat/entity';
 import * as entityHistory from '@/api/module/history/entity';
-import * as entitySurah from '@/api/shared/entity/surah';
-import * as entityJuz from '@/api/shared/entity/juz';
-import * as repo from '@/api/module/stat/repository/indexeddb';
 import * as repoHistory from '@/api/module/history/repository/indexeddb';
+import * as entity from '@/api/module/stat/entity';
+import * as repo from '@/api/module/stat/repository/indexeddb';
+import * as entityJuz from '@/api/shared/entity/juz';
+import * as entitySurah from '@/api/shared/entity/surah';
 
 // @ts-expect-error expected return value type
 export async function Index(): entity.Stat[] {

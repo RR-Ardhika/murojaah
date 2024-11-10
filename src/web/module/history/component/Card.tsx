@@ -1,15 +1,16 @@
-import { useState } from 'react';
-import { History, HistoryType } from '@/api/module/history/entity';
-import { HistoryStat } from '@/api/module/stat/entity';
-import { GetSurahById, SurahType } from '@/api/shared/entity';
-import { Destroy } from '@/api/module/history/service';
-import { GetHistoryStat } from '@/api/module/stat/service';
-import { Show } from '@/api/module/approach/service';
-import { useData } from '@/web/module/history/context/DataContext';
-import { useAlert } from '@/web/shared/context/AlertContext';
-import { AlertColor, AlertText } from '@/web/shared/component/Alert';
-import { formatDatetime } from '@/web/shared/util/datetime';
 import { clsx } from 'clsx';
+import { useState } from 'react';
+
+import { Show } from '@/api/module/approach/service';
+import { History, HistoryType } from '@/api/module/history/entity';
+import { Destroy } from '@/api/module/history/service';
+import { HistoryStat } from '@/api/module/stat/entity';
+import { GetHistoryStat } from '@/api/module/stat/service';
+import { GetSurahById, SurahType } from '@/api/shared/entity';
+import { useData } from '@/web/module/history/context/DataContext';
+import { AlertColor, AlertText } from '@/web/shared/component/Alert';
+import { useAlert } from '@/web/shared/context/AlertContext';
+import { formatDatetime } from '@/web/shared/util/datetime';
 
 const Card = (item: History): JSX.Element => {
   // @ts-expect-error useAlert
