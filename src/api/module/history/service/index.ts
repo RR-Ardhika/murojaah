@@ -19,3 +19,7 @@ export function Export(): Promise<Blob> {
 export function Import(jsonString: Blob): Promise<void> {
   return repo.Import(jsonString);
 }
+
+export function DropDB(): Promise<void> {
+  return repo.DropDB();
+}

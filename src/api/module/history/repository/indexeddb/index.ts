@@ -91,3 +91,7 @@ async function transformImportedData(blob: Blob): Promise<Blob> {
 
   return new Blob([JSON.stringify(jsonObject)], { type: 'application/json' });
 }
+
+export function DropDB(): Promise<void> {
+  return idbCon.dropDb();
+}
