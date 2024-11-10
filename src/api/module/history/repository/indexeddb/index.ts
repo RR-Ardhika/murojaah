@@ -31,6 +31,7 @@ export async function Export(): Promise<Blob> {
 
   const db: Dexie = new Dexie('murojaah');
 
+  // TD-12 Handle different version export / import
   db.version(0.1).stores({
     histories:
       'id, historyType, juz, surah, startAyah, endAyah, markSurahDone, markJuzDone, approachId, repeat, occuredAt',
@@ -53,6 +54,7 @@ export async function Import(blob: Blob): Promise<void> {
 
   const db: Dexie = new Dexie('murojaah');
 
+  // TD-12 Handle different version export / import
   db.version(0.1).stores({
     histories:
       'id, historyType, juz, surah, startAyah, endAyah, markSurahDone, markJuzDone, approachId, repeat, occuredAt',
