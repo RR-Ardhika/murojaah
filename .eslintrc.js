@@ -1,5 +1,5 @@
 module.exports = {
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'import'],
   parserOptions: {
     ecmaVersion: 2021,
     sourceType: 'module',
@@ -15,26 +15,42 @@ module.exports = {
   rules: {
     'react-hooks/exhaustive-deps': 'error',
     '@typescript-eslint/explicit-module-boundary-types': 'error',
-    '@typescript-eslint/explicit-function-return-type': 'error',
-    '@typescript-eslint/naming-convention': [
+    'import/order': [
       'error',
       {
-        selector: 'variable',
-        format: ['camelCase'],
-      },
-      {
-        selector: 'function',
-        format: ['camelCase'],
-      },
-      {
-        selector: 'class',
-        format: ['PascalCase'],
-      },
-      {
-        selector: 'typeLike',
-        format: ['PascalCase'],
+        groups: [
+          'builtin', // Node "builtin" modules (like fs, path)
+          'external', // External packages (like react, lodash)
+          'internal', // Internal modules (within the project)
+          ['parent', 'sibling', 'index'], // Parent, sibling, and index imports
+        ],
+        'newlines-between': 'always', // Adds newlines between groups
+        alphabetize: {
+          order: 'asc', // Sorts within groups alphabetically
+          caseInsensitive: true,
+        },
       },
     ],
+    '@typescript-eslint/explicit-function-return-type': 'error',
+    // '@typescript-eslint/naming-convention': [
+    //   'error',
+    //   {
+    //     selector: 'variable',
+    //     format: ['camelCase'],
+    //   },
+    //   {
+    //     selector: 'function',
+    //     format: ['camelCase'],
+    //   },
+    //   {
+    //     selector: 'class',
+    //     format: ['PascalCase'],
+    //   },
+    //   {
+    //     selector: 'typeLike',
+    //     format: ['PascalCase'],
+    //   },
+    // ],
     '@typescript-eslint/typedef': [
       'error',
       {
