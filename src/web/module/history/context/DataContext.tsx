@@ -24,4 +24,4 @@ const DataProvider = ({ children }: { children: ReactNode }): JSX.Element => {
   return <DataContext.Provider value={{ data, fetchData }}>{children}</DataContext.Provider>;
 };
 
-export default DataProvider
+export default DataProvider;

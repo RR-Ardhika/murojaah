@@ -1,11 +1,10 @@
 import { Option } from '@/api/shared/entity';
 
 export type History = {
-  id?: number;
+  id: string;
   historyType: number;
   juz?: number;
   surah?: number;
-  surahName?: string;
   startAyah?: number;
   endAyah?: number;
   markSurahDone?: boolean;
@@ -20,7 +19,6 @@ export type Payload = {
   juz?: number | undefined;
   surah?: number | undefined;
   surahOptions?: Option[] | undefined;
-  surahName?: string | undefined;
   startAyah?: number | undefined;
   endAyah?: number | undefined;
   markSurahDone?: boolean | undefined;

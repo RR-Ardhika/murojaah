@@ -1,7 +1,5 @@
-import { JuzOptions } from '@/api/shared/entity/juz';
-import { SurahOptions } from '@/api/shared/entity/surah';
-
-export { JuzOptions, SurahOptions };
+export * from '@/api/shared/entity/juz';
+export * from '@/api/shared/entity/surah';
 
 export type Option = {
   value: number;
