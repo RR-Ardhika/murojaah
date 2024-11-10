@@ -17,7 +17,7 @@ const Card = (item: History): JSX.Element => {
   const { fetchData } = useData();
   const historyStat: HistoryStat = GetHistoryStat(item);
 
-  const cardClassnames: Record<string, string> = {
+  const classNames: Record<string, string> = {
     container: 'p-4 mb-5 bg-custom-teal text-white rounded-lg',
     title: 'text-xl font-black',
     data: 'font-normal',
@@ -39,14 +39,14 @@ const Card = (item: History): JSX.Element => {
   const JuzCard = (): JSX.Element => {
     return (
       <>
-        <p className={cardClassnames.title}>Juz {item.juz}</p>
-        <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
-        <p className={cardClassnames.data}>
+        <p className={classNames.title}>Juz {item.juz}</p>
+        <p className={classNames.data}>Murojaah {Show(item.approachId)}</p>
+        <p className={classNames.data}>
           <span>{historyStat.juz} juz, </span>
           <span>{historyStat.ayah} ayah, </span>
           <span>{historyStat.lines} lines</span>
         </p>
-        <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
+        <p className={classNames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
     );
   };
@@ -54,17 +54,17 @@ const Card = (item: History): JSX.Element => {
   const SurahCard = (): JSX.Element => {
     return (
       <>
-        <p className={cardClassnames.title}>
+        <p className={classNames.title}>
           {getRepeatString()} Surah {convertSurahIdToName(item.surah)}
         </p>
-        <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
-        {item.markJuzDone && <p className={cardClassnames.data}>Juz was marked as done</p>}
-        <p className={cardClassnames.data}>
+        <p className={classNames.data}>Murojaah {Show(item.approachId)}</p>
+        {item.markJuzDone && <p className={classNames.data}>Juz was marked as done</p>}
+        <p className={classNames.data}>
           <span>{historyStat.juz} juz, </span>
           <span>{historyStat.ayah} ayah, </span>
           <span>{historyStat.lines} lines</span>
         </p>
-        <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
+        <p className={classNames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
     );
   };
@@ -72,19 +72,19 @@ const Card = (item: History): JSX.Element => {
   const AyahCard = (): JSX.Element => {
     return (
       <>
-        <p className={cardClassnames.title}>
+        <p className={classNames.title}>
           {getRepeatString()} Ayah {item.startAyah} to {item.endAyah}
         </p>
-        <p className={cardClassnames.data}>Surah {convertSurahIdToName(item.surah)}</p>
-        <p className={cardClassnames.data}>Murojaah {Show(item.approachId)}</p>
-        {item.markSurahDone && <p className={cardClassnames.data}>Surah was marked as done</p>}
-        {item.markJuzDone && <p className={cardClassnames.data}>Juz was marked as done</p>}
-        <p className={cardClassnames.data}>
+        <p className={classNames.data}>Surah {convertSurahIdToName(item.surah)}</p>
+        <p className={classNames.data}>Murojaah {Show(item.approachId)}</p>
+        {item.markSurahDone && <p className={classNames.data}>Surah was marked as done</p>}
+        {item.markJuzDone && <p className={classNames.data}>Juz was marked as done</p>}
+        <p className={classNames.data}>
           <span>{historyStat.juz} juz, </span>
           <span>{historyStat.ayah} ayah, </span>
           <span>{historyStat.lines} lines</span>
         </p>
-        <p className={cardClassnames.date}>{formatDatetime(item.occuredAt)}</p>
+        <p className={classNames.date}>{formatDatetime(item.occuredAt)}</p>
       </>
     );
   };
@@ -116,13 +116,13 @@ const Card = (item: History): JSX.Element => {
         await Destroy(item);
         fetchData();
         showAlert(AlertColor.Red, AlertText.SuccessDeletedHistory);
-      } catch (error) {
+      } catch {
         showAlert(AlertColor.Red, AlertText.FailedDeletedHistory);
       }
     }
 
     return (
-      <div className={cardClassnames.container}>
+      <div className={classNames.container}>
         <div onClick={toggleButtons}>{children}</div>
         {isButtonsVisible && (
           <div className="flex flex-col gap-2 w-full mt-2">

@@ -5,7 +5,7 @@ import { clsx } from 'clsx';
 import Form from '@/web/shared/component/Form';
 
 const CreateButton = (): JSX.Element => {
-  const btnClass: Record<string, string> = {
+  const classNames: Record<string, string> = {
     base: 'bg-white active:bg-teal-200 border-2 text-custom-teal border-custom-teal rounded-full',
     main: 'relative right-1 w-16 h-16',
     mainLeft: 'left-[7px]',
@@ -32,13 +32,13 @@ const CreateButton = (): JSX.Element => {
   function renderSubButtons(): JSX.Element {
     return (
       <div className="flex flex-col gap-4">
-        <button className={clsx(btnClass.base, btnClass.sub)} onClick={() => showForm('Juz')}>
+        <button className={clsx(classNames.base, classNames.sub)} onClick={() => showForm('Juz')}>
           <span className="text-xl">Juz</span>
         </button>
-        <button className={clsx(btnClass.base, btnClass.sub)} onClick={() => showForm('Ayah')}>
+        <button className={clsx(classNames.base, classNames.sub)} onClick={() => showForm('Ayah')}>
           <span className="text-xl">Ayah</span>
         </button>
-        <button className={clsx(btnClass.base, btnClass.sub)} onClick={() => showForm('Surah')}>
+        <button className={clsx(classNames.base, classNames.sub)} onClick={() => showForm('Surah')}>
           <span className="text-xl">Surah</span>
         </button>
       </div>
@@ -51,7 +51,11 @@ const CreateButton = (): JSX.Element => {
         {isSubButtonsVisible && renderSubButtons()}
 
         <button
-          className={clsx(btnClass.base, btnClass.main, isSubButtonsVisible && btnClass.mainLeft)}
+          className={clsx(
+            classNames.base,
+            classNames.main,
+            isSubButtonsVisible && classNames.mainLeft
+          )}
           onClick={() => toggleShowSubButtons()}
         >
           <span className="relative bottom-1 text-6xl font-extralight">+</span>
