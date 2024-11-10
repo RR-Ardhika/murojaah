@@ -1,6 +1,5 @@
 import { Connection } from 'jsstore';
 import { v4 as uuidv4 } from 'uuid';
-import { exportDB, importDB } from 'dexie-export-import';
 import Dexie from 'dexie';
 
 import { initJsStore } from '@/api/database/indexeddb/connection';
@@ -27,6 +26,9 @@ export function DeleteRecord(item: entity.History): Promise<number> {
 }
 
 export async function Export(): Promise<Blob> {
+  if (typeof window === 'undefined')
+    return Promise.reject(new Error('Cannot export in server side'));
+
   const db: Dexie = new Dexie('murojaah');
 
   db.version(0.1).stores({
@@ -35,8 +37,9 @@ export async function Export(): Promise<Blob> {
   });
 
   try {
+    const { exportDB } = await import('dexie-export-import');
     await db.open();
-    const blob = await exportDB(db);
+    const blob: Blob = await exportDB(db);
     return blob;
   } catch (err) {
     console.error('Export failed:', err);
@@ -45,6 +48,9 @@ export async function Export(): Promise<Blob> {
 }
 
 export async function Import(blob: Blob): Promise<void> {
+  if (typeof window === 'undefined')
+    return Promise.reject(new Error('Cannot import in server side'));
+
   const db: Dexie = new Dexie('murojaah');
 
   db.version(0.1).stores({
@@ -53,8 +59,9 @@ export async function Import(blob: Blob): Promise<void> {
   });
 
   try {
+    const { importDB } = await import('dexie-export-import');
     await db.open();
-    const transformedData = await transformImportedData(blob);
+    const transformedData: Blob = await transformImportedData(blob);
     // @ts-expect-error db is exist
     await importDB(transformedData, { db });
   } catch (err) {
@@ -64,12 +71,14 @@ export async function Import(blob: Blob): Promise<void> {
 }
 
 async function transformImportedData(blob: Blob): Promise<Blob> {
-  const jsonString = await blob.text();
-  const jsonObject: Record<string, any> = JSON.parse(jsonString);
+  const jsonString: string = await blob.text();
+  const jsonObject: Record<string, unknown> = JSON.parse(jsonString);
 
   if (Array.isArray(jsonObject.histories)) {
+    // eslint-disable-next-line @typescript-eslint/typedef
     jsonObject.histories = jsonObject.histories.map((history) => {
       // Remove surahName
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { id, surahName, occuredAt, ...rest } = history;
 
       // Convert id to UUID v4
