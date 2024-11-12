@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 
 import { History } from '@/api/module/history/entity';
 import { HistoryStat } from '@/api/module/stat/entity';
-import { GetHistoryStat } from '@/api/module/stat/service';
-import { GetTotalJuzFromLines } from '@/api/shared/entity/juz';
+import { getHistoryStat } from '@/api/module/stat/service';
+import { getTotalJuzFromLines } from '@/api/shared/entity/juz';
 import Card from '@/web/module/history/component/Card';
 import { useData } from '@/web/module/history/context/DataContext';
 import { useAlert } from '@/web/shared/context/AlertContext';
@@ -34,7 +34,7 @@ const View = (): JSX.Element => {
         const itemId: number = item.id;
 
         if (!newMapHistoryStats.has(formattedDate)) {
-          newMapHistoryStats.set(formattedDate, GetHistoryStat(item));
+          newMapHistoryStats.set(formattedDate, getHistoryStat(item));
           newMapIsProcessed.set(itemId, true);
           return;
         }
@@ -44,10 +44,10 @@ const View = (): JSX.Element => {
 
         if (isProcessed || !stat) return;
 
-        const newStat: HistoryStat = GetHistoryStat(item);
+        const newStat: HistoryStat = getHistoryStat(item);
         stat.ayah += newStat.ayah;
         stat.lines += newStat.lines;
-        stat.juz = GetTotalJuzFromLines(stat.lines);
+        stat.juz = getTotalJuzFromLines(stat.lines);
 
         newMapHistoryStats.set(formattedDate, stat);
         newMapIsProcessed.set(itemId, true);

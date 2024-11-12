@@ -8,7 +8,7 @@ export enum Approach {
   Memorizing = 'memorizing in progress',
 }
 
-export function ApproachOptions(): Option[] {
+export function approachOptions(): Option[] {
   const options: Option[] = [];
   const approachs: Approach[] = Object.values(Approach);
 

@@ -16,7 +16,7 @@ export type SurahType = {
 };
 
 // TD-4 Fill the rest total lines and ayah
-const Surah: SurahType[] = [
+const surah: SurahType[] = [
   { id: 1, name: '1 Al-Fatihah', juz: [1], totalLines: 0, totalAyah: 0 },
   { id: 2, name: '2 Al-Baqarah', juz: [1, 2, 3], totalLines: 0, totalAyah: 0 },
   { id: 3, name: '3 Ali Imran', juz: [3, 4], totalLines: 0, totalAyah: 0 },
@@ -143,31 +143,31 @@ const Surah: SurahType[] = [
   { id: 114, name: '114 An-Nas', juz: [30], totalLines: 4, totalAyah: 6 },
 ];
 
-export function GetSurahById(id: number): SurahType | undefined {
-  return Surah.find((obj: SurahType) => obj.id === id);
+export function getSurahById(id: number): SurahType | undefined {
+  return surah.find((obj: SurahType) => obj.id === id);
 }
 
-export function GetJuzBySurahId(id: number): number[] | SurahJuz[] {
-  const surah: SurahType | undefined = GetSurahById(id);
+export function getJuzBySurahId(id: number): number[] | SurahJuz[] {
+  const surah: SurahType | undefined = getSurahById(id);
   if (!surah) return [];
   return surah.juz;
 }
 
-export function GetOptionsFromSurahId(id: number): Option[] {
+export function getOptionsFromSurahId(id: number): Option[] {
   const options: Option[] = [];
-  const surah: SurahType | undefined = GetSurahById(id);
+  const surah: SurahType | undefined = getSurahById(id);
   // @ts-expect-error expected undefined
   const option: Option = { value: id, label: surah.name };
   options.push(option);
   return options;
 }
 
-export function SurahOptions(): Option[] {
+export function surahOptions(): Option[] {
   const options: Option[] = [];
 
   // eslint-disable-next-line @typescript-eslint/typedef
-  for (let i = 0; i < Surah.length; i++) {
-    const option: Option = { value: i + 1, label: Surah[i].name };
+  for (let i = 0; i < surah.length; i++) {
+    const option: Option = { value: i + 1, label: surah[i].name };
     options.push(option);
   }
 

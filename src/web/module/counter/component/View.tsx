@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import { useEffect, useState } from 'react';
 
 import { Counter } from '@/api/module/counter/entity';
-import { GetOptionsFromSurahId } from '@/api/shared/entity/surah';
+import { getOptionsFromSurahId } from '@/api/shared/entity/surah';
 import Card from '@/web/module/counter/component/Card';
 import { useData } from '@/web/module/counter/context/DataContext';
 import Form from '@/web/shared/component/Form';
@@ -42,7 +42,7 @@ const View = (): JSX.Element => {
   function showForm(item: Counter): void {
     hideAlert();
     // @ts-expect-error expected undefined
-    setParentSurah(GetOptionsFromSurahId(item.id));
+    setParentSurah(getOptionsFromSurahId(item.id));
     setIsFormVisible(true);
   }
 

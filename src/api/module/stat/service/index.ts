@@ -6,15 +6,15 @@ import * as entityJuz from '@/api/shared/entity/juz';
 import * as entitySurah from '@/api/shared/entity/surah';
 
 // @ts-expect-error expected return value type
-export async function Index(): entity.Stat[] {
-  const histories: entityHistory.History[] = await repoHistory.FindAll();
-  return repo.CalculateStats(histories);
+export async function index(): entity.Stat[] {
+  const histories: entityHistory.History[] = await repoHistory.findAll();
+  return repo.calculateStats(histories);
 }
 
-export function GetHistoryStat(history: entityHistory.History): entity.HistoryStat {
-  const lines: number = repo.CalculateTotalLinesFromHistory(history);
+export function getHistoryStat(history: entityHistory.History): entity.HistoryStat {
+  const lines: number = repo.calculateTotalLinesFromHistory(history);
   return {
-    juz: entityJuz.GetTotalJuzFromLines(lines),
+    juz: entityJuz.getTotalJuzFromLines(lines),
     ayah: getTotalAyah(history),
     lines: lines,
   };
@@ -26,16 +26,16 @@ function getTotalAyah(history: entityHistory.History): number {
   switch (history.historyType) {
     case entityHistory.HistoryType.Juz:
       // @ts-expect-error known type
-      const juz: entityJuz.JuzType = entityJuz.GetJuzById(history.juz);
+      const juz: entityJuz.JuzType = entityJuz.getJuzById(history.juz);
       // eslint-disable-next-line @typescript-eslint/typedef
       for (let i = juz.startSurah; i <= juz.endSurah; i++) {
         // @ts-expect-error known type
-        totalAyah += entitySurah.GetSurahById(i)?.totalAyah;
+        totalAyah += entitySurah.getSurahById(i)?.totalAyah;
       }
       break;
     case entityHistory.HistoryType.Surah:
       // @ts-expect-error expected undefined
-      const surah: entitySurah.SurahType = entitySurah.GetSurahById(history.surah);
+      const surah: entitySurah.SurahType = entitySurah.getSurahById(history.surah);
       totalAyah = surah.totalAyah * history.repeat;
       break;
     case entityHistory.HistoryType.Ayah:
@@ -47,6 +47,6 @@ function getTotalAyah(history: entityHistory.History): number {
   return totalAyah;
 }
 
-export function GetStatType(id: number): entity.StatType {
-  return repo.FindStatType(id);
+export function getStatType(id: number): entity.StatType {
+  return repo.findStatType(id);
 }

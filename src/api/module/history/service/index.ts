@@ -1,25 +1,25 @@
 import * as entity from '@/api/module/history/entity';
 import * as repo from '@/api/module/history/repository/indexeddb';
-import { Create } from '@/api/module/history/service/create';
+import { create } from '@/api/module/history/service/create';
 
-export { Create };
+export { create };
 
-export function Index(): Promise<entity.History[]> {
-  return repo.FindAll();
+export function index(): Promise<entity.History[]> {
+  return repo.findAll();
 }
 
-export function Destroy(item: entity.History): Promise<number> {
-  return repo.DeleteRecord(item);
+export function destroy(item: entity.History): Promise<number> {
+  return repo.deleteRecord(item);
 }
 
-export function Export(): Promise<Blob> {
-  return repo.Export();
+export function exportData(): Promise<Blob> {
+  return repo.exportData();
 }
 
-export function Import(jsonString: Blob): Promise<void> {
-  return repo.Import(jsonString);
+export function importData(jsonString: Blob): Promise<void> {
+  return repo.importData(jsonString);
 }
 
-export function DropDB(): Promise<void> {
-  return repo.DropDB();
+export function dropDb(): Promise<void> {
+  return repo.dropDb();
 }

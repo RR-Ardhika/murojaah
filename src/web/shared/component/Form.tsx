@@ -4,14 +4,13 @@ import { DateTime } from 'luxon';
 import { Dispatch, Fragment, useEffect, useState, SetStateAction } from 'react';
 import Select from 'react-select';
 
-import { ApproachOptions } from '@/api/module/approach/entity';
+import { approachOptions } from '@/api/module/approach/entity';
 import { HistoryType, Payload } from '@/api/module/history/entity';
-import { Create } from '@/api/module/history/service';
-import { Option, JuzOptions, SurahOptions } from '@/api/shared/entity';
+import { create } from '@/api/module/history/service';
+import { Option, juzOptions, surahOptions } from '@/api/shared/entity';
 import { AlertColor, AlertText } from '@/web/shared/component/Alert';
 import { useAlert } from '@/web/shared/context/AlertContext';
 import { formFormatDatetimes } from '@/web/shared/util/datetime';
-
 
 interface Props {
   formType: string;
@@ -40,7 +39,7 @@ const Form = ({
   const [searchInput, setSearchInput] = useState('');
   const [selectedJuz, setSelectedJuz] = useState(undefined);
   const [selectedSurah, setSelectedSurah] = useState(undefined);
-  const [selectedApproach, setSelectedApproach] = useState(ApproachOptions()[0]);
+  const [selectedApproach, setSelectedApproach] = useState(approachOptions()[0]);
   const [startAyah, setStartAyah] = useState(undefined);
   const [endAyah, setEndAyah] = useState(undefined);
   const [repeat, setRepeat] = useState(1);
@@ -84,7 +83,7 @@ const Form = ({
             defaultValue={selectedJuz}
             // @ts-expect-error react-select props
             onChange={setSelectedJuz}
-            options={JuzOptions()}
+            options={juzOptions()}
             isSearchable={false}
             styles={selectStyle}
           />
@@ -96,7 +95,7 @@ const Form = ({
             defaultValue={selectedApproach}
             // @ts-expect-error react-select props
             onChange={setSelectedApproach}
-            options={ApproachOptions()}
+            options={approachOptions()}
             isSearchable={false}
             styles={selectStyle}
           />
@@ -120,7 +119,7 @@ const Form = ({
             tabIndex={-1}
             value={selectedSurah}
             inputValue={searchInput}
-            options={SurahOptions()}
+            options={surahOptions()}
             isSearchable={true}
             isMulti={true}
             isClearable={false}
@@ -141,7 +140,7 @@ const Form = ({
             defaultValue={selectedApproach}
             // @ts-expect-error react-select props
             onChange={setSelectedApproach}
-            options={ApproachOptions()}
+            options={approachOptions()}
             isSearchable={false}
             styles={selectStyle}
           />
@@ -182,7 +181,7 @@ const Form = ({
             defaultValue={selectedSurah}
             // @ts-expect-error react-select props
             onChange={setSelectedSurah}
-            options={SurahOptions()}
+            options={surahOptions()}
             isSearchable={true}
             styles={selectStyle}
           />
@@ -194,7 +193,7 @@ const Form = ({
             defaultValue={selectedApproach}
             // @ts-expect-error react-select props
             onChange={setSelectedApproach}
-            options={ApproachOptions()}
+            options={approachOptions()}
             isSearchable={false}
             styles={selectStyle}
           />
@@ -314,7 +313,7 @@ const Form = ({
 
       try {
         setDisableSaveButton(true); // Prevent multiple click by disable the button
-        await Create(buildPayload());
+        await create(buildPayload());
         closeForm();
         if (setIsSubButtonsVisible) setIsSubButtonsVisible(false);
         showAlert(AlertColor.Green, AlertText.SuccessCreatedHistory);
@@ -343,7 +342,7 @@ const Form = ({
       setTimeout(() => {
         setSelectedJuz(undefined);
         setSelectedSurah(undefined);
-        setSelectedApproach(ApproachOptions()[0]);
+        setSelectedApproach(approachOptions()[0]);
         setRepeat(1);
         setIsSurahDone(false);
         setIsJuzDone(false);

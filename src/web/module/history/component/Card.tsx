@@ -1,12 +1,12 @@
 import { clsx } from 'clsx';
 import { useState } from 'react';
 
-import { Show } from '@/api/module/approach/service';
+import { show } from '@/api/module/approach/service';
 import { History, HistoryType } from '@/api/module/history/entity';
-import { Destroy } from '@/api/module/history/service';
+import { destroy } from '@/api/module/history/service';
 import { HistoryStat } from '@/api/module/stat/entity';
-import { GetHistoryStat } from '@/api/module/stat/service';
-import { GetSurahById, SurahType } from '@/api/shared/entity';
+import { getHistoryStat } from '@/api/module/stat/service';
+import { getSurahById, SurahType } from '@/api/shared/entity';
 import { useData } from '@/web/module/history/context/DataContext';
 import { AlertColor, AlertText } from '@/web/shared/component/Alert';
 import { useAlert } from '@/web/shared/context/AlertContext';
@@ -16,7 +16,7 @@ const Card = (item: History): JSX.Element => {
   // @ts-expect-error useAlert
   const { showAlert } = useAlert();
   const { fetchData } = useData();
-  const historyStat: HistoryStat = GetHistoryStat(item);
+  const historyStat: HistoryStat = getHistoryStat(item);
 
   const classNames: Record<string, string> = {
     container: 'p-4 mb-5 bg-custom-teal text-white rounded-lg',
@@ -32,7 +32,7 @@ const Card = (item: History): JSX.Element => {
 
   function convertSurahIdToName(id: number | undefined): string {
     if (!id) return '';
-    const surah: SurahType | undefined = GetSurahById(id);
+    const surah: SurahType | undefined = getSurahById(id);
     if (!surah) return '';
     return surah.name;
   }
@@ -41,7 +41,7 @@ const Card = (item: History): JSX.Element => {
     return (
       <>
         <p className={classNames.title}>Juz {item.juz}</p>
-        <p className={classNames.data}>Murojaah {Show(item.approachId)}</p>
+        <p className={classNames.data}>Murojaah {show(item.approachId)}</p>
         <p className={classNames.data}>
           <span>{historyStat.juz} juz, </span>
           <span>{historyStat.ayah} ayah, </span>
@@ -58,7 +58,7 @@ const Card = (item: History): JSX.Element => {
         <p className={classNames.title}>
           {getRepeatString()} Surah {convertSurahIdToName(item.surah)}
         </p>
-        <p className={classNames.data}>Murojaah {Show(item.approachId)}</p>
+        <p className={classNames.data}>Murojaah {show(item.approachId)}</p>
         {item.markJuzDone && <p className={classNames.data}>Juz was marked as done</p>}
         <p className={classNames.data}>
           <span>{historyStat.juz} juz, </span>
@@ -77,7 +77,7 @@ const Card = (item: History): JSX.Element => {
           {getRepeatString()} Ayah {item.startAyah} to {item.endAyah}
         </p>
         <p className={classNames.data}>Surah {convertSurahIdToName(item.surah)}</p>
-        <p className={classNames.data}>Murojaah {Show(item.approachId)}</p>
+        <p className={classNames.data}>Murojaah {show(item.approachId)}</p>
         {item.markSurahDone && <p className={classNames.data}>Surah was marked as done</p>}
         {item.markJuzDone && <p className={classNames.data}>Juz was marked as done</p>}
         <p className={classNames.data}>
@@ -114,7 +114,7 @@ const Card = (item: History): JSX.Element => {
 
     async function deleteRecord(item: History): Promise<void> {
       try {
-        await Destroy(item);
+        await destroy(item);
         fetchData();
         showAlert(AlertColor.Red, AlertText.SuccessDeletedHistory);
       } catch {

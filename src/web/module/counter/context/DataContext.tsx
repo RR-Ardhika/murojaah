@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 
 import { Counter } from '@/api/module/counter/entity';
-import { Index } from '@/api/module/counter/service';
+import { index } from '@/api/module/counter/service';
 
 // @ts-expect-error DataContextValues
 const DataContext: Context<DataContextValues> = createContext<DataContextValues>(undefined);
@@ -19,7 +19,7 @@ const DataProvider = ({ children }: { children: ReactNode }): JSX.Element => {
 
   function fetchData(): void {
     // @ts-expect-error DataProvider fetchData
-    Index().then((result: Counter[]) => setData(result));
+    index().then((result: Counter[]) => setData(result));
   }
 
   return <DataContext.Provider value={{ data, fetchData }}>{children}</DataContext.Provider>;

@@ -4,7 +4,7 @@ import * as entityHistory from '@/api/module/history/entity';
 import * as repoHistory from '@/api/module/history/repository/indexeddb';
 
 // @ts-expect-error expected return value type
-export async function Index(): entity.Counter[] {
-  const histories: entityHistory.History[] = await repoHistory.FindAll();
-  return repo.CalculateCounters(histories);
+export async function index(): entity.Counter[] {
+  const histories: entityHistory.History[] = await repoHistory.findAll();
+  return repo.calculateCounters(histories);
 }

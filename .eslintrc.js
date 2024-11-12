@@ -17,20 +17,14 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'error',
     '@typescript-eslint/naming-convention': [
       'error',
-      // Variables: camelCase, UPPER_CASE for constants
-      {
-        selector: 'variable',
-        format: ['camelCase', 'UPPER_CASE'],
-        leadingUnderscore: 'allow',
-      },
       // Functions: camelCase
       {
         selector: 'function',
         format: ['camelCase'],
       },
-      // Classes, interfaces, and types: PascalCase
+      // Enum: PascalCase
       {
-        selector: 'typeLike',
+        selector: 'enum',
         format: ['PascalCase'],
       },
       // Enum members: PascalCase
@@ -38,28 +32,33 @@ module.exports = {
         selector: 'enumMember',
         format: ['PascalCase'],
       },
-      // Properties and methods: camelCase, leading underscores allowed for private members
-      {
-        selector: 'property',
-        format: ['camelCase'],
-        leadingUnderscore: 'allow',
-      },
       {
         selector: 'method',
         format: ['camelCase'],
         leadingUnderscore: 'allow',
       },
-      // Static members: camelCase or UPPER_CASE
+      // Properties and methods: camelCase, leading underscores allowed for private members
       {
         selector: 'property',
-        modifiers: ['static'],
         format: ['camelCase', 'UPPER_CASE'],
+        leadingUnderscore: 'allow',
+      },
+      // Classes, interfaces, and types: PascalCase
+      {
+        selector: 'typeLike',
+        format: ['PascalCase'],
       },
       // Type parameters: PascalCase, prefixed with T
       {
         selector: 'typeParameter',
         format: ['PascalCase'],
         prefix: ['T'],
+      },
+      // Variables: camelCase, UPPER_CASE for constants
+      {
+        selector: 'variable',
+        format: ['camelCase', 'UPPER_CASE'],
+        leadingUnderscore: 'allow',
       },
     ],
     '@typescript-eslint/typedef': [
@@ -97,7 +96,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['**/component/**/*.{ts,tsx}'],
+      files: ['**/app/**/*.{ts,tsx}', '**/component/**/*.{ts,tsx}', '**/context/**/*.{ts,tsx}'],
       rules: {
         '@typescript-eslint/naming-convention': [
           'error',
@@ -105,6 +104,7 @@ module.exports = {
             selector: 'variable',
             format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
             leadingUnderscore: 'allow',
+            modifiers: ['exported'],
           },
         ],
       },
