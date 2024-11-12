@@ -74,6 +74,7 @@ module.exports = {
         variableDeclarationIgnoreFunction: true,
       },
     ],
+    'import/no-default-export': 'error', // Enforce named exports only
     'import/order': [
       'error',
       {
