@@ -74,7 +74,6 @@ module.exports = {
         variableDeclarationIgnoreFunction: true,
       },
     ],
-    // 'func-style': ['error', 'expression', { allowArrowFunctions: true }],
     'import/order': [
       'error',
       {
@@ -91,7 +90,6 @@ module.exports = {
         },
       },
     ],
-    // 'prefer-arrow-callback': 'error',
     'react-hooks/exhaustive-deps': 'error',
   },
   overrides: [
