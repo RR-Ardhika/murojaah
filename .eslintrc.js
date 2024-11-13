@@ -74,7 +74,6 @@ module.exports = {
         variableDeclarationIgnoreFunction: true,
       },
     ],
-    'func-style': ['error', 'expression', { allowArrowFunctions: true }],
     'import/no-default-export': 'error', // Enforce named exports only
     'import/order': [
       'error',
@@ -92,7 +91,6 @@ module.exports = {
         },
       },
     ],
-    'prefer-arrow-callback': 'error',
     'react-hooks/exhaustive-deps': 'error',
   },
   overrides: [
@@ -121,6 +119,13 @@ module.exports = {
       files: ['**/app/**/page.{ts,tsx}', '**/app/**/layout.{ts,tsx}'],
       rules: {
         'import/no-default-export': 'off', // Allow default exports for Next.js page and layout components
+      },
+    },
+    {
+      files: ['**/*.tsx'], // Apply the rules only to .tsx files
+      rules: {
+        'func-style': ['error', 'expression', { allowArrowFunctions: true }],
+        'prefer-arrow-callback': 'error',
       },
     },
   ],
