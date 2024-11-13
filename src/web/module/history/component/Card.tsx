@@ -12,7 +12,7 @@ import { AlertColor, AlertText } from '@/web/shared/component/Alert';
 import { useAlert } from '@/web/shared/context/AlertContext';
 import { formatDatetime } from '@/web/shared/util/datetime';
 
-const Card = (item: History): JSX.Element => {
+export const Card = (item: History): JSX.Element => {
   // @ts-expect-error useAlert
   const { showAlert } = useAlert();
   const { fetchData } = useData();
@@ -162,5 +162,3 @@ const Card = (item: History): JSX.Element => {
       return <></>;
   }
 };
-
-export default Card;

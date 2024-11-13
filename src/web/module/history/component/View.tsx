@@ -6,12 +6,12 @@ import { History } from '@/api/module/history/entity';
 import { HistoryStat } from '@/api/module/stat/entity';
 import { getHistoryStat } from '@/api/module/stat/service';
 import { getTotalJuzFromLines } from '@/api/shared/entity/juz';
-import Card from '@/web/module/history/component/Card';
+import { Card } from '@/web/module/history/component/Card';
 import { useData } from '@/web/module/history/context/DataContext';
 import { useAlert } from '@/web/shared/context/AlertContext';
 import { formatDate } from '@/web/shared/util/datetime';
 
-const View = (): JSX.Element => {
+export const View = (): JSX.Element => {
   // @ts-expect-error useAlert
   const { isAlertVisible } = useAlert();
   const { data, fetchData } = useData();
@@ -95,5 +95,3 @@ const View = (): JSX.Element => {
     </div>
   );
 };
-
-export default View;

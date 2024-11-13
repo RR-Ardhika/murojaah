@@ -22,7 +22,7 @@ interface Props {
   fetchData?: Context<DataContextValues>;
 }
 
-const Form = ({
+export const Form = ({
   formType,
   isFormVisible,
   setIsFormVisible,
@@ -528,5 +528,3 @@ const Form = ({
     </Transition>
   );
 };
-
-export default Form;
