@@ -39,7 +39,7 @@ const Form = ({
   const [searchInput, setSearchInput] = useState('');
   const [selectedJuz, setSelectedJuz] = useState(undefined);
   const [selectedSurah, setSelectedSurah] = useState(undefined);
-  const [selectedApproach, setSelectedApproach] = useState(approachOptions()[0]);
+  const [selectedApproach, setSelectedApproach] = useState(() => approachOptions()[0]);
   const [startAyah, setStartAyah] = useState(undefined);
   const [endAyah, setEndAyah] = useState(undefined);
   const [repeat, setRepeat] = useState(1);
