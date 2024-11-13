@@ -14,7 +14,7 @@ export const useData = (): Context<DataContextValues> => {
   return context;
 };
 
-const DataProvider = ({ children }: { children: ReactNode }): JSX.Element => {
+export const DataProvider = ({ children }: { children: ReactNode }): JSX.Element => {
   const [data, setData] = useState(undefined);
 
   function fetchData(): void {
@@ -24,5 +24,3 @@ const DataProvider = ({ children }: { children: ReactNode }): JSX.Element => {
 
   return <DataContext.Provider value={{ data, fetchData }}>{children}</DataContext.Provider>;
 };
-
-export default DataProvider;

@@ -2,10 +2,10 @@ import { clsx } from 'clsx';
 import { useState } from 'react';
 
 import { useData } from '@/web/module/history/context/DataContext';
-import Form from '@/web/shared/component/Form';
+import { Form } from '@/web/shared/component/Form';
 import { useAlert } from '@/web/shared/context/AlertContext';
 
-const CreateButton = (): JSX.Element => {
+export const CreateButton = (): JSX.Element => {
   const classNames: Record<string, string> = {
     base: 'bg-white active:bg-teal-200 border-2 text-custom-teal border-custom-teal rounded-full',
     main: 'relative right-1 w-16 h-16',
@@ -73,5 +73,3 @@ const CreateButton = (): JSX.Element => {
     </div>
   );
 };
-
-export default CreateButton;

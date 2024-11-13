@@ -13,7 +13,7 @@ export const useAlert = (): Context<AlertContextValues> => {
   return context;
 };
 
-const AlertProvider = ({ children }: { children: ReactNode }): JSX.Element => {
+export const AlertProvider = ({ children }: { children: ReactNode }): JSX.Element => {
   const [alertColor, setAlertColor] = useState();
   const [alertText, setAlertText] = useState('');
   const [isAlertVisible, setIsAlertVisible] = useState(false);
@@ -38,5 +38,3 @@ const AlertProvider = ({ children }: { children: ReactNode }): JSX.Element => {
     </AlertContext.Provider>
   );
 };
-
-export default AlertProvider;

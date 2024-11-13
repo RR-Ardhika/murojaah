@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 
 import { Stat } from '@/api/module/stat/entity';
-import Card from '@/web/module/stat/component/Card';
+import { Card } from '@/web/module/stat/component/Card';
 import { useData } from '@/web/module/stat/context/DataContext';
 
-const View = (): JSX.Element => {
+export const View = (): JSX.Element => {
   const { data, fetchData } = useData();
 
   useEffect(() => {
@@ -22,5 +22,3 @@ const View = (): JSX.Element => {
     </div>
   );
 };
-
-export default View;

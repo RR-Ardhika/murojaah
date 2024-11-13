@@ -10,7 +10,7 @@ interface Props {
   setParentSurah: Dispatch<SetStateAction<undefined>>;
 }
 
-const Card = ({ item, showForm }: Props): JSX.Element => {
+export const Card = ({ item, showForm }: Props): JSX.Element => {
   const classNames: Record<string, string> = {
     container: 'flex justify-between gap-2 p-4 mb-2 text-white rounded-lg',
     data: 'font-normal',
@@ -44,5 +44,3 @@ const Card = ({ item, showForm }: Props): JSX.Element => {
     </div>
   );
 };
-
-export default Card;
