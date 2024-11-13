@@ -95,6 +95,13 @@ module.exports = {
   },
   overrides: [
     {
+      files: ['.eslintrc.js', 'tailwind.config.ts'],
+      rules: {
+        '@typescript-eslint/naming-convention': 'off',
+        'import/no-default-export': 'off',
+      },
+    },
+    {
       files: ['**/app/**/*.{ts,tsx}', '**/component/**/*.{ts,tsx}', '**/context/**/*.{ts,tsx}'],
       rules: {
         '@typescript-eslint/naming-convention': [
@@ -106,6 +113,12 @@ module.exports = {
             modifiers: ['exported'],
           },
         ],
+      },
+    },
+    {
+      files: ['**/app/**/page.{ts,tsx}', '**/app/**/layout.{ts,tsx}'],
+      rules: {
+        'import/no-default-export': 'off', // Allow default exports for Next.js page and layout components
       },
     },
   ],

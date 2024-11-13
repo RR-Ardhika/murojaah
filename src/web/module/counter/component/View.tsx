@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 
 import { Counter } from '@/api/module/counter/entity';
 import { getOptionsFromSurahId } from '@/api/shared/entity/surah';
-import Card from '@/web/module/counter/component/Card';
+import { Card } from '@/web/module/counter/component/Card';
 import { useData } from '@/web/module/counter/context/DataContext';
-import Form from '@/web/shared/component/Form';
+import { Form } from '@/web/shared/component/Form';
 import { useAlert } from '@/web/shared/context/AlertContext';
 
-const View = (): JSX.Element => {
+export const View = (): JSX.Element => {
   const classNames: Record<string, string> = {
     juz: 'text-2xl font-medium text-custom-teal',
     juzRuler: 'mb-2 border-custom-teal',
@@ -68,5 +68,3 @@ const View = (): JSX.Element => {
     </div>
   );
 };
-
-export default View;

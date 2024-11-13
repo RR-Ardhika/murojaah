@@ -1,6 +1,6 @@
 'use client';
 
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
+import { Menu as HeadlessMenu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import {
   Bars3Icon,
   ArrowUpTrayIcon,
@@ -11,9 +11,9 @@ import Image from 'next/image';
 import { useRef, useState } from 'react';
 
 import * as service from '@/api/module/history/service';
-import Links from '@/web/shared/util/const';
+import { LINKS } from '@/web/shared/util/const';
 
-export default function Component(): JSX.Element {
+export const Menu = (): JSX.Element => {
   const classNames: Record<string, string> = {
     menuItems:
       'w-52 origin-top-right rounded-xl border border-white/20 bg-teal-700 p-1 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0',
@@ -87,7 +87,7 @@ export default function Component(): JSX.Element {
 
   return (
     <>
-      <Menu>
+      <HeadlessMenu>
         <MenuButton>
           <Bars3Icon className="size-6" />
         </MenuButton>
@@ -125,7 +125,7 @@ export default function Component(): JSX.Element {
           <div className="my-1 h-px bg-white/20" />
 
           <MenuItem>
-            <a className={classNames.menuItem} href={Links.GitHub} target="_blank">
+            <a className={classNames.menuItem} href={LINKS.GITHUB} target="_blank">
               <Image
                 className="w-4 h-4"
                 width={16}
@@ -137,7 +137,7 @@ export default function Component(): JSX.Element {
             </a>
           </MenuItem>
         </MenuItems>
-      </Menu>
+      </HeadlessMenu>
 
       <input
         type="file"
@@ -148,4 +148,4 @@ export default function Component(): JSX.Element {
       />
     </>
   );
-}
+};

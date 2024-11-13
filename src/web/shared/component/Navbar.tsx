@@ -1,8 +1,8 @@
 import Link from 'next/link';
 
-import LINKS from '@/web/shared/util/const';
+import { LINKS } from '@/web/shared/util/const';
 
-const Navbar = (): JSX.Element => {
+export const Navbar = (): JSX.Element => {
   const classNames: Record<string, string> = {
     container: 'flex mt-auto sticky bottom-0 border-t border-t-white',
     div: 'w-full p-3 bg-custom-teal text-xl text-white text-center',
@@ -25,5 +25,3 @@ const Navbar = (): JSX.Element => {
     </nav>
   );
 };
-
-export default Navbar;
