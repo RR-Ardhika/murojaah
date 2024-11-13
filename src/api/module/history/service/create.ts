@@ -4,21 +4,21 @@ import * as entity from '@/api/module/history/entity';
 import * as repo from '@/api/module/history/repository/indexeddb';
 import * as util from '@/api/shared/util/validator';
 
-export function Create(payload: entity.Payload): Promise<number | unknown[]> {
+export function create(payload: entity.Payload): Promise<number | unknown[]> {
   switch (payload.historyType) {
     case entity.HistoryType.Juz:
-      return CreateByJuz(payload);
+      return createByJuz(payload);
     case entity.HistoryType.Surah:
-      return CreateBySurah(payload);
+      return createBySurah(payload);
     case entity.HistoryType.Ayah:
-      return CreateByAyah(payload);
+      return createByAyah(payload);
     default:
       return Promise.reject(new Error('Error 422 Unprocessable Entity HistoryType not defined'));
   }
 }
 
-function CreateByJuz(payload: entity.Payload): Promise<number | unknown[]> {
-  if (util.FindEmpty(payload))
+function createByJuz(payload: entity.Payload): Promise<number | unknown[]> {
+  if (util.findEmpty(payload))
     return Promise.reject(new Error('Error 422 Unprocessable Entity error validating juz payload'));
 
   const history: entity.History = {
@@ -30,11 +30,11 @@ function CreateByJuz(payload: entity.Payload): Promise<number | unknown[]> {
     occuredAt: payload.occuredAt,
   };
 
-  return repo.Insert(history);
+  return repo.insert(history);
 }
 
-function CreateBySurah(payload: entity.Payload): Promise<number | unknown[]> {
-  if (util.FindEmpty(payload))
+function createBySurah(payload: entity.Payload): Promise<number | unknown[]> {
+  if (util.findEmpty(payload))
     return Promise.reject(
       new Error('Error 422 Unprocessable Entity error validating surah payload')
     );
@@ -54,14 +54,14 @@ function CreateBySurah(payload: entity.Payload): Promise<number | unknown[]> {
     if (i === payload.surahOptions.length - 1 && payload.markJuzDone)
       history.markJuzDone = payload.markJuzDone;
 
-    repo.Insert(history);
+    repo.insert(history);
   }
 
   return Promise.resolve(-1);
 }
 
-function CreateByAyah(payload: entity.Payload): Promise<number | unknown[]> {
-  if (util.FindEmpty(payload))
+function createByAyah(payload: entity.Payload): Promise<number | unknown[]> {
+  if (util.findEmpty(payload))
     return Promise.reject(
       new Error('Error 422 Unprocessable Entity error validating surah payload')
     );
@@ -79,5 +79,5 @@ function CreateByAyah(payload: entity.Payload): Promise<number | unknown[]> {
     occuredAt: payload.occuredAt,
   };
 
-  return repo.Insert(history);
+  return repo.insert(history);
 }

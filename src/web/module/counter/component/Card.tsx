@@ -1,7 +1,8 @@
+import { clsx } from 'clsx';
 import { Dispatch, SetStateAction } from 'react';
+
 import { Counter } from '@/api/module/counter/entity';
 import { formatDate, formatDurationFromNow, getDurationFromNow } from '@/web/shared/util/datetime';
-import { clsx } from 'clsx';
 
 interface Props {
   item: Counter;

@@ -1,5 +1,6 @@
 import { IDataBase, Connection } from 'jsstore';
 import workerInjector from 'jsstore/dist/worker_injector';
+
 import { getDatabase } from '@/api/database/indexeddb/schema';
 
 export function initJsStore(): Connection {

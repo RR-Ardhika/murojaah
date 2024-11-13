@@ -1,12 +1,12 @@
-import { validate as validateUUID, version as uuidVersion } from 'uuid';
+import { validate as validateUuid, version as uuidVersion } from 'uuid';
 
 // @ts-expect-error known type param
 // eslint-disable-next-line
-export function FindEmpty(obj): boolean {
+export function findEmpty(obj): boolean {
   let found: boolean = false;
 
   for (const key in obj) {
-    if (IsEmpty(obj[key])) {
+    if (isEmpty(obj[key])) {
       found = true;
       throw new Error(`empty obj found in key ${key}`);
     }
@@ -17,13 +17,13 @@ export function FindEmpty(obj): boolean {
 
 // @ts-expect-error known type param
 // eslint-disable-next-line
-export function IsEmpty(value): boolean {
+export function isEmpty(value): boolean {
   if (value === undefined) return true;
   else if (value === null) return true;
   else if (value === '') return true;
   return false;
 }
 
-export function IsValidUUID(uuid: string): boolean {
-  return validateUUID(uuid) && uuidVersion(uuid) === 4;
+export function isValidUuid(uuid: string): boolean {
+  return validateUuid(uuid) && uuidVersion(uuid) === 4;
 }

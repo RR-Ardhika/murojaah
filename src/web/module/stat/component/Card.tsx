@@ -1,5 +1,5 @@
 import { Stat } from '@/api/module/stat/entity';
-import { GetStatType } from '@/api/module/stat/service';
+import { getStatType } from '@/api/module/stat/service';
 
 const Card = (item: Stat): JSX.Element => {
   const classNames: Record<string, string> = {
@@ -11,7 +11,7 @@ const Card = (item: Stat): JSX.Element => {
 
   return (
     <div>
-      <p className={classNames.title}>{GetStatType(item.statType)}</p>
+      <p className={classNames.title}>{getStatType(item.statType)}</p>
       <hr />
       <div className={classNames.dataContainer}>
         <p className={classNames.fieldNameCol}>Total lines read</p>

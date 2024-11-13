@@ -1,5 +1,5 @@
-import { DateTime, Duration } from 'luxon';
 import humanizeDuration from 'humanize-duration';
+import { DateTime, Duration } from 'luxon';
 
 export const formFormatDatetimes: string[] = ['yyyy-MM-dd HH:mm', 'yyyy-MM-dd HH.mm'];
 

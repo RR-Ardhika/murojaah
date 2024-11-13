@@ -3,7 +3,7 @@ import * as entityHistory from '@/api/module/history/entity';
 import * as entityJuz from '@/api/shared/entity/juz';
 import * as entitySurah from '@/api/shared/entity/surah';
 
-export function CalculateCounters(histories: entityHistory.History[]): entity.Counter[] {
+export function calculateCounters(histories: entityHistory.History[]): entity.Counter[] {
   const counters: entity.Counter[] = [];
   const mapCounter: Map<number, entity.Counter> = new Map();
 
@@ -34,12 +34,12 @@ function calculateByJuz(
   mapCounter: Map<number, entity.Counter>
 ): void {
   // @ts-expect-error known type
-  const juz: entityJuz.JuzType = entityJuz.GetJuzById(history.juz);
+  const juz: entityJuz.JuzType = entityJuz.getJuzById(history.juz);
 
   // eslint-disable-next-line @typescript-eslint/typedef
   for (let i = juz.startSurah; i <= juz.endSurah; i++) {
     // @ts-expect-error known type
-    const surah: entitySurah.SurahType = entitySurah.GetSurahById(i);
+    const surah: entitySurah.SurahType = entitySurah.getSurahById(i);
 
     const counter: entity.Counter = {
       id: surah.id,
@@ -57,7 +57,7 @@ function calculateBySurah(
   mapCounter: Map<number, entity.Counter>
 ): void {
   // @ts-expect-error known type
-  const surah: entitySurah.SurahType = entitySurah.GetSurahById(history.surah);
+  const surah: entitySurah.SurahType = entitySurah.getSurahById(history.surah);
 
   const counter: entity.Counter = {
     id: surah.id,
