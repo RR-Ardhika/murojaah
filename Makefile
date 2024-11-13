@@ -40,6 +40,10 @@ prod: build start
 lint:
 	pnpm next lint
 
+.PHONY: lint-fix
+lint-fix:
+	pnpm next lint --fix
+
 .PHONY: format
 format:
 	pnpm exec prettier -w .
