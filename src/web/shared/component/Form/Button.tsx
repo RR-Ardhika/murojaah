@@ -4,80 +4,42 @@ import { Dispatch, useState, SetStateAction } from 'react';
 import { approachOptions } from '@/api/module/approach/entity';
 import { HistoryType, Payload } from '@/api/module/history/entity';
 import { create } from '@/api/module/history/service';
-import { Option } from '@/api/shared/entity';
 import { AlertColor, AlertText } from '@/web/shared/component/Alert';
 import { useAlert } from '@/web/shared/context/AlertContext';
 import { formFormatDatetimes } from '@/web/shared/util/datetime';
 
-interface Props {
-  formType: string;
-  setIsFormVisible: Dispatch<SetStateAction<boolean>>;
-  setIsSubButtonsVisible?: Dispatch<SetStateAction<boolean>>;
-  // @ts-expect-error DataContextValues
-  fetchData?: Context<DataContextValues>;
-  selectedJuz: undefined;
-  setSelectedJuz: Dispatch<SetStateAction<undefined>>;
-  selectedSurah: undefined;
-  setSelectedSurah: Dispatch<SetStateAction<undefined>>;
-  selectedApproach: Option;
-  setSelectedApproach: Dispatch<SetStateAction<Option>>;
-  startAyah: string;
-  setStartAyah: Dispatch<SetStateAction<string>>;
-  endAyah: string;
-  setEndAyah: Dispatch<SetStateAction<string>>;
-  repeat: number;
-  setRepeat: Dispatch<SetStateAction<number>>;
-  isSurahDone: boolean;
-  setIsSurahDone: Dispatch<SetStateAction<boolean>>;
-  isJuzDone: boolean;
-  setIsJuzDone: Dispatch<SetStateAction<boolean>>;
-  occuredAt: string;
-  setOccuredAt: Dispatch<SetStateAction<string>>;
-}
+import { SharedProps as Props } from '.';
 
-const save = async (
-  p: Props,
-  // @ts-expect-error known type
-  showAlert: Context<AlertContextValues>,
-  setDisableSaveButton: Dispatch<SetStateAction<boolean>>,
-  setIsCancelConfirmationVisible: Dispatch<SetStateAction<boolean>>
-): Promise<void> => {
+const save = async (p: Props, i: InternalProps): Promise<void> => {
   if (!isSaveable(p)) return;
 
   try {
-    setDisableSaveButton(true); // Prevent multiple click by disable the button
+    i.setDisableSaveButton(true); // Prevent multiple click by disable the button
     await create(buildPayload(p));
-    closeForm(p, setIsCancelConfirmationVisible);
+    closeForm(p, i);
     if (p.setIsSubButtonsVisible) p.setIsSubButtonsVisible(false);
-    showAlert(AlertColor.Green, AlertText.SuccessCreatedHistory);
+    i.showAlert(AlertColor.Green, AlertText.SuccessCreatedHistory);
     p.fetchData();
-    setDisableSaveButton(false);
+    i.setDisableSaveButton(false);
   } catch (err) {
-    setDisableSaveButton(false);
+    i.setDisableSaveButton(false);
     console.error(err);
-    showAlert(AlertColor.Red, AlertText.FailedCreatedHistory);
+    i.showAlert(AlertColor.Red, AlertText.FailedCreatedHistory);
   }
 };
 
-const cancel = (
-  p: Props,
-  isCancelConfirmationVisible: boolean,
-  setIsCancelConfirmationVisible: Dispatch<SetStateAction<boolean>>
-): void => {
-  if (isChanged(p) && !isCancelConfirmationVisible) {
-    setIsCancelConfirmationVisible(true);
+const cancel = (p: Props, i: InternalProps): void => {
+  if (isChanged(p) && !i.isCancelConfirmationVisible) {
+    i.setIsCancelConfirmationVisible(true);
     setTimeout(() => {
-      setIsCancelConfirmationVisible(false);
+      i.setIsCancelConfirmationVisible(false);
     }, 2000);
     return;
   }
-  closeForm(p, setIsCancelConfirmationVisible);
+  closeForm(p, i);
 };
 
-const closeForm = (
-  p: Props,
-  setIsCancelConfirmationVisible: Dispatch<SetStateAction<boolean>>
-): void => {
+const closeForm = (p: Props, i: InternalProps): void => {
   p.setIsFormVisible(false);
   setTimeout(() => {
     p.setSelectedJuz(undefined);
@@ -86,7 +48,7 @@ const closeForm = (
     p.setRepeat(1);
     p.setIsSurahDone(false);
     p.setIsJuzDone(false);
-    setIsCancelConfirmationVisible(false);
+    i.setIsCancelConfirmationVisible(false);
   }, 500);
 };
 
@@ -183,6 +145,15 @@ const isSaveable = (p: Props): boolean => {
   return true;
 };
 
+interface InternalProps {
+  // @ts-expect-error useAlert
+  showAlert: Context<AlertContextValues>;
+  isCancelConfirmationVisible: boolean;
+  setIsCancelConfirmationVisible: Dispatch<SetStateAction<boolean>>;
+  disableSaveButton: boolean;
+  setDisableSaveButton: Dispatch<SetStateAction<boolean>>;
+}
+
 export const Button = (p: Props): JSX.Element => {
   // @ts-expect-error useAlert
   const { showAlert } = useAlert();
@@ -190,12 +161,20 @@ export const Button = (p: Props): JSX.Element => {
   const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);
   const [disableSaveButton, setDisableSaveButton] = useState(false);
 
+  const i: InternalProps = {
+    showAlert,
+    isCancelConfirmationVisible,
+    setIsCancelConfirmationVisible,
+    disableSaveButton,
+    setDisableSaveButton,
+  };
+
   return (
     <div className="flex flex-row-reverse gap-2 mt-4">
       <button
         type="button"
         className="px-6 py-2 enabled:bg-custom-teal enabled:hover:bg-teal-700 disabled:bg-gray-400 text-white rounded"
-        onClick={() => save(p, showAlert, setDisableSaveButton, setIsCancelConfirmationVisible)}
+        onClick={() => save(p, i)}
         disabled={!isSaveable(p) || disableSaveButton}
       >
         Save
@@ -205,7 +184,7 @@ export const Button = (p: Props): JSX.Element => {
         <button
           type="button"
           className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
-          onClick={() => cancel(p, isCancelConfirmationVisible, setIsCancelConfirmationVisible)}
+          onClick={() => cancel(p, i)}
         >
           Cancel
         </button>
@@ -213,7 +192,7 @@ export const Button = (p: Props): JSX.Element => {
         <button
           type="button"
           className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
-          onClick={() => closeForm(p, setIsCancelConfirmationVisible)}
+          onClick={() => closeForm(p, i)}
         >
           Confirm?
         </button>

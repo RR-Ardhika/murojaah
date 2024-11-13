@@ -20,6 +20,32 @@ interface Props {
   fetchData?: Context<DataContextValues>;
 }
 
+export interface SharedProps {
+  formType: string;
+  setIsFormVisible: Dispatch<SetStateAction<boolean>>;
+  setIsSubButtonsVisible?: Dispatch<SetStateAction<boolean>>;
+  // @ts-expect-error DataContextValues
+  fetchData?: Context<DataContextValues>;
+  selectedJuz: undefined;
+  setSelectedJuz: Dispatch<SetStateAction<undefined>>;
+  selectedSurah: undefined;
+  setSelectedSurah: Dispatch<SetStateAction<undefined>>;
+  selectedApproach: Option;
+  setSelectedApproach: Dispatch<SetStateAction<Option>>;
+  startAyah: string;
+  setStartAyah: Dispatch<SetStateAction<string>>;
+  endAyah: string;
+  setEndAyah: Dispatch<SetStateAction<string>>;
+  repeat: number;
+  setRepeat: Dispatch<SetStateAction<number>>;
+  isSurahDone: boolean;
+  setIsSurahDone: Dispatch<SetStateAction<boolean>>;
+  isJuzDone: boolean;
+  setIsJuzDone: Dispatch<SetStateAction<boolean>>;
+  occuredAt: string;
+  setOccuredAt: Dispatch<SetStateAction<string>>;
+}
+
 export const Form = (p: Props): JSX.Element => {
   const [selectedJuz, setSelectedJuz] = useState(undefined);
   const [selectedSurah, setSelectedSurah] = useState(undefined);
@@ -39,6 +65,31 @@ export const Form = (p: Props): JSX.Element => {
     // @ts-expect-error expected type
     if (p.parentSurah) setSelectedSurah(p.parentSurah);
   }, [p.parentSurah]);
+
+  const sharedProps: SharedProps = {
+    formType: p.formType,
+    setIsFormVisible: p.setIsFormVisible,
+    setIsSubButtonsVisible: p.setIsSubButtonsVisible,
+    fetchData: p.fetchData,
+    selectedJuz,
+    setSelectedJuz,
+    selectedSurah,
+    setSelectedSurah,
+    selectedApproach,
+    setSelectedApproach,
+    startAyah,
+    setStartAyah,
+    endAyah,
+    setEndAyah,
+    repeat,
+    setRepeat,
+    isSurahDone,
+    setIsSurahDone,
+    isJuzDone,
+    setIsJuzDone,
+    occuredAt,
+    setOccuredAt,
+  };
 
   return (
     <Transition appear show={p.isFormVisible} as={Fragment}>
@@ -68,51 +119,8 @@ export const Form = (p: Props): JSX.Element => {
             >
               <Dialog.Panel className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
                 <Title formType={p.formType} />
-                <Content
-                  formType={p.formType}
-                  selectedJuz={selectedJuz}
-                  setSelectedJuz={setSelectedJuz}
-                  selectedSurah={selectedSurah}
-                  setSelectedSurah={setSelectedSurah}
-                  selectedApproach={selectedApproach}
-                  setSelectedApproach={setSelectedApproach}
-                  startAyah={startAyah}
-                  setStartAyah={setStartAyah}
-                  endAyah={endAyah}
-                  setEndAyah={setEndAyah}
-                  repeat={repeat}
-                  setRepeat={setRepeat}
-                  isSurahDone={isSurahDone}
-                  setIsSurahDone={setIsSurahDone}
-                  isJuzDone={isJuzDone}
-                  setIsJuzDone={setIsJuzDone}
-                  occuredAt={occuredAt}
-                  setOccuredAt={setOccuredAt}
-                />
-                <Button
-                  formType={p.formType}
-                  setIsFormVisible={p.setIsFormVisible}
-                  setIsSubButtonsVisible={p.setIsSubButtonsVisible}
-                  fetchData={p.fetchData}
-                  selectedJuz={selectedJuz}
-                  setSelectedJuz={setSelectedJuz}
-                  selectedSurah={selectedSurah}
-                  setSelectedSurah={setSelectedSurah}
-                  selectedApproach={selectedApproach}
-                  setSelectedApproach={setSelectedApproach}
-                  startAyah={startAyah}
-                  setStartAyah={setStartAyah}
-                  endAyah={endAyah}
-                  setEndAyah={setEndAyah}
-                  repeat={repeat}
-                  setRepeat={setRepeat}
-                  isSurahDone={isSurahDone}
-                  setIsSurahDone={setIsSurahDone}
-                  isJuzDone={isJuzDone}
-                  setIsJuzDone={setIsJuzDone}
-                  occuredAt={occuredAt}
-                  setOccuredAt={setOccuredAt}
-                />
+                <Content {...sharedProps} />
+                <Button {...sharedProps} />
               </Dialog.Panel>
             </Transition.Child>
           </div>
