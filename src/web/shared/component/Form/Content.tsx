@@ -1,34 +1,13 @@
-import { Dispatch, useState, SetStateAction } from 'react';
+import { useState } from 'react';
 import Select, { StylesConfig, CSSObjectWithLabel } from 'react-select';
 
 import { approachOptions } from '@/api/module/approach/entity';
-import { Option, juzOptions, surahOptions } from '@/api/shared/entity';
+import { juzOptions, surahOptions } from '@/api/shared/entity';
 
+import { SharedProps as Props } from '.';
 import { DateTimeInput } from './DateTimeInput';
 import { NumberInput } from './NumberInput';
 import { NumberStepper } from './NumberStepper';
-
-interface Props {
-  formType: string;
-  selectedJuz: undefined;
-  setSelectedJuz: Dispatch<SetStateAction<undefined>>;
-  selectedSurah: undefined;
-  setSelectedSurah: Dispatch<SetStateAction<undefined>>;
-  selectedApproach: Option;
-  setSelectedApproach: Dispatch<SetStateAction<Option>>;
-  startAyah: string;
-  setStartAyah: Dispatch<SetStateAction<string>>;
-  endAyah: string;
-  setEndAyah: Dispatch<SetStateAction<string>>;
-  repeat: number;
-  setRepeat: Dispatch<SetStateAction<number>>;
-  isSurahDone: boolean;
-  setIsSurahDone: Dispatch<SetStateAction<boolean>>;
-  isJuzDone: boolean;
-  setIsJuzDone: Dispatch<SetStateAction<boolean>>;
-  occuredAt: string;
-  setOccuredAt: Dispatch<SetStateAction<string>>;
-}
 
 const selectStyle: StylesConfig = {
   control: (base: CSSObjectWithLabel) => ({
