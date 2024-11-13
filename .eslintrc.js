@@ -74,6 +74,7 @@ module.exports = {
         variableDeclarationIgnoreFunction: true,
       },
     ],
+    'func-style': ['error', 'expression', { allowArrowFunctions: true }],
     'import/no-default-export': 'error', // Enforce named exports only
     'import/order': [
       'error',
@@ -91,6 +92,7 @@ module.exports = {
         },
       },
     ],
+    'prefer-arrow-callback': 'error',
     'react-hooks/exhaustive-deps': 'error',
   },
   overrides: [
