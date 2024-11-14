@@ -121,12 +121,5 @@ module.exports = {
         'import/no-default-export': 'off', // Allow default exports for Next.js page and layout components
       },
     },
-    {
-      files: ['**/*.tsx'], // Apply the rules only to .tsx files
-      rules: {
-        'func-style': ['error', 'expression', { allowArrowFunctions: true }],
-        'prefer-arrow-callback': 'error',
-      },
-    },
   ],
 };
