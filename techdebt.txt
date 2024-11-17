@@ -1,5 +1,4 @@
 TD-1 Utilize useMemo
-TD-2 Move out component
 TD-3 Implement proper number input for ayah
 TD-4 Fill the rest total lines and ayah
 TD-5 Refactor random after fix multiple render

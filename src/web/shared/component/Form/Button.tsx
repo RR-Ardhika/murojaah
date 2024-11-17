@@ -10,6 +10,15 @@ import { formFormatDatetimes } from '@/web/shared/util/datetime';
 
 import { SharedProps as Props } from '.';
 
+interface InternalProps {
+  // @ts-expect-error useAlert
+  showAlert: Context<AlertContextValues>;
+  isCancelConfirmationVisible: boolean;
+  setIsCancelConfirmationVisible: Dispatch<SetStateAction<boolean>>;
+  disableSaveButton: boolean;
+  setDisableSaveButton: Dispatch<SetStateAction<boolean>>;
+}
+
 const save = async (p: Props, i: InternalProps): Promise<void> => {
   if (!isSaveable(p)) return;
 
@@ -145,17 +154,7 @@ const isSaveable = (p: Props): boolean => {
   return true;
 };
 
-interface InternalProps {
-  // @ts-expect-error useAlert
-  showAlert: Context<AlertContextValues>;
-  isCancelConfirmationVisible: boolean;
-  setIsCancelConfirmationVisible: Dispatch<SetStateAction<boolean>>;
-  disableSaveButton: boolean;
-  setDisableSaveButton: Dispatch<SetStateAction<boolean>>;
-}
-
 export const Button = (p: Props): JSX.Element => {
-  // @ts-expect-error useAlert
   const { showAlert } = useAlert();
 
   const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);

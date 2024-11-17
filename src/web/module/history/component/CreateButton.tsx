@@ -1,63 +1,86 @@
 import { clsx } from 'clsx';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 import { useData } from '@/web/module/history/context/DataContext';
 import { Form } from '@/web/shared/component/Form';
 import { useAlert } from '@/web/shared/context/AlertContext';
 
-export const CreateButton = (): JSX.Element => {
-  const classNames: Record<string, string> = {
-    base: 'bg-white active:bg-teal-200 border-2 text-custom-teal border-custom-teal rounded-full',
-    main: 'relative right-1 w-16 h-16',
-    mainLeft: 'left-[7px]',
-    sub: 'p-2',
-  };
+interface InternalProps {
+  setFormType: Dispatch<SetStateAction<string>>;
+  setIsSubButtonsVisible: Dispatch<SetStateAction<boolean>>;
+  setIsFormVisible: Dispatch<SetStateAction<boolean>>;
+  // @ts-expect-error useAlert
+  hideAlert: Context<AlertContextValues>;
+}
 
+const CLASS_NAMES: Record<string, string> = {
+  base: 'bg-white active:bg-teal-200 border-2 text-custom-teal border-custom-teal rounded-full',
+  main: 'relative right-1 w-16 h-16',
+  mainLeft: 'left-[7px]',
+  sub: 'p-2',
+};
+
+const toggleShowSubButtons = (i: InternalProps): void => {
+  i.setIsSubButtonsVisible((isSubButtonsVisible: boolean) => !isSubButtonsVisible);
+};
+
+const showForm = (i: InternalProps, type: string): void => {
+  i.hideAlert();
+  i.setFormType(type);
+  i.setIsFormVisible(true);
+};
+
+const renderSubButtons = (i: InternalProps): JSX.Element => {
+  return (
+    <div className="flex flex-col gap-4">
+      <button
+        className={clsx(CLASS_NAMES.base, CLASS_NAMES.sub)}
+        onClick={() => showForm(i, 'Juz')}
+      >
+        <span className="text-xl">Juz</span>
+      </button>
+      <button
+        className={clsx(CLASS_NAMES.base, CLASS_NAMES.sub)}
+        onClick={() => showForm(i, 'Ayah')}
+      >
+        <span className="text-xl">Ayah</span>
+      </button>
+      <button
+        className={clsx(CLASS_NAMES.base, CLASS_NAMES.sub)}
+        onClick={() => showForm(i, 'Surah')}
+      >
+        <span className="text-xl">Surah</span>
+      </button>
+    </div>
+  );
+};
+
+export const CreateButton = (): JSX.Element => {
   const [formType, setFormType] = useState('');
   const [isSubButtonsVisible, setIsSubButtonsVisible] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const { fetchData } = useData();
-  // @ts-expect-error useAlert
   const { hideAlert } = useAlert();
 
-  function toggleShowSubButtons(): void {
-    setIsSubButtonsVisible((isSubButtonsVisible: boolean) => !isSubButtonsVisible);
-  }
-
-  function showForm(type: string): void {
-    hideAlert();
-    setFormType(type);
-    setIsFormVisible(true);
-  }
-
-  function renderSubButtons(): JSX.Element {
-    return (
-      <div className="flex flex-col gap-4">
-        <button className={clsx(classNames.base, classNames.sub)} onClick={() => showForm('Juz')}>
-          <span className="text-xl">Juz</span>
-        </button>
-        <button className={clsx(classNames.base, classNames.sub)} onClick={() => showForm('Ayah')}>
-          <span className="text-xl">Ayah</span>
-        </button>
-        <button className={clsx(classNames.base, classNames.sub)} onClick={() => showForm('Surah')}>
-          <span className="text-xl">Surah</span>
-        </button>
-      </div>
-    );
-  }
+  const i: InternalProps = {
+    setFormType,
+    setIsSubButtonsVisible,
+    setIsFormVisible,
+    hideAlert,
+  };
 
   return (
     <div className="fixed bottom-16 right-4">
       <div className="flex flex-col gap-4">
-        {isSubButtonsVisible && renderSubButtons()}
+        {isSubButtonsVisible && renderSubButtons(i)}
 
         <button
           className={clsx(
-            classNames.base,
-            classNames.main,
-            isSubButtonsVisible && classNames.mainLeft
+            CLASS_NAMES.base,
+            CLASS_NAMES.main,
+            isSubButtonsVisible && CLASS_NAMES.mainLeft
           )}
-          onClick={() => toggleShowSubButtons()}
+          onClick={() => toggleShowSubButtons(i)}
         >
           <span className="relative bottom-1 text-6xl font-extralight">+</span>
         </button>

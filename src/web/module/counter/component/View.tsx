@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import { Counter } from '@/api/module/counter/entity';
 import { getOptionsFromSurahId } from '@/api/shared/entity/surah';
@@ -8,20 +8,46 @@ import { useData } from '@/web/module/counter/context/DataContext';
 import { Form } from '@/web/shared/component/Form';
 import { useAlert } from '@/web/shared/context/AlertContext';
 
-export const View = (): JSX.Element => {
-  const classNames: Record<string, string> = {
-    juz: 'text-2xl font-medium text-custom-teal',
-    juzRuler: 'mb-2 border-custom-teal',
-  };
-
-  const { data, fetchData } = useData();
+interface InternalProps {
+  data: Counter[];
   // @ts-expect-error useAlert
+  hideAlert: Context<AlertContextValues>;
+  isFormVisible: boolean;
+  setIsFormVisible: Dispatch<SetStateAction<boolean>>;
+  parentSurah: undefined;
+  setParentSurah: Dispatch<SetStateAction<undefined>>;
+  currentJuz: number;
+}
+
+const CLASS_NAMES: Record<string, string> = {
+  juz: 'text-2xl font-medium text-custom-teal',
+  juzRuler: 'mb-2 border-custom-teal',
+};
+
+const updateAndRenderCurrentJuz = (i: InternalProps, item: Counter): JSX.Element => {
+  i.currentJuz = item.juz;
+  return (
+    <>
+      <p className={clsx(CLASS_NAMES.juz, i.data[0].juz !== item.juz && 'mt-5')}>Juz {item.juz}</p>
+      <hr className={CLASS_NAMES.juzRuler} />
+    </>
+  );
+};
+
+const showForm = (i: InternalProps, item: Counter): void => {
+  i.hideAlert();
+  // @ts-expect-error expected undefined
+  i.setParentSurah(getOptionsFromSurahId(item.id));
+  i.setIsFormVisible(true);
+};
+
+export const View = (): JSX.Element => {
+  const { data, fetchData } = useData();
   const { hideAlert } = useAlert();
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [parentSurah, setParentSurah] = useState(undefined);
 
   const formType: string = 'Surah';
-
   let currentJuz: number;
 
   useEffect(() => {
@@ -29,22 +55,16 @@ export const View = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function updateAndRenderCurrentJuz(item: Counter): JSX.Element {
-    currentJuz = item.juz;
-    return (
-      <>
-        <p className={clsx(classNames.juz, data[0].juz !== item.juz && 'mt-5')}>Juz {item.juz}</p>
-        <hr className={classNames.juzRuler} />
-      </>
-    );
-  }
-
-  function showForm(item: Counter): void {
-    hideAlert();
-    // @ts-expect-error expected undefined
-    setParentSurah(getOptionsFromSurahId(item.id));
-    setIsFormVisible(true);
-  }
+  const i: InternalProps = {
+    data,
+    hideAlert,
+    isFormVisible,
+    setIsFormVisible,
+    parentSurah,
+    setParentSurah,
+    // @ts-expect-error expected assigned
+    currentJuz,
+  };
 
   return (
     <div className="gap-[20px] mt-[72px] pt-4 px-4">
@@ -52,8 +72,13 @@ export const View = (): JSX.Element => {
         data.map((item: Counter) => {
           return (
             <div key={Math.random()}>
-              {currentJuz !== item.juz ? updateAndRenderCurrentJuz(item) : <></>}
-              <Card key={item.id} item={item} showForm={showForm} setParentSurah={setParentSurah} />
+              {currentJuz !== item.juz ? updateAndRenderCurrentJuz(i, item) : <></>}
+              <Card
+                key={item.id}
+                item={item}
+                showForm={() => showForm(i, item)}
+                setParentSurah={setParentSurah}
+              />
             </div>
           );
         })}
