@@ -72,7 +72,7 @@ export const View = (): JSX.Element => {
         data.map((item: Counter) => {
           return (
             <div key={Math.random()}>
-              {currentJuz !== item.juz ? updateAndRenderCurrentJuz(i, item) : <></>}
+              {i.currentJuz !== item.juz ? updateAndRenderCurrentJuz(i, item) : <></>}
               <Card
                 key={item.id}
                 item={item}
