@@ -143,26 +143,26 @@ const surah: SurahType[] = [
   { id: 114, name: '114 An-Nas', juz: [30], totalLines: 4, totalAyah: 6 },
 ];
 
-export function getSurahById(id: number): SurahType | undefined {
+export const getSurahById = (id: number): SurahType | undefined => {
   return surah.find((obj: SurahType) => obj.id === id);
-}
+};
 
-export function getJuzBySurahId(id: number): number[] | SurahJuz[] {
+export const getJuzBySurahId = (id: number): number[] | SurahJuz[] => {
   const surah: SurahType | undefined = getSurahById(id);
   if (!surah) return [];
   return surah.juz;
-}
+};
 
-export function getOptionsFromSurahId(id: number): Option[] {
+export const getOptionsFromSurahId = (id: number): Option[] => {
   const options: Option[] = [];
   const surah: SurahType | undefined = getSurahById(id);
   // @ts-expect-error expected undefined
   const option: Option = { value: id, label: surah.name };
   options.push(option);
   return options;
-}
+};
 
-export function surahOptions(): Option[] {
+export const surahOptions = (): Option[] => {
   const options: Option[] = [];
 
   // eslint-disable-next-line @typescript-eslint/typedef
@@ -172,4 +172,4 @@ export function surahOptions(): Option[] {
   }
 
   return options;
-}
+};

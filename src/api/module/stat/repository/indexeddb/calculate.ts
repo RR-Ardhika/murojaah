@@ -5,14 +5,14 @@ import * as entity from '@/api/module/stat/entity';
 import * as entityJuz from '@/api/shared/entity/juz';
 import * as entitySurah from '@/api/shared/entity/surah';
 
-export function calculateStats(histories: entityHistory.History[]): entity.Stat[] {
+export const calculateStats = (histories: entityHistory.History[]): entity.Stat[] => {
   const stats: entity.Stat[] = [];
   stats.push(calculateAllTimeStat(histories));
   stats.push(calculateDailyStat(histories));
   return stats;
-}
+};
 
-function calculateAllTimeStat(histories: entityHistory.History[]): entity.Stat {
+const calculateAllTimeStat = (histories: entityHistory.History[]): entity.Stat => {
   let totalLinesRead: number = 0;
 
   for (const history of histories) totalLinesRead += calculateTotalLinesFromHistory(history);
@@ -24,9 +24,9 @@ function calculateAllTimeStat(histories: entityHistory.History[]): entity.Stat {
     totalJuzFromLines: entityJuz.getTotalJuzFromLines(totalLinesRead),
     totalMarkedJuzAsDone: 0, // TD-10 Implement totalMarkedJuzAsDone calculation in module stat
   };
-}
+};
 
-function calculateDailyStat(histories: entityHistory.History[]): entity.Stat {
+const calculateDailyStat = (histories: entityHistory.History[]): entity.Stat => {
   const now: DateTime = DateTime.now();
   let totalLinesRead: number = 0;
 
@@ -43,9 +43,9 @@ function calculateDailyStat(histories: entityHistory.History[]): entity.Stat {
     totalJuzFromLines: entityJuz.getTotalJuzFromLines(totalLinesRead),
     totalMarkedJuzAsDone: 0, // TD-10 Implement totalMarkedJuzAsDone calculation in module stat
   };
-}
+};
 
-export function calculateTotalLinesFromHistory(history: entityHistory.History): number {
+export const calculateTotalLinesFromHistory = (history: entityHistory.History): number => {
   switch (history.historyType) {
     case entityHistory.HistoryType.Juz:
       return calculateTotalLinesForJuz(history);
@@ -56,9 +56,9 @@ export function calculateTotalLinesFromHistory(history: entityHistory.History): 
     default:
       return 0;
   }
-}
+};
 
-function calculateTotalLinesForJuz(history: entityHistory.History): number {
+const calculateTotalLinesForJuz = (history: entityHistory.History): number => {
   // @ts-expect-error known type
   const juz: entityJuz.JuzType = entityJuz.getJuzById(history.juz);
   let totalLines: number = 0;
@@ -70,15 +70,15 @@ function calculateTotalLinesForJuz(history: entityHistory.History): number {
   }
 
   return totalLines;
-}
+};
 
-function calculateTotalLinesForSurah(history: entityHistory.History): number {
+const calculateTotalLinesForSurah = (history: entityHistory.History): number => {
   // @ts-expect-error known type
   const surah: entitySurah.SurahType = entitySurah.getSurahById(history.surah);
   return surah.totalLines * history.repeat;
-}
+};
 
-function calculateTotalLinesForAyah(history: entityHistory.History): number {
+const calculateTotalLinesForAyah = (history: entityHistory.History): number => {
   // @ts-expect-error known type
   const surah: entitySurah.SurahType = entitySurah.getSurahById(history.surah);
   // @ts-expect-error known type
@@ -102,4 +102,4 @@ function calculateTotalLinesForAyah(history: entityHistory.History): number {
   }
 
   return totalLines;
-}
+};

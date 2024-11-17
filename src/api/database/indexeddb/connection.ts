@@ -3,7 +3,7 @@ import workerInjector from 'jsstore/dist/worker_injector';
 
 import { getDatabase } from '@/api/database/indexeddb/schema';
 
-export function initJsStore(): Connection {
+export const initJsStore = (): Connection => {
   // @ts-expect-error initJsStore
   if (typeof window === 'undefined') return;
 
@@ -18,4 +18,4 @@ export function initJsStore(): Connection {
   }
 
   return idbCon;
-}
+};
