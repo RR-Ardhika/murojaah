@@ -6,13 +6,39 @@ import { History } from '@/api/module/history/entity';
 import { HistoryStat } from '@/api/module/stat/entity';
 import { getHistoryStat } from '@/api/module/stat/service';
 import { getTotalJuzFromLines } from '@/api/shared/entity/juz';
-import Card from '@/web/module/history/component/Card';
+import { Card } from '@/web/module/history/component/Card';
 import { useData } from '@/web/module/history/context/DataContext';
 import { useAlert } from '@/web/shared/context/AlertContext';
 import { formatDate } from '@/web/shared/util/datetime';
 
-const View = (): JSX.Element => {
-  // @ts-expect-error useAlert
+interface InternalProps {
+  mapHistoryStats: Map<string, HistoryStat>;
+  currentDate: Date;
+}
+
+const updateAndRenderCurrentDate = (i: InternalProps, item: History): JSX.Element => {
+  if (i.currentDate) {
+    const parsedCurrentDate: DateTime = DateTime.fromJSDate(i.currentDate);
+    const parsedOccuredAt: DateTime = DateTime.fromJSDate(item.occuredAt);
+    if (parsedCurrentDate.hasSame(parsedOccuredAt, 'day')) return <></>;
+  }
+
+  i.currentDate = item.occuredAt;
+  const formattedDate: string = formatDate(item.occuredAt);
+  return (
+    <>
+      <p className="text-2xl font-medium text-custom-teal">{formattedDate}</p>
+      <p className="font-light text-custom-teal">
+        <span>{i.mapHistoryStats.get(formattedDate)?.juz} juz, </span>
+        <span>{i.mapHistoryStats.get(formattedDate)?.ayah} ayah, </span>
+        <span>{i.mapHistoryStats.get(formattedDate)?.lines} lines</span>
+      </p>
+      <hr className="mb-2 border-custom-teal" />
+    </>
+  );
+};
+
+export const View = (): JSX.Element => {
   const { isAlertVisible } = useAlert();
   const { data, fetchData } = useData();
   const [mapHistoryStats, setMapHistoryStats] = useState<Map<string, HistoryStat>>(new Map());
@@ -58,27 +84,11 @@ const View = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
-  function updateAndRenderCurrentDate(item: History): JSX.Element {
-    if (currentDate) {
-      const parsedCurrentDate: DateTime = DateTime.fromJSDate(currentDate);
-      const parsedOccuredAt: DateTime = DateTime.fromJSDate(item.occuredAt);
-      if (parsedCurrentDate.hasSame(parsedOccuredAt, 'day')) return <></>;
-    }
-
-    currentDate = item.occuredAt;
-    const formattedDate: string = formatDate(item.occuredAt);
-    return (
-      <>
-        <p className="text-2xl font-medium text-custom-teal">{formattedDate}</p>
-        <p className="font-light text-custom-teal">
-          <span>{mapHistoryStats.get(formattedDate)?.juz} juz, </span>
-          <span>{mapHistoryStats.get(formattedDate)?.ayah} ayah, </span>
-          <span>{mapHistoryStats.get(formattedDate)?.lines} lines</span>
-        </p>
-        <hr className="mb-2 border-custom-teal" />
-      </>
-    );
-  }
+  const i: InternalProps = {
+    mapHistoryStats,
+    // @ts-expect-error expected assigned
+    currentDate,
+  };
 
   return (
     <div className={clsx('flex flex-col pt-4 px-4', isAlertVisible ? 'mt-[112px]' : 'mt-[72px]')}>
@@ -87,7 +97,7 @@ const View = (): JSX.Element => {
           return (
             // TD-5 Refactor random after fix multiple render
             <div key={Math.random()}>
-              {currentDate !== item.occuredAt ? updateAndRenderCurrentDate(item) : <></>}
+              {currentDate !== item.occuredAt ? updateAndRenderCurrentDate(i, item) : <></>}
               <Card key={item.id} {...item} />
             </div>
           );
@@ -95,5 +105,3 @@ const View = (): JSX.Element => {
     </div>
   );
 };
-
-export default View;

@@ -1,6 +1,6 @@
-import Menu from '@/web/shared/component/Menu';
+import { Menu } from '@/web/shared/component/Menu';
 
-const Header = (): JSX.Element => {
+export const Header = (): JSX.Element => {
   return (
     <header className="fixed w-full p-4 bg-custom-teal text-4xl text-white border-b border-b-white">
       <div className="flex justify-between">
@@ -10,5 +10,3 @@ const Header = (): JSX.Element => {
     </header>
   );
 };
-
-export default Header;

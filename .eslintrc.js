@@ -74,6 +74,8 @@ module.exports = {
         variableDeclarationIgnoreFunction: true,
       },
     ],
+    'func-style': ['error', 'expression', { allowArrowFunctions: true }],
+    'import/no-default-export': 'error', // Enforce named exports only
     'import/order': [
       'error',
       {
@@ -90,9 +92,17 @@ module.exports = {
         },
       },
     ],
+    'prefer-arrow-callback': 'error',
     'react-hooks/exhaustive-deps': 'error',
   },
   overrides: [
+    {
+      files: ['.eslintrc.js', 'tailwind.config.ts'],
+      rules: {
+        '@typescript-eslint/naming-convention': 'off',
+        'import/no-default-export': 'off',
+      },
+    },
     {
       files: ['**/app/**/*.{ts,tsx}', '**/component/**/*.{ts,tsx}', '**/context/**/*.{ts,tsx}'],
       rules: {
@@ -105,6 +115,12 @@ module.exports = {
             modifiers: ['exported'],
           },
         ],
+      },
+    },
+    {
+      files: ['**/app/**/page.{ts,tsx}', '**/app/**/layout.{ts,tsx}'],
+      rules: {
+        'import/no-default-export': 'off', // Allow default exports for Next.js page and layout components
       },
     },
   ],

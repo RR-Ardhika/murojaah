@@ -1,7 +1,11 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
 
 import * as entity from '@/api/module/stat/entity';
 import * as service from '@/api/module/stat/service';
+
+interface InternalProps {
+  setData: Dispatch<SetStateAction<entity.Stat[] | undefined>>;
+}
 
 // @ts-expect-error DataContextValues
 const DataContext: Context<DataContextValues> = createContext<DataContextValues>(undefined);
@@ -14,15 +18,20 @@ export const useData = (): Context<DataContextValues> => {
   return context;
 };
 
-const DataProvider = ({ children }: { children: ReactNode }): JSX.Element => {
-  const [data, setData] = useState(undefined);
-
-  function fetchData(): void {
-    // @ts-expect-error DataProvider fetchData
-    service.index().then((result: entity.Stat[]) => setData(result));
-  }
-
-  return <DataContext.Provider value={{ data, fetchData }}>{children}</DataContext.Provider>;
+const fetchData = (i: InternalProps): void => {
+  service.index().then((result: entity.Stat[]) => i.setData(result));
 };
 
-export default DataProvider;
+export const DataProvider = ({ children }: { children: ReactNode }): JSX.Element => {
+  const [data, setData] = useState<entity.Stat[]>();
+
+  const i: InternalProps = {
+    setData,
+  };
+
+  return (
+    <DataContext.Provider value={{ data, fetchData: () => fetchData(i) }}>
+      {children}
+    </DataContext.Provider>
+  );
+};

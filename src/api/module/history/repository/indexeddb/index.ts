@@ -7,25 +7,25 @@ import * as entity from '@/api/module/history/entity';
 
 const idbCon: Connection = initJsStore();
 
-export function findAll(): Promise<entity.History[]> {
+export const findAll = (): Promise<entity.History[]> => {
   return idbCon.select<entity.History>({
     from: 'histories',
     order: { by: 'occuredAt', type: 'desc' },
   });
-}
+};
 
-export function insert(item: entity.History): Promise<number | unknown[]> {
+export const insert = (item: entity.History): Promise<number | unknown[]> => {
   return idbCon.insert({ into: 'histories', values: [item] });
-}
+};
 
-export function deleteRecord(item: entity.History): Promise<number> {
+export const deleteRecord = (item: entity.History): Promise<number> => {
   return idbCon.remove({
     from: 'histories',
     where: { id: item.id },
   });
-}
+};
 
-export async function exportData(): Promise<Blob> {
+export const exportData = async (): Promise<Blob> => {
   if (typeof window === 'undefined')
     return Promise.reject(new Error('Cannot export in server side'));
 
@@ -46,9 +46,9 @@ export async function exportData(): Promise<Blob> {
     console.error('Export failed:', err);
     throw err;
   }
-}
+};
 
-export async function importData(blob: Blob): Promise<void> {
+export const importData = async (blob: Blob): Promise<void> => {
   if (typeof window === 'undefined')
     return Promise.reject(new Error('Cannot import in server side'));
 
@@ -69,10 +69,10 @@ export async function importData(blob: Blob): Promise<void> {
     console.error('Import failed:', err);
     throw err;
   }
-}
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function transformImportedData(blob: Blob): Promise<Blob> {
+const transformImportedData = async (blob: Blob): Promise<Blob> => {
   const jsonString: string = await blob.text();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const jsonObject: Record<string, any> = JSON.parse(jsonString);
@@ -90,8 +90,8 @@ async function transformImportedData(blob: Blob): Promise<Blob> {
   }
 
   return new Blob([JSON.stringify(jsonObject)], { type: 'application/json' });
-}
+};
 
-export function dropDb(): Promise<void> {
+export const dropDb = (): Promise<void> => {
   return idbCon.dropDb();
-}
+};

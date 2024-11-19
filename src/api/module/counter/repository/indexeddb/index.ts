@@ -3,7 +3,7 @@ import * as entityHistory from '@/api/module/history/entity';
 import * as entityJuz from '@/api/shared/entity/juz';
 import * as entitySurah from '@/api/shared/entity/surah';
 
-export function calculateCounters(histories: entityHistory.History[]): entity.Counter[] {
+export const calculateCounters = (histories: entityHistory.History[]): entity.Counter[] => {
   const counters: entity.Counter[] = [];
   const mapCounter: Map<number, entity.Counter> = new Map();
 
@@ -27,12 +27,12 @@ export function calculateCounters(histories: entityHistory.History[]): entity.Co
   for (const key of sortedKeys) counters.push(mapCounter.get(key));
 
   return counters;
-}
+};
 
-function calculateByJuz(
+const calculateByJuz = (
   history: entityHistory.History,
   mapCounter: Map<number, entity.Counter>
-): void {
+): void => {
   // @ts-expect-error known type
   const juz: entityJuz.JuzType = entityJuz.getJuzById(history.juz);
 
@@ -50,12 +50,12 @@ function calculateByJuz(
 
     if (!mapCounter.get(surah.id)) mapCounter.set(surah.id, counter);
   }
-}
+};
 
-function calculateBySurah(
+const calculateBySurah = (
   history: entityHistory.History,
   mapCounter: Map<number, entity.Counter>
-): void {
+): void => {
   // @ts-expect-error known type
   const surah: entitySurah.SurahType = entitySurah.getSurahById(history.surah);
 
@@ -67,4 +67,4 @@ function calculateBySurah(
   };
 
   if (!mapCounter.get(surah.id)) mapCounter.set(surah.id, counter);
-}
+};

@@ -5,22 +5,21 @@ import * as repo from '@/api/module/stat/repository/indexeddb';
 import * as entityJuz from '@/api/shared/entity/juz';
 import * as entitySurah from '@/api/shared/entity/surah';
 
-// @ts-expect-error expected return value type
-export async function index(): entity.Stat[] {
+export const index = async (): Promise<entity.Stat[]> => {
   const histories: entityHistory.History[] = await repoHistory.findAll();
   return repo.calculateStats(histories);
-}
+};
 
-export function getHistoryStat(history: entityHistory.History): entity.HistoryStat {
+export const getHistoryStat = (history: entityHistory.History): entity.HistoryStat => {
   const lines: number = repo.calculateTotalLinesFromHistory(history);
   return {
     juz: entityJuz.getTotalJuzFromLines(lines),
     ayah: getTotalAyah(history),
     lines: lines,
   };
-}
+};
 
-function getTotalAyah(history: entityHistory.History): number {
+const getTotalAyah = (history: entityHistory.History): number => {
   let totalAyah: number = 0;
 
   switch (history.historyType) {
@@ -45,8 +44,8 @@ function getTotalAyah(history: entityHistory.History): number {
   }
 
   return totalAyah;
-}
+};
 
-export function getStatType(id: number): entity.StatType {
+export const getStatType = (id: number): entity.StatType => {
   return repo.findStatType(id);
-}
+};
