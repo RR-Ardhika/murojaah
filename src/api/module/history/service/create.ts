@@ -50,8 +50,7 @@ const createBySurah = (payload: entity.Payload): Promise<number | unknown[]> => 
       occuredAt: payload.occuredAt,
     };
 
-    // @ts-expect-error handled undefined value
-    if (i === payload.surahOptions.length - 1 && payload.markJuzDone)
+    if (payload.surahOptions && i === payload.surahOptions.length - 1 && payload.markJuzDone)
       history.markJuzDone = payload.markJuzDone;
 
     repo.insert(history);
