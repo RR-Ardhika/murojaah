@@ -6,7 +6,7 @@ export type JuzType = {
   endSurah: number;
 };
 
-export const Juz: JuzType[] = [
+export const juz: JuzType[] = [
   { id: 1, startSurah: 1, endSurah: 2 },
   { id: 2, startSurah: 2, endSurah: 2 },
   { id: 3, startSurah: 2, endSurah: 3 },
@@ -39,23 +39,23 @@ export const Juz: JuzType[] = [
   { id: 30, startSurah: 78, endSurah: 114 },
 ];
 
-export function GetJuzById(id: number): JuzType | undefined {
-  return Juz.find((obj: JuzType) => obj.id === id);
+export function getJuzById(id: number): JuzType | undefined {
+  return juz.find((obj: JuzType) => obj.id === id);
 }
 
-export function JuzOptions(): Option[] {
+export function juzOptions(): Option[] {
   const options: Option[] = [];
 
   // eslint-disable-next-line @typescript-eslint/typedef
-  for (let i = 0; i < Juz.length; i++) {
-    const option: Option = { value: Juz[i].id, label: Juz[i].id };
+  for (let i = 0; i < juz.length; i++) {
+    const option: Option = { value: juz[i].id, label: juz[i].id };
     options.push(option);
   }
 
   return options;
 }
 
-export function GetTotalJuzFromLines(n: number): number {
+export function getTotalJuzFromLines(n: number): number {
   const juz: string = (n / 300).toFixed(3);
   return juz.endsWith('.00') ? parseInt(juz) : parseFloat(juz);
 }

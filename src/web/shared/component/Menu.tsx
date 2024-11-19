@@ -1,6 +1,5 @@
 'use client';
 
-import { useRef, useState } from 'react';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import {
   Bars3Icon,
@@ -9,6 +8,7 @@ import {
   ArchiveBoxXMarkIcon,
 } from '@heroicons/react/16/solid';
 import Image from 'next/image';
+import { useRef, useState } from 'react';
 
 import * as service from '@/api/module/history/service';
 import Links from '@/web/shared/util/const';
@@ -22,12 +22,12 @@ export default function Component(): JSX.Element {
   };
 
   const fileInputRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement | null>(null);
-  const [isDropDBConfirmationVisible, setIsDropDBConfirmationVisible] = useState(false);
+  const [isDropDbConfirmationVisible, setIsDropDbConfirmationVisible] = useState(false);
 
   // @ts-expect-error expected return value type
   async function doExport(): void {
     try {
-      const blob: Blob = await service.Export();
+      const blob: Blob = await service.exportData();
 
       // Create a blob with the JSON data
       const url: string = URL.createObjectURL(blob);
@@ -53,16 +53,16 @@ export default function Component(): JSX.Element {
     fileInputRef.current?.click();
   }
 
-  function doDropDB(): void {
-    if (!isDropDBConfirmationVisible) {
-      setIsDropDBConfirmationVisible(true);
+  function doDropDb(): void {
+    if (!isDropDbConfirmationVisible) {
+      setIsDropDbConfirmationVisible(true);
       setTimeout(() => {
-        setIsDropDBConfirmationVisible(false);
+        setIsDropDbConfirmationVisible(false);
       }, 2000);
       return;
     }
 
-    service.DropDB();
+    service.dropDb();
     window.location.reload();
   }
 
@@ -76,7 +76,7 @@ export default function Component(): JSX.Element {
       try {
         const jsonString: string = reader.result as string;
         const blob: Blob = new Blob([jsonString], { type: 'application/json' });
-        await service.Import(blob);
+        await service.importData(blob);
         window.location.reload(); // TD-6 Implement proper success import notification
       } catch (err) {
         console.error('Import failed:', err);
@@ -114,11 +114,11 @@ export default function Component(): JSX.Element {
               className={classNames.menuItem}
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                 e.preventDefault();
-                doDropDB();
+                doDropDb();
               }}
             >
               <ArchiveBoxXMarkIcon className="size-4 fill-white/50" />
-              {!isDropDBConfirmationVisible ? 'Delete database' : 'Confirm?'}
+              {!isDropDbConfirmationVisible ? 'Delete database' : 'Confirm?'}
             </button>
           </MenuItem>
 

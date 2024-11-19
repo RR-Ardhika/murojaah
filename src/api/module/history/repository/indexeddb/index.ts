@@ -1,31 +1,31 @@
+import Dexie from 'dexie';
 import { Connection } from 'jsstore';
 import { v4 as uuidv4 } from 'uuid';
-import Dexie from 'dexie';
 
 import { initJsStore } from '@/api/database/indexeddb/connection';
 import * as entity from '@/api/module/history/entity';
 
 const idbCon: Connection = initJsStore();
 
-export function FindAll(): Promise<entity.History[]> {
+export function findAll(): Promise<entity.History[]> {
   return idbCon.select<entity.History>({
     from: 'histories',
     order: { by: 'occuredAt', type: 'desc' },
   });
 }
 
-export function Insert(item: entity.History): Promise<number | unknown[]> {
+export function insert(item: entity.History): Promise<number | unknown[]> {
   return idbCon.insert({ into: 'histories', values: [item] });
 }
 
-export function DeleteRecord(item: entity.History): Promise<number> {
+export function deleteRecord(item: entity.History): Promise<number> {
   return idbCon.remove({
     from: 'histories',
     where: { id: item.id },
   });
 }
 
-export async function Export(): Promise<Blob> {
+export async function exportData(): Promise<Blob> {
   if (typeof window === 'undefined')
     return Promise.reject(new Error('Cannot export in server side'));
 
@@ -38,9 +38,9 @@ export async function Export(): Promise<Blob> {
   });
 
   try {
-    const { exportDB } = await import('dexie-export-import');
+    const { exportDB: exportDb } = await import('dexie-export-import');
     await db.open();
-    const blob: Blob = await exportDB(db);
+    const blob: Blob = await exportDb(db);
     return blob;
   } catch (err) {
     console.error('Export failed:', err);
@@ -48,7 +48,7 @@ export async function Export(): Promise<Blob> {
   }
 }
 
-export async function Import(blob: Blob): Promise<void> {
+export async function importData(blob: Blob): Promise<void> {
   if (typeof window === 'undefined')
     return Promise.reject(new Error('Cannot import in server side'));
 
@@ -61,10 +61,10 @@ export async function Import(blob: Blob): Promise<void> {
   });
 
   try {
-    const { importDB } = await import('dexie-export-import');
+    const { importDB: importDb } = await import('dexie-export-import');
     await db.open();
     // @ts-expect-error db is exist
-    await importDB(blob, { db });
+    await importDb(blob, { db });
   } catch (err) {
     console.error('Import failed:', err);
     throw err;
@@ -92,6 +92,6 @@ async function transformImportedData(blob: Blob): Promise<Blob> {
   return new Blob([JSON.stringify(jsonObject)], { type: 'application/json' });
 }
 
-export function DropDB(): Promise<void> {
+export function dropDb(): Promise<void> {
   return idbCon.dropDb();
 }
