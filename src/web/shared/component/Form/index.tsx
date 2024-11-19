@@ -15,7 +15,7 @@ interface Props {
   isFormVisible: boolean;
   setIsFormVisible: Dispatch<SetStateAction<boolean>>;
   setIsSubButtonsVisible?: Dispatch<SetStateAction<boolean>>;
-  parentSurah?: Option;
+  parentSurah?: Option[];
   // @ts-expect-error DataContextValues
   fetchData?: Context<DataContextValues>;
 }
@@ -26,10 +26,10 @@ export interface SharedProps {
   setIsSubButtonsVisible?: Dispatch<SetStateAction<boolean>>;
   // @ts-expect-error DataContextValues
   fetchData?: Context<DataContextValues>;
-  selectedJuz: undefined;
-  setSelectedJuz: Dispatch<SetStateAction<undefined>>;
-  selectedSurah: undefined;
-  setSelectedSurah: Dispatch<SetStateAction<undefined>>;
+  selectedJuz: Option | undefined;
+  setSelectedJuz: Dispatch<SetStateAction<Option | undefined>>;
+  selectedSurah: Option[] | undefined;
+  setSelectedSurah: Dispatch<SetStateAction<Option[] | undefined>>;
   selectedApproach: Option;
   setSelectedApproach: Dispatch<SetStateAction<Option>>;
   startAyah: string;
@@ -47,8 +47,8 @@ export interface SharedProps {
 }
 
 export const Form = (p: Props): JSX.Element => {
-  const [selectedJuz, setSelectedJuz] = useState(undefined);
-  const [selectedSurah, setSelectedSurah] = useState(undefined);
+  const [selectedJuz, setSelectedJuz] = useState<Option>();
+  const [selectedSurah, setSelectedSurah] = useState<Option[]>();
   const [selectedApproach, setSelectedApproach] = useState(() => approachOptions()[0]);
   const [startAyah, setStartAyah] = useState('');
   const [endAyah, setEndAyah] = useState('');
@@ -62,7 +62,6 @@ export const Form = (p: Props): JSX.Element => {
   }, [p.isFormVisible]);
 
   useEffect(() => {
-    // @ts-expect-error expected type
     if (p.parentSurah) setSelectedSurah(p.parentSurah);
   }, [p.parentSurah]);
 

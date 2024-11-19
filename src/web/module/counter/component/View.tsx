@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import { Counter } from '@/api/module/counter/entity';
+import { Option } from '@/api/shared/entity';
 import { getOptionsFromSurahId } from '@/api/shared/entity/surah';
 import { Card } from '@/web/module/counter/component/Card';
 import { useData } from '@/web/module/counter/context/DataContext';
@@ -14,8 +15,8 @@ interface InternalProps {
   hideAlert: Context<AlertContextValues>;
   isFormVisible: boolean;
   setIsFormVisible: Dispatch<SetStateAction<boolean>>;
-  parentSurah: undefined;
-  setParentSurah: Dispatch<SetStateAction<undefined>>;
+  parentSurah: Option[] | undefined;
+  setParentSurah: Dispatch<SetStateAction<Option[] | undefined>>;
   currentJuz: number;
 }
 
@@ -45,7 +46,7 @@ export const View = (): JSX.Element => {
   const { data, fetchData } = useData();
   const { hideAlert } = useAlert();
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [parentSurah, setParentSurah] = useState(undefined);
+  const [parentSurah, setParentSurah] = useState<Option[]>();
 
   const formType: string = 'Surah';
   let currentJuz: number;
@@ -73,12 +74,7 @@ export const View = (): JSX.Element => {
           return (
             <div key={Math.random()}>
               {i.currentJuz !== item.juz ? updateAndRenderCurrentJuz(i, item) : <></>}
-              <Card
-                key={item.id}
-                item={item}
-                showForm={() => showForm(i, item)}
-                setParentSurah={setParentSurah}
-              />
+              <Card key={item.id} item={item} showForm={() => showForm(i, item)} />
             </div>
           );
         })}

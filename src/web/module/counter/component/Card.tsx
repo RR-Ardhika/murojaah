@@ -1,5 +1,4 @@
 import { clsx } from 'clsx';
-import { Dispatch, SetStateAction } from 'react';
 
 import { Counter } from '@/api/module/counter/entity';
 import { formatDate, formatDurationFromNow, getDurationFromNow } from '@/web/shared/util/datetime';
@@ -7,7 +6,6 @@ import { formatDate, formatDurationFromNow, getDurationFromNow } from '@/web/sha
 interface Props {
   item: Counter;
   showForm: (item: Counter) => void;
-  setParentSurah: Dispatch<SetStateAction<undefined>>;
 }
 
 const CLASS_NAMES: Record<string, string> = {

@@ -4,7 +4,7 @@ import * as entity from '@/api/module/history/entity';
 import * as service from '@/api/module/history/service';
 
 interface InternalProps {
-  setData: Dispatch<SetStateAction<undefined>>;
+  setData: Dispatch<SetStateAction<entity.History[] | undefined>>;
 }
 
 // @ts-expect-error DataContextValues
@@ -19,12 +19,11 @@ export const useData = (): Context<DataContextValues> => {
 };
 
 const fetchData = (i: InternalProps): void => {
-  // @ts-expect-error DataProvider fetchData
   service.index().then((result: entity.History[]) => i.setData(result));
 };
 
 export const DataProvider = ({ children }: { children: ReactNode }): JSX.Element => {
-  const [data, setData] = useState(undefined);
+  const [data, setData] = useState<entity.History[]>();
 
   const i: InternalProps = {
     setData,

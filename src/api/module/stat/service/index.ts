@@ -5,8 +5,7 @@ import * as repo from '@/api/module/stat/repository/indexeddb';
 import * as entityJuz from '@/api/shared/entity/juz';
 import * as entitySurah from '@/api/shared/entity/surah';
 
-// @ts-expect-error expected return value type
-export const index = async (): entity.Stat[] => {
+export const index = async (): Promise<entity.Stat[]> => {
   const histories: entityHistory.History[] = await repoHistory.findAll();
   return repo.calculateStats(histories);
 };
