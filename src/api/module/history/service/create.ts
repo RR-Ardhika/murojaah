@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import { v4 as uuidv4 } from 'uuid';
 
 import * as entity from '@/api/module/history/entity';
@@ -39,6 +40,8 @@ const createBySurah = (payload: entity.Payload): Promise<number | unknown[]> => 
       new Error('Error 422 Unprocessable Entity error validating surah payload')
     );
 
+  let occuredAt: DateTime = DateTime.fromJSDate(payload.occuredAt);
+
   // @ts-expect-error handled undefined value
   for (const [i, opt] of payload.surahOptions.entries()) {
     const history: entity.History = {
@@ -47,13 +50,15 @@ const createBySurah = (payload: entity.Payload): Promise<number | unknown[]> => 
       surah: opt.value,
       approachId: payload.approachId,
       repeat: payload.repeat,
-      occuredAt: payload.occuredAt,
+      occuredAt: occuredAt.toJSDate(),
     };
 
     if (payload.surahOptions && i === payload.surahOptions.length - 1 && payload.markJuzDone)
       history.markJuzDone = payload.markJuzDone;
 
     repo.insert(history);
+
+    occuredAt = occuredAt.plus({ milliseconds: 1 });
   }
 
   return Promise.resolve(-1);
