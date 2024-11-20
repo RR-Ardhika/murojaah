@@ -3,7 +3,6 @@ TD-3 Implement proper number input for ayah
 TD-4 Fill the rest total lines and ayah
 TD-5 Refactor random after fix multiple render
 TD-6 Implement proper success import notification
-TD-7 Implement activity router
 TD-8 Implement calculateByAyah() for module counter
 TD-9 Implement handler for type SurahJuz in module stat
 TD-10 Implement totalMarkedJuzAsDone calculation in module stat
