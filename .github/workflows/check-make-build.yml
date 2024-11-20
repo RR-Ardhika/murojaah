@@ -27,7 +27,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pnpm install
+          make dep
 
       - name: Run make build
         run: |
