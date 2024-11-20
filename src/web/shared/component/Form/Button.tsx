@@ -82,7 +82,7 @@ const buildJuzPayload = (p: Props): Payload => {
     juz: p.selectedJuz.value,
     approachId: p.selectedApproach.value,
     repeat: 1, // Hardcoded to 1 for juz
-    occuredAt: getOccuredAt(p),
+    occuredAt: buildOccuredAt(p),
   };
 };
 
@@ -93,7 +93,7 @@ const buildSurahPayload = (p: Props): Payload => {
     markJuzDone: p.isJuzDone,
     approachId: p.selectedApproach.value,
     repeat: p.repeat,
-    occuredAt: getOccuredAt(p),
+    occuredAt: buildOccuredAt(p),
   };
 };
 
@@ -108,15 +108,25 @@ const buildAyahPayload = (p: Props): Payload => {
     markJuzDone: p.isJuzDone,
     approachId: p.selectedApproach.value,
     repeat: p.repeat,
-    occuredAt: getOccuredAt(p),
+    occuredAt: buildOccuredAt(p),
   };
 };
 
-const getOccuredAt = (p: Props): Date => {
+const buildOccuredAt = (p: Props): Date => {
   for (const format of formFormatDatetimes) {
-    const dt: DateTime = DateTime.fromFormat(p.occuredAt, format);
-    if (dt.isValid) return dt.toJSDate();
+    let dt: DateTime = DateTime.fromFormat(p.occuredAt, format);
+
+    if (dt.isValid) {
+      const now: DateTime = DateTime.now();
+      dt = dt.set({
+        second: now.second,
+        millisecond: now.millisecond,
+      });
+
+      return dt.toJSDate();
+    }
   }
+
   throw new Error('Invalid DateTime');
 };
 
