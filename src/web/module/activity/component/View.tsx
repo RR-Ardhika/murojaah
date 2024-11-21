@@ -12,6 +12,11 @@ interface InternalProps {
   currentDate: Date;
 }
 
+const CLASS_NAMES: Record<string, string> = {
+  container: 'flex justify-between',
+  content: 'text-lg text-custom-teal',
+};
+
 const formatDate = (date: Date): string => {
   const parsedTime: DateTime = DateTime.fromJSDate(date);
   if (!parsedTime.isValid) return '';
@@ -28,9 +33,9 @@ const updateAndRenderCurrentDate = (i: InternalProps, item: History): JSX.Elemen
   i.currentDate = item.occuredAt;
   const formattedDate: string = formatDate(item.occuredAt);
   return (
-    <div className="flex justify-between">
-      <p className="text-lg text-custom-teal">{formattedDate}</p>
-      <p className="text-lg text-custom-teal">{i.mapHistoryStats.get(formattedDate)?.juz} juz</p>
+    <div className={CLASS_NAMES.container}>
+      <p className={CLASS_NAMES.content}>{formattedDate}</p>
+      <p className={CLASS_NAMES.content}>{i.mapHistoryStats.get(formattedDate)?.juz} juz</p>
     </div>
   );
 };
