@@ -6,12 +6,17 @@ import { HistoryStat } from '@/api/module/stat/entity';
 import { getHistoryStat } from '@/api/module/stat/service';
 import { getTotalJuzFromLines } from '@/api/shared/entity/juz';
 import { useData } from '@/web/module/activity/context/DataContext';
-import { formatDate } from '@/web/shared/util/datetime';
 
 interface InternalProps {
   mapHistoryStats: Map<string, HistoryStat>;
   currentDate: Date;
 }
+
+const formatDate = (date: Date): string => {
+  const parsedTime: DateTime = DateTime.fromJSDate(date);
+  if (!parsedTime.isValid) return '';
+  return parsedTime.toFormat('yyyy-MM-dd EEE');
+};
 
 const updateAndRenderCurrentDate = (i: InternalProps, item: History): JSX.Element => {
   if (i.currentDate) {
