@@ -53,12 +53,11 @@ export const View = (): JSX.Element => {
   useEffect(() => {
     if (data) {
       const newMapHistoryStats: Map<string, HistoryStat> = new Map();
-      const newMapIsProcessed: Map<number, boolean> = new Map();
+      const newMapIsProcessed: Map<string, boolean> = new Map();
 
       data.forEach((item: History) => {
         const formattedDate: string = formatDate(item.occuredAt);
-        // @ts-expect-error expected type
-        const itemId: number = item.id;
+        const itemId: string = item.id;
 
         if (!newMapHistoryStats.has(formattedDate)) {
           newMapHistoryStats.set(formattedDate, getHistoryStat(item));
