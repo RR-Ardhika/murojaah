@@ -27,7 +27,10 @@ build: clean
 
 .PHONY: start
 start:
-	docker run -d -p 3000:80 -v $(ROOT_DIR)/dist:/usr/share/nginx/html --name $(APP_NAME) --rm nginx
+	docker run -d -p 3000:80 \
+		-v $(ROOT_DIR)/dist:/usr/share/nginx/html \
+		-v $(ROOT_DIR)/nginx.conf:/etc/nginx/conf.d/default.conf \
+		--name $(APP_NAME) --rm nginx
 
 .PHONY: stop
 stop:
