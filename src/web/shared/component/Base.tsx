@@ -1,8 +1,10 @@
 'use client';
 
-import { FC, MutableRefObject, ReactNode, useRef, useEffect } from 'react';
+import { FC, MutableRefObject, Profiler, ReactNode, useRef, useEffect } from 'react';
 
-const LOG_RENDER: boolean = false; // Activate only when needed
+// Activate only when needed
+const LOG_RENDER: boolean = false;
+const USE_PROFILER: boolean = false;
 
 enum LogRenderModules {
   Activity = 'activity',
@@ -17,6 +19,20 @@ interface BaseComponentProps {
   name: string;
   children: ReactNode;
 }
+
+const onRenderCallback = (
+  id: string,
+  phase: 'mount' | 'update' | 'nested-update',
+  actualDuration: number,
+  baseDuration: number,
+  startTime: number,
+  commitTime: number
+): void => {
+  console.log(
+    `%c[Profiler] [id] ${id} [phase] ${phase} in [actualDuration] ${actualDuration} ms [baseDuration] ${baseDuration} ms [startTime] ${startTime} ms [commitTime] ${commitTime} ms`,
+    'color: teal; font-weight: bold;'
+  );
+};
 
 export const Base: FC<BaseComponentProps> = (p: BaseComponentProps) => {
   const renderCount: MutableRefObject<number> = useRef(0);
@@ -37,6 +53,13 @@ export const Base: FC<BaseComponentProps> = (p: BaseComponentProps) => {
       );
     }
   });
+
+  if (USE_PROFILER)
+    return (
+      <Profiler id={p.module + '.' + p.name} onRender={onRenderCallback}>
+        {p.children}
+      </Profiler>
+    );
 
   return <>{p.children}</>;
 };
