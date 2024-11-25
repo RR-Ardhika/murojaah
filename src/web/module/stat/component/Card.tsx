@@ -1,5 +1,6 @@
 import { Stat } from '@/api/module/stat/entity';
 import { getStatType } from '@/api/module/stat/service';
+import { Base } from '@/web/shared/component/Base';
 
 const CLASS_NAMES: Record<string, string> = {
   title: 'text-xl font-black',
@@ -10,22 +11,24 @@ const CLASS_NAMES: Record<string, string> = {
 
 export const Card = (item: Stat): JSX.Element => {
   return (
-    <div>
-      <p className={CLASS_NAMES.title}>{getStatType(item.statType)}</p>
-      <hr />
-      <div className={CLASS_NAMES.dataContainer}>
-        <p className={CLASS_NAMES.fieldNameCol}>Total lines read</p>
-        <p>:</p>
-        <p className={CLASS_NAMES.fieldValueCol}>{item.totalLinesRead}</p>
+    <Base module="stat" name="Card">
+      <div>
+        <p className={CLASS_NAMES.title}>{getStatType(item.statType)}</p>
+        <hr />
+        <div className={CLASS_NAMES.dataContainer}>
+          <p className={CLASS_NAMES.fieldNameCol}>Total lines read</p>
+          <p>:</p>
+          <p className={CLASS_NAMES.fieldValueCol}>{item.totalLinesRead}</p>
 
-        <p className={CLASS_NAMES.fieldNameCol}>Total juz done from lines</p>
-        <p>:</p>
-        <p className={CLASS_NAMES.fieldValueCol}>{item.totalJuzFromLines}</p>
+          <p className={CLASS_NAMES.fieldNameCol}>Total juz done from lines</p>
+          <p>:</p>
+          <p className={CLASS_NAMES.fieldValueCol}>{item.totalJuzFromLines}</p>
 
-        <p className={CLASS_NAMES.fieldNameCol}>Total marked juz as done</p>
-        <p>:</p>
-        <p className={CLASS_NAMES.fieldValueCol}>{item.totalMarkedJuzAsDone}</p>
+          <p className={CLASS_NAMES.fieldNameCol}>Total marked juz as done</p>
+          <p>:</p>
+          <p className={CLASS_NAMES.fieldValueCol}>{item.totalMarkedJuzAsDone}</p>
+        </div>
       </div>
-    </div>
+    </Base>
   );
 };
