@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 
+import { Base } from '@/web/shared/component/Base';
 import { useAlert } from '@/web/shared/context/AlertContext';
 
 interface InternalProps {
@@ -40,10 +41,12 @@ export const Alert = (): JSX.Element => {
   };
 
   return (
-    <div className={clsx('fixed w-full mt-[72px] p-2 text-white text', getBtnColor(i))}>
-      <div className="flex justify-between">
-        <p>{alertText}</p>
+    <Base module="shared" name="Alert">
+      <div className={clsx('fixed w-full mt-[72px] p-2 text-white text', getBtnColor(i))}>
+        <div className="flex justify-between">
+          <p>{alertText}</p>
+        </div>
       </div>
-    </div>
+    </Base>
   );
 };

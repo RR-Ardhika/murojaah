@@ -1,11 +1,14 @@
+'use client';
+
 import { FC, MutableRefObject, ReactNode, useRef, useEffect } from 'react';
 
-const LOG_RENDER: boolean = false;
+const LOG_RENDER: boolean = false; // Activate only when needed
 
 enum LogRenderModules {
   Activity = 'activity',
-  History = 'history',
   Counter = 'counter',
+  History = 'history',
+  Shared = 'shared',
   Stat = 'stat',
 }
 
