@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import { Dispatch, SetStateAction, useState } from 'react';
 
 import { useData } from '@/web/module/history/context/DataContext';
+import { Base } from '@/web/shared/component/Base';
 import { Form } from '@/web/shared/component/Form';
 import { useAlert } from '@/web/shared/context/AlertContext';
 
@@ -70,29 +71,31 @@ export const CreateButton = (): JSX.Element => {
   };
 
   return (
-    <div className="fixed bottom-16 right-4">
-      <div className="flex flex-col gap-4">
-        {isSubButtonsVisible && renderSubButtons(i)}
+    <Base module="history" name="CreateButton">
+      <div className="fixed bottom-16 right-4">
+        <div className="flex flex-col gap-4">
+          {isSubButtonsVisible && renderSubButtons(i)}
 
-        <button
-          className={clsx(
-            CLASS_NAMES.base,
-            CLASS_NAMES.main,
-            isSubButtonsVisible && CLASS_NAMES.mainLeft
-          )}
-          onClick={() => toggleShowSubButtons(i)}
-        >
-          <span className="relative bottom-1 text-6xl font-extralight">+</span>
-        </button>
+          <button
+            className={clsx(
+              CLASS_NAMES.base,
+              CLASS_NAMES.main,
+              isSubButtonsVisible && CLASS_NAMES.mainLeft
+            )}
+            onClick={() => toggleShowSubButtons(i)}
+          >
+            <span className="relative bottom-1 text-6xl font-extralight">+</span>
+          </button>
 
-        <Form
-          formType={formType}
-          isFormVisible={isFormVisible}
-          setIsFormVisible={setIsFormVisible}
-          setIsSubButtonsVisible={setIsSubButtonsVisible}
-          fetchData={fetchData}
-        />
+          <Form
+            formType={formType}
+            isFormVisible={isFormVisible}
+            setIsFormVisible={setIsFormVisible}
+            setIsSubButtonsVisible={setIsSubButtonsVisible}
+            fetchData={fetchData}
+          />
+        </div>
       </div>
-    </div>
+    </Base>
   );
 };

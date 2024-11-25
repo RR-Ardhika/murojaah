@@ -8,6 +8,7 @@ import { getHistoryStat } from '@/api/module/stat/service';
 import { getTotalJuzFromLines } from '@/api/shared/entity/juz';
 import { Card } from '@/web/module/history/component/Card';
 import { useData } from '@/web/module/history/context/DataContext';
+import { Base } from '@/web/shared/component/Base';
 import { useAlert } from '@/web/shared/context/AlertContext';
 import { formatDate } from '@/web/shared/util/datetime';
 
@@ -91,17 +92,19 @@ export const View = (): JSX.Element => {
   };
 
   return (
-    <div className={clsx('flex flex-col pt-4 px-4', isAlertVisible ? 'mt-[112px]' : 'mt-[72px]')}>
-      {data &&
-        data.map((item: History) => {
-          return (
-            // TD-5 Refactor random after fix multiple render
-            <div key={Math.random()}>
-              {currentDate !== item.occuredAt ? updateAndRenderCurrentDate(i, item) : <></>}
-              <Card key={item.id} {...item} />
-            </div>
-          );
-        })}
-    </div>
+    <Base module="history" name="View">
+      <div className={clsx('flex flex-col pt-4 px-4', isAlertVisible ? 'mt-[112px]' : 'mt-[72px]')}>
+        {data &&
+          data.map((item: History) => {
+            return (
+              // TD-5 Refactor random after fix multiple render
+              <div key={Math.random()}>
+                {currentDate !== item.occuredAt ? updateAndRenderCurrentDate(i, item) : <></>}
+                <Card key={item.id} {...item} />
+              </div>
+            );
+          })}
+      </div>
+    </Base>
   );
 };

@@ -91,9 +91,8 @@ export const Card = (item: History): JSX.Element => {
     historyStat,
   };
 
-  switch (
-    item.historyType // TD-1 Utilize useMemo
-  ) {
+  // TD-1 Utilize useMemo
+  switch (item.historyType) {
     case HistoryType.Juz:
       return Container(item, JuzCard(i));
     case HistoryType.Surah:
