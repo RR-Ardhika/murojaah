@@ -6,6 +6,7 @@ import { HistoryStat } from '@/api/module/stat/entity';
 import { getHistoryStat } from '@/api/module/stat/service';
 import { getTotalJuzFromLines } from '@/api/shared/entity/juz';
 import { useData } from '@/web/module/activity/context/DataContext';
+import { Base } from '@/web/shared/component/Base';
 
 interface InternalProps {
   mapHistoryStats: Map<string, HistoryStat>;
@@ -91,16 +92,18 @@ export const View = (): JSX.Element => {
   };
 
   return (
-    <div className="flex flex-col pt-4 px-4 mt-[72px]">
-      {data &&
-        data.map((item: History) => {
-          return (
-            // TD-5 Refactor random after fix multiple render
-            <div key={Math.random()}>
-              {currentDate !== item.occuredAt ? updateAndRenderCurrentDate(i, item) : <></>}
-            </div>
-          );
-        })}
-    </div>
+    <Base module="activity" name="View">
+      <div className="flex flex-col pt-4 px-4 mt-[72px]">
+        {data &&
+          data.map((item: History) => {
+            return (
+              // TD-5 Refactor random after fix multiple render
+              <div key={Math.random()}>
+                {currentDate !== item.occuredAt ? updateAndRenderCurrentDate(i, item) : <></>}
+              </div>
+            );
+          })}
+      </div>
+    </Base>
   );
 };

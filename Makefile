@@ -11,7 +11,7 @@ dep:
 	pnpm i
 
 .PHONY: dev
-dev: clean
+dev: stop clean
 	NODE_ENV=development pnpm next dev
 
 .PHONY: run
@@ -34,7 +34,10 @@ stop:
 	docker container stop $(APP_NAME)
 
 .PHONY: prod
-prod: build start
+prod:
+	-$(MAKE) stop
+	$(MAKE) build
+	$(MAKE) start
 
 .PHONY: lint
 lint:
