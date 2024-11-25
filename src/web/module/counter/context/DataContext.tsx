@@ -2,6 +2,7 @@ import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useStat
 
 import * as entity from '@/api/module/counter/entity';
 import * as service from '@/api/module/counter/service';
+import { Base } from '@/web/shared/component/Base';
 
 interface InternalProps {
   setData: Dispatch<SetStateAction<entity.Counter[] | undefined>>;
@@ -30,8 +31,10 @@ export const DataProvider = ({ children }: { children: ReactNode }): JSX.Element
   };
 
   return (
-    <DataContext.Provider value={{ data, fetchData: () => fetchData(i) }}>
-      {children}
-    </DataContext.Provider>
+    <Base module="counter" name="DataProvider">
+      <DataContext.Provider value={{ data, fetchData: () => fetchData(i) }}>
+        {children}
+      </DataContext.Provider>
+    </Base>
   );
 };
