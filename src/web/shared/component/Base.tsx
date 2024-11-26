@@ -2,10 +2,6 @@
 
 import { FC, MutableRefObject, Profiler, ReactNode, useRef, useEffect } from 'react';
 
-// Activate only when needed
-const LOG_RENDER: boolean = false;
-const USE_PROFILER: boolean = false;
-
 enum LogRenderModules {
   Activity = 'activity',
   Counter = 'counter',
@@ -20,7 +16,11 @@ interface BaseComponentProps {
   children: ReactNode;
 }
 
-const onRenderCallback = (
+// Activate only when needed
+const LOG_RENDER: boolean = false;
+const USE_PROFILER: boolean = false;
+
+const profilerCallback = (
   id: string,
   phase: 'mount' | 'update' | 'nested-update',
   actualDuration: number,
@@ -56,7 +56,7 @@ export const Base: FC<BaseComponentProps> = (p: BaseComponentProps) => {
 
   if (USE_PROFILER)
     return (
-      <Profiler id={p.module + '.' + p.name} onRender={onRenderCallback}>
+      <Profiler id={p.module + '.' + p.name} onRender={profilerCallback}>
         {p.children}
       </Profiler>
     );

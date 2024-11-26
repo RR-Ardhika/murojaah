@@ -3,10 +3,6 @@ import { clsx } from 'clsx';
 import { Base } from '@/web/shared/component/Base';
 import { useAlert } from '@/web/shared/context/AlertContext';
 
-interface InternalProps {
-  alertColor: number;
-}
-
 export enum AlertColor {
   Red = 0,
   Green = 1,
@@ -17,6 +13,10 @@ export enum AlertText {
   SuccessDeletedHistory = 'Murojaah deleted',
   FailedCreatedHistory = 'Failed created new murojaah',
   FailedDeletedHistory = 'Failed deleted murojaah',
+}
+
+interface InternalProps {
+  alertColor: number;
 }
 
 // TD-1 Utilize useMemo
