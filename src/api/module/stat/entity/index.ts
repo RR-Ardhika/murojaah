@@ -9,7 +9,7 @@ export enum StatType {
 }
 
 export type Stat = {
-  id?: number;
+  id: string;
   statType: number;
   totalLinesRead: number;
   totalJuzFromLines: number;
