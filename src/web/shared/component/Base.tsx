@@ -30,7 +30,7 @@ const profilerCallback = (
 ): void => {
   console.log(
     `%c[Profiler] [id] ${id} [phase] ${phase} in [actualDuration] ${actualDuration} ms [baseDuration] ${baseDuration} ms [startTime] ${startTime} ms [commitTime] ${commitTime} ms`,
-    'color: teal; font-weight: bold;'
+    'color: yellow; font-weight: bold;'
   );
 };
 
@@ -49,7 +49,7 @@ export const Base: FC<BaseComponentProps> = (p: BaseComponentProps) => {
       renderCount.current += 1;
       console.log(
         `%c[RenderTracker] ${name} rendered ${renderCount.current} time(s).`,
-        'color: teal; font-weight: bold;'
+        'color: lime; font-weight: bold;'
       );
     }
   });
