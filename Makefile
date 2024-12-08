@@ -11,7 +11,9 @@ dep:
 	pnpm i
 
 .PHONY: dev
-dev: stop clean
+dev:
+	-$(MAKE) stop
+	$(MAKE) clean
 	NODE_ENV=development pnpm next dev
 
 .PHONY: run
