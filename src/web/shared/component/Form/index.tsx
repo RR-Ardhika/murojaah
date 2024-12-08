@@ -59,12 +59,9 @@ export const Form = (p: Props): JSX.Element => {
   const [occuredAt, setOccuredAt] = useState('');
 
   useEffect(() => {
-    setOccuredAt(DateTime.now().toFormat(formFormatDatetimes[0]));
-  }, [p.isFormVisible]);
-
-  useEffect(() => {
+    if (p.isFormVisible) setOccuredAt(DateTime.now().toFormat(formFormatDatetimes[0]));
     if (p.parentSurah) setSelectedSurah(p.parentSurah);
-  }, [p.parentSurah]);
+  }, [p.isFormVisible, p.parentSurah]);
 
   const sharedProps: SharedProps = {
     formType: p.formType,
