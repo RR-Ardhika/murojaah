@@ -6,6 +6,7 @@ import { Option } from '@/api/shared/entity';
 import { getOptionsFromSurahId } from '@/api/shared/entity/surah';
 import { Card } from '@/web/module/counter/component/Card';
 import { useData } from '@/web/module/counter/context/DataContext';
+import { Base } from '@/web/shared/component/Base';
 import { Form } from '@/web/shared/component/Form';
 import { useAlert } from '@/web/shared/context/AlertContext';
 
@@ -68,24 +69,26 @@ export const View = (): JSX.Element => {
   };
 
   return (
-    <div className="gap-[20px] mt-[72px] pt-4 px-4">
-      {data &&
-        data.map((item: Counter) => {
-          return (
-            <div key={Math.random()}>
-              {i.currentJuz !== item.juz ? updateAndRenderCurrentJuz(i, item) : <></>}
-              <Card key={item.id} item={item} showForm={() => showForm(i, item)} />
-            </div>
-          );
-        })}
+    <Base module="counter" name="View">
+      <div className="gap-[20px] mt-[72px] pt-4 px-4">
+        {data &&
+          data.map((item: Counter) => {
+            return (
+              <div key={Math.random()}>
+                {i.currentJuz !== item.juz ? updateAndRenderCurrentJuz(i, item) : <></>}
+                <Card key={item.id} item={item} showForm={() => showForm(i, item)} />
+              </div>
+            );
+          })}
 
-      <Form
-        formType={formType}
-        isFormVisible={isFormVisible}
-        setIsFormVisible={setIsFormVisible}
-        parentSurah={parentSurah}
-        fetchData={fetchData}
-      />
-    </div>
+        <Form
+          formType={formType}
+          isFormVisible={isFormVisible}
+          setIsFormVisible={setIsFormVisible}
+          parentSurah={parentSurah}
+          fetchData={fetchData}
+        />
+      </div>
+    </Base>
   );
 };

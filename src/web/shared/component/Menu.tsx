@@ -11,6 +11,7 @@ import Image from 'next/image';
 import { Dispatch, SetStateAction, useRef, useState } from 'react';
 
 import * as service from '@/api/module/history/service';
+import { Base } from '@/web/shared/component/Base';
 import { LINKS } from '@/web/shared/util/const';
 
 interface InternalProps {
@@ -98,7 +99,7 @@ export const Menu = (): JSX.Element => {
   };
 
   return (
-    <>
+    <Base module="shared" name="Menu">
       <HeadlessMenu>
         <MenuButton>
           <Bars3Icon className="size-6" />
@@ -158,6 +159,6 @@ export const Menu = (): JSX.Element => {
         style={{ display: 'none' }}
         onChange={handleImportedFile}
       />
-    </>
+    </Base>
   );
 };

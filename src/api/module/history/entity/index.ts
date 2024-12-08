@@ -1,5 +1,11 @@
 import { Option } from '@/api/shared/entity';
 
+export enum HistoryType {
+  Juz = 0,
+  Surah = 1,
+  Ayah = 2,
+}
+
 export type History = {
   id: string;
   historyType: number;
@@ -27,9 +33,3 @@ export type Payload = {
   repeat: number;
   occuredAt: Date;
 };
-
-export enum HistoryType {
-  Juz = 0,
-  Surah = 1,
-  Ayah = 2,
-}

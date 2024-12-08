@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon';
+import { v4 as uuidv4 } from 'uuid';
 
 import * as entityHistory from '@/api/module/history/entity';
 import * as entity from '@/api/module/stat/entity';
@@ -18,7 +19,7 @@ const calculateAllTimeStat = (histories: entityHistory.History[]): entity.Stat =
   for (const history of histories) totalLinesRead += calculateTotalLinesFromHistory(history);
 
   return {
-    id: Math.floor(Math.random() * 10),
+    id: uuidv4(),
     statType: Object.values(entity.StatType).indexOf(entity.StatType.All),
     totalLinesRead: totalLinesRead,
     totalJuzFromLines: entityJuz.getTotalJuzFromLines(totalLinesRead),
@@ -37,7 +38,7 @@ const calculateDailyStat = (histories: entityHistory.History[]): entity.Stat => 
   }
 
   return {
-    id: Math.floor(Math.random() * 10),
+    id: uuidv4(),
     statType: Object.values(entity.StatType).indexOf(entity.StatType.Daily),
     totalLinesRead: totalLinesRead,
     totalJuzFromLines: entityJuz.getTotalJuzFromLines(totalLinesRead),
