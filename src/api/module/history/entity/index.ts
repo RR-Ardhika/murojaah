@@ -1,3 +1,4 @@
+import { HistoryStat } from '@/api/module/stat/entity';
 import { Option } from '@/api/shared/entity';
 
 export enum HistoryType {
@@ -18,6 +19,12 @@ export type History = {
   approachId: number;
   repeat: number;
   occuredAt: Date;
+};
+
+export type HistoryGroup = {
+  date: string;
+  histories: History[];
+  stat: HistoryStat;
 };
 
 export type Payload = {
