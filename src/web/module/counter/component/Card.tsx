@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 
 import { Counter } from '@/api/module/counter/entity';
+import { Base } from '@/web/shared/component/Base';
 import { formatDate, formatDurationFromNow, getDurationFromNow } from '@/web/shared/util/datetime';
 
 interface Props {
@@ -30,15 +31,20 @@ const getContainerColor = (duration: number): string => {
 
 export const Card = ({ item, showForm }: Props): JSX.Element => {
   return (
-    <div
-      className={clsx(CLASS_NAMES.container, getContainerColor(getDurationFromNow(item.lastRead)))}
-      onClick={() => showForm(item)}
-    >
-      <p className={CLASS_NAMES.data}>{item.name}</p>
-      <div className="flex gap-1">
-        <p className={CLASS_NAMES.duration}>({formatDurationFromNow(item.lastRead)})</p>
-        <p className={CLASS_NAMES.date}>{formatDate(item.lastRead)}</p>
+    <Base module="counter" name="Card">
+      <div
+        className={clsx(
+          CLASS_NAMES.container,
+          getContainerColor(getDurationFromNow(item.lastRead))
+        )}
+        onClick={() => showForm(item)}
+      >
+        <p className={CLASS_NAMES.data}>{item.name}</p>
+        <div className="flex gap-1">
+          <p className={CLASS_NAMES.duration}>({formatDurationFromNow(item.lastRead)})</p>
+          <p className={CLASS_NAMES.date}>{formatDate(item.lastRead)}</p>
+        </div>
       </div>
-    </div>
+    </Base>
   );
 };

@@ -4,6 +4,7 @@ import { Dispatch, Fragment, useEffect, useState, SetStateAction } from 'react';
 
 import { approachOptions } from '@/api/module/approach/entity';
 import { Option } from '@/api/shared/entity';
+import { Base } from '@/web/shared/component/Base';
 import { formFormatDatetimes } from '@/web/shared/util/datetime';
 
 import { Button } from './Button';
@@ -58,12 +59,9 @@ export const Form = (p: Props): JSX.Element => {
   const [occuredAt, setOccuredAt] = useState('');
 
   useEffect(() => {
-    setOccuredAt(DateTime.now().toFormat(formFormatDatetimes[0]));
-  }, [p.isFormVisible]);
-
-  useEffect(() => {
+    if (p.isFormVisible) setOccuredAt(DateTime.now().toFormat(formFormatDatetimes[0]));
     if (p.parentSurah) setSelectedSurah(p.parentSurah);
-  }, [p.parentSurah]);
+  }, [p.isFormVisible, p.parentSurah]);
 
   const sharedProps: SharedProps = {
     formType: p.formType,
@@ -91,40 +89,42 @@ export const Form = (p: Props): JSX.Element => {
   };
 
   return (
-    <Transition appear show={p.isFormVisible} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={() => {}}>
-        <Transition.Child
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 bg-black/25" />
-        </Transition.Child>
+    <Base module="shared" name="Form">
+      <Transition appear show={p.isFormVisible} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={() => {}}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black/25" />
+          </Transition.Child>
 
-        <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <Dialog.Panel className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
-                <Title formType={p.formType} />
-                <Content {...sharedProps} />
-                <Button {...sharedProps} />
-              </Dialog.Panel>
-            </Transition.Child>
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
+                  <Title formType={p.formType} />
+                  <Content {...sharedProps} />
+                  <Button {...sharedProps} />
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
           </div>
-        </div>
-      </Dialog>
-    </Transition>
+        </Dialog>
+      </Transition>
+    </Base>
   );
 };

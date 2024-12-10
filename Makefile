@@ -11,7 +11,9 @@ dep:
 	pnpm i
 
 .PHONY: dev
-dev: clean
+dev:
+	-$(MAKE) stop
+	$(MAKE) clean
 	NODE_ENV=development pnpm next dev
 
 .PHONY: run
@@ -27,14 +29,20 @@ build: clean
 
 .PHONY: start
 start:
-	docker run -d -p 3000:80 -v $(ROOT_DIR)/dist:/usr/share/nginx/html --name $(APP_NAME) --rm nginx
+	docker run -d -p 3000:80 \
+		-v $(ROOT_DIR)/dist:/usr/share/nginx/html \
+		-v $(ROOT_DIR)/nginx.conf:/etc/nginx/conf.d/default.conf \
+		--name $(APP_NAME) --rm nginx
 
 .PHONY: stop
 stop:
 	docker container stop $(APP_NAME)
 
 .PHONY: prod
-prod: build start
+prod:
+	-$(MAKE) stop
+	$(MAKE) build
+	$(MAKE) start
 
 .PHONY: lint
 lint:

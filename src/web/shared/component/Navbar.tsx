@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { Base } from '@/web/shared/component/Base';
 import { LINKS } from '@/web/shared/util/const';
 
 const CLASS_NAMES: Record<string, string> = {
@@ -9,19 +10,21 @@ const CLASS_NAMES: Record<string, string> = {
 
 export const Navbar = (): JSX.Element => {
   return (
-    <nav className={CLASS_NAMES.container}>
-      <Link href={LINKS.HOME} className={CLASS_NAMES.div}>
-        H
-      </Link>
-      <Link href={LINKS.ACTIVITY} className={CLASS_NAMES.div}>
-        A
-      </Link>
-      <Link href={LINKS.COUNTER} className={CLASS_NAMES.div}>
-        C
-      </Link>
-      <Link href={LINKS.STAT} className={CLASS_NAMES.div}>
-        S
-      </Link>
-    </nav>
+    <Base module="shared" name="Navbar">
+      <nav className={CLASS_NAMES.container}>
+        <Link href={LINKS.HOME} className={CLASS_NAMES.div}>
+          H
+        </Link>
+        <Link href={LINKS.ACTIVITY} className={CLASS_NAMES.div}>
+          A
+        </Link>
+        <Link href={LINKS.COUNTER} className={CLASS_NAMES.div}>
+          C
+        </Link>
+        <Link href={LINKS.STAT} className={CLASS_NAMES.div}>
+          S
+        </Link>
+      </nav>
+    </Base>
   );
 };
