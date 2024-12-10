@@ -44,7 +44,9 @@ export const index = async (): Promise<entity.HistoryGroup[]> => {
 const formatDate = (date: Date): string => {
   const parsedTime: DateTime = DateTime.fromJSDate(date);
   if (!parsedTime.isValid) return '';
-  return parsedTime.toFormat('yyyy-MM-dd EEE');
+  const front: string = parsedTime.toFormat('EEE, MMM dd ');
+  const back: string = parsedTime.toFormat('yy');
+  return front + "'" + back;
 };
 
 export const destroy = (item: entity.History): Promise<number> => {
