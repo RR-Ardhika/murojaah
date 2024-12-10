@@ -3,13 +3,14 @@ import { DateTime } from 'luxon';
 import * as entity from '@/api/module/history/entity';
 import * as repo from '@/api/module/history/repository/indexeddb';
 import { create } from '@/api/module/history/service/create';
+import * as entityStat from '@/api/module/stat/entity';
 import * as repoStat from '@/api/module/stat/repository/indexeddb';
 import * as sharedEntity from '@/api/shared/entity';
 
 export { create };
 
 export const index = async (): Promise<entity.HistoryGroup[]> => {
-  const mapHistoryGroups = new Map<string, entity.HistoryGroup>();
+  const mapHistoryGroups: Map<string, entity.HistoryGroup> = new Map();
 
   const data: entity.History[] = await repo.findAll();
   if (!data || data.length === 0) {
@@ -17,10 +18,10 @@ export const index = async (): Promise<entity.HistoryGroup[]> => {
   }
 
   for (const item of data) {
-    const key = formatDate(item.occuredAt);
+    const key: string = formatDate(item.occuredAt);
 
     if (!mapHistoryGroups.has(key)) {
-      const newStat = repoStat.getHistoryStat(item);
+      const newStat: entityStat.HistoryStat = repoStat.getHistoryStat(item);
       mapHistoryGroups.set(key, {
         date: key,
         histories: [item],
@@ -29,8 +30,8 @@ export const index = async (): Promise<entity.HistoryGroup[]> => {
       continue;
     }
 
-    const group = mapHistoryGroups.get(key)!;
-    const newStat = repoStat.getHistoryStat(item);
+    const group: entity.HistoryGroup = mapHistoryGroups.get(key)!;
+    const newStat: entityStat.HistoryStat = repoStat.getHistoryStat(item);
     group.stat.ayah += newStat.ayah;
     group.stat.lines += newStat.lines;
     group.stat.juz = sharedEntity.getTotalJuzFromLines(group.stat.lines);
