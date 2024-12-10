@@ -25,7 +25,7 @@ export const View = (): JSX.Element => {
             return (
               <div key={item.date} className={CLASS_NAMES.container}>
                 <p className={CLASS_NAMES.content}>{item.date}</p>
-                <p className={CLASS_NAMES.content}>{item.juz} juz</p>
+                <p className={CLASS_NAMES.content}>{item.stat.juz} juz</p>
               </div>
             );
           })}

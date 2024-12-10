@@ -1,4 +1,6 @@
+import { HistoryStat } from '@/api/module/stat/entity';
+
 export type Activity = {
   date: string;
-  juz: number;
+  stat: HistoryStat;
 };
