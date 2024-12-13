@@ -1,11 +1,12 @@
 import { DateTime } from 'luxon';
 
-import * as entity from '@/api/module/activity/entity';
 import * as entityHistory from '@/api/module/history/entity';
 import * as repoHistory from '@/api/module/history/repository/indexeddb';
 import * as entityStat from '@/api/module/stat/entity';
 import * as repoStat from '@/api/module/stat/repository/indexeddb';
 import * as sharedEntity from '@/api/shared/entity';
+
+import * as entity from '../entity';
 
 export const index = async (): Promise<entity.Activity[]> => {
   const mapActivities: Map<string, entity.Activity> = new Map();
