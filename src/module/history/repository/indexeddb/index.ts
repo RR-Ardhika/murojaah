@@ -2,8 +2,9 @@ import Dexie from 'dexie';
 import { Connection } from 'jsstore';
 import { v4 as uuidv4 } from 'uuid';
 
-import * as entity from '@/api/module/history/entity';
 import { initJsStore } from '@/database/indexeddb/connection';
+
+import * as entity from '../../entity';
 
 const idbCon: Connection = initJsStore();
 

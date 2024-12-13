@@ -1,8 +1,8 @@
-import { History, HistoryType } from '@/api/module/history/entity';
 import { HistoryStat } from '@/api/module/stat/entity';
 import { getHistoryStat } from '@/api/module/stat/service';
 import { getSurahById, SurahType } from '@/api/shared/entity';
 import { show } from '@/module/approach/service';
+import { History, HistoryType } from '@/module/history/entity';
 import { formatDatetime } from '@/web/shared/util/datetime';
 
 import { Container } from './Container';

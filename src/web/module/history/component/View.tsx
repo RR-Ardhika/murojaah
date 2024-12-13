@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { useEffect } from 'react';
 
-import { History, HistoryGroup } from '@/api/module/history/entity';
+import { History, HistoryGroup } from '@/module/history/entity';
 import { Card } from '@/web/module/history/component/Card';
 import { useData } from '@/web/module/history/context/DataContext';
 import { Base } from '@/web/shared/component/Base';

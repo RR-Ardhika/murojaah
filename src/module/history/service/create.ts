@@ -1,9 +1,10 @@
 import { DateTime } from 'luxon';
 import { v4 as uuidv4 } from 'uuid';
 
-import * as entity from '@/api/module/history/entity';
-import * as repo from '@/api/module/history/repository/indexeddb';
 import * as util from '@/api/shared/util/validator';
+
+import * as entity from '../entity';
+import * as repo from '../repository/indexeddb';
 
 export const create = (payload: entity.Payload): Promise<number | unknown[]> => {
   switch (payload.historyType) {

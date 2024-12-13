@@ -1,8 +1,8 @@
 import { clsx } from 'clsx';
 import { Dispatch, SetStateAction, useState } from 'react';
 
-import { History } from '@/api/module/history/entity';
-import { destroy } from '@/api/module/history/service';
+import { History } from '@/module/history/entity';
+import { destroy } from '@/module/history/service';
 import { useData } from '@/web/module/history/context/DataContext';
 import { AlertColor, AlertText } from '@/web/shared/component/Alert';
 import { Base } from '@/web/shared/component/Base';

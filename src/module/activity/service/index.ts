@@ -1,10 +1,10 @@
 import { DateTime } from 'luxon';
 
-import * as entityHistory from '@/api/module/history/entity';
-import * as repoHistory from '@/api/module/history/repository/indexeddb';
 import * as entityStat from '@/api/module/stat/entity';
 import * as repoStat from '@/api/module/stat/repository/indexeddb';
 import * as sharedEntity from '@/api/shared/entity';
+import * as entityHistory from '@/module/history/entity';
+import * as repoHistory from '@/module/history/repository/indexeddb';
 
 import * as entity from '../entity';
 

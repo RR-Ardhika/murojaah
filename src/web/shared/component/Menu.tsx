@@ -10,7 +10,7 @@ import {
 import Image from 'next/image';
 import { Dispatch, SetStateAction, useRef, useState } from 'react';
 
-import * as service from '@/api/module/history/service';
+import * as service from '@/module/history/service';
 import { Base } from '@/web/shared/component/Base';
 import { LINKS } from '@/web/shared/util/const';
 

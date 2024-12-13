@@ -1,10 +1,10 @@
 import { DateTime } from 'luxon';
 import { v4 as uuidv4 } from 'uuid';
 
-import * as entityHistory from '@/api/module/history/entity';
 import * as entity from '@/api/module/stat/entity';
 import * as entityJuz from '@/api/shared/entity/juz';
 import * as entitySurah from '@/api/shared/entity/surah';
+import * as entityHistory from '@/module/history/entity';
 
 export const calculateStats = (histories: entityHistory.History[]): entity.Stat[] => {
   const stats: entity.Stat[] = [];
