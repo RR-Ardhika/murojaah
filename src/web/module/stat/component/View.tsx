@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { Stat } from '@/api/module/stat/entity';
+import { Stat } from '@/module/stat/entity';
 import { Card } from '@/web/module/stat/component/Card';
 import { useData } from '@/web/module/stat/context/DataContext';
 import { Base } from '@/web/shared/component/Base';

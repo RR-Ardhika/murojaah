@@ -1,4 +1,4 @@
-import { HistoryStat } from '@/api/module/stat/entity';
+import { HistoryStat } from '@/module/stat/entity';
 
 export type Activity = {
   date: string;

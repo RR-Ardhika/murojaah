@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon';
 
-import * as entityStat from '@/api/module/stat/entity';
-import * as repoStat from '@/api/module/stat/repository/indexeddb';
 import * as sharedEntity from '@/api/shared/entity';
+import * as entityStat from '@/module/stat/entity';
+import * as repoStat from '@/module/stat/repository/indexeddb';
 
 import { create } from './create';
 import * as entity from '../entity';

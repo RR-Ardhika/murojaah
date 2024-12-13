@@ -1,5 +1,5 @@
-import { Stat } from '@/api/module/stat/entity';
-import { getStatType } from '@/api/module/stat/service';
+import { Stat } from '@/module/stat/entity';
+import { getStatType } from '@/module/stat/service';
 import { Base } from '@/web/shared/component/Base';
 
 const CLASS_NAMES: Record<string, string> = {

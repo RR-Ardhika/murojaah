@@ -1,11 +1,11 @@
-import * as entity from '@/api/module/stat/entity';
 import * as entityJuz from '@/api/shared/entity/juz';
 import * as entitySurah from '@/api/shared/entity/surah';
 import * as entityHistory from '@/module/history/entity';
 
 import * as calculate from './calculate';
 
-export * from '@/api/module/stat/repository/indexeddb/calculate';
+import * as entity from '../../entity';
+export * from './calculate';
 
 export const getHistoryStat = (history: entityHistory.History): entity.HistoryStat => {
   const lines: number = calculate.calculateTotalLinesFromHistory(history);
