@@ -2,8 +2,8 @@ import { Transition, Dialog } from '@headlessui/react';
 import { DateTime } from 'luxon';
 import { Dispatch, Fragment, useEffect, useState, SetStateAction } from 'react';
 
-import { Option } from '@/api/shared/entity';
 import { approachOptions } from '@/module/approach/entity';
+import { Option } from '@/shared/entity';
 import { Base } from '@/web/shared/component/Base';
 import { formFormatDatetimes } from '@/web/shared/util/datetime';
 

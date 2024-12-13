@@ -1,5 +1,5 @@
-import { Option } from '@/api/shared/entity';
 import { HistoryStat } from '@/module/stat/entity';
+import { Option } from '@/shared/entity';
 
 export enum HistoryType {
   Juz = 0,

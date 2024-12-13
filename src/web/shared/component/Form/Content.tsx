@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import Select, { StylesConfig, CSSObjectWithLabel } from 'react-select';
 
-import { juzOptions, surahOptions } from '@/api/shared/entity';
 import { approachOptions } from '@/module/approach/entity';
+import { juzOptions, surahOptions } from '@/shared/entity';
 
 import { SharedProps as Props } from '.';
 import { DateTimeInput } from './DateTimeInput';
@@ -24,7 +24,6 @@ const JuzContent = (p: Props): JSX.Element => {
       <div className="border border-gray-300">
         <Select
           defaultValue={p.selectedJuz}
-          // @ts-expect-error react-select props
           onChange={p.setSelectedJuz}
           options={juzOptions()}
           isSearchable={false}
@@ -36,7 +35,6 @@ const JuzContent = (p: Props): JSX.Element => {
       <div className="border border-gray-300">
         <Select
           defaultValue={p.selectedApproach}
-          // @ts-expect-error react-select props
           onChange={p.setSelectedApproach}
           options={approachOptions()}
           isSearchable={false}
@@ -83,7 +81,6 @@ const SurahContent = (p: Props): JSX.Element => {
       <div className="border border-gray-300">
         <Select
           defaultValue={p.selectedApproach}
-          // @ts-expect-error react-select props
           onChange={p.setSelectedApproach}
           options={approachOptions()}
           isSearchable={false}
@@ -124,7 +121,6 @@ const AyahContent = (p: Props): JSX.Element => {
       <div className="border border-gray-300">
         <Select
           defaultValue={p.selectedSurah}
-          // @ts-expect-error react-select props
           onChange={p.setSelectedSurah}
           options={surahOptions()}
           isSearchable={true}
@@ -136,7 +132,6 @@ const AyahContent = (p: Props): JSX.Element => {
       <div className="border border-gray-300">
         <Select
           defaultValue={p.selectedApproach}
-          // @ts-expect-error react-select props
           onChange={p.setSelectedApproach}
           options={approachOptions()}
           isSearchable={false}

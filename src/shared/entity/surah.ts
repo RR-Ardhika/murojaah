@@ -1,4 +1,4 @@
-import { Option } from '@/api/shared/entity';
+import { Option } from '.';
 
 export type SurahJuz = {
   id: number;

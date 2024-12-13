@@ -1,4 +1,4 @@
-import { Option } from '@/api/shared/entity';
+import { Option } from '@/shared/entity';
 
 export enum Approach {
   JahrMemory = 'jahr with memory',

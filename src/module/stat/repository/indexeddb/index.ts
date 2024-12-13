@@ -1,6 +1,6 @@
-import * as entityJuz from '@/api/shared/entity/juz';
-import * as entitySurah from '@/api/shared/entity/surah';
 import * as entityHistory from '@/module/history/entity';
+import * as entityJuz from '@/shared/entity/juz';
+import * as entitySurah from '@/shared/entity/surah';
 
 import * as calculate from './calculate';
 

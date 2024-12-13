@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import { v4 as uuidv4 } from 'uuid';
 
-import * as util from '@/api/shared/util/validator';
+import * as util from '@/shared/util/validator';
 
 import * as entity from '../entity';
 import * as repo from '../repository/indexeddb';
