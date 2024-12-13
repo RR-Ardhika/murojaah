@@ -3,8 +3,8 @@ import * as entityJuz from '@/shared/entity/juz';
 import * as entitySurah from '@/shared/entity/surah';
 
 import * as calculate from './calculate';
-
 import * as entity from '../../entity';
+
 export * from './calculate';
 
 export const getHistoryStat = (history: entityHistory.History): entity.HistoryStat => {
