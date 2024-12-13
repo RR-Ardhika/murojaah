@@ -1,7 +1,8 @@
-import * as entity from '@/api/module/counter/entity';
 import * as entityHistory from '@/api/module/history/entity';
 import * as entityJuz from '@/api/shared/entity/juz';
 import * as entitySurah from '@/api/shared/entity/surah';
+
+import * as entity from '../../entity';
 
 export const calculateCounters = (histories: entityHistory.History[]): entity.Counter[] => {
   const counters: entity.Counter[] = [];

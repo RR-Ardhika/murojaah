@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 
-import { Counter } from '@/api/module/counter/entity';
+import { Counter } from '@/module/counter/entity';
 import { Base } from '@/web/shared/component/Base';
 import { formatDate, formatDurationFromNow, getDurationFromNow } from '@/web/shared/util/datetime';
 

@@ -1,7 +1,7 @@
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
 
-import * as entity from '@/api/module/counter/entity';
-import * as service from '@/api/module/counter/service';
+import * as entity from '@/module/counter/entity';
+import * as service from '@/module/counter/service';
 import { Base } from '@/web/shared/component/Base';
 
 interface InternalProps {

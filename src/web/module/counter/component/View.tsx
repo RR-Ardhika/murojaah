@@ -1,9 +1,9 @@
 import { clsx } from 'clsx';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
-import { Counter } from '@/api/module/counter/entity';
 import { Option } from '@/api/shared/entity';
 import { getOptionsFromSurahId } from '@/api/shared/entity/surah';
+import { Counter } from '@/module/counter/entity';
 import { Card } from '@/web/module/counter/component/Card';
 import { useData } from '@/web/module/counter/context/DataContext';
 import { Base } from '@/web/shared/component/Base';
