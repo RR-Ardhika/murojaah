@@ -1,14 +1,15 @@
 import { clsx } from 'clsx';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
-import { Counter } from '@/module/counter/entity';
 import { Option } from '@/shared/entity';
 import { getOptionsFromSurahId } from '@/shared/entity/surah';
-import { Card } from '@/web/module/counter/component/Card';
-import { useData } from '@/web/module/counter/context/DataContext';
 import { Base } from '@/web/shared/component/Base';
 import { Form } from '@/web/shared/component/Form';
 import { useAlert } from '@/web/shared/context/AlertContext';
+
+import { useData } from '../context';
+import { Counter } from '../entity';
+import { Card } from './Card';
 
 interface InternalProps {
   data: Counter[];

@@ -1,8 +1,9 @@
 import { clsx } from 'clsx';
 
-import { Counter } from '@/module/counter/entity';
 import { Base } from '@/web/shared/component/Base';
 import { formatDate, formatDurationFromNow, getDurationFromNow } from '@/web/shared/util/datetime';
+
+import { Counter } from '../entity';
 
 interface Props {
   item: Counter;

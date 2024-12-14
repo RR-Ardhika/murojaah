@@ -1,8 +1,9 @@
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
 
-import * as entity from '@/module/counter/entity';
-import * as service from '@/module/counter/service';
 import { Base } from '@/web/shared/component/Base';
+
+import * as entity from '../entity';
+import * as service from '../service';
 
 interface InternalProps {
   setData: Dispatch<SetStateAction<entity.Counter[] | undefined>>;
