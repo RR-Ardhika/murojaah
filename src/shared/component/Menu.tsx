@@ -12,7 +12,7 @@ import { Dispatch, SetStateAction, useRef, useState } from 'react';
 
 import * as service from '@/module/history/service';
 import { Base } from '@/shared/component/Base';
-import { LINKS } from '@/shared/util/const';
+import { LINKS } from '@/shared/const';
 
 interface InternalProps {
   fileInputRef: React.RefObject<HTMLInputElement>;
@@ -22,7 +22,8 @@ interface InternalProps {
 
 const CLASS_NAMES: Record<string, string> = {
   menuItems:
-    'w-52 origin-top-right rounded-xl border border-white/20 bg-teal-700 p-1 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0',
+    'w-52 origin-top-right rounded-xl border border-white/20 bg-teal-700 p-1 text-sm/6 text-white \
+    transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0',
   menuItem:
     'group flex w-full items-center gap-2 rounded-lg py-1.5 px-3 bg-teal-700 data-[focus]:bg-teal-800 text-white',
 };
