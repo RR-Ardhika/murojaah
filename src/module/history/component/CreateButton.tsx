@@ -1,9 +1,9 @@
 import { clsx } from 'clsx';
 import { Dispatch, SetStateAction, useState } from 'react';
 
-import { Base } from '@/web/shared/component/Base';
-import { Form } from '@/web/shared/component/Form';
-import { useAlert } from '@/web/shared/context/AlertContext';
+import { Base } from '@/shared/component/Base';
+import { Form } from '@/shared/component/Form';
+import { useAlert } from '@/shared/context/AlertContext';
 
 import { useData } from '../context';
 

@@ -3,9 +3,9 @@
 import { CreateButton } from '@/module/history/component/CreateButton';
 import { View } from '@/module/history/component/View';
 import { DataProvider } from '@/module/history/context/DataContext';
-import { Alert } from '@/web/shared/component/Alert';
-import { Base } from '@/web/shared/component/Base';
-import { AlertProvider } from '@/web/shared/context/AlertContext';
+import { Alert } from '@/shared/component/Alert';
+import { Base } from '@/shared/component/Base';
+import { AlertProvider } from '@/shared/context/AlertContext';
 
 const Page = (): JSX.Element => {
   return (

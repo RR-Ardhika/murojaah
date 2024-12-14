@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 
-import { Base } from '@/web/shared/component/Base';
-import { useAlert } from '@/web/shared/context/AlertContext';
+import { Base } from '@/shared/component/Base';
+import { useAlert } from '@/shared/context/AlertContext';
 
 export enum AlertColor {
   Red = 0,

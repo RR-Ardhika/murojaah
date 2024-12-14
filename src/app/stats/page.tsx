@@ -2,7 +2,7 @@
 
 import { View } from '@/module/stat/component/View';
 import { DataProvider } from '@/module/stat/context/DataContext';
-import { Base } from '@/web/shared/component/Base';
+import { Base } from '@/shared/component/Base';
 
 const Page = (): JSX.Element => {
   return (

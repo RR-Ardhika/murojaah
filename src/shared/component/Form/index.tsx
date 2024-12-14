@@ -3,9 +3,9 @@ import { DateTime } from 'luxon';
 import { Dispatch, Fragment, useEffect, useState, SetStateAction } from 'react';
 
 import { approachOptions } from '@/module/approach/entity';
+import { Base } from '@/shared/component/Base';
 import { Option } from '@/shared/entity';
-import { Base } from '@/web/shared/component/Base';
-import { formFormatDatetimes } from '@/web/shared/util/datetime';
+import { formFormatDatetimes } from '@/shared/util/datetime';
 
 import { Button } from './Button';
 import { Content } from './Content';

@@ -1,9 +1,9 @@
 import { clsx } from 'clsx';
 import { Dispatch, SetStateAction, useState } from 'react';
 
-import { AlertColor, AlertText } from '@/web/shared/component/Alert';
-import { Base } from '@/web/shared/component/Base';
-import { useAlert } from '@/web/shared/context/AlertContext';
+import { AlertColor, AlertText } from '@/shared/component/Alert';
+import { Base } from '@/shared/component/Base';
+import { useAlert } from '@/shared/context/AlertContext';
 
 import { useData } from '../../context';
 import { History } from '../../entity';

@@ -1,6 +1,6 @@
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
 
-import { Base } from '@/web/shared/component/Base';
+import { Base } from '@/shared/component/Base';
 
 import * as entity from '../entity';
 import * as service from '../service';

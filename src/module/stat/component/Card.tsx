@@ -1,4 +1,4 @@
-import { Base } from '@/web/shared/component/Base';
+import { Base } from '@/shared/component/Base';
 
 import { Stat } from '../entity';
 import { getStatType } from '../service';

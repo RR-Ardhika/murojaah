@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { Base } from '@/web/shared/component/Base';
+import { Base } from '@/shared/component/Base';
 
 import { useData } from '../context';
 import { Activity } from '../entity';

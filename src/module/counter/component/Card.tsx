@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 
-import { Base } from '@/web/shared/component/Base';
-import { formatDate, formatDurationFromNow, getDurationFromNow } from '@/web/shared/util/datetime';
+import { Base } from '@/shared/component/Base';
+import { formatDate, formatDurationFromNow, getDurationFromNow } from '@/shared/util/datetime';
 
 import { Counter } from '../entity';
 

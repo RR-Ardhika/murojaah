@@ -1,5 +1,5 @@
-import { Base } from '@/web/shared/component/Base';
-import { Menu } from '@/web/shared/component/Menu';
+import { Base } from '@/shared/component/Base';
+import { Menu } from '@/shared/component/Menu';
 
 export const Header = (): JSX.Element => {
   return (

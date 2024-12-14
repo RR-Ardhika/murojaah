@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
-import { Base } from '@/web/shared/component/Base';
-import { LINKS } from '@/web/shared/util/const';
+import { Base } from '@/shared/component/Base';
+import { LINKS } from '@/shared/util/const';
 
 const CLASS_NAMES: Record<string, string> = {
   container: 'flex mt-auto sticky bottom-0 border-t border-t-white',

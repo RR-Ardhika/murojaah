@@ -1,7 +1,7 @@
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
 
-import { AlertColor, AlertText } from '@/web/shared/component/Alert';
-import { Base } from '@/web/shared/component/Base';
+import { AlertColor, AlertText } from '@/shared/component/Alert';
+import { Base } from '@/shared/component/Base';
 
 interface InternalProps {
   setAlertColor: Dispatch<SetStateAction<number>>;

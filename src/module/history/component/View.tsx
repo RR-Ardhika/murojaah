@@ -1,8 +1,8 @@
 import { clsx } from 'clsx';
 import { useEffect } from 'react';
 
-import { Base } from '@/web/shared/component/Base';
-import { useAlert } from '@/web/shared/context/AlertContext';
+import { Base } from '@/shared/component/Base';
+import { useAlert } from '@/shared/context/AlertContext';
 
 import { useData } from '../context';
 import { History, HistoryGroup } from '../entity';
