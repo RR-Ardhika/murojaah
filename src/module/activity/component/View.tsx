@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 
-import { Activity } from '@/module/activity/entity';
-import { useData } from '@/web/module/activity/context/DataContext';
 import { Base } from '@/web/shared/component/Base';
+
+import { useData } from '../context';
+import { Activity } from '../entity';
 
 const CLASS_NAMES: Record<string, string> = {
   container: 'flex justify-between',
