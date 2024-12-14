@@ -5,7 +5,7 @@ import { SurahType } from '@/shared/entity';
 import { getSurahById } from '@/shared/service/surah';
 import { formatDatetime } from '@/shared/util/datetime';
 
-import { Container } from './Container';
+import { Container } from './CardContainer';
 import { History, HistoryType } from '../../entity';
 
 interface InternalProps {

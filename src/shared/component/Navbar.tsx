@@ -15,11 +15,11 @@ export const Navbar = (): JSX.Element => {
         <Link href={LINKS.HOME} className={CLASS_NAMES.div}>
           H
         </Link>
-        <Link href={LINKS.COMPACT_DATE} className={CLASS_NAMES.div}>
+        <Link href={LINKS.HISTORY_COMPACT_DATE} className={CLASS_NAMES.div}>
           C
         </Link>
-        <Link href={LINKS.COUNTER} className={CLASS_NAMES.div}>
-          C
+        <Link href={LINKS.HISTORY_LIST_SURAH} className={CLASS_NAMES.div}>
+          L
         </Link>
         <Link href={LINKS.STAT} className={CLASS_NAMES.div}>
           S

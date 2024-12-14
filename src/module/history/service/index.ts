@@ -1,13 +1,14 @@
 import * as entityStat from '@/module/stat/entity';
 import * as serviceStat from '@/module/stat/service';
 import * as serviceJuz from '@/shared/service/juz';
+import * as serviceSurah from '@/shared/service/surah';
 import * as util from '@/shared/util';
 
-import { create } from './create';
 import * as entity from '../entity';
 import * as repo from '../repository/indexeddb';
 
-export { create };
+export * from './create';
+export * from './export-import';
 
 export const index = async (): Promise<entity.HistoryGroup[]> => {
   const mapHistoryGroups: Map<string, entity.HistoryGroup> = new Map();
@@ -45,18 +46,6 @@ export const destroy = (item: entity.History): Promise<number> => {
   return repo.deleteRecord(item);
 };
 
-export const exportData = (): Promise<Blob> => {
-  return repo.exportData();
-};
-
-export const importData = (jsonString: Blob): Promise<void> => {
-  return repo.importData(jsonString);
-};
-
-export const dropDb = (): Promise<void> => {
-  return repo.dropDb();
-};
-
 export const getCompactDate = async (): Promise<entity.CompactDate[]> => {
   const mapActivities: Map<string, entity.CompactDate> = new Map();
 
@@ -85,4 +74,75 @@ export const getCompactDate = async (): Promise<entity.CompactDate[]> => {
   }
 
   return Array.from(mapActivities.values());
+};
+
+export const getListSurah = async (): Promise<entity.ListSurah[]> => {
+  const histories: entity.History[] = await repo.findAll();
+  return calculateCounters(histories);
+};
+
+const calculateCounters = (histories: entity.History[]): entity.ListSurah[] => {
+  const counters: entity.ListSurah[] = [];
+  const mapCounter: Map<number, entity.ListSurah> = new Map();
+
+  for (const history of histories) {
+    switch (history.historyType) {
+      case entity.HistoryType.Juz:
+        calculateByJuz(history, mapCounter);
+        break;
+      case entity.HistoryType.Surah:
+        calculateBySurah(history, mapCounter);
+        break;
+      // TD-8 Implement calculateByAyah() for module counter
+      // case entityHistory.HistoryType.Ayah:
+      //   return calculateByAyah(history);
+    }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/typedef
+  const sortedKeys: number[] = Array.from(mapCounter.keys()).sort((a, b) => a - b);
+  // @ts-expect-error known type
+  for (const key of sortedKeys) counters.push(mapCounter.get(key));
+
+  return counters;
+};
+
+const calculateByJuz = (
+  history: entity.History,
+  mapCounter: Map<number, entity.ListSurah>
+): void => {
+  // @ts-expect-error known type
+  const juz: entityJuz.JuzType = serviceJuz.getJuzById(history.juz);
+
+  // eslint-disable-next-line @typescript-eslint/typedef
+  for (let i = juz.startSurah; i <= juz.endSurah; i++) {
+    // @ts-expect-error known type
+    const surah: entitySurah.SurahType = serviceSurah.getSurahById(i);
+
+    const listSurah: entity.ListSurah = {
+      id: surah.id,
+      juz: surah.juz[0],
+      name: surah.name,
+      lastRead: history.occuredAt,
+    };
+
+    if (!mapCounter.get(surah.id)) mapCounter.set(surah.id, listSurah);
+  }
+};
+
+const calculateBySurah = (
+  history: entity.History,
+  mapCounter: Map<number, entity.ListSurah>
+): void => {
+  // @ts-expect-error known type
+  const surah: entitySurah.SurahType = serviceSurah.getSurahById(history.surah);
+
+  const listSurah: entity.ListSurah = {
+    id: surah.id,
+    juz: surah.juz[0],
+    name: surah.name,
+    lastRead: history.occuredAt,
+  };
+
+  if (!mapCounter.get(surah.id)) mapCounter.set(surah.id, listSurah);
 };

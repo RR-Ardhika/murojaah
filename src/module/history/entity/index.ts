@@ -45,3 +45,10 @@ export type CompactDate = {
   date: string;
   stat: HistoryStat;
 };
+
+export type ListSurah = {
+  id: number;
+  juz: number;
+  name: string;
+  lastRead: Date;
+};

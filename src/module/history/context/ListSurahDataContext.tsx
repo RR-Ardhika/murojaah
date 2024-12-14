@@ -6,7 +6,7 @@ import * as entity from '../entity';
 import * as service from '../service';
 
 interface InternalProps {
-  setData: Dispatch<SetStateAction<entity.Counter[] | undefined>>;
+  setData: Dispatch<SetStateAction<entity.ListSurah[] | undefined>>;
 }
 
 // @ts-expect-error DataContextValues
@@ -21,18 +21,18 @@ export const useData = (): Context<DataContextValues> => {
 };
 
 const fetchData = (i: InternalProps): void => {
-  service.index().then((result: entity.Counter[]) => i.setData(result));
+  service.getListSurah().then((result: entity.ListSurah[]) => i.setData(result));
 };
 
 export const DataProvider = ({ children }: { children: ReactNode }): JSX.Element => {
-  const [data, setData] = useState<entity.Counter[]>();
+  const [data, setData] = useState<entity.ListSurah[]>();
 
   const i: InternalProps = {
     setData,
   };
 
   return (
-    <Base module="counter" name="DataProvider">
+    <Base module="history" name="DataProvider">
       <DataContext.Provider value={{ data, fetchData: () => fetchData(i) }}>
         {children}
       </DataContext.Provider>

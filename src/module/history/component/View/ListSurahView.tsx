@@ -7,12 +7,12 @@ import { useAlert } from '@/shared/context/AlertContext';
 import { Option } from '@/shared/entity';
 import { getOptionsFromSurahId } from '@/shared/service';
 
-import { useData } from '../context';
-import { Counter } from '../entity';
-import { Card } from './Card';
+import { useData } from '../../context/ListSurahDataContext';
+import { ListSurah } from '../../entity';
+import { ListSurahCard } from '../Card';
 
 interface InternalProps {
-  data: Counter[];
+  data: ListSurah[];
   // @ts-expect-error useAlert
   hideAlert: Context<AlertContextValues>;
   isFormVisible: boolean;
@@ -27,7 +27,7 @@ const CLASS_NAMES: Record<string, string> = {
   juzRuler: 'mb-2 border-custom-teal',
 };
 
-const updateAndRenderCurrentJuz = (i: InternalProps, item: Counter): JSX.Element => {
+const updateAndRenderCurrentJuz = (i: InternalProps, item: ListSurah): JSX.Element => {
   i.currentJuz = item.juz;
   return (
     <>
@@ -37,14 +37,13 @@ const updateAndRenderCurrentJuz = (i: InternalProps, item: Counter): JSX.Element
   );
 };
 
-const showForm = (i: InternalProps, item: Counter): void => {
+const showForm = (i: InternalProps, item: ListSurah): void => {
   i.hideAlert();
-  // @ts-expect-error expected undefined
   i.setParentSurah(getOptionsFromSurahId(item.id));
   i.setIsFormVisible(true);
 };
 
-export const View = (): JSX.Element => {
+export const ListSurahView = (): JSX.Element => {
   const { data, fetchData } = useData();
   const { hideAlert } = useAlert();
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -70,14 +69,14 @@ export const View = (): JSX.Element => {
   };
 
   return (
-    <Base module="counter" name="View">
+    <Base module="history" name="ListSurahView">
       <div className="gap-[20px] mt-[72px] pt-4 px-4">
         {data &&
-          data.map((item: Counter) => {
+          data.map((item: ListSurah) => {
             return (
               <div key={Math.random()}>
                 {i.currentJuz !== item.juz ? updateAndRenderCurrentJuz(i, item) : <></>}
-                <Card key={item.id} item={item} showForm={() => showForm(i, item)} />
+                <ListSurahCard key={item.id} item={item} showForm={() => showForm(i, item)} />
               </div>
             );
           })}

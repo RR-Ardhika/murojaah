@@ -1,22 +1,21 @@
 'use client';
 
-import { View } from '@/module/counter/component/View';
-import { DataProvider } from '@/module/counter/context/DataContext';
 import { Alert } from '@/shared/component/Alert';
 import { Base } from '@/shared/component/Base';
 import { AlertProvider } from '@/shared/context/AlertContext';
 
-const Page = (): JSX.Element => {
+import { DataProvider } from '../../context/ListSurahDataContext';
+import { ListSurahView } from '../View';
+
+export const ListSurahPage = (): JSX.Element => {
   return (
-    <Base module="counter" name="Page">
+    <Base module="history" name="ListSurahPage">
       <DataProvider>
         <AlertProvider>
           <Alert />
-          <View />
+          <ListSurahView />
         </AlertProvider>
       </DataProvider>
     </Base>
   );
 };
-
-export default Page;

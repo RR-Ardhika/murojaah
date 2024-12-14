@@ -3,11 +3,11 @@ import { clsx } from 'clsx';
 import { Base } from '@/shared/component/Base';
 import { formatDate, formatDurationFromNow, getDurationFromNow } from '@/shared/util/datetime';
 
-import { Counter } from '../entity';
+import * as entity from '../../entity';
 
 interface Props {
-  item: Counter;
-  showForm: (item: Counter) => void;
+  item: entity.ListSurah;
+  showForm: (item: entity.ListSurah) => void;
 }
 
 const CLASS_NAMES: Record<string, string> = {
@@ -30,9 +30,9 @@ const getContainerColor = (duration: number): string => {
   }
 };
 
-export const Card = ({ item, showForm }: Props): JSX.Element => {
+export const ListSurahCard = ({ item, showForm }: Props): JSX.Element => {
   return (
-    <Base module="counter" name="Card">
+    <Base module="history" name="ListSurahCard">
       <div
         className={clsx(
           CLASS_NAMES.container,
