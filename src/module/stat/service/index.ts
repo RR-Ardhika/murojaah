@@ -5,6 +5,8 @@ import * as entityHistory from '@/module/history/entity';
 import * as repoHistory from '@/module/history/repository/indexeddb';
 import * as entityJuz from '@/shared/entity/juz';
 import * as entitySurah from '@/shared/entity/surah';
+import * as serviceJuz from '@/shared/service/juz';
+import * as serviceSurah from '@/shared/service/surah';
 
 import * as entity from '../entity';
 
@@ -29,7 +31,7 @@ const calculateAllTimeStat = (histories: entityHistory.History[]): entity.Stat =
     id: uuidv4(),
     statType: Object.values(entity.StatType).indexOf(entity.StatType.All),
     totalLinesRead: totalLinesRead,
-    totalJuzFromLines: entityJuz.getTotalJuzFromLines(totalLinesRead),
+    totalJuzFromLines: serviceJuz.getTotalJuzFromLines(totalLinesRead),
     totalMarkedJuzAsDone: 0, // TD-10 Implement totalMarkedJuzAsDone calculation in module stat
   };
 };
@@ -48,7 +50,7 @@ const calculateDailyStat = (histories: entityHistory.History[]): entity.Stat => 
     id: uuidv4(),
     statType: Object.values(entity.StatType).indexOf(entity.StatType.Daily),
     totalLinesRead: totalLinesRead,
-    totalJuzFromLines: entityJuz.getTotalJuzFromLines(totalLinesRead),
+    totalJuzFromLines: serviceJuz.getTotalJuzFromLines(totalLinesRead),
     totalMarkedJuzAsDone: 0, // TD-10 Implement totalMarkedJuzAsDone calculation in module stat
   };
 };
@@ -68,13 +70,13 @@ const calculateTotalLinesFromHistory = (history: entityHistory.History): number 
 
 const calculateTotalLinesForJuz = (history: entityHistory.History): number => {
   // @ts-expect-error known type
-  const juz: entityJuz.JuzType = entityJuz.getJuzById(history.juz);
+  const juz: entityJuz.JuzType = serviceJuz.getJuzById(history.juz);
   let totalLines: number = 0;
 
   // eslint-disable-next-line @typescript-eslint/typedef
   for (let i = juz.startSurah; i <= juz.endSurah; i++) {
     // @ts-expect-error known type
-    totalLines += entitySurah.getSurahById(i).totalLines;
+    totalLines += serviceSurah.getSurahById(i).totalLines;
   }
 
   return totalLines;
@@ -82,27 +84,27 @@ const calculateTotalLinesForJuz = (history: entityHistory.History): number => {
 
 const calculateTotalLinesForSurah = (history: entityHistory.History): number => {
   // @ts-expect-error known type
-  const surah: entitySurah.SurahType = entitySurah.getSurahById(history.surah);
+  const surah: entitySurah.SurahType = serviceSurah.getSurahById(history.surah);
   return surah.totalLines * history.repeat;
 };
 
 const calculateTotalLinesForAyah = (history: entityHistory.History): number => {
   // @ts-expect-error known type
-  const surah: entitySurah.SurahType = entitySurah.getSurahById(history.surah);
+  const surah: entitySurah.SurahType = serviceSurah.getSurahById(history.surah);
   // @ts-expect-error known type
-  const surahJuz: number[] | SurahJuz[] = entitySurah.getJuzBySurahId(history.surah);
+  const surahJuz: number[] | SurahJuz[] = serviceSurah.getJuzBySurahId(history.surah);
   let totalLines: number = 0;
 
   if (history.markJuzDone) {
     // eslint-disable-next-line @typescript-eslint/typedef
     if (surahJuz.every((i) => typeof i === 'number')) {
       const juzId: number = surahJuz[0];
-      const juz: entityJuz.JuzType | undefined = entityJuz.getJuzById(juzId);
+      const juz: entityJuz.JuzType | undefined = serviceJuz.getJuzById(juzId);
       if (!juz) return totalLines;
       // eslint-disable-next-line @typescript-eslint/typedef
       for (let i = juz.startSurah; i <= juz.endSurah; i++) {
         // @ts-expect-error known type
-        totalLines += entitySurah.getSurahById(i).totalLines;
+        totalLines += serviceSurah.getSurahById(i).totalLines;
       } // TD-9 Implement handler for type SurahJuz in module stat
     }
   } else if (history.markSurahDone) {
@@ -115,7 +117,7 @@ const calculateTotalLinesForAyah = (history: entityHistory.History): number => {
 export const getHistoryStat = (history: entityHistory.History): entity.HistoryStat => {
   const lines: number = calculateTotalLinesFromHistory(history);
   return {
-    juz: entityJuz.getTotalJuzFromLines(lines),
+    juz: serviceJuz.getTotalJuzFromLines(lines),
     ayah: getTotalAyah(history),
     lines: lines,
   };
@@ -127,16 +129,16 @@ const getTotalAyah = (history: entityHistory.History): number => {
   switch (history.historyType) {
     case entityHistory.HistoryType.Juz:
       // @ts-expect-error known type
-      const juz: entityJuz.JuzType = entityJuz.getJuzById(history.juz);
+      const juz: entityJuz.JuzType = serviceJuz.getJuzById(history.juz);
       // eslint-disable-next-line @typescript-eslint/typedef
       for (let i = juz.startSurah; i <= juz.endSurah; i++) {
         // @ts-expect-error known type
-        totalAyah += entitySurah.getSurahById(i)?.totalAyah;
+        totalAyah += serviceSurah.getSurahById(i)?.totalAyah;
       }
       break;
     case entityHistory.HistoryType.Surah:
       // @ts-expect-error expected undefined
-      const surah: entitySurah.SurahType = entitySurah.getSurahById(history.surah);
+      const surah: entitySurah.SurahType = serviceSurah.getSurahById(history.surah);
       totalAyah = surah.totalAyah * history.repeat;
       break;
     case entityHistory.HistoryType.Ayah:

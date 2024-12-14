@@ -5,7 +5,7 @@ import { Base } from '@/shared/component/Base';
 import { Form } from '@/shared/component/Form';
 import { useAlert } from '@/shared/context/AlertContext';
 import { Option } from '@/shared/entity';
-import { getOptionsFromSurahId } from '@/shared/entity/surah';
+import { getOptionsFromSurahId } from '@/shared/service';
 
 import { useData } from '../context';
 import { Counter } from '../entity';

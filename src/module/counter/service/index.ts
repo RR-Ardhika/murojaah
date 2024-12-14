@@ -2,6 +2,8 @@ import * as entityHistory from '@/module/history/entity';
 import * as repoHistory from '@/module/history/repository/indexeddb';
 import * as entityJuz from '@/shared/entity/juz';
 import * as entitySurah from '@/shared/entity/surah';
+import * as serviceJuz from '@/shared/service/juz';
+import * as serviceSurah from '@/shared/service/surah';
 
 import * as entity from '../entity';
 
@@ -41,12 +43,12 @@ const calculateByJuz = (
   mapCounter: Map<number, entity.Counter>
 ): void => {
   // @ts-expect-error known type
-  const juz: entityJuz.JuzType = entityJuz.getJuzById(history.juz);
+  const juz: entityJuz.JuzType = serviceJuz.getJuzById(history.juz);
 
   // eslint-disable-next-line @typescript-eslint/typedef
   for (let i = juz.startSurah; i <= juz.endSurah; i++) {
     // @ts-expect-error known type
-    const surah: entitySurah.SurahType = entitySurah.getSurahById(i);
+    const surah: entitySurah.SurahType = serviceSurah.getSurahById(i);
 
     const counter: entity.Counter = {
       id: surah.id,
@@ -64,7 +66,7 @@ const calculateBySurah = (
   mapCounter: Map<number, entity.Counter>
 ): void => {
   // @ts-expect-error known type
-  const surah: entitySurah.SurahType = entitySurah.getSurahById(history.surah);
+  const surah: entitySurah.SurahType = serviceSurah.getSurahById(history.surah);
 
   const counter: entity.Counter = {
     id: surah.id,

@@ -1,7 +1,8 @@
 import { show } from '@/module/approach/service';
 import { HistoryStat } from '@/module/stat/entity';
 import { getHistoryStat } from '@/module/stat/service';
-import { getSurahById, SurahType } from '@/shared/entity';
+import { SurahType } from '@/shared/entity';
+import { getSurahById } from '@/shared/service/surah';
 import { formatDatetime } from '@/shared/util/datetime';
 
 import { Container } from './Container';

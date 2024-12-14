@@ -1,6 +1,6 @@
 import * as entityStat from '@/module/stat/entity';
 import * as serviceStat from '@/module/stat/service';
-import * as sharedEntity from '@/shared/entity';
+import * as serviceJuz from '@/shared/service/juz';
 import * as util from '@/shared/util';
 
 import { create } from './create';
@@ -34,7 +34,7 @@ export const index = async (): Promise<entity.HistoryGroup[]> => {
     const newStat: entityStat.HistoryStat = serviceStat.getHistoryStat(item);
     group.stat.ayah += newStat.ayah;
     group.stat.lines += newStat.lines;
-    group.stat.juz = sharedEntity.getTotalJuzFromLines(group.stat.lines);
+    group.stat.juz = serviceJuz.getTotalJuzFromLines(group.stat.lines);
     group.histories.push(item);
   }
 

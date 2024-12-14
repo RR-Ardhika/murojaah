@@ -1,5 +1,3 @@
-import { Option } from '.';
-
 export type SurahJuz = {
   id: number;
   startAyah: number;
@@ -16,7 +14,7 @@ export type SurahType = {
 };
 
 // TD-4 Fill the rest total lines and ayah
-const surah: SurahType[] = [
+export const surah: SurahType[] = [
   { id: 1, name: '1 Al-Fatihah', juz: [1], totalLines: 0, totalAyah: 0 },
   { id: 2, name: '2 Al-Baqarah', juz: [1, 2, 3], totalLines: 0, totalAyah: 0 },
   { id: 3, name: '3 Ali Imran', juz: [3, 4], totalLines: 0, totalAyah: 0 },
@@ -142,34 +140,3 @@ const surah: SurahType[] = [
   { id: 113, name: '113 Al-Falaq', juz: [30], totalLines: 3, totalAyah: 5 },
   { id: 114, name: '114 An-Nas', juz: [30], totalLines: 4, totalAyah: 6 },
 ];
-
-export const getSurahById = (id: number): SurahType | undefined => {
-  return surah.find((obj: SurahType) => obj.id === id);
-};
-
-export const getJuzBySurahId = (id: number): number[] | SurahJuz[] => {
-  const surah: SurahType | undefined = getSurahById(id);
-  if (!surah) return [];
-  return surah.juz;
-};
-
-export const getOptionsFromSurahId = (id: number): Option[] => {
-  const options: Option[] = [];
-  const surah: SurahType | undefined = getSurahById(id);
-  // @ts-expect-error expected undefined
-  const option: Option = { value: id, label: surah.name };
-  options.push(option);
-  return options;
-};
-
-export const surahOptions = (): Option[] => {
-  const options: Option[] = [];
-
-  // eslint-disable-next-line @typescript-eslint/typedef
-  for (let i = 0; i < surah.length; i++) {
-    const option: Option = { value: i + 1, label: surah[i].name };
-    options.push(option);
-  }
-
-  return options;
-};

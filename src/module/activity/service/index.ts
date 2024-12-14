@@ -2,7 +2,7 @@ import * as entityHistory from '@/module/history/entity';
 import * as repoHistory from '@/module/history/repository/indexeddb';
 import * as entityStat from '@/module/stat/entity';
 import * as serviceStat from '@/module/stat/service';
-import * as sharedEntity from '@/shared/entity';
+import * as sharedService from '@/shared/service';
 import * as util from '@/shared/util';
 
 import * as entity from '../entity';
@@ -31,7 +31,7 @@ export const index = async (): Promise<entity.Activity[]> => {
     const newStat: entityStat.HistoryStat = serviceStat.getHistoryStat(item);
     activity.stat.ayah += newStat.ayah;
     activity.stat.lines += newStat.lines;
-    activity.stat.juz = sharedEntity.getTotalJuzFromLines(activity.stat.lines);
+    activity.stat.juz = sharedService.getTotalJuzFromLines(activity.stat.lines);
   }
 
   return Array.from(mapActivities.values());

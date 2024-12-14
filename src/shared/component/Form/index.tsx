@@ -2,10 +2,10 @@ import { Transition, Dialog } from '@headlessui/react';
 import { DateTime } from 'luxon';
 import { Dispatch, Fragment, useEffect, useState, SetStateAction } from 'react';
 
-import { approachOptions } from '@/module/approach/entity';
 import { Base } from '@/shared/component/Base';
 import { Option } from '@/shared/entity';
-import { formFormatDatetimes } from '@/shared/util/datetime';
+import { approachOptions } from '@/shared/service';
+import { formFormatDatetimes } from '@/shared/util';
 
 import { Button } from './Button';
 import { Content } from './Content';
