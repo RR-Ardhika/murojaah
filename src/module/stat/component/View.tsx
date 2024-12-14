@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 
-import { Stat } from '@/module/stat/entity';
-import { Card } from '@/web/module/stat/component/Card';
-import { useData } from '@/web/module/stat/context/DataContext';
 import { Base } from '@/web/shared/component/Base';
+
+import { Card } from './Card';
+import { useData } from '../context';
+import { Stat } from '../entity';
 
 export const View = (): JSX.Element => {
   const { data, fetchData } = useData();

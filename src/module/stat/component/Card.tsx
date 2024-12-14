@@ -1,6 +1,7 @@
-import { Stat } from '@/module/stat/entity';
-import { getStatType } from '@/module/stat/service';
 import { Base } from '@/web/shared/component/Base';
+
+import { Stat } from '../entity';
+import { getStatType } from '../service';
 
 const CLASS_NAMES: Record<string, string> = {
   title: 'text-xl font-black',
