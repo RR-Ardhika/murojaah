@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { NextFont } from 'next/dist/compiled/@next/font/dist/types';
 import { Inter } from 'next/font/google';
+import { Suspense } from 'react';
 
 import './globals.css';
 import { Header } from '@/shared/component/Header';
@@ -17,9 +18,11 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>): JSX.
   return (
     <html lang="en">
       <body className={`${inter.className} flex flex-col h-screen select-none`}>
-        <Header />
-        {children}
-        <Navbar />
+        <Suspense>
+          <Header />
+          {children}
+          <Navbar />
+        </Suspense>
       </body>
     </html>
   );
