@@ -1,12 +1,13 @@
 import { clsx } from 'clsx';
 import { Dispatch, SetStateAction, useState } from 'react';
 
-import { History } from '@/module/history/entity';
-import { destroy } from '@/module/history/service';
-import { useData } from '@/web/module/history/context/DataContext';
 import { AlertColor, AlertText } from '@/web/shared/component/Alert';
 import { Base } from '@/web/shared/component/Base';
 import { useAlert } from '@/web/shared/context/AlertContext';
+
+import { useData } from '../../context';
+import { History } from '../../entity';
+import { destroy } from '../../service';
 
 interface InternalProps {
   // @ts-expect-error useAlert

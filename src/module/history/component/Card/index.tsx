@@ -1,11 +1,11 @@
 import { show } from '@/module/approach/service';
-import { History, HistoryType } from '@/module/history/entity';
 import { HistoryStat } from '@/module/stat/entity';
 import { getHistoryStat } from '@/module/stat/service';
 import { getSurahById, SurahType } from '@/shared/entity';
 import { formatDatetime } from '@/web/shared/util/datetime';
 
 import { Container } from './Container';
+import { History, HistoryType } from '../../entity';
 
 interface InternalProps {
   item: History;

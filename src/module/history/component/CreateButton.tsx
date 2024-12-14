@@ -1,10 +1,11 @@
 import { clsx } from 'clsx';
 import { Dispatch, SetStateAction, useState } from 'react';
 
-import { useData } from '@/web/module/history/context/DataContext';
 import { Base } from '@/web/shared/component/Base';
 import { Form } from '@/web/shared/component/Form';
 import { useAlert } from '@/web/shared/context/AlertContext';
+
+import { useData } from '../context';
 
 interface InternalProps {
   setFormType: Dispatch<SetStateAction<string>>;

@@ -1,11 +1,12 @@
 import { clsx } from 'clsx';
 import { useEffect } from 'react';
 
-import { History, HistoryGroup } from '@/module/history/entity';
-import { Card } from '@/web/module/history/component/Card';
-import { useData } from '@/web/module/history/context/DataContext';
 import { Base } from '@/web/shared/component/Base';
 import { useAlert } from '@/web/shared/context/AlertContext';
+
+import { useData } from '../context';
+import { History, HistoryGroup } from '../entity';
+import { Card } from './Card';
 
 export const View = (): JSX.Element => {
   const { isAlertVisible } = useAlert();
