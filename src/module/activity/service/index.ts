@@ -1,5 +1,3 @@
-import { DateTime } from 'luxon';
-
 import * as entityHistory from '@/module/history/entity';
 import * as repoHistory from '@/module/history/repository/indexeddb';
 import * as entityStat from '@/module/stat/entity';
