@@ -3,6 +3,7 @@ import { DateTime } from 'luxon';
 import * as entityStat from '@/module/stat/entity';
 import * as repoStat from '@/module/stat/repository/indexeddb';
 import * as sharedEntity from '@/shared/entity';
+import * as util from '@/shared/util';
 
 import { create } from './create';
 import * as entity from '../entity';
@@ -19,7 +20,7 @@ export const index = async (): Promise<entity.HistoryGroup[]> => {
   }
 
   for (const item of data) {
-    const key: string = formatDate(item.occuredAt);
+    const key: string = util.formatDate(item.occuredAt);
 
     if (!mapHistoryGroups.has(key)) {
       const newStat: entityStat.HistoryStat = repoStat.getHistoryStat(item);
@@ -40,14 +41,6 @@ export const index = async (): Promise<entity.HistoryGroup[]> => {
   }
 
   return Array.from(mapHistoryGroups.values());
-};
-
-const formatDate = (date: Date): string => {
-  const parsedTime: DateTime = DateTime.fromJSDate(date);
-  if (!parsedTime.isValid) return '';
-  const front: string = parsedTime.toFormat('EEE, MMM dd ');
-  const back: string = parsedTime.toFormat('yy');
-  return front + "'" + back;
 };
 
 export const destroy = (item: entity.History): Promise<number> => {

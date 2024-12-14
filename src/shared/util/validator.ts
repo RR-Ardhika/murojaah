@@ -17,7 +17,7 @@ export const findEmpty = (obj): boolean => {
 
 // @ts-expect-error known type param
 // eslint-disable-next-line
-export const isEmpty = (value): boolean => {
+const isEmpty = (value): boolean => {
   if (value === undefined) return true;
   else if (value === null) return true;
   else if (value === '') return true;

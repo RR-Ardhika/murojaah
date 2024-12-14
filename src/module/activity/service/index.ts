@@ -5,6 +5,7 @@ import * as repoHistory from '@/module/history/repository/indexeddb';
 import * as entityStat from '@/module/stat/entity';
 import * as repoStat from '@/module/stat/repository/indexeddb';
 import * as sharedEntity from '@/shared/entity';
+import * as util from '@/shared/util';
 
 import * as entity from '../entity';
 
@@ -17,7 +18,7 @@ export const index = async (): Promise<entity.Activity[]> => {
   }
 
   for (const item of data) {
-    const key: string = formatDate(item.occuredAt);
+    const key: string = util.formatDateYearFirst(item.occuredAt);
 
     if (!mapActivities.has(key)) {
       const newStat: entityStat.HistoryStat = repoStat.getHistoryStat(item);
@@ -36,10 +37,4 @@ export const index = async (): Promise<entity.Activity[]> => {
   }
 
   return Array.from(mapActivities.values());
-};
-
-const formatDate = (date: Date): string => {
-  const parsedTime: DateTime = DateTime.fromJSDate(date);
-  if (!parsedTime.isValid) return '';
-  return parsedTime.toFormat('yyyy-MM-dd EEE');
 };
