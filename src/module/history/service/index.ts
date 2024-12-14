@@ -56,3 +56,33 @@ export const importData = (jsonString: Blob): Promise<void> => {
 export const dropDb = (): Promise<void> => {
   return repo.dropDb();
 };
+
+export const getCompactDate = async (): Promise<entity.CompactDate[]> => {
+  const mapActivities: Map<string, entity.CompactDate> = new Map();
+
+  const data: entity.History[] = await repo.findAll();
+  if (!data || data.length === 0) {
+    return Promise.reject(new Error('Error 400 empty compact date'));
+  }
+
+  for (const item of data) {
+    const key: string = util.formatDateYearFirst(item.occuredAt);
+
+    if (!mapActivities.has(key)) {
+      const newStat: entityStat.HistoryStat = serviceStat.getHistoryStat(item);
+      mapActivities.set(key, {
+        date: key,
+        stat: newStat,
+      });
+      continue;
+    }
+
+    const obj: entity.CompactDate = mapActivities.get(key)!;
+    const newStat: entityStat.HistoryStat = serviceStat.getHistoryStat(item);
+    obj.stat.ayah += newStat.ayah;
+    obj.stat.lines += newStat.lines;
+    obj.stat.juz = serviceJuz.getTotalJuzFromLines(obj.stat.lines);
+  }
+
+  return Array.from(mapActivities.values());
+};

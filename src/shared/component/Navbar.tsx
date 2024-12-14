@@ -15,8 +15,8 @@ export const Navbar = (): JSX.Element => {
         <Link href={LINKS.HOME} className={CLASS_NAMES.div}>
           H
         </Link>
-        <Link href={LINKS.ACTIVITY} className={CLASS_NAMES.div}>
-          A
+        <Link href={LINKS.COMPACT_DATE} className={CLASS_NAMES.div}>
+          C
         </Link>
         <Link href={LINKS.COUNTER} className={CLASS_NAMES.div}>
           C

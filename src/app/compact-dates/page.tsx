@@ -1,14 +1,14 @@
 'use client';
 
-import { View } from '@/module/activity/component/View';
-import { DataProvider } from '@/module/activity/context/DataContext';
+import { CompactDateView } from '@/module/history/component/View';
+import { DataProvider } from '@/module/history/context/CompactDateDataContext';
 import { Base } from '@/shared/component/Base';
 
 const Page = (): JSX.Element => {
   return (
     <Base module="activity" name="Page">
       <DataProvider>
-        <View />
+        <CompactDateView />
       </DataProvider>
     </Base>
   );

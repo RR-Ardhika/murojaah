@@ -4,9 +4,9 @@ import { useEffect } from 'react';
 import { Base } from '@/shared/component/Base';
 import { useAlert } from '@/shared/context/AlertContext';
 
-import { useData } from '../context';
-import { History, HistoryGroup } from '../entity';
-import { Card } from './Card';
+import { useData } from '../../context/DataContext';
+import { History, HistoryGroup } from '../../entity';
+import { Card } from '../Card';
 
 export const View = (): JSX.Element => {
   const { isAlertVisible } = useAlert();

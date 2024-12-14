@@ -5,7 +5,7 @@ import { AlertColor, AlertText } from '@/shared/component/Alert';
 import { Base } from '@/shared/component/Base';
 import { useAlert } from '@/shared/context/AlertContext';
 
-import { useData } from '../../context';
+import { useData } from '../../context/DataContext';
 import { History } from '../../entity';
 import { destroy } from '../../service';
 

@@ -40,3 +40,8 @@ export type Payload = {
   repeat: number;
   occuredAt: Date;
 };
+
+export type CompactDate = {
+  date: string;
+  stat: HistoryStat;
+};
