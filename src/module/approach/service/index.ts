@@ -1,6 +1,6 @@
 import * as entity from '../entity';
-import * as repo from '../repository/indexeddb';
 
 export const show = (id: number): entity.Approach => {
-  return repo.findApproachById(id);
+  // @ts-expect-error access enum value with index
+  return entity.Approach[Object.keys(entity.Approach)[id]];
 };

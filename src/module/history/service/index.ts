@@ -1,5 +1,5 @@
 import * as entityStat from '@/module/stat/entity';
-import * as repoStat from '@/module/stat/repository/indexeddb';
+import * as serviceStat from '@/module/stat/service';
 import * as sharedEntity from '@/shared/entity';
 import * as util from '@/shared/util';
 
@@ -21,7 +21,7 @@ export const index = async (): Promise<entity.HistoryGroup[]> => {
     const key: string = util.formatDate(item.occuredAt);
 
     if (!mapHistoryGroups.has(key)) {
-      const newStat: entityStat.HistoryStat = repoStat.getHistoryStat(item);
+      const newStat: entityStat.HistoryStat = serviceStat.getHistoryStat(item);
       mapHistoryGroups.set(key, {
         date: key,
         histories: [item],
@@ -31,7 +31,7 @@ export const index = async (): Promise<entity.HistoryGroup[]> => {
     }
 
     const group: entity.HistoryGroup = mapHistoryGroups.get(key)!;
-    const newStat: entityStat.HistoryStat = repoStat.getHistoryStat(item);
+    const newStat: entityStat.HistoryStat = serviceStat.getHistoryStat(item);
     group.stat.ayah += newStat.ayah;
     group.stat.lines += newStat.lines;
     group.stat.juz = sharedEntity.getTotalJuzFromLines(group.stat.lines);
