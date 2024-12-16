@@ -24,7 +24,7 @@ const fetchData = (i: InternalProps): void => {
   service.index().then((result: entity.ActivityGroup[]) => i.setData(result));
 };
 
-export const DataProvider = ({ children }: { children: ReactNode }): JSX.Element => {
+export const DataProvider = ({ children }: { children: ReactNode }): React.JSX.Element => {
   const [data, setData] = useState<entity.ActivityGroup[]>();
 
   const i: InternalProps = {

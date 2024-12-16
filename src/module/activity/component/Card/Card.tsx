@@ -31,7 +31,7 @@ const convertSurahIdToName = (id: number | undefined): string => {
   return surah.name;
 };
 
-const JuzCard = (i: InternalProps): JSX.Element => {
+const JuzCard = (i: InternalProps): React.JSX.Element => {
   return (
     <>
       <p className={CLASS_NAMES.title}>Juz {i.item.juz}</p>
@@ -46,7 +46,7 @@ const JuzCard = (i: InternalProps): JSX.Element => {
   );
 };
 
-const SurahCard = (i: InternalProps): JSX.Element => {
+const SurahCard = (i: InternalProps): React.JSX.Element => {
   return (
     <>
       <p className={CLASS_NAMES.title}>
@@ -64,7 +64,7 @@ const SurahCard = (i: InternalProps): JSX.Element => {
   );
 };
 
-const AyahCard = (i: InternalProps): JSX.Element => {
+const AyahCard = (i: InternalProps): React.JSX.Element => {
   return (
     <>
       <p className={CLASS_NAMES.title}>
@@ -84,7 +84,7 @@ const AyahCard = (i: InternalProps): JSX.Element => {
   );
 };
 
-export const Card = (item: Activity): JSX.Element => {
+export const Card = (item: Activity): React.JSX.Element => {
   const activityStat: ActivityStat = getActivityStat(item);
 
   const i: InternalProps = {

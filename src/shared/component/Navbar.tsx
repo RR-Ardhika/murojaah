@@ -8,7 +8,7 @@ const CLASS_NAMES: Record<string, string> = {
   div: 'w-full p-3 bg-custom-teal text-xl text-white text-center',
 };
 
-export const Navbar = (): JSX.Element => {
+export const Navbar = (): React.JSX.Element => {
   return (
     <Base module="shared" name="Navbar">
       <nav className={CLASS_NAMES.container}>

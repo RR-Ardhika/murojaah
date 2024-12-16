@@ -33,7 +33,7 @@ const hideAlert = (i: InternalProps): void => {
   i.setIsAlertVisible(false);
 };
 
-export const AlertProvider = ({ children }: { children: ReactNode }): JSX.Element => {
+export const AlertProvider = ({ children }: { children: ReactNode }): React.JSX.Element => {
   const [alertColor, setAlertColor] = useState();
   const [alertText, setAlertText] = useState('');
   const [isAlertVisible, setIsAlertVisible] = useState(false);

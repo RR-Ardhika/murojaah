@@ -164,7 +164,7 @@ const isSaveable = (p: Props): boolean => {
   return true;
 };
 
-export const Button = (p: Props): JSX.Element => {
+export const Button = (p: Props): React.JSX.Element => {
   const { showAlert } = useAlert();
 
   const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);

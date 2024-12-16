@@ -6,7 +6,7 @@ interface Props {
   setValue: Dispatch<SetStateAction<number>>;
 }
 
-export const NumberStepper = (p: Props): JSX.Element => {
+export const NumberStepper = (p: Props): React.JSX.Element => {
   const baseClass: string = 'border px-4 py-2';
   const txtClass: string = 'bg-gray-100';
 

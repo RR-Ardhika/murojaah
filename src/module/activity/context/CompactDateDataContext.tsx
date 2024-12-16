@@ -24,7 +24,7 @@ const fetchData = (i: InternalProps): void => {
   service.getCompactDate().then((result: entity.CompactDate[]) => i.setData(result));
 };
 
-export const DataProvider = ({ children }: { children: ReactNode }): JSX.Element => {
+export const DataProvider = ({ children }: { children: ReactNode }): React.JSX.Element => {
   const [data, setData] = useState<entity.CompactDate[]>();
 
   const i: InternalProps = {

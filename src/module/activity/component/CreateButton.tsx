@@ -32,7 +32,7 @@ const showForm = (i: InternalProps, type: string): void => {
   i.setIsFormVisible(true);
 };
 
-const renderSubButtons = (i: InternalProps): JSX.Element => {
+const renderSubButtons = (i: InternalProps): React.JSX.Element => {
   return (
     <div className="flex flex-col gap-4">
       <button
@@ -57,7 +57,7 @@ const renderSubButtons = (i: InternalProps): JSX.Element => {
   );
 };
 
-export const CreateButton = (): JSX.Element => {
+export const CreateButton = (): React.JSX.Element => {
   const [formType, setFormType] = useState('');
   const [isSubButtonsVisible, setIsSubButtonsVisible] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);

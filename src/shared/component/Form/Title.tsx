@@ -4,7 +4,7 @@ interface Props {
   formType: string;
 }
 
-export const Title = (p: Props): JSX.Element => {
+export const Title = (p: Props): React.JSX.Element => {
   return (
     <Dialog.Title className="text-lg font-medium leading-6 text-gray-900">
       Create {p.formType} Murojaah

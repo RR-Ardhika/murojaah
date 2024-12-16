@@ -10,7 +10,7 @@ const CLASS_NAMES: Record<string, string> = {
   fieldValueCol: 'col-span-2',
 };
 
-export const Card = (item: Stat): JSX.Element => {
+export const Card = (item: Stat): React.JSX.Element => {
   return (
     <Base module="stat" name="Card">
       <div>

@@ -5,7 +5,7 @@ interface Props {
   setValue: Dispatch<SetStateAction<string>>;
 }
 
-export const DateTimeInput = (p: Props): JSX.Element => {
+export const DateTimeInput = (p: Props): React.JSX.Element => {
   return (
     <div>
       <input

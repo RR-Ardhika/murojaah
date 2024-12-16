@@ -16,7 +16,7 @@ const selectStyle: StylesConfig = {
   }),
 };
 
-const JuzContent = (p: Props): JSX.Element => {
+const JuzContent = (p: Props): React.JSX.Element => {
   return (
     <div className="flex flex-col gap-2 mt-2">
       <label className="font-light">Select Juz</label>
@@ -51,7 +51,7 @@ const JuzContent = (p: Props): JSX.Element => {
   );
 };
 
-const SurahContent = (p: Props): JSX.Element => {
+const SurahContent = (p: Props): React.JSX.Element => {
   const [searchInput, setSearchInput] = useState('');
 
   return (
@@ -116,7 +116,7 @@ const SurahContent = (p: Props): JSX.Element => {
   );
 };
 
-const AyahContent = (p: Props): JSX.Element => {
+const AyahContent = (p: Props): React.JSX.Element => {
   return (
     <div className="flex flex-col gap-2 mt-2">
       <label className="font-light">Select Surah</label>
@@ -192,7 +192,7 @@ const AyahContent = (p: Props): JSX.Element => {
   );
 };
 
-export const Content = (p: Props): JSX.Element => {
+export const Content = (p: Props): React.JSX.Element => {
   switch (p.formType) {
     case 'Juz':
       return <JuzContent {...p} />;

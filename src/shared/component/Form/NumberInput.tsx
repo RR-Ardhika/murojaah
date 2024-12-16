@@ -5,7 +5,7 @@ interface Props {
   setValue: Dispatch<SetStateAction<string>>;
 }
 
-export const NumberInput = (p: Props): JSX.Element => {
+export const NumberInput = (p: Props): React.JSX.Element => {
   // TD-3 Implement proper number input for ayah
   return (
     <div>

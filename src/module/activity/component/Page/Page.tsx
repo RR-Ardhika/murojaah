@@ -6,7 +6,7 @@ import { CreateButton } from '../../component/CreateButton';
 import { View } from '../../component/View';
 import { DataProvider } from '../../context/DataContext';
 
-export const Page = (): JSX.Element => {
+export const Page = (): React.JSX.Element => {
   return (
     <Base module="activity" name="Page">
       <DataProvider>

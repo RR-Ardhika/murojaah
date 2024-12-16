@@ -36,7 +36,7 @@ const getBtnColor = (i: InternalProps): string => {
   }
 };
 
-export const Alert = (): JSX.Element => {
+export const Alert = (): React.JSX.Element => {
   const { alertColor, alertText, isAlertVisible } = useAlert();
 
   if (!isAlertVisible) return <></>;

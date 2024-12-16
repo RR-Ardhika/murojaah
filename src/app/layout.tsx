@@ -19,7 +19,7 @@ const inter: NextFont = Inter({ subsets: ['latin'] });
 //   description: 'Murojaah application',
 // };
 
-const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>): JSX.Element => {
+const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>): React.JSX.Element => {
   return (
     <html lang="en">
       <body className={`${inter.className} flex flex-col h-screen select-none`}>

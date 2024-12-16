@@ -30,7 +30,7 @@ const getContainerColor = (duration: number): string => {
   }
 };
 
-export const ListSurahCard = ({ item, showForm }: Props): JSX.Element => {
+export const ListSurahCard = ({ item, showForm }: Props): React.JSX.Element => {
   return (
     <Base module="activity" name="ListSurahCard">
       <div
