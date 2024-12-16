@@ -23,7 +23,7 @@ const createByJuz = (payload: entity.Payload): Promise<number | unknown[]> => {
   if (util.findEmpty(payload))
     return Promise.reject(new Error('Error 422 Unprocessable Entity error validating juz payload'));
 
-  const history: entity.History = {
+  const activity: entity.Activity = {
     id: uuidv4(),
     historyType: payload.activityType,
     juz: payload.juz,
@@ -32,7 +32,7 @@ const createByJuz = (payload: entity.Payload): Promise<number | unknown[]> => {
     occuredAt: payload.occuredAt,
   };
 
-  return repo.insert(history);
+  return repo.insert(activity);
 };
 
 const createBySurah = (payload: entity.Payload): Promise<number | unknown[]> => {
@@ -45,7 +45,7 @@ const createBySurah = (payload: entity.Payload): Promise<number | unknown[]> => 
 
   // @ts-expect-error handled undefined value
   for (const [i, opt] of payload.surahOptions.entries()) {
-    const history: entity.History = {
+    const activity: entity.Activity = {
       id: uuidv4(),
       historyType: payload.activityType,
       surah: opt.value,
@@ -55,9 +55,9 @@ const createBySurah = (payload: entity.Payload): Promise<number | unknown[]> => 
     };
 
     if (payload.surahOptions && i === payload.surahOptions.length - 1 && payload.markJuzDone)
-      history.markJuzDone = payload.markJuzDone;
+      activity.markJuzDone = payload.markJuzDone;
 
-    repo.insert(history);
+    repo.insert(activity);
 
     occuredAt = occuredAt.plus({ milliseconds: 1 });
   }
@@ -71,7 +71,7 @@ const createByAyah = (payload: entity.Payload): Promise<number | unknown[]> => {
       new Error('Error 422 Unprocessable Entity error validating surah payload')
     );
 
-  const history: entity.History = {
+  const activity: entity.Activity = {
     id: uuidv4(),
     historyType: payload.activityType,
     surah: payload.surah,
@@ -84,5 +84,5 @@ const createByAyah = (payload: entity.Payload): Promise<number | unknown[]> => {
     occuredAt: payload.occuredAt,
   };
 
-  return repo.insert(history);
+  return repo.insert(activity);
 };

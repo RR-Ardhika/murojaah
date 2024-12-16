@@ -6,10 +6,10 @@ import { getSurahById } from '@/shared/service/surah';
 import { formatDatetime } from '@/shared/util/datetime';
 
 import { Container } from './CardContainer';
-import { History, ActivityType } from '../../entity';
+import { Activity, ActivityType } from '../../entity';
 
 interface InternalProps {
-  item: History;
+  item: Activity;
   activityStat: ActivityStat;
 }
 
@@ -84,7 +84,7 @@ const AyahCard = (i: InternalProps): JSX.Element => {
   );
 };
 
-export const Card = (item: History): JSX.Element => {
+export const Card = (item: Activity): JSX.Element => {
   const activityStat: ActivityStat = getActivityStat(item);
 
   const i: InternalProps = {

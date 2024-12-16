@@ -9,10 +9,10 @@ export enum AlertColor {
 }
 
 export enum AlertText {
-  SuccessCreatedHistory = 'Successfully created new murojaah',
-  SuccessDeletedHistory = 'Murojaah deleted',
-  FailedCreatedHistory = 'Failed created new murojaah',
-  FailedDeletedHistory = 'Failed deleted murojaah',
+  SuccessCreatedActivity = 'Successfully created new murojaah',
+  SuccessDeletedActivity = 'Murojaah deleted',
+  FailedCreatedActivity = 'Failed created new murojaah',
+  FailedDeletedActivity = 'Failed deleted murojaah',
 }
 
 interface InternalProps {

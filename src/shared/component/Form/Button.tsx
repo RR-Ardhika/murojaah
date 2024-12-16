@@ -27,13 +27,13 @@ const save = async (p: Props, i: InternalProps): Promise<void> => {
     await create(buildPayload(p));
     closeForm(p, i);
     if (p.setIsSubButtonsVisible) p.setIsSubButtonsVisible(false);
-    i.showAlert(AlertColor.Green, AlertText.SuccessCreatedHistory);
+    i.showAlert(AlertColor.Green, AlertText.SuccessCreatedActivity);
     p.fetchData();
     i.setDisableSaveButton(false);
   } catch (err) {
     i.setDisableSaveButton(false);
     console.error(err);
-    i.showAlert(AlertColor.Red, AlertText.FailedCreatedHistory);
+    i.showAlert(AlertColor.Red, AlertText.FailedCreatedActivity);
   }
 };
 

@@ -7,7 +7,7 @@ export enum ActivityType {
   Ayah = 2,
 }
 
-export type History = {
+export type Activity = {
   id: string;
   historyType: number;
   juz?: number;
@@ -23,7 +23,7 @@ export type History = {
 
 export type ActivityGroup = {
   date: string;
-  histories: History[];
+  activities: Activity[];
   stat: ActivityStat;
 };
 
