@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon';
 import { v4 as uuidv4 } from 'uuid';
 
-import * as entityHistory from '@/module/history/entity';
-import * as repoHistory from '@/module/history/repository/indexeddb';
+import * as entityHistory from '@/module/activity/entity';
+import * as repoHistory from '@/module/activity/repository/indexeddb';
 import * as entityJuz from '@/shared/entity/juz';
 import * as entitySurah from '@/shared/entity/surah';
 import * as serviceJuz from '@/shared/service/juz';

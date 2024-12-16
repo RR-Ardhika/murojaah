@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon';
 import { Dispatch, useState, SetStateAction } from 'react';
 
-import { HistoryType, Payload } from '@/module/history/entity';
-import { create } from '@/module/history/service';
+import { HistoryType, Payload } from '@/module/activity/entity';
+import { create } from '@/module/activity/service';
 import { AlertColor, AlertText } from '@/shared/component/Alert';
 import { useAlert } from '@/shared/context/AlertContext';
 import { approachOptions } from '@/shared/service';

@@ -1,5 +1,5 @@
 'use client';
 
-import { Page } from '@/module/history/component/Page';
+import { Page } from '@/module/activity/component/Page';
 
 export default Page;
