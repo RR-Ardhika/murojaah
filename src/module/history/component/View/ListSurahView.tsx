@@ -69,7 +69,7 @@ export const ListSurahView = (): JSX.Element => {
   };
 
   return (
-    <Base module="history" name="ListSurahView">
+    <Base module="activity" name="ListSurahView">
       <div className="gap-[20px] mt-[72px] pt-4 px-4">
         {data &&
           data.map((item: ListSurah) => {

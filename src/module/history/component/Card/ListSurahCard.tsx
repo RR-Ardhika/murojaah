@@ -32,7 +32,7 @@ const getContainerColor = (duration: number): string => {
 
 export const ListSurahCard = ({ item, showForm }: Props): JSX.Element => {
   return (
-    <Base module="history" name="ListSurahCard">
+    <Base module="activity" name="ListSurahCard">
       <div
         className={clsx(
           CLASS_NAMES.container,

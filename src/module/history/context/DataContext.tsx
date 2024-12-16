@@ -32,7 +32,7 @@ export const DataProvider = ({ children }: { children: ReactNode }): JSX.Element
   };
 
   return (
-    <Base module="history" name="DataProvider">
+    <Base module="activity" name="DataProvider">
       <DataContext.Provider value={{ data, fetchData: () => fetchData(i) }}>
         {children}
       </DataContext.Provider>

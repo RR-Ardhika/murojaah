@@ -62,7 +62,7 @@ export const Container = (item: History, children: JSX.Element): JSX.Element => 
   };
 
   return (
-    <Base module="history" name="Card">
+    <Base module="Activity" name="Card">
       <div className={CLASS_NAMES.container}>
         <div onClick={() => toggleButtons(i)}>{children}</div>
         {isButtonsVisible && (

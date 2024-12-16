@@ -9,7 +9,7 @@ import { ListSurahView } from '../View';
 
 export const ListSurahPage = (): JSX.Element => {
   return (
-    <Base module="history" name="ListSurahPage">
+    <Base module="activity" name="ListSurahPage">
       <DataProvider>
         <AlertProvider>
           <Alert />

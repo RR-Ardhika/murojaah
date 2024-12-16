@@ -19,7 +19,7 @@ export const CompactDateView = (): JSX.Element => {
   }, []);
 
   return (
-    <Base module="history" name="CompactDateView">
+    <Base module="activity" name="CompactDateView">
       <div className="flex flex-col pt-4 px-4 mt-[72px]">
         {data &&
           data.map((item: CompactDate) => {
