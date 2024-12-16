@@ -6,7 +6,7 @@ import { getSurahById } from '@/shared/service/surah';
 import { formatDatetime } from '@/shared/util/datetime';
 
 import { Container } from './CardContainer';
-import { History, HistoryType } from '../../entity';
+import { History, ActivityType } from '../../entity';
 
 interface InternalProps {
   item: History;
@@ -94,11 +94,11 @@ export const Card = (item: History): JSX.Element => {
 
   // TD-1 Utilize useMemo
   switch (item.historyType) {
-    case HistoryType.Juz:
+    case ActivityType.Juz:
       return Container(item, JuzCard(i));
-    case HistoryType.Surah:
+    case ActivityType.Surah:
       return Container(item, SurahCard(i));
-    case HistoryType.Ayah:
+    case ActivityType.Ayah:
       return Container(item, AyahCard(i));
     default:
       return <></>;

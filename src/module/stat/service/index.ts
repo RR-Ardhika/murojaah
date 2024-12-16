@@ -57,11 +57,11 @@ const calculateDailyStat = (histories: entityHistory.History[]): entity.Stat => 
 
 const calculateTotalLinesFromHistory = (history: entityHistory.History): number => {
   switch (history.historyType) {
-    case entityHistory.HistoryType.Juz:
+    case entityHistory.ActivityType.Juz:
       return calculateTotalLinesForJuz(history);
-    case entityHistory.HistoryType.Surah:
+    case entityHistory.ActivityType.Surah:
       return calculateTotalLinesForSurah(history);
-    case entityHistory.HistoryType.Ayah:
+    case entityHistory.ActivityType.Ayah:
       return calculateTotalLinesForAyah(history);
     default:
       return 0;
@@ -127,7 +127,7 @@ const getTotalAyah = (history: entityHistory.History): number => {
   let totalAyah: number = 0;
 
   switch (history.historyType) {
-    case entityHistory.HistoryType.Juz:
+    case entityHistory.ActivityType.Juz:
       // @ts-expect-error known type
       const juz: entityJuz.JuzType = serviceJuz.getJuzById(history.juz);
       // eslint-disable-next-line @typescript-eslint/typedef
@@ -136,12 +136,12 @@ const getTotalAyah = (history: entityHistory.History): number => {
         totalAyah += serviceSurah.getSurahById(i)?.totalAyah;
       }
       break;
-    case entityHistory.HistoryType.Surah:
+    case entityHistory.ActivityType.Surah:
       // @ts-expect-error expected undefined
       const surah: entitySurah.SurahType = serviceSurah.getSurahById(history.surah);
       totalAyah = surah.totalAyah * history.repeat;
       break;
-    case entityHistory.HistoryType.Ayah:
+    case entityHistory.ActivityType.Ayah:
       // @ts-expect-error expected undefined
       totalAyah = (history.endAyah - history.startAyah + 1) * history.repeat;
       break;

@@ -7,15 +7,15 @@ import * as entity from '../entity';
 import * as repo from '../repository/indexeddb';
 
 export const create = (payload: entity.Payload): Promise<number | unknown[]> => {
-  switch (payload.historyType) {
-    case entity.HistoryType.Juz:
+  switch (payload.activityType) {
+    case entity.ActivityType.Juz:
       return createByJuz(payload);
-    case entity.HistoryType.Surah:
+    case entity.ActivityType.Surah:
       return createBySurah(payload);
-    case entity.HistoryType.Ayah:
+    case entity.ActivityType.Ayah:
       return createByAyah(payload);
     default:
-      return Promise.reject(new Error('Error 422 Unprocessable Entity HistoryType not defined'));
+      return Promise.reject(new Error('Error 422 Unprocessable Entity ActivityType not defined'));
   }
 };
 
@@ -25,7 +25,7 @@ const createByJuz = (payload: entity.Payload): Promise<number | unknown[]> => {
 
   const history: entity.History = {
     id: uuidv4(),
-    historyType: payload.historyType,
+    historyType: payload.activityType,
     juz: payload.juz,
     approachId: payload.approachId,
     repeat: payload.repeat,
@@ -47,7 +47,7 @@ const createBySurah = (payload: entity.Payload): Promise<number | unknown[]> => 
   for (const [i, opt] of payload.surahOptions.entries()) {
     const history: entity.History = {
       id: uuidv4(),
-      historyType: payload.historyType,
+      historyType: payload.activityType,
       surah: opt.value,
       approachId: payload.approachId,
       repeat: payload.repeat,
@@ -73,7 +73,7 @@ const createByAyah = (payload: entity.Payload): Promise<number | unknown[]> => {
 
   const history: entity.History = {
     id: uuidv4(),
-    historyType: payload.historyType,
+    historyType: payload.activityType,
     surah: payload.surah,
     startAyah: payload.startAyah,
     endAyah: payload.endAyah,

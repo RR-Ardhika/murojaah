@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import { Dispatch, useState, SetStateAction } from 'react';
 
-import { HistoryType, Payload } from '@/module/activity/entity';
+import { ActivityType, Payload } from '@/module/activity/entity';
 import { create } from '@/module/activity/service';
 import { AlertColor, AlertText } from '@/shared/component/Alert';
 import { useAlert } from '@/shared/context/AlertContext';
@@ -77,7 +77,7 @@ const buildPayload = (p: Props): Payload => {
 
 const buildJuzPayload = (p: Props): Payload => {
   return {
-    historyType: HistoryType.Juz,
+    activityType: ActivityType.Juz,
     // @ts-expect-error handled undefined value
     juz: p.selectedJuz.value,
     approachId: p.selectedApproach.value,
@@ -88,7 +88,7 @@ const buildJuzPayload = (p: Props): Payload => {
 
 const buildSurahPayload = (p: Props): Payload => {
   return {
-    historyType: HistoryType.Surah,
+    activityType: ActivityType.Surah,
     surahOptions: p.selectedSurah,
     markJuzDone: p.isJuzDone,
     approachId: p.selectedApproach.value,
@@ -99,7 +99,7 @@ const buildSurahPayload = (p: Props): Payload => {
 
 const buildAyahPayload = (p: Props): Payload => {
   return {
-    historyType: HistoryType.Ayah,
+    activityType: ActivityType.Ayah,
     // @ts-expect-error handled undefined value
     surah: p.selectedSurah.value,
     startAyah: parseInt(p.startAyah),

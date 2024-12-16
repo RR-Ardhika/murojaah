@@ -87,14 +87,14 @@ const calculateCounters = (histories: entity.History[]): entity.ListSurah[] => {
 
   for (const history of histories) {
     switch (history.historyType) {
-      case entity.HistoryType.Juz:
+      case entity.ActivityType.Juz:
         calculateByJuz(history, mapCounter);
         break;
-      case entity.HistoryType.Surah:
+      case entity.ActivityType.Surah:
         calculateBySurah(history, mapCounter);
         break;
       // TD-8 Implement calculateByAyah() for module counter
-      // case entityHistory.HistoryType.Ayah:
+      // case entityHistory.ActivityType.Ayah:
       //   return calculateByAyah(history);
     }
   }

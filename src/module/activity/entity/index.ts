@@ -1,7 +1,7 @@
 import { ActivityStat } from '@/module/stat/entity';
 import { Option } from '@/shared/entity';
 
-export enum HistoryType {
+export enum ActivityType {
   Juz = 0,
   Surah = 1,
   Ayah = 2,
@@ -28,7 +28,7 @@ export type HistoryGroup = {
 };
 
 export type Payload = {
-  historyType: number;
+  activityType: number;
   juz?: number | undefined;
   surah?: number | undefined;
   surahOptions?: Option[] | undefined;
