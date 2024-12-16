@@ -15,7 +15,7 @@ export const index = async (): Promise<entity.HistoryGroup[]> => {
 
   const data: entity.History[] = await repo.findAll();
   if (!data || data.length === 0) {
-    return Promise.reject(new Error('Error 400 empty activity'));
+    return Promise.reject(new Error('Error 400 empty history'));
   }
 
   for (const item of data) {
