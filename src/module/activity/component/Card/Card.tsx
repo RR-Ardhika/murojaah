@@ -93,7 +93,7 @@ export const Card = (item: Activity): JSX.Element => {
   };
 
   // TD-1 Utilize useMemo
-  switch (item.historyType) {
+  switch (item.activityType) {
     case ActivityType.Juz:
       return Container(item, JuzCard(i));
     case ActivityType.Surah:

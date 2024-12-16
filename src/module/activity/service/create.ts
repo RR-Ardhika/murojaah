@@ -25,7 +25,7 @@ const createByJuz = (payload: entity.Payload): Promise<number | unknown[]> => {
 
   const activity: entity.Activity = {
     id: uuidv4(),
-    historyType: payload.activityType,
+    activityType: payload.activityType,
     juz: payload.juz,
     approachId: payload.approachId,
     repeat: payload.repeat,
@@ -47,7 +47,7 @@ const createBySurah = (payload: entity.Payload): Promise<number | unknown[]> => 
   for (const [i, opt] of payload.surahOptions.entries()) {
     const activity: entity.Activity = {
       id: uuidv4(),
-      historyType: payload.activityType,
+      activityType: payload.activityType,
       surah: opt.value,
       approachId: payload.approachId,
       repeat: payload.repeat,
@@ -73,7 +73,7 @@ const createByAyah = (payload: entity.Payload): Promise<number | unknown[]> => {
 
   const activity: entity.Activity = {
     id: uuidv4(),
-    historyType: payload.activityType,
+    activityType: payload.activityType,
     surah: payload.surah,
     startAyah: payload.startAyah,
     endAyah: payload.endAyah,

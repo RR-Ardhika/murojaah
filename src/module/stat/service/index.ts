@@ -56,7 +56,7 @@ const calculateDailyStat = (activities: entityActivity.Activity[]): entity.Stat 
 };
 
 const calculateTotalLinesFromActivity = (activity: entityActivity.Activity): number => {
-  switch (activity.historyType) {
+  switch (activity.activityType) {
     case entityActivity.ActivityType.Juz:
       return calculateTotalLinesForJuz(activity);
     case entityActivity.ActivityType.Surah:
@@ -126,7 +126,7 @@ export const getActivityStat = (activity: entityActivity.Activity): entity.Activ
 const getTotalAyah = (activity: entityActivity.Activity): number => {
   let totalAyah: number = 0;
 
-  switch (activity.historyType) {
+  switch (activity.activityType) {
     case entityActivity.ActivityType.Juz:
       // @ts-expect-error known type
       const juz: entityJuz.JuzType = serviceJuz.getJuzById(activity.juz);

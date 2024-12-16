@@ -9,7 +9,7 @@ export enum ActivityType {
 
 export type Activity = {
   id: string;
-  historyType: number;
+  activityType: number;
   juz?: number;
   surah?: number;
   startAyah?: number;
@@ -52,3 +52,7 @@ export type ListSurah = {
   name: string;
   lastRead: Date;
 };
+
+export const TABLE_NAME: string = 'activities' as const;
+
+export const TABLE_FIELDS: string[] = Object.keys({} as Activity) as Array<keyof Activity>;

@@ -10,18 +10,18 @@ const idbCon: Connection = initJsStore();
 
 export const findAll = (): Promise<entity.Activity[]> => {
   return idbCon.select<entity.Activity>({
-    from: 'histories',
+    from: entity.TABLE_NAME,
     order: { by: 'occuredAt', type: 'desc' },
   });
 };
 
 export const insert = (item: entity.Activity): Promise<number | unknown[]> => {
-  return idbCon.insert({ into: 'histories', values: [item] });
+  return idbCon.insert({ into: entity.TABLE_NAME, values: [item] });
 };
 
 export const deleteRecord = (item: entity.Activity): Promise<number> => {
   return idbCon.remove({
-    from: 'histories',
+    from: entity.TABLE_NAME,
     where: { id: item.id },
   });
 };

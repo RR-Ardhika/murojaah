@@ -86,7 +86,7 @@ const calculateCounters = (activities: entity.Activity[]): entity.ListSurah[] =>
   const mapCounter: Map<number, entity.ListSurah> = new Map();
 
   for (const activity of activities) {
-    switch (activity.historyType) {
+    switch (activity.activityType) {
       case entity.ActivityType.Juz:
         calculateByJuz(activity, mapCounter);
         break;

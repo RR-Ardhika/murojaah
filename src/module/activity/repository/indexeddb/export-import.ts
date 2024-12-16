@@ -4,6 +4,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { initJsStore } from '@/database/indexeddb/connection';
 
+import * as entity from '../../entity';
+
 const idbCon: Connection = initJsStore();
 
 export const exportData = async (): Promise<Blob> => {
@@ -13,10 +15,7 @@ export const exportData = async (): Promise<Blob> => {
   const db: Dexie = new Dexie('murojaah');
 
   // TD-12 Handle different version export / import
-  db.version(0.1).stores({
-    histories:
-      'id, historyType, juz, surah, startAyah, endAyah, markSurahDone, markJuzDone, approachId, repeat, occuredAt',
-  });
+  db.version(0.1).stores({ [entity.TABLE_NAME]: entity.TABLE_FIELDS.join(', ') });
 
   try {
     const { exportDB: exportDb } = await import('dexie-export-import');
@@ -36,10 +35,7 @@ export const importData = async (blob: Blob): Promise<void> => {
   const db: Dexie = new Dexie('murojaah');
 
   // TD-12 Handle different version export / import
-  db.version(0.1).stores({
-    histories:
-      'id, historyType, juz, surah, startAyah, endAyah, markSurahDone, markJuzDone, approachId, repeat, occuredAt',
-  });
+  db.version(0.1).stores({ [entity.TABLE_NAME]: entity.TABLE_FIELDS.join(', ') });
 
   try {
     const { importDB: importDb } = await import('dexie-export-import');
@@ -61,9 +57,9 @@ const transformImportedData = async (blob: Blob): Promise<Blob> => {
 
   if (Array.isArray(rows)) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    jsonObject.data.data[0].rows = rows.map((history: any) => {
+    jsonObject.data.data[0].rows = rows.map((activity: any) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { id, surahName, ...rest } = history; // Remove surahName
+      const { id, surahName, ...rest } = activity; // Remove surahName
 
       // Convert id to UUID v4
       return { id: uuidv4(), ...rest };
