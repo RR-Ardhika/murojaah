@@ -2,7 +2,7 @@ import { IDataBase, DATA_TYPE, ITable } from 'jsstore';
 
 import { TABLE_NAME as TABLE_ACTIVITY } from '@/module/activity/entity';
 
-const dbname: string = 'murojaah';
+export const dbname: string = 'murojaah';
 
 export const getDatabase = (): IDataBase => {
   const dataBase: IDataBase = {

@@ -1,12 +1,9 @@
 import Dexie from 'dexie';
-import { Connection } from 'jsstore';
 import { v4 as uuidv4 } from 'uuid';
 
-import { initJsStore } from '@/database/indexeddb/connection';
+import { dbname } from '@/database/indexeddb/schema';
 
 import * as entity from '../../entity';
-
-const idbCon: Connection = initJsStore();
 
 export const exportData = async (): Promise<Blob> => {
   if (typeof window === 'undefined')
@@ -69,6 +66,11 @@ const transformImportedData = async (blob: Blob): Promise<Blob> => {
   return new Blob([JSON.stringify(jsonObject)], { type: 'application/json' });
 };
 
-export const dropDb = (): Promise<void> => {
-  return idbCon.dropDb();
+export const dropDb = async (): Promise<void> => {
+  try {
+    await Dexie.delete(dbname);
+  } catch (err) {
+    console.error(`Failed to delete database "${dbname}":`, err);
+    throw err;
+  }
 };
