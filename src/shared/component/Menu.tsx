@@ -11,10 +11,14 @@ import Image from 'next/image';
 import { Dispatch, SetStateAction, useRef, useState } from 'react';
 
 import * as service from '@/module/activity/service';
+import { AlertColor, AlertText } from '@/shared/component/Alert';
 import { Base } from '@/shared/component/Base';
 import { LINKS } from '@/shared/const';
+import { useAlert } from '@/shared/context/AlertContext';
 
 interface InternalProps {
+  // @ts-expect-error useAlert
+  showAlert: Context<AlertContextValues>;
   fileInputRef: React.RefObject<HTMLInputElement>;
   isDropDbConfirmationVisible: boolean;
   setIsDropDbConfirmationVisible: Dispatch<SetStateAction<boolean>>;
@@ -29,7 +33,7 @@ const CLASS_NAMES: Record<string, string> = {
 };
 
 // @ts-expect-error expected return value type
-const doExport = async (): void => {
+const doExport = async (i: InternalProps): void => {
   try {
     const blob: Blob = await service.exportData();
 
@@ -48,8 +52,10 @@ const doExport = async (): void => {
     // Clean up by removing the link and releasing the blob URL
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
+    i.showAlert(AlertColor.Green, AlertText.SuccessExportedDB);
   } catch (err) {
     console.error(err);
+    i.showAlert(AlertColor.Red, AlertText.FailedExportedDB);
   }
 };
 
@@ -67,10 +73,13 @@ const doDropDb = (i: InternalProps): void => {
   }
 
   service.dropDb();
-  window.location.reload();
+  i.showAlert(AlertColor.Green, AlertText.SuccessDeletedDB);
+  setTimeout(() => {
+    window.location.reload();
+  }, 2000);
 };
 
-const handleImportedFile = (event: React.ChangeEvent<HTMLInputElement>): void => {
+const handleImportedFile = (event: React.ChangeEvent<HTMLInputElement>, i: InternalProps): void => {
   const file: File | undefined = event.target.files?.[0];
   if (!file) return;
 
@@ -81,19 +90,27 @@ const handleImportedFile = (event: React.ChangeEvent<HTMLInputElement>): void =>
       const jsonString: string = reader.result as string;
       const blob: Blob = new Blob([jsonString], { type: 'application/json' });
       await service.importData(blob);
-      window.location.reload(); // TD-6 Implement proper success import notification
+      i.showAlert(AlertColor.Green, AlertText.SuccessImportedDB);
+      // TD-6 Implement proper success import notification
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     } catch (err) {
       console.error('Import failed:', err);
+      i.showAlert(AlertColor.Red, AlertText.FailedImportedDB);
     }
   };
   reader.readAsText(file);
 };
 
 export const Menu = (): JSX.Element => {
+  const { showAlert } = useAlert();
+
   const fileInputRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement | null>(null);
   const [isDropDbConfirmationVisible, setIsDropDbConfirmationVisible] = useState(false);
 
   const i: InternalProps = {
+    showAlert,
     fileInputRef,
     isDropDbConfirmationVisible,
     setIsDropDbConfirmationVisible,
@@ -108,7 +125,7 @@ export const Menu = (): JSX.Element => {
 
         <MenuItems anchor="bottom end" className={CLASS_NAMES.menuItems}>
           <MenuItem>
-            <button className={CLASS_NAMES.menuItem} onClick={doExport}>
+            <button className={CLASS_NAMES.menuItem} onClick={() => doExport(i)}>
               <ArrowUpTrayIcon className="size-4 fill-white/50" />
               Export
             </button>
@@ -158,7 +175,7 @@ export const Menu = (): JSX.Element => {
         accept=".json"
         ref={fileInputRef}
         style={{ display: 'none' }}
-        onChange={handleImportedFile}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImportedFile(e, i)}
       />
     </Base>
   );

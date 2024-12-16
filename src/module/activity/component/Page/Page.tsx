@@ -1,8 +1,6 @@
 'use client';
 
-import { Alert } from '@/shared/component/Alert';
 import { Base } from '@/shared/component/Base';
-import { AlertProvider } from '@/shared/context/AlertContext';
 
 import { CreateButton } from '../../component/CreateButton';
 import { View } from '../../component/View';
@@ -12,11 +10,8 @@ export const Page = (): JSX.Element => {
   return (
     <Base module="activity" name="Page">
       <DataProvider>
-        <AlertProvider>
-          <Alert />
-          <View />
-          <CreateButton />
-        </AlertProvider>
+        <View />
+        <CreateButton />
       </DataProvider>
     </Base>
   );
