@@ -21,7 +21,7 @@ export type History = {
   occuredAt: Date;
 };
 
-export type HistoryGroup = {
+export type ActivityGroup = {
   date: string;
   histories: History[];
   stat: ActivityStat;

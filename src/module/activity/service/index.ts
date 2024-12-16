@@ -10,8 +10,8 @@ import * as repo from '../repository/indexeddb';
 export * from './create';
 export * from './export-import';
 
-export const index = async (): Promise<entity.HistoryGroup[]> => {
-  const mapHistoryGroups: Map<string, entity.HistoryGroup> = new Map();
+export const index = async (): Promise<entity.ActivityGroup[]> => {
+  const mapActivityGroups: Map<string, entity.ActivityGroup> = new Map();
 
   const data: entity.History[] = await repo.findAll();
   if (!data || data.length === 0) {
@@ -21,9 +21,9 @@ export const index = async (): Promise<entity.HistoryGroup[]> => {
   for (const item of data) {
     const key: string = util.formatDate(item.occuredAt);
 
-    if (!mapHistoryGroups.has(key)) {
+    if (!mapActivityGroups.has(key)) {
       const newStat: entityStat.ActivityStat = serviceStat.getActivityStat(item);
-      mapHistoryGroups.set(key, {
+      mapActivityGroups.set(key, {
         date: key,
         histories: [item],
         stat: newStat,
@@ -31,7 +31,7 @@ export const index = async (): Promise<entity.HistoryGroup[]> => {
       continue;
     }
 
-    const group: entity.HistoryGroup = mapHistoryGroups.get(key)!;
+    const group: entity.ActivityGroup = mapActivityGroups.get(key)!;
     const newStat: entityStat.ActivityStat = serviceStat.getActivityStat(item);
     group.stat.ayah += newStat.ayah;
     group.stat.lines += newStat.lines;
@@ -39,7 +39,7 @@ export const index = async (): Promise<entity.HistoryGroup[]> => {
     group.histories.push(item);
   }
 
-  return Array.from(mapHistoryGroups.values());
+  return Array.from(mapActivityGroups.values());
 };
 
 export const destroy = (item: entity.History): Promise<number> => {

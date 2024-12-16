@@ -6,7 +6,7 @@ import * as entity from '../entity';
 import * as service from '../service';
 
 interface InternalProps {
-  setData: Dispatch<SetStateAction<entity.HistoryGroup[] | undefined>>;
+  setData: Dispatch<SetStateAction<entity.ActivityGroup[] | undefined>>;
 }
 
 // @ts-expect-error DataContextValues
@@ -21,11 +21,11 @@ export const useData = (): Context<DataContextValues> => {
 };
 
 const fetchData = (i: InternalProps): void => {
-  service.index().then((result: entity.HistoryGroup[]) => i.setData(result));
+  service.index().then((result: entity.ActivityGroup[]) => i.setData(result));
 };
 
 export const DataProvider = ({ children }: { children: ReactNode }): JSX.Element => {
-  const [data, setData] = useState<entity.HistoryGroup[]>();
+  const [data, setData] = useState<entity.ActivityGroup[]>();
 
   const i: InternalProps = {
     setData,
