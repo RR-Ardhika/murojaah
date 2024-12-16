@@ -22,7 +22,7 @@ export const index = async (): Promise<entity.HistoryGroup[]> => {
     const key: string = util.formatDate(item.occuredAt);
 
     if (!mapHistoryGroups.has(key)) {
-      const newStat: entityStat.HistoryStat = serviceStat.getHistoryStat(item);
+      const newStat: entityStat.ActivityStat = serviceStat.getActivityStat(item);
       mapHistoryGroups.set(key, {
         date: key,
         histories: [item],
@@ -32,7 +32,7 @@ export const index = async (): Promise<entity.HistoryGroup[]> => {
     }
 
     const group: entity.HistoryGroup = mapHistoryGroups.get(key)!;
-    const newStat: entityStat.HistoryStat = serviceStat.getHistoryStat(item);
+    const newStat: entityStat.ActivityStat = serviceStat.getActivityStat(item);
     group.stat.ayah += newStat.ayah;
     group.stat.lines += newStat.lines;
     group.stat.juz = serviceJuz.getTotalJuzFromLines(group.stat.lines);
@@ -58,7 +58,7 @@ export const getCompactDate = async (): Promise<entity.CompactDate[]> => {
     const key: string = util.formatDateYearFirst(item.occuredAt);
 
     if (!mapActivities.has(key)) {
-      const newStat: entityStat.HistoryStat = serviceStat.getHistoryStat(item);
+      const newStat: entityStat.ActivityStat = serviceStat.getActivityStat(item);
       mapActivities.set(key, {
         date: key,
         stat: newStat,
@@ -67,7 +67,7 @@ export const getCompactDate = async (): Promise<entity.CompactDate[]> => {
     }
 
     const obj: entity.CompactDate = mapActivities.get(key)!;
-    const newStat: entityStat.HistoryStat = serviceStat.getHistoryStat(item);
+    const newStat: entityStat.ActivityStat = serviceStat.getActivityStat(item);
     obj.stat.ayah += newStat.ayah;
     obj.stat.lines += newStat.lines;
     obj.stat.juz = serviceJuz.getTotalJuzFromLines(obj.stat.lines);

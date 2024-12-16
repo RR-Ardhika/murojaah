@@ -16,7 +16,7 @@ export type Stat = {
   totalMarkedJuzAsDone: number;
 };
 
-export type HistoryStat = {
+export type ActivityStat = {
   juz: number;
   ayah: number;
   lines: number;

@@ -1,4 +1,4 @@
-import { HistoryStat } from '@/module/stat/entity';
+import { ActivityStat } from '@/module/stat/entity';
 import { Option } from '@/shared/entity';
 
 export enum HistoryType {
@@ -24,7 +24,7 @@ export type History = {
 export type HistoryGroup = {
   date: string;
   histories: History[];
-  stat: HistoryStat;
+  stat: ActivityStat;
 };
 
 export type Payload = {
@@ -43,7 +43,7 @@ export type Payload = {
 
 export type CompactDate = {
   date: string;
-  stat: HistoryStat;
+  stat: ActivityStat;
 };
 
 export type ListSurah = {

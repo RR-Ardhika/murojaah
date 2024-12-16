@@ -1,6 +1,6 @@
 import { show } from '@/module/approach/service';
-import { HistoryStat } from '@/module/stat/entity';
-import { getHistoryStat } from '@/module/stat/service';
+import { ActivityStat } from '@/module/stat/entity';
+import { getActivityStat } from '@/module/stat/service';
 import { SurahType } from '@/shared/entity';
 import { getSurahById } from '@/shared/service/surah';
 import { formatDatetime } from '@/shared/util/datetime';
@@ -10,7 +10,7 @@ import { History, HistoryType } from '../../entity';
 
 interface InternalProps {
   item: History;
-  historyStat: HistoryStat;
+  activityStat: ActivityStat;
 }
 
 const CLASS_NAMES: Record<string, string> = {
@@ -37,9 +37,9 @@ const JuzCard = (i: InternalProps): JSX.Element => {
       <p className={CLASS_NAMES.title}>Juz {i.item.juz}</p>
       <p className={CLASS_NAMES.data}>Murojaah {show(i.item.approachId)}</p>
       <p className={CLASS_NAMES.data}>
-        <span>{i.historyStat.juz} juz, </span>
-        <span>{i.historyStat.ayah} ayah, </span>
-        <span>{i.historyStat.lines} lines</span>
+        <span>{i.activityStat.juz} juz, </span>
+        <span>{i.activityStat.ayah} ayah, </span>
+        <span>{i.activityStat.lines} lines</span>
       </p>
       <p className={CLASS_NAMES.date}>{formatDatetime(i.item.occuredAt)}</p>
     </>
@@ -55,9 +55,9 @@ const SurahCard = (i: InternalProps): JSX.Element => {
       <p className={CLASS_NAMES.data}>Murojaah {show(i.item.approachId)}</p>
       {i.item.markJuzDone && <p className={CLASS_NAMES.data}>Juz was marked as done</p>}
       <p className={CLASS_NAMES.data}>
-        <span>{i.historyStat.juz} juz, </span>
-        <span>{i.historyStat.ayah} ayah, </span>
-        <span>{i.historyStat.lines} lines</span>
+        <span>{i.activityStat.juz} juz, </span>
+        <span>{i.activityStat.ayah} ayah, </span>
+        <span>{i.activityStat.lines} lines</span>
       </p>
       <p className={CLASS_NAMES.date}>{formatDatetime(i.item.occuredAt)}</p>
     </>
@@ -75,9 +75,9 @@ const AyahCard = (i: InternalProps): JSX.Element => {
       {i.item.markSurahDone && <p className={CLASS_NAMES.data}>Surah was marked as done</p>}
       {i.item.markJuzDone && <p className={CLASS_NAMES.data}>Juz was marked as done</p>}
       <p className={CLASS_NAMES.data}>
-        <span>{i.historyStat.juz} juz, </span>
-        <span>{i.historyStat.ayah} ayah, </span>
-        <span>{i.historyStat.lines} lines</span>
+        <span>{i.activityStat.juz} juz, </span>
+        <span>{i.activityStat.ayah} ayah, </span>
+        <span>{i.activityStat.lines} lines</span>
       </p>
       <p className={CLASS_NAMES.date}>{formatDatetime(i.item.occuredAt)}</p>
     </>
@@ -85,11 +85,11 @@ const AyahCard = (i: InternalProps): JSX.Element => {
 };
 
 export const Card = (item: History): JSX.Element => {
-  const historyStat: HistoryStat = getHistoryStat(item);
+  const activityStat: ActivityStat = getActivityStat(item);
 
   const i: InternalProps = {
     item,
-    historyStat,
+    activityStat,
   };
 
   // TD-1 Utilize useMemo

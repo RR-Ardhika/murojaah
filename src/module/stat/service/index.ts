@@ -114,7 +114,7 @@ const calculateTotalLinesForAyah = (history: entityHistory.History): number => {
   return totalLines;
 };
 
-export const getHistoryStat = (history: entityHistory.History): entity.HistoryStat => {
+export const getActivityStat = (history: entityHistory.History): entity.ActivityStat => {
   const lines: number = calculateTotalLinesFromHistory(history);
   return {
     juz: serviceJuz.getTotalJuzFromLines(lines),
