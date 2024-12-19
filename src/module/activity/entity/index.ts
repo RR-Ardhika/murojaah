@@ -1,15 +1,15 @@
-import { HistoryStat } from '@/module/stat/entity';
+import { ActivityStat } from '@/module/stat/entity';
 import { Option } from '@/shared/entity';
 
-export enum HistoryType {
+export enum ActivityType {
   Juz = 0,
   Surah = 1,
   Ayah = 2,
 }
 
-export type History = {
+export type Activity = {
   id: string;
-  historyType: number;
+  activityType: number;
   juz?: number;
   surah?: number;
   startAyah?: number;
@@ -21,14 +21,14 @@ export type History = {
   occuredAt: Date;
 };
 
-export type HistoryGroup = {
+export type ActivityGroup = {
   date: string;
-  histories: History[];
-  stat: HistoryStat;
+  activities: Activity[];
+  stat: ActivityStat;
 };
 
 export type Payload = {
-  historyType: number;
+  activityType: number;
   juz?: number | undefined;
   surah?: number | undefined;
   surahOptions?: Option[] | undefined;
@@ -43,7 +43,7 @@ export type Payload = {
 
 export type CompactDate = {
   date: string;
-  stat: HistoryStat;
+  stat: ActivityStat;
 };
 
 export type ListSurah = {
@@ -52,3 +52,7 @@ export type ListSurah = {
   name: string;
   lastRead: Date;
 };
+
+export const TABLE_NAME: string = 'activities' as const;
+
+export const TABLE_FIELDS: string[] = Object.keys({} as Activity) as Array<keyof Activity>;

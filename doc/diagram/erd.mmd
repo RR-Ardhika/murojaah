@@ -10,14 +10,15 @@
 
 erDiagram
 
-history {
-  bigint id
-  varchar history_type "enum"
-  int start
-  int end
-  bool is_surah_done "nullable"
-  bool is_juz_done "nullable"
-  datetime occured_at
-  datetime created_at
-  datetime updated_at
+activities {
+  string id "uuidv4"
+  int activity_type
+  int juz "nullable"
+  int surah "nullable"
+  int start_ayah "nullable"
+  int end_ayah "nullable"
+  bool mark_surah_done "nullable"
+  bool mark_juz_done "nullable"
+  int repeat
+  timestampz occured_at
 }

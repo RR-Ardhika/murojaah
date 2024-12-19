@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon';
 import { Dispatch, useState, SetStateAction } from 'react';
 
-import { HistoryType, Payload } from '@/module/history/entity';
-import { create } from '@/module/history/service';
+import { ActivityType, Payload } from '@/module/activity/entity';
+import { create } from '@/module/activity/service';
 import { AlertColor, AlertText } from '@/shared/component/Alert';
 import { useAlert } from '@/shared/context/AlertContext';
 import { approachOptions } from '@/shared/service';
@@ -27,13 +27,13 @@ const save = async (p: Props, i: InternalProps): Promise<void> => {
     await create(buildPayload(p));
     closeForm(p, i);
     if (p.setIsSubButtonsVisible) p.setIsSubButtonsVisible(false);
-    i.showAlert(AlertColor.Green, AlertText.SuccessCreatedHistory);
+    i.showAlert(AlertColor.Green, AlertText.SuccessCreatedActivity);
     p.fetchData();
     i.setDisableSaveButton(false);
   } catch (err) {
     i.setDisableSaveButton(false);
     console.error(err);
-    i.showAlert(AlertColor.Red, AlertText.FailedCreatedHistory);
+    i.showAlert(AlertColor.Red, AlertText.FailedCreatedActivity);
   }
 };
 
@@ -77,7 +77,7 @@ const buildPayload = (p: Props): Payload => {
 
 const buildJuzPayload = (p: Props): Payload => {
   return {
-    historyType: HistoryType.Juz,
+    activityType: ActivityType.Juz,
     // @ts-expect-error handled undefined value
     juz: p.selectedJuz.value,
     approachId: p.selectedApproach.value,
@@ -88,7 +88,7 @@ const buildJuzPayload = (p: Props): Payload => {
 
 const buildSurahPayload = (p: Props): Payload => {
   return {
-    historyType: HistoryType.Surah,
+    activityType: ActivityType.Surah,
     surahOptions: p.selectedSurah,
     markJuzDone: p.isJuzDone,
     approachId: p.selectedApproach.value,
@@ -99,7 +99,7 @@ const buildSurahPayload = (p: Props): Payload => {
 
 const buildAyahPayload = (p: Props): Payload => {
   return {
-    historyType: HistoryType.Ayah,
+    activityType: ActivityType.Ayah,
     // @ts-expect-error handled undefined value
     surah: p.selectedSurah.value,
     startAyah: parseInt(p.startAyah),

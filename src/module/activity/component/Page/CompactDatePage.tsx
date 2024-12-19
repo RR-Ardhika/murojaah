@@ -7,7 +7,7 @@ import { DataProvider } from '../../context/CompactDateDataContext';
 
 export const CompactDatePage = (): JSX.Element => {
   return (
-    <Base module="history" name="CompactDatePage">
+    <Base module="activity" name="CompactDatePage">
       <DataProvider>
         <CompactDateView />
       </DataProvider>

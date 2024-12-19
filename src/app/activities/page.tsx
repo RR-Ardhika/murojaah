@@ -6,7 +6,7 @@ import {
   Page as DefaultPage,
   CompactDatePage,
   ListSurahPage,
-} from '@/module/history/component/Page';
+} from '@/module/activity/component/Page';
 
 const Page = (): JSX.Element => {
   const searchParams: ReadonlyURLSearchParams = useSearchParams();

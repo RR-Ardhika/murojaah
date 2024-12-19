@@ -1,21 +1,23 @@
 import { IDataBase, DATA_TYPE, ITable } from 'jsstore';
 
-const dbname: string = 'murojaah';
+import { TABLE_NAME as TABLE_ACTIVITY } from '@/module/activity/entity';
+
+export const dbname: string = 'murojaah';
 
 export const getDatabase = (): IDataBase => {
   const dataBase: IDataBase = {
     name: dbname,
-    tables: [histories],
+    tables: [activities],
   };
 
   return dataBase;
 };
 
-const histories: ITable = {
-  name: 'histories',
+const activities: ITable = {
+  name: TABLE_ACTIVITY,
   columns: {
     id: { primaryKey: true, dataType: DATA_TYPE.String },
-    historyType: { dataType: DATA_TYPE.Number, notNull: true },
+    activityType: { dataType: DATA_TYPE.Number, notNull: true },
     juz: { dataType: DATA_TYPE.Number },
     surah: { dataType: DATA_TYPE.Number },
     startAyah: { dataType: DATA_TYPE.Number },

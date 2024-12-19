@@ -72,7 +72,7 @@ export const CreateButton = (): JSX.Element => {
   };
 
   return (
-    <Base module="history" name="CreateButton">
+    <Base module="activity" name="CreateButton">
       <div className="fixed bottom-16 right-4">
         <div className="flex flex-col gap-4">
           {isSubButtonsVisible && renderSubButtons(i)}

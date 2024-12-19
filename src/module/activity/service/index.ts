@@ -10,10 +10,10 @@ import * as repo from '../repository/indexeddb';
 export * from './create';
 export * from './export-import';
 
-export const index = async (): Promise<entity.HistoryGroup[]> => {
-  const mapHistoryGroups: Map<string, entity.HistoryGroup> = new Map();
+export const index = async (): Promise<entity.ActivityGroup[]> => {
+  const mapActivityGroups: Map<string, entity.ActivityGroup> = new Map();
 
-  const data: entity.History[] = await repo.findAll();
+  const data: entity.Activity[] = await repo.findAll();
   if (!data || data.length === 0) {
     return Promise.reject(new Error('Error 400 empty activity'));
   }
@@ -21,35 +21,35 @@ export const index = async (): Promise<entity.HistoryGroup[]> => {
   for (const item of data) {
     const key: string = util.formatDate(item.occuredAt);
 
-    if (!mapHistoryGroups.has(key)) {
-      const newStat: entityStat.HistoryStat = serviceStat.getHistoryStat(item);
-      mapHistoryGroups.set(key, {
+    if (!mapActivityGroups.has(key)) {
+      const newStat: entityStat.ActivityStat = serviceStat.getActivityStat(item);
+      mapActivityGroups.set(key, {
         date: key,
-        histories: [item],
+        activities: [item],
         stat: newStat,
       });
       continue;
     }
 
-    const group: entity.HistoryGroup = mapHistoryGroups.get(key)!;
-    const newStat: entityStat.HistoryStat = serviceStat.getHistoryStat(item);
+    const group: entity.ActivityGroup = mapActivityGroups.get(key)!;
+    const newStat: entityStat.ActivityStat = serviceStat.getActivityStat(item);
     group.stat.ayah += newStat.ayah;
     group.stat.lines += newStat.lines;
     group.stat.juz = serviceJuz.getTotalJuzFromLines(group.stat.lines);
-    group.histories.push(item);
+    group.activities.push(item);
   }
 
-  return Array.from(mapHistoryGroups.values());
+  return Array.from(mapActivityGroups.values());
 };
 
-export const destroy = (item: entity.History): Promise<number> => {
+export const destroy = (item: entity.Activity): Promise<number> => {
   return repo.deleteRecord(item);
 };
 
 export const getCompactDate = async (): Promise<entity.CompactDate[]> => {
   const mapActivities: Map<string, entity.CompactDate> = new Map();
 
-  const data: entity.History[] = await repo.findAll();
+  const data: entity.Activity[] = await repo.findAll();
   if (!data || data.length === 0) {
     return Promise.reject(new Error('Error 400 empty compact date'));
   }
@@ -58,7 +58,7 @@ export const getCompactDate = async (): Promise<entity.CompactDate[]> => {
     const key: string = util.formatDateYearFirst(item.occuredAt);
 
     if (!mapActivities.has(key)) {
-      const newStat: entityStat.HistoryStat = serviceStat.getHistoryStat(item);
+      const newStat: entityStat.ActivityStat = serviceStat.getActivityStat(item);
       mapActivities.set(key, {
         date: key,
         stat: newStat,
@@ -67,7 +67,7 @@ export const getCompactDate = async (): Promise<entity.CompactDate[]> => {
     }
 
     const obj: entity.CompactDate = mapActivities.get(key)!;
-    const newStat: entityStat.HistoryStat = serviceStat.getHistoryStat(item);
+    const newStat: entityStat.ActivityStat = serviceStat.getActivityStat(item);
     obj.stat.ayah += newStat.ayah;
     obj.stat.lines += newStat.lines;
     obj.stat.juz = serviceJuz.getTotalJuzFromLines(obj.stat.lines);
@@ -77,25 +77,25 @@ export const getCompactDate = async (): Promise<entity.CompactDate[]> => {
 };
 
 export const getListSurah = async (): Promise<entity.ListSurah[]> => {
-  const histories: entity.History[] = await repo.findAll();
-  return calculateCounters(histories);
+  const activities: entity.Activity[] = await repo.findAll();
+  return calculateCounters(activities);
 };
 
-const calculateCounters = (histories: entity.History[]): entity.ListSurah[] => {
+const calculateCounters = (activities: entity.Activity[]): entity.ListSurah[] => {
   const counters: entity.ListSurah[] = [];
   const mapCounter: Map<number, entity.ListSurah> = new Map();
 
-  for (const history of histories) {
-    switch (history.historyType) {
-      case entity.HistoryType.Juz:
-        calculateByJuz(history, mapCounter);
+  for (const activity of activities) {
+    switch (activity.activityType) {
+      case entity.ActivityType.Juz:
+        calculateByJuz(activity, mapCounter);
         break;
-      case entity.HistoryType.Surah:
-        calculateBySurah(history, mapCounter);
+      case entity.ActivityType.Surah:
+        calculateBySurah(activity, mapCounter);
         break;
       // TD-8 Implement calculateByAyah() for module counter
-      // case entityHistory.HistoryType.Ayah:
-      //   return calculateByAyah(history);
+      // case activity.ActivityType.Ayah:
+      //   return calculateByAyah(activity);
     }
   }
 
@@ -108,11 +108,11 @@ const calculateCounters = (histories: entity.History[]): entity.ListSurah[] => {
 };
 
 const calculateByJuz = (
-  history: entity.History,
+  activity: entity.Activity,
   mapCounter: Map<number, entity.ListSurah>
 ): void => {
   // @ts-expect-error known type
-  const juz: entityJuz.JuzType = serviceJuz.getJuzById(history.juz);
+  const juz: entityJuz.JuzType = serviceJuz.getJuzById(activity.juz);
 
   // eslint-disable-next-line @typescript-eslint/typedef
   for (let i = juz.startSurah; i <= juz.endSurah; i++) {
@@ -123,7 +123,7 @@ const calculateByJuz = (
       id: surah.id,
       juz: surah.juz[0],
       name: surah.name,
-      lastRead: history.occuredAt,
+      lastRead: activity.occuredAt,
     };
 
     if (!mapCounter.get(surah.id)) mapCounter.set(surah.id, listSurah);
@@ -131,17 +131,17 @@ const calculateByJuz = (
 };
 
 const calculateBySurah = (
-  history: entity.History,
+  activity: entity.Activity,
   mapCounter: Map<number, entity.ListSurah>
 ): void => {
   // @ts-expect-error known type
-  const surah: entitySurah.SurahType = serviceSurah.getSurahById(history.surah);
+  const surah: entitySurah.SurahType = serviceSurah.getSurahById(activity.surah);
 
   const listSurah: entity.ListSurah = {
     id: surah.id,
     juz: surah.juz[0],
     name: surah.name,
-    lastRead: history.occuredAt,
+    lastRead: activity.occuredAt,
   };
 
   if (!mapCounter.get(surah.id)) mapCounter.set(surah.id, listSurah);

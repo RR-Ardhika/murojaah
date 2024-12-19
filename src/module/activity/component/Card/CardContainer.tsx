@@ -6,7 +6,7 @@ import { Base } from '@/shared/component/Base';
 import { useAlert } from '@/shared/context/AlertContext';
 
 import { useData } from '../../context/DataContext';
-import { History } from '../../entity';
+import { Activity } from '../../entity';
 import { destroy } from '../../service';
 
 interface InternalProps {
@@ -37,17 +37,17 @@ const showDeleteConfirmation = (i: InternalProps): void => {
   }, 2000);
 };
 
-const deleteRecord = async (i: InternalProps, item: History): Promise<void> => {
+const deleteRecord = async (i: InternalProps, item: Activity): Promise<void> => {
   try {
     await destroy(item);
     i.fetchData();
-    i.showAlert(AlertColor.Red, AlertText.SuccessDeletedHistory);
+    i.showAlert(AlertColor.Red, AlertText.SuccessDeletedActivity);
   } catch {
-    i.showAlert(AlertColor.Red, AlertText.FailedDeletedHistory);
+    i.showAlert(AlertColor.Red, AlertText.FailedDeletedActivity);
   }
 };
 
-export const Container = (item: History, children: JSX.Element): JSX.Element => {
+export const Container = (item: Activity, children: JSX.Element): JSX.Element => {
   const { fetchData } = useData();
   const { showAlert } = useAlert();
   const [isButtonsVisible, setIsButtonsVisible] = useState(false);
@@ -62,7 +62,7 @@ export const Container = (item: History, children: JSX.Element): JSX.Element => 
   };
 
   return (
-    <Base module="history" name="Card">
+    <Base module="Activity" name="Card">
       <div className={CLASS_NAMES.container}>
         <div onClick={() => toggleButtons(i)}>{children}</div>
         {isButtonsVisible && (
