@@ -10,7 +10,7 @@ const CLASS_NAMES: Record<string, string> = {
   content: 'text-lg text-custom-teal',
 };
 
-export const CompactDateView = (): JSX.Element => {
+export const CompactDateView = (): React.JSX.Element => {
   const { data, fetchData } = useData();
 
   useEffect(() => {

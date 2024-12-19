@@ -19,7 +19,7 @@ import { useAlert } from '@/shared/context/AlertContext';
 interface InternalProps {
   // @ts-expect-error useAlert
   showAlert: Context<AlertContextValues>;
-  fileInputRef: React.RefObject<HTMLInputElement>;
+  fileInputRef: React.RefObject<HTMLInputElement | null>;
   isDropDbConfirmationVisible: boolean;
   setIsDropDbConfirmationVisible: Dispatch<SetStateAction<boolean>>;
 }
@@ -103,10 +103,12 @@ const handleImportedFile = (event: React.ChangeEvent<HTMLInputElement>, i: Inter
   reader.readAsText(file);
 };
 
-export const Menu = (): JSX.Element => {
+export const Menu = (): React.JSX.Element => {
   const { showAlert } = useAlert();
 
-  const fileInputRef: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement | null>(null);
+  const fileInputRef: React.RefObject<HTMLInputElement | null> = useRef<HTMLInputElement | null>(
+    null
+  );
   const [isDropDbConfirmationVisible, setIsDropDbConfirmationVisible] = useState(false);
 
   const i: InternalProps = {

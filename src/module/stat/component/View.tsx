@@ -6,7 +6,7 @@ import { Card } from './Card';
 import { useData } from '../context';
 import { Stat } from '../entity';
 
-export const View = (): JSX.Element => {
+export const View = (): React.JSX.Element => {
   const { data, fetchData } = useData();
 
   useEffect(() => {

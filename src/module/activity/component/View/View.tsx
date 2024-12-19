@@ -8,7 +8,7 @@ import { useData } from '../../context/DataContext';
 import { Activity, ActivityGroup } from '../../entity';
 import { Card } from '../Card';
 
-export const View = (): JSX.Element => {
+export const View = (): React.JSX.Element => {
   const { isAlertVisible } = useAlert();
   const { data, fetchData } = useData();
 

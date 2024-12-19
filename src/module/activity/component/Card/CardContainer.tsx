@@ -47,7 +47,7 @@ const deleteRecord = async (i: InternalProps, item: Activity): Promise<void> => 
   }
 };
 
-export const Container = (item: Activity, children: JSX.Element): JSX.Element => {
+export const Container = (item: Activity, children: React.JSX.Element): React.JSX.Element => {
   const { fetchData } = useData();
   const { showAlert } = useAlert();
   const [isButtonsVisible, setIsButtonsVisible] = useState(false);

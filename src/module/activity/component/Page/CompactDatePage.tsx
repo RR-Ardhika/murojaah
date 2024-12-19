@@ -5,7 +5,7 @@ import { Base } from '@/shared/component/Base';
 import { CompactDateView } from '../../component/View';
 import { DataProvider } from '../../context/CompactDateDataContext';
 
-export const CompactDatePage = (): JSX.Element => {
+export const CompactDatePage = (): React.JSX.Element => {
   return (
     <Base module="activity" name="CompactDatePage">
       <DataProvider>

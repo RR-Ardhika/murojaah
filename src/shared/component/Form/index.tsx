@@ -47,7 +47,7 @@ export interface SharedProps {
   setOccuredAt: Dispatch<SetStateAction<string>>;
 }
 
-export const Form = (p: Props): JSX.Element => {
+export const Form = (p: Props): React.JSX.Element => {
   const [selectedJuz, setSelectedJuz] = useState<Option>();
   const [selectedSurah, setSelectedSurah] = useState<Option[]>();
   const [selectedApproach, setSelectedApproach] = useState(() => approachOptions()[0]);

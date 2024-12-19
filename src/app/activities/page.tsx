@@ -8,7 +8,7 @@ import {
   ListSurahPage,
 } from '@/module/activity/component/Page';
 
-const Page = (): JSX.Element => {
+const Page = (): React.JSX.Element => {
   const searchParams: ReadonlyURLSearchParams = useSearchParams();
   const view: string | null = searchParams.get('view');
 

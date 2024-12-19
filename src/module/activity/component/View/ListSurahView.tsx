@@ -27,7 +27,7 @@ const CLASS_NAMES: Record<string, string> = {
   juzRuler: 'mb-2 border-custom-teal',
 };
 
-const updateAndRenderCurrentJuz = (i: InternalProps, item: ListSurah): JSX.Element => {
+const updateAndRenderCurrentJuz = (i: InternalProps, item: ListSurah): React.JSX.Element => {
   i.currentJuz = item.juz;
   return (
     <>
@@ -43,7 +43,7 @@ const showForm = (i: InternalProps, item: ListSurah): void => {
   i.setIsFormVisible(true);
 };
 
-export const ListSurahView = (): JSX.Element => {
+export const ListSurahView = (): React.JSX.Element => {
   const { data, fetchData } = useData();
   const { hideAlert } = useAlert();
   const [isFormVisible, setIsFormVisible] = useState(false);
