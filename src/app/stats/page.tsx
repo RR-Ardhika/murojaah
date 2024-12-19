@@ -1,8 +1,8 @@
 'use client';
 
-import { View } from '@/web/module/stat/component/View';
-import { DataProvider } from '@/web/module/stat/context/DataContext';
-import { Base } from '@/web/shared/component/Base';
+import { View } from '@/module/stat/component/View';
+import { DataProvider } from '@/module/stat/context/DataContext';
+import { Base } from '@/shared/component/Base';
 
 const Page = (): JSX.Element => {
   return (
