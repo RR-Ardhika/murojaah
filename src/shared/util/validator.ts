@@ -24,6 +24,7 @@ const isEmpty = (value): boolean => {
   return false;
 };
 
-export const isValidUuid = (uuid: string): boolean => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const isValidUuid = (uuid: string): boolean => {
   return validateUuid(uuid) && uuidVersion(uuid) === 4;
 };

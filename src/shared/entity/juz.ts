@@ -1,5 +1,3 @@
-import { Option } from '.';
-
 export type JuzType = {
   id: number;
   startSurah: number;
@@ -38,24 +36,3 @@ export const juz: JuzType[] = [
   { id: 29, startSurah: 67, endSurah: 77 },
   { id: 30, startSurah: 78, endSurah: 114 },
 ];
-
-export const getJuzById = (id: number): JuzType | undefined => {
-  return juz.find((obj: JuzType) => obj.id === id);
-};
-
-export const juzOptions = (): Option[] => {
-  const options: Option[] = [];
-
-  // eslint-disable-next-line @typescript-eslint/typedef
-  for (let i = 0; i < juz.length; i++) {
-    const option: Option = { value: juz[i].id, label: juz[i].id };
-    options.push(option);
-  }
-
-  return options;
-};
-
-export const getTotalJuzFromLines = (n: number): number => {
-  const juz: string = (n / 300).toFixed(3);
-  return juz.endsWith('.00') ? parseInt(juz) : parseFloat(juz);
-};

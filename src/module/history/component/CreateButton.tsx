@@ -5,7 +5,7 @@ import { Base } from '@/shared/component/Base';
 import { Form } from '@/shared/component/Form';
 import { useAlert } from '@/shared/context/AlertContext';
 
-import { useData } from '../context';
+import { useData } from '../context/DataContext';
 
 interface InternalProps {
   setFormType: Dispatch<SetStateAction<string>>;

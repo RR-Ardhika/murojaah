@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import Select, { StylesConfig, CSSObjectWithLabel } from 'react-select';
 
-import { approachOptions } from '@/module/approach/entity';
-import { juzOptions, surahOptions } from '@/shared/entity';
+import { approachOptions, juzOptions, surahOptions } from '@/shared/service';
 
 import { SharedProps as Props } from '.';
 import { DateTimeInput } from './DateTimeInput';
