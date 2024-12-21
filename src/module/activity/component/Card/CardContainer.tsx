@@ -4,11 +4,11 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { AlertColor, AlertText } from '@/shared/component/Alert';
 import { Base } from '@/shared/component/Base';
 import { useAlert } from '@/shared/context/AlertContext';
-import { useFormStore } from '@/shared/store/FormStore';
+// import { useFormStore } from '@/shared/store/FormStore';
 
-import { useDataStore } from '../../store/DataStore';
 import { Activity } from '../../entity';
 import { destroy } from '../../service';
+import { useDataStore } from '../../store/DataStore';
 
 interface InternalProps {
   item: Activity;
@@ -58,7 +58,7 @@ export const Container = (item: Activity, children: React.JSX.Element): React.JS
   const [isButtonsVisible, setIsButtonsVisible] = useState(false);
   const [isDeleteConfirmationVisible, setIsDeleteConfirmationVisible] = useState(false);
 
-  const showForm = useFormStore((state) => state.showForm);
+  // const showForm = useFormStore((state) => state.showForm);
   const fetchData = useDataStore((state) => state.fetchData);
 
   const i: InternalProps = {
@@ -76,9 +76,11 @@ export const Container = (item: Activity, children: React.JSX.Element): React.JS
         <div onClick={() => toggleButtons(i)}>{children}</div>
         {isButtonsVisible && (
           <div className="flex flex-col gap-2 w-full mt-2">
-            <button className={clsx(CLASS_NAMES.btnBase, CLASS_NAMES.btnEdit)} onClick={showForm}>
+            {/*
+              <button className={clsx(CLASS_NAMES.btnBase, CLASS_NAMES.btnEdit)} onClick={showForm}>
               Edit
             </button>
+            */}
             {!isDeleteConfirmationVisible ? (
               <button
                 className={clsx(CLASS_NAMES.btnBase, CLASS_NAMES.btnDelete)}
