@@ -2,8 +2,8 @@ import { clsx } from 'clsx';
 import { Dispatch, SetStateAction, useState } from 'react';
 
 import { Base } from '@/shared/component/Base';
-import { Form } from '@/shared/component/Form';
 import { useAlert } from '@/shared/context/AlertContext';
+import { useFormStore } from '@/shared/store/FormStore';
 
 import { useData } from '../context/DataContext';
 
@@ -58,11 +58,12 @@ const renderSubButtons = (i: InternalProps): React.JSX.Element => {
 };
 
 export const CreateButton = (): React.JSX.Element => {
-  const [formType, setFormType] = useState('');
   const [isSubButtonsVisible, setIsSubButtonsVisible] = useState(false);
-  const [isFormVisible, setIsFormVisible] = useState(false);
   const { fetchData } = useData();
   const { hideAlert } = useAlert();
+
+  const setIsFormVisible = useFormStore((state) => state.setIsFormVisible);
+  const setFormType = useFormStore((state) => state.setFormType);
 
   const i: InternalProps = {
     setFormType,
@@ -87,14 +88,6 @@ export const CreateButton = (): React.JSX.Element => {
           >
             <span className="relative bottom-1 text-6xl font-extralight">+</span>
           </button>
-
-          <Form
-            formType={formType}
-            isFormVisible={isFormVisible}
-            setIsFormVisible={setIsFormVisible}
-            setIsSubButtonsVisible={setIsSubButtonsVisible}
-            fetchData={fetchData}
-          />
         </div>
       </div>
     </Base>

@@ -1,6 +1,7 @@
 'use client';
 
 import { Base } from '@/shared/component/Base';
+import { Form } from '@/shared/component/Form';
 
 import { CreateButton } from '../../component/CreateButton';
 import { View } from '../../component/View';
@@ -12,6 +13,7 @@ export const Page = (): React.JSX.Element => {
       <DataProvider>
         <View />
         <CreateButton />
+        <Form />
       </DataProvider>
     </Base>
   );
