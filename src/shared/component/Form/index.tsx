@@ -13,12 +13,7 @@ import { Content } from './Content';
 import { Title } from './Title';
 
 interface Props {
-  // formType: string;
-  // isFormVisible: boolean;
-  // setIsFormVisible: Dispatch<SetStateAction<boolean>>;
-  parentSurah?: Option[];
-  // @ts-expect-error DataContextValues
-  fetchData?: Context<DataContextValues>;
+  fetchData?: unknown;
 }
 
 export interface SharedProps {
@@ -57,14 +52,15 @@ export const Form = (p: Props): React.JSX.Element => {
   const [isJuzDone, setIsJuzDone] = useState(false);
   const [occuredAt, setOccuredAt] = useState('');
 
+  const formType = useFormStore((state) => state.formType);
+  const parentSurah = useFormStore((state) => state.parentSurah);
   const isFormVisible = useFormStore((state) => state.isFormVisible);
   const setIsFormVisible = useFormStore((state) => state.setIsFormVisible);
-  const formType = useFormStore((state) => state.formType);
 
   useEffect(() => {
     if (isFormVisible) setOccuredAt(DateTime.now().toFormat(formFormatDatetimes[0]));
-    if (p.parentSurah) setSelectedSurah(p.parentSurah);
-  }, [isFormVisible, p.parentSurah]);
+    if (parentSurah) setSelectedSurah(parentSurah);
+  }, [isFormVisible, parentSurah]);
 
   const sharedProps: SharedProps = {
     formType: formType,

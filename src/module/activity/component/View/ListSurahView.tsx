@@ -2,13 +2,13 @@ import { clsx } from 'clsx';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import { Base } from '@/shared/component/Base';
-import { Form } from '@/shared/component/Form';
 import { useAlert } from '@/shared/context/AlertContext';
 import { Option } from '@/shared/entity';
 import { getOptionsFromSurahId } from '@/shared/service';
+import { useFormStore } from '@/shared/store/FormStore';
 
-import { useData } from '../../context/ListSurahDataContext';
 import { ListSurah } from '../../entity';
+import { useDataStore } from '../../store/ListSurahDataStore';
 import { ListSurahCard } from '../Card';
 
 interface InternalProps {
@@ -18,7 +18,8 @@ interface InternalProps {
   isFormVisible: boolean;
   setIsFormVisible: Dispatch<SetStateAction<boolean>>;
   parentSurah: Option[] | undefined;
-  setParentSurah: Dispatch<SetStateAction<Option[] | undefined>>;
+  setParentSurah: unknown;
+  setFormType: unknown;
   currentJuz: number;
 }
 
@@ -39,17 +40,23 @@ const updateAndRenderCurrentJuz = (i: InternalProps, item: ListSurah): React.JSX
 
 const showForm = (i: InternalProps, item: ListSurah): void => {
   i.hideAlert();
+  i.setFormType('Surah');
   i.setParentSurah(getOptionsFromSurahId(item.id));
   i.setIsFormVisible(true);
 };
 
 export const ListSurahView = (): React.JSX.Element => {
-  const { data, fetchData } = useData();
   const { hideAlert } = useAlert();
-  const [isFormVisible, setIsFormVisible] = useState(false);
-  const [parentSurah, setParentSurah] = useState<Option[]>();
 
-  const formType: string = 'Surah';
+  const parentSurah = useFormStore((state) => state.parentSurah);
+  const isFormVisible = useFormStore((state) => state.isFormVisible);
+  const setIsFormVisible = useFormStore((state) => state.setIsFormVisible);
+  const setFormType = useFormStore((state) => state.setFormType);
+  const setParentSurah = useFormStore((state) => state.setParentSurah);
+
+  const data = useDataStore((state) => state.data);
+  const fetchData = useDataStore((state) => state.fetchData);
+
   let currentJuz: number;
 
   useEffect(() => {
@@ -64,6 +71,7 @@ export const ListSurahView = (): React.JSX.Element => {
     setIsFormVisible,
     parentSurah,
     setParentSurah,
+    setFormType,
     // @ts-expect-error expected assigned
     currentJuz,
   };
@@ -80,14 +88,6 @@ export const ListSurahView = (): React.JSX.Element => {
               </div>
             );
           })}
-
-        <Form
-          formType={formType}
-          isFormVisible={isFormVisible}
-          setIsFormVisible={setIsFormVisible}
-          parentSurah={parentSurah}
-          fetchData={fetchData}
-        />
       </div>
     </Base>
   );
