@@ -26,7 +26,6 @@ const save = async (p: Props, i: InternalProps): Promise<void> => {
     i.setDisableSaveButton(true); // Prevent multiple click by disable the button
     await create(buildPayload(p));
     closeForm(p, i);
-    if (p.setIsSubButtonsVisible) p.setIsSubButtonsVisible(false);
     i.showAlert(AlertColor.Green, AlertText.SuccessCreatedActivity);
     p.fetchData();
     i.setDisableSaveButton(false);

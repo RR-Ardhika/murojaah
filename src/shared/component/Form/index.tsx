@@ -16,7 +16,6 @@ interface Props {
   // formType: string;
   // isFormVisible: boolean;
   // setIsFormVisible: Dispatch<SetStateAction<boolean>>;
-  setIsSubButtonsVisible?: Dispatch<SetStateAction<boolean>>;
   parentSurah?: Option[];
   // @ts-expect-error DataContextValues
   fetchData?: Context<DataContextValues>;
@@ -25,7 +24,6 @@ interface Props {
 export interface SharedProps {
   formType: string;
   setIsFormVisible: Dispatch<SetStateAction<boolean>>;
-  setIsSubButtonsVisible?: Dispatch<SetStateAction<boolean>>;
   // @ts-expect-error DataContextValues
   fetchData?: Context<DataContextValues>;
   selectedJuz: Option | undefined;
@@ -71,7 +69,6 @@ export const Form = (p: Props): React.JSX.Element => {
   const sharedProps: SharedProps = {
     formType: formType,
     setIsFormVisible: setIsFormVisible,
-    setIsSubButtonsVisible: p.setIsSubButtonsVisible,
     fetchData: p.fetchData,
     selectedJuz,
     setSelectedJuz,
