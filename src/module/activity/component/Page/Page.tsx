@@ -5,16 +5,16 @@ import { Form } from '@/shared/component/Form';
 
 import { CreateButton } from '../../component/CreateButton';
 import { View } from '../../component/View';
-import { DataProvider } from '../../context/DataContext';
+import { useDataStore } from '../../store/DataStore';
 
 export const Page = (): React.JSX.Element => {
+  const fetchData = useDataStore((state) => state.fetchData);
+
   return (
     <Base module="activity" name="Page">
-      <DataProvider>
-        <View />
-        <CreateButton />
-        <Form />
-      </DataProvider>
+      <View />
+      <CreateButton />
+      <Form fetchData={fetchData} />
     </Base>
   );
 };

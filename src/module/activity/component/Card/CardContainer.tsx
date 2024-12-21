@@ -4,12 +4,14 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { AlertColor, AlertText } from '@/shared/component/Alert';
 import { Base } from '@/shared/component/Base';
 import { useAlert } from '@/shared/context/AlertContext';
+import { useFormStore } from '@/shared/store/FormStore';
 
-import { useData } from '../../context/DataContext';
+import { useDataStore } from '../../store/DataStore';
 import { Activity } from '../../entity';
 import { destroy } from '../../service';
 
 interface InternalProps {
+  item: Activity;
   // @ts-expect-error useAlert
   fetchData: Context<DataContextValues>;
   // @ts-expect-error useAlert
@@ -30,6 +32,10 @@ const toggleButtons = (i: InternalProps): void => {
   i.setIsButtonsVisible(!i.isButtonsVisible);
 };
 
+// const showForm = (item: Activity): void => {
+//   console.log(item);
+// };
+
 const showDeleteConfirmation = (i: InternalProps): void => {
   i.setIsDeleteConfirmationVisible(true);
   setTimeout(() => {
@@ -48,12 +54,15 @@ const deleteRecord = async (i: InternalProps, item: Activity): Promise<void> => 
 };
 
 export const Container = (item: Activity, children: React.JSX.Element): React.JSX.Element => {
-  const { fetchData } = useData();
   const { showAlert } = useAlert();
   const [isButtonsVisible, setIsButtonsVisible] = useState(false);
   const [isDeleteConfirmationVisible, setIsDeleteConfirmationVisible] = useState(false);
 
+  const showForm = useFormStore((state) => state.showForm);
+  const fetchData = useDataStore((state) => state.fetchData);
+
   const i: InternalProps = {
+    item,
     fetchData,
     showAlert,
     isButtonsVisible,
@@ -67,6 +76,9 @@ export const Container = (item: Activity, children: React.JSX.Element): React.JS
         <div onClick={() => toggleButtons(i)}>{children}</div>
         {isButtonsVisible && (
           <div className="flex flex-col gap-2 w-full mt-2">
+            <button className={clsx(CLASS_NAMES.btnBase, CLASS_NAMES.btnEdit)} onClick={showForm}>
+              Edit
+            </button>
             {!isDeleteConfirmationVisible ? (
               <button
                 className={clsx(CLASS_NAMES.btnBase, CLASS_NAMES.btnDelete)}

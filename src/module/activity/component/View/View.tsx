@@ -4,13 +4,15 @@ import { useEffect } from 'react';
 import { Base } from '@/shared/component/Base';
 import { useAlert } from '@/shared/context/AlertContext';
 
-import { useData } from '../../context/DataContext';
 import { Activity, ActivityGroup } from '../../entity';
+import { useDataStore } from '../../store/DataStore';
 import { Card } from '../Card';
 
 export const View = (): React.JSX.Element => {
   const { isAlertVisible } = useAlert();
-  const { data, fetchData } = useData();
+
+  const data = useDataStore((state) => state.data);
+  const fetchData = useDataStore((state) => state.fetchData);
 
   useEffect(() => {
     fetchData();

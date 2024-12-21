@@ -5,8 +5,6 @@ import { Base } from '@/shared/component/Base';
 import { useAlert } from '@/shared/context/AlertContext';
 import { useFormStore } from '@/shared/store/FormStore';
 
-import { useData } from '../context/DataContext';
-
 interface InternalProps {
   setFormType: Dispatch<SetStateAction<string>>;
   setIsSubButtonsVisible: Dispatch<SetStateAction<boolean>>;
@@ -30,6 +28,7 @@ const showForm = (i: InternalProps, type: string): void => {
   i.hideAlert();
   i.setFormType(type);
   i.setIsFormVisible(true);
+  i.setIsSubButtonsVisible(false);
 };
 
 const renderSubButtons = (i: InternalProps): React.JSX.Element => {
@@ -59,7 +58,6 @@ const renderSubButtons = (i: InternalProps): React.JSX.Element => {
 
 export const CreateButton = (): React.JSX.Element => {
   const [isSubButtonsVisible, setIsSubButtonsVisible] = useState(false);
-  const { fetchData } = useData();
   const { hideAlert } = useAlert();
 
   const setIsFormVisible = useFormStore((state) => state.setIsFormVisible);
