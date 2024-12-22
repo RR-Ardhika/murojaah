@@ -1,1 +1,1 @@
-export * from './AlertStore';
+export * from './alert-store';
