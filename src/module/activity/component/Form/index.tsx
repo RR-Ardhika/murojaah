@@ -13,12 +13,11 @@ import { Title } from './Title';
 import { useFormStore } from '../../store';
 
 interface Props {
-  fetchData?: () => Promise<void>;
+  fetchData: () => Promise<void>;
 }
 
 export interface SharedProps {
-  // @ts-expect-error DataContextValues
-  fetchData?: Context<DataContextValues>;
+  fetchData: () => Promise<void>;
   selectedJuz: Option | undefined;
   setSelectedJuz: Dispatch<SetStateAction<Option | undefined>>;
   selectedSurah: Option[] | undefined;

@@ -1,5 +1,5 @@
 module.exports = {
-  plugins: ['@typescript-eslint', 'import'],
+  plugins: ['@typescript-eslint', 'check-file', 'import'],
   parserOptions: {
     ecmaVersion: 2021,
     sourceType: 'module',
@@ -74,6 +74,13 @@ module.exports = {
         variableDeclarationIgnoreFunction: true,
       },
     ],
+    'check-file/filename-naming-convention': [
+      'error',
+      {
+        '**/*.{jsx,tsx}': 'PASCAL_CASE',
+        '**/*.{js,ts}': 'KEBAB_CASE',
+      },
+    ],
     'func-style': ['error', 'expression', { allowArrowFunctions: true }],
     'import/no-default-export': 'error', // Enforce named exports only
     'import/order': [
@@ -104,7 +111,18 @@ module.exports = {
       },
     },
     {
-      files: ['**/app/**/*.{ts,tsx}', '**/component/**/*.{ts,tsx}', '**/context/**/*.{ts,tsx}'],
+      files: ['**/index.tsx'],
+      rules: {
+        'check-file/filename-naming-convention': [
+          'error',
+          {
+            '**/index.tsx': 'KEBAB_CASE',
+          },
+        ],
+      },
+    },
+    {
+      files: ['**/app/**/*.{ts,tsx}', '**/component/**/*.{ts,tsx}'],
       rules: {
         '@typescript-eslint/naming-convention': [
           'error',
@@ -120,6 +138,13 @@ module.exports = {
     {
       files: ['**/app/**/page.{ts,tsx}', '**/app/**/layout.{ts,tsx}'],
       rules: {
+        'check-file/filename-naming-convention': [
+          'error',
+          {
+            '**/*.{jsx,tsx}': 'KEBAB_CASE',
+            '**/*.{js,ts}': 'KEBAB_CASE',
+          },
+        ],
         'import/no-default-export': 'off', // Allow default exports for Next.js page and layout components
       },
     },
