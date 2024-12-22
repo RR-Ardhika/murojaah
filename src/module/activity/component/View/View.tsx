@@ -5,7 +5,7 @@ import { Base } from '@/shared/component/Base';
 import { useAlert } from '@/shared/context/AlertContext';
 
 import { Activity, ActivityGroup } from '../../entity';
-import { useDataStore } from '../../store/DataStore';
+import { useDataStore } from '../../store';
 import { Card } from '../Card';
 
 export const View = (): React.JSX.Element => {

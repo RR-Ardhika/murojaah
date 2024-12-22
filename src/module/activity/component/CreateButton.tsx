@@ -3,7 +3,8 @@ import { Dispatch, SetStateAction, useState } from 'react';
 
 import { Base } from '@/shared/component/Base';
 import { useAlert } from '@/shared/context/AlertContext';
-import { useFormStore } from '@/shared/store/FormStore';
+
+import { useFormStore } from '../store';
 
 interface InternalProps {
   setFormType: Dispatch<SetStateAction<string>>;

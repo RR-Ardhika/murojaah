@@ -1,14 +1,13 @@
 import { clsx } from 'clsx';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 
 import { Base } from '@/shared/component/Base';
 import { useAlert } from '@/shared/context/AlertContext';
 import { Option } from '@/shared/entity';
 import { getOptionsFromSurahId } from '@/shared/service';
-import { useFormStore } from '@/shared/store/FormStore';
 
 import { ListSurah } from '../../entity';
-import { useDataStore } from '../../store/ListSurahDataStore';
+import { useFormStore, useListSurahDataStore } from '../../store';
 import { ListSurahCard } from '../Card';
 
 interface InternalProps {
@@ -54,8 +53,8 @@ export const ListSurahView = (): React.JSX.Element => {
   const setFormType = useFormStore((state) => state.setFormType);
   const setParentSurah = useFormStore((state) => state.setParentSurah);
 
-  const data = useDataStore((state) => state.data);
-  const fetchData = useDataStore((state) => state.fetchData);
+  const data = useListSurahDataStore((state) => state.data);
+  const fetchData = useListSurahDataStore((state) => state.fetchData);
 
   let currentJuz: number;
 

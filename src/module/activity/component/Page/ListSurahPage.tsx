@@ -1,13 +1,13 @@
 'use client';
 
 import { Base } from '@/shared/component/Base';
-import { Form } from '@/shared/component/Form';
 
-import { useDataStore } from '../../store/ListSurahDataStore';
+import { Form } from '../../component/Form';
+import { useListSurahDataStore } from '../../store';
 import { ListSurahView } from '../View';
 
 export const ListSurahPage = (): React.JSX.Element => {
-  const fetchData = useDataStore((state) => state.fetchData);
+  const fetchData = useListSurahDataStore((state) => state.fetchData);
 
   return (
     <Base module="activity" name="ListSurahPage">

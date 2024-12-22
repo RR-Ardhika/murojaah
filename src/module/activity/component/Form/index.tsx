@@ -5,20 +5,18 @@ import { Dispatch, Fragment, useEffect, useState, SetStateAction } from 'react';
 import { Base } from '@/shared/component/Base';
 import { Option } from '@/shared/entity';
 import { approachOptions } from '@/shared/service';
-import { useFormStore } from '@/shared/store/FormStore';
 import { formFormatDatetimes } from '@/shared/util';
 
 import { Button } from './Button';
 import { Content } from './Content';
 import { Title } from './Title';
+import { useFormStore } from '../../store';
 
 interface Props {
   fetchData?: unknown;
 }
 
 export interface SharedProps {
-  formType: string;
-  setIsFormVisible: Dispatch<SetStateAction<boolean>>;
   // @ts-expect-error DataContextValues
   fetchData?: Context<DataContextValues>;
   selectedJuz: Option | undefined;
@@ -52,10 +50,8 @@ export const Form = (p: Props): React.JSX.Element => {
   const [isJuzDone, setIsJuzDone] = useState(false);
   const [occuredAt, setOccuredAt] = useState('');
 
-  const formType = useFormStore((state) => state.formType);
-  const parentSurah = useFormStore((state) => state.parentSurah);
   const isFormVisible = useFormStore((state) => state.isFormVisible);
-  const setIsFormVisible = useFormStore((state) => state.setIsFormVisible);
+  const parentSurah = useFormStore((state) => state.parentSurah);
 
   useEffect(() => {
     if (isFormVisible) setOccuredAt(DateTime.now().toFormat(formFormatDatetimes[0]));
@@ -63,8 +59,6 @@ export const Form = (p: Props): React.JSX.Element => {
   }, [isFormVisible, parentSurah]);
 
   const sharedProps: SharedProps = {
-    formType: formType,
-    setIsFormVisible: setIsFormVisible,
     fetchData: p.fetchData,
     selectedJuz,
     setSelectedJuz,
@@ -114,7 +108,7 @@ export const Form = (p: Props): React.JSX.Element => {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
-                  <Title formType={formType} />
+                  <Title />
                   <Content {...sharedProps} />
                   <Button {...sharedProps} />
                 </Dialog.Panel>

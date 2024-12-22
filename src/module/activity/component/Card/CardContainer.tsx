@@ -4,11 +4,10 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { AlertColor, AlertText } from '@/shared/component/Alert';
 import { Base } from '@/shared/component/Base';
 import { useAlert } from '@/shared/context/AlertContext';
-// import { useFormStore } from '@/shared/store/FormStore';
 
 import { Activity } from '../../entity';
 import { destroy } from '../../service';
-import { useDataStore } from '../../store/DataStore';
+import { useDataStore } from '../../store';
 
 interface InternalProps {
   item: Activity;
