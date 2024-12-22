@@ -13,7 +13,7 @@ import { Title } from './Title';
 import { useFormStore } from '../../store';
 
 interface Props {
-  fetchData?: unknown;
+  fetchData?: () => Promise<void>;
 }
 
 export interface SharedProps {
@@ -50,8 +50,7 @@ export const Form = (p: Props): React.JSX.Element => {
   const [isJuzDone, setIsJuzDone] = useState(false);
   const [occuredAt, setOccuredAt] = useState('');
 
-  const isFormVisible = useFormStore((state) => state.isFormVisible);
-  const parentSurah = useFormStore((state) => state.parentSurah);
+  const { isFormVisible, parentSurah } = useFormStore();
 
   useEffect(() => {
     if (isFormVisible) setOccuredAt(DateTime.now().toFormat(formFormatDatetimes[0]));

@@ -11,8 +11,8 @@ import { useDataStore } from '../../store';
 
 interface InternalProps {
   item: Activity;
-  fetchData: unknown;
-  showAlert: unknown;
+  fetchData: () => Promise<void>;
+  showAlert: (color: number, text: string) => void;
   isButtonsVisible: boolean;
   setIsButtonsVisible: Dispatch<SetStateAction<boolean>>;
   setIsDeleteConfirmationVisible: Dispatch<SetStateAction<boolean>>;
@@ -54,9 +54,9 @@ export const Container = (item: Activity, children: React.JSX.Element): React.JS
   const [isButtonsVisible, setIsButtonsVisible] = useState(false);
   const [isDeleteConfirmationVisible, setIsDeleteConfirmationVisible] = useState(false);
 
-  const showAlert = useAlertStore((state) => state.showAlert);
-  const fetchData = useDataStore((state) => state.fetchData);
-  // const showForm = useFormStore((state) => state.showForm);
+  const { showAlert } = useAlertStore();
+  const { fetchData } = useDataStore();
+  // const { showForm } = useFormStore()
 
   const i: InternalProps = {
     item,

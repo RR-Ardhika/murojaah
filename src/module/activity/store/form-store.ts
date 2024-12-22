@@ -2,15 +2,29 @@ import { create } from 'zustand';
 
 import { Option } from '@/shared/entity';
 
-export const useFormStore = create((set) => ({
+interface FormState {
+  isFormVisible: boolean;
+  formType: string;
+  parentSurah: Option[];
+
+  setIsFormVisible: (value: boolean) => void;
+  setFormType: (value: string) => void;
+  setParentSurah: (value: Option[]) => void;
+
+  showForm: (ft: string) => void;
+  hideForm: () => void;
+}
+
+// eslint-disable-next-line @typescript-eslint/typedef
+export const useFormStore = create<FormState>()((set) => ({
   isFormVisible: false,
-  formType: undefined,
-  parentSurah: undefined,
+  formType: '',
+  parentSurah: [],
 
-  setIsFormVisible: (visible) => set({ isFormVisible: visible }),
-  setFormType: (ft) => set({ formType: ft }),
-  setParentSurah: (surah: Option): void => set({ parentSurah: surah }),
+  setIsFormVisible: (value: boolean): void => set({ isFormVisible: value }),
+  setFormType: (value: string): void => set({ formType: value }),
+  setParentSurah: (value: Option[]): void => set({ parentSurah: value }),
 
-  showForm: (ft) => set({ isFormVisible: true, formType: ft }),
-  hideForm: () => set({ isFormVisible: false }),
+  showForm: (ft: string): void => set({ isFormVisible: true, formType: ft }),
+  hideForm: (): void => set({ isFormVisible: false }),
 }));

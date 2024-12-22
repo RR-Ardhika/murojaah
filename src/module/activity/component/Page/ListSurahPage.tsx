@@ -7,7 +7,7 @@ import { useListSurahDataStore } from '../../store';
 import { ListSurahView } from '../View';
 
 export const ListSurahPage = (): React.JSX.Element => {
-  const fetchData = useListSurahDataStore((state) => state.fetchData);
+  const { fetchData } = useListSurahDataStore();
 
   return (
     <Base module="activity" name="ListSurahPage">

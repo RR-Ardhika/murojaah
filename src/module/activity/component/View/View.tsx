@@ -9,10 +9,8 @@ import { useDataStore } from '../../store';
 import { Card } from '../Card';
 
 export const View = (): React.JSX.Element => {
-  const isAlertVisible = useAlertStore((state) => state.isAlertVisible);
-
-  const data = useDataStore((state) => state.data);
-  const fetchData = useDataStore((state) => state.fetchData);
+  const { isAlertVisible } = useAlertStore();
+  const { data, fetchData } = useDataStore();
 
   useEffect(() => {
     fetchData();

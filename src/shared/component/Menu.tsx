@@ -17,7 +17,7 @@ import { LINKS } from '@/shared/const';
 import { useAlertStore } from '@/shared/store';
 
 interface InternalProps {
-  showAlert: unknown;
+  showAlert: (color: number, text: string) => void;
   fileInputRef: React.RefObject<HTMLInputElement | null>;
   isDropDbConfirmationVisible: boolean;
   setIsDropDbConfirmationVisible: Dispatch<SetStateAction<boolean>>;
@@ -103,7 +103,7 @@ const handleImportedFile = (event: React.ChangeEvent<HTMLInputElement>, i: Inter
 };
 
 export const Menu = (): React.JSX.Element => {
-  const showAlert = useAlertStore((state) => state.showAlert);
+  const { showAlert } = useAlertStore();
 
   const fileInputRef: React.RefObject<HTMLInputElement | null> = useRef<HTMLInputElement | null>(
     null

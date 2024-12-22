@@ -13,8 +13,8 @@ import { useFormStore } from '../../store';
 
 interface InternalProps {
   formType: string;
-  setIsFormVisible: unknown;
-  showAlert: unknown;
+  setIsFormVisible: (value: boolean) => void;
+  showAlert: (color: number, text: string) => void;
   isCancelConfirmationVisible: boolean;
   setIsCancelConfirmationVisible: Dispatch<SetStateAction<boolean>>;
   disableSaveButton: boolean;
@@ -166,13 +166,11 @@ const isSaveable = (p: Props, i: InternalProps): boolean => {
 };
 
 export const Button = (p: Props): React.JSX.Element => {
-  const showAlert = useAlertStore((state) => state.showAlert);
-
   const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);
   const [disableSaveButton, setDisableSaveButton] = useState(false);
 
-  const setIsFormVisible = useFormStore((state) => state.setIsFormVisible);
-  const formType = useFormStore((state) => state.formType);
+  const { showAlert } = useAlertStore();
+  const { setIsFormVisible, formType } = useFormStore();
 
   const i: InternalProps = {
     formType,

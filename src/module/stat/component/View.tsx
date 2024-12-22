@@ -7,8 +7,7 @@ import { Stat } from '../entity';
 import { useDataStore } from '../store';
 
 export const View = (): React.JSX.Element => {
-  const data = useDataStore((state) => state.data);
-  const fetchData = useDataStore((state) => state.fetchData);
+  const { data, fetchData } = useDataStore();
 
   useEffect(() => {
     fetchData();

@@ -7,10 +7,10 @@ import { useAlertStore } from '@/shared/store';
 import { useFormStore } from '../store';
 
 interface InternalProps {
-  setFormType: Dispatch<SetStateAction<string>>;
   setIsSubButtonsVisible: Dispatch<SetStateAction<boolean>>;
-  setIsFormVisible: Dispatch<SetStateAction<boolean>>;
-  hideAlert: unknown;
+  setIsFormVisible: (value: boolean) => void;
+  setFormType: (value: string) => void;
+  hideAlert: () => void;
 }
 
 const CLASS_NAMES: Record<string, string> = {
@@ -59,15 +59,14 @@ const renderSubButtons = (i: InternalProps): React.JSX.Element => {
 export const CreateButton = (): React.JSX.Element => {
   const [isSubButtonsVisible, setIsSubButtonsVisible] = useState(false);
 
-  const hideAlert = useAlertStore((state) => state.hideAlert);
+  const { hideAlert } = useAlertStore();
 
-  const setIsFormVisible = useFormStore((state) => state.setIsFormVisible);
-  const setFormType = useFormStore((state) => state.setFormType);
+  const { setIsFormVisible, setFormType } = useFormStore();
 
   const i: InternalProps = {
-    setFormType,
     setIsSubButtonsVisible,
     setIsFormVisible,
+    setFormType,
     hideAlert,
   };
 

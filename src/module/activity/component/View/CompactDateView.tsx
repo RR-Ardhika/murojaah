@@ -11,8 +11,7 @@ const CLASS_NAMES: Record<string, string> = {
 };
 
 export const CompactDateView = (): React.JSX.Element => {
-  const data = useCompactDateDataStore((state) => state.data);
-  const fetchData = useCompactDateDataStore((state) => state.fetchData);
+  const { data, fetchData } = useCompactDateDataStore();
 
   useEffect(() => {
     fetchData();

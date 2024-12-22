@@ -1,10 +1,17 @@
 import { create } from 'zustand';
 
+import * as entity from '../entity';
 import * as service from '../service';
 
-export const useDataStore = create((set) => ({
+interface DataState {
+  data: entity.ActivityGroup[];
+  fetchData: () => Promise<void>;
+}
+
+// eslint-disable-next-line @typescript-eslint/typedef
+export const useDataStore = create<DataState>()((set) => ({
   data: [],
-  fetchData: async () => {
+  fetchData: async (): Promise<void> => {
     set({ data: await service.index() });
   },
 }));

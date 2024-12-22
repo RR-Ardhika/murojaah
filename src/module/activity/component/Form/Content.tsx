@@ -194,7 +194,7 @@ const AyahContent = (p: Props): React.JSX.Element => {
 };
 
 export const Content = (p: Props): React.JSX.Element => {
-  const formType = useFormStore((state) => state.formType);
+  const { formType } = useFormStore();
 
   switch (formType) {
     case 'Juz':

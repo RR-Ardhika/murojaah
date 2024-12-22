@@ -8,7 +8,7 @@ import { View } from '../../component/View';
 import { useDataStore } from '../../store';
 
 export const Page = (): React.JSX.Element => {
-  const fetchData = useDataStore((state) => state.fetchData);
+  const { fetchData } = useDataStore();
 
   return (
     <Base module="activity" name="Page">

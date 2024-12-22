@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { Base } from '@/shared/component/Base';
 import { Option } from '@/shared/entity';
@@ -12,12 +12,12 @@ import { ListSurahCard } from '../Card';
 
 interface InternalProps {
   data: ListSurah[];
-  hideAlert: unknown;
+  hideAlert: () => void;
   isFormVisible: boolean;
-  setIsFormVisible: Dispatch<SetStateAction<boolean>>;
   parentSurah: Option[] | undefined;
-  setParentSurah: unknown;
-  setFormType: unknown;
+  setIsFormVisible: (value: boolean) => void;
+  setFormType: (value: string) => void;
+  setParentSurah: (value: Option[]) => void;
   currentJuz: number;
 }
 
@@ -44,16 +44,10 @@ const showForm = (i: InternalProps, item: ListSurah): void => {
 };
 
 export const ListSurahView = (): React.JSX.Element => {
-  const hideAlert = useAlertStore((state) => state.hideAlert);
-
-  const parentSurah = useFormStore((state) => state.parentSurah);
-  const isFormVisible = useFormStore((state) => state.isFormVisible);
-  const setIsFormVisible = useFormStore((state) => state.setIsFormVisible);
-  const setFormType = useFormStore((state) => state.setFormType);
-  const setParentSurah = useFormStore((state) => state.setParentSurah);
-
-  const data = useListSurahDataStore((state) => state.data);
-  const fetchData = useListSurahDataStore((state) => state.fetchData);
+  const { hideAlert } = useAlertStore();
+  const { parentSurah, isFormVisible, setIsFormVisible, setFormType, setParentSurah } =
+    useFormStore();
+  const { data, fetchData } = useListSurahDataStore();
 
   let currentJuz: number;
 

@@ -1,20 +1,35 @@
 import { create } from 'zustand';
 
-export const useAlertStore = create((set) => ({
+interface AlertState {
+  isAlertVisible: boolean;
+  alertColor: number;
+  alertText: string;
+
+  setIsAlertVisible: (value: boolean) => void;
+  setAlertColor: (value: number) => void;
+  setAlertText: (value: string) => void;
+
+  showAlert: (color: number, text: string) => void;
+  hideAlert: () => void;
+}
+
+// eslint-disable-next-line @typescript-eslint/typedef
+export const useAlertStore = create<AlertState>()((set) => ({
   isAlertVisible: false,
-  alertColor: undefined,
-  alertText: undefined,
+  alertColor: 0,
+  alertText: '',
 
-  setIsAlertVisible: (value) => set({ isAlertVisible: value }),
-  setAlertColor: (value) => set({ alertColor: value }),
-  setAlertText: (value) => set({ alertText: value }),
+  setIsAlertVisible: (value: boolean): void => set({ isAlertVisible: value }),
+  setAlertColor: (value: number): void => set({ alertColor: value }),
+  setAlertText: (value: string): void => set({ alertText: value }),
 
-  showAlert: (ac, at) =>
+  showAlert: (color: number, text: string): void =>
     set(() => {
+      // eslint-disable-next-line @typescript-eslint/typedef
       const newState = {
         isAlertVisible: true,
-        alertColor: ac,
-        alertText: at,
+        alertColor: color,
+        alertText: text,
       };
 
       setTimeout(() => {
@@ -23,5 +38,5 @@ export const useAlertStore = create((set) => ({
 
       return newState;
     }),
-  hideAlert: () => set({ isAlertVisible: false }),
+  hideAlert: (): void => set({ isAlertVisible: false }),
 }));

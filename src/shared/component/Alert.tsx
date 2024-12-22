@@ -4,8 +4,8 @@ import { Base } from '../component/Base';
 import { useAlertStore } from '../store';
 
 export enum AlertColor {
-  Red = 0,
   Green = 1,
+  Red = 2,
 }
 
 export enum AlertText {
@@ -37,9 +37,7 @@ const getBtnColor = (i: InternalProps): string => {
 };
 
 export const Alert = (): React.JSX.Element => {
-  const isAlertVisible = useAlertStore((state) => state.isAlertVisible);
-  const alertColor = useAlertStore((state) => state.alertColor);
-  const alertText = useAlertStore((state) => state.alertText);
+  const { isAlertVisible, alertColor, alertText } = useAlertStore();
 
   if (!isAlertVisible) return <></>;
 
