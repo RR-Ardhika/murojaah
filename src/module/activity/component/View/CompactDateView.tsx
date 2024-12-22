@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 
 import { Base } from '@/shared/component/Base';
 
-import { useData } from '../../context/CompactDateDataContext';
 import { CompactDate } from '../../entity';
+import { useCompactDateDataStore } from '../../store';
 
 const CLASS_NAMES: Record<string, string> = {
   container: 'flex justify-between',
@@ -11,7 +11,8 @@ const CLASS_NAMES: Record<string, string> = {
 };
 
 export const CompactDateView = (): React.JSX.Element => {
-  const { data, fetchData } = useData();
+  const data = useCompactDateDataStore((state) => state.data);
+  const fetchData = useCompactDateDataStore((state) => state.fetchData);
 
   useEffect(() => {
     fetchData();

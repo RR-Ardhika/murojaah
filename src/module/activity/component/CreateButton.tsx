@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import { Dispatch, SetStateAction, useState } from 'react';
 
 import { Base } from '@/shared/component/Base';
-import { useAlert } from '@/shared/context/AlertContext';
+import { useAlertStore } from '@/shared/store';
 
 import { useFormStore } from '../store';
 
@@ -10,8 +10,7 @@ interface InternalProps {
   setFormType: Dispatch<SetStateAction<string>>;
   setIsSubButtonsVisible: Dispatch<SetStateAction<boolean>>;
   setIsFormVisible: Dispatch<SetStateAction<boolean>>;
-  // @ts-expect-error useAlert
-  hideAlert: Context<AlertContextValues>;
+  hideAlert: unknown;
 }
 
 const CLASS_NAMES: Record<string, string> = {
@@ -59,7 +58,8 @@ const renderSubButtons = (i: InternalProps): React.JSX.Element => {
 
 export const CreateButton = (): React.JSX.Element => {
   const [isSubButtonsVisible, setIsSubButtonsVisible] = useState(false);
-  const { hideAlert } = useAlert();
+
+  const hideAlert = useAlertStore((state) => state.hideAlert);
 
   const setIsFormVisible = useFormStore((state) => state.setIsFormVisible);
   const setFormType = useFormStore((state) => state.setFormType);

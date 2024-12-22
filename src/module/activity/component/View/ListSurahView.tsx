@@ -2,9 +2,9 @@ import { clsx } from 'clsx';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 
 import { Base } from '@/shared/component/Base';
-import { useAlert } from '@/shared/context/AlertContext';
 import { Option } from '@/shared/entity';
 import { getOptionsFromSurahId } from '@/shared/service';
+import { useAlertStore } from '@/shared/store';
 
 import { ListSurah } from '../../entity';
 import { useFormStore, useListSurahDataStore } from '../../store';
@@ -12,8 +12,7 @@ import { ListSurahCard } from '../Card';
 
 interface InternalProps {
   data: ListSurah[];
-  // @ts-expect-error useAlert
-  hideAlert: Context<AlertContextValues>;
+  hideAlert: unknown;
   isFormVisible: boolean;
   setIsFormVisible: Dispatch<SetStateAction<boolean>>;
   parentSurah: Option[] | undefined;
@@ -45,7 +44,7 @@ const showForm = (i: InternalProps, item: ListSurah): void => {
 };
 
 export const ListSurahView = (): React.JSX.Element => {
-  const { hideAlert } = useAlert();
+  const hideAlert = useAlertStore((state) => state.hideAlert);
 
   const parentSurah = useFormStore((state) => state.parentSurah);
   const isFormVisible = useFormStore((state) => state.isFormVisible);

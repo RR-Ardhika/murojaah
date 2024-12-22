@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 
-import { Base } from '@/shared/component/Base';
-import { useAlert } from '@/shared/context/AlertContext';
+import { Base } from '../component/Base';
+import { useAlertStore } from '../store';
 
 export enum AlertColor {
   Red = 0,
@@ -37,7 +37,9 @@ const getBtnColor = (i: InternalProps): string => {
 };
 
 export const Alert = (): React.JSX.Element => {
-  const { alertColor, alertText, isAlertVisible } = useAlert();
+  const isAlertVisible = useAlertStore((state) => state.isAlertVisible);
+  const alertColor = useAlertStore((state) => state.alertColor);
+  const alertText = useAlertStore((state) => state.alertText);
 
   if (!isAlertVisible) return <></>;
 

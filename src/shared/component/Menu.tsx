@@ -14,11 +14,10 @@ import * as service from '@/module/activity/service';
 import { AlertColor, AlertText } from '@/shared/component/Alert';
 import { Base } from '@/shared/component/Base';
 import { LINKS } from '@/shared/const';
-import { useAlert } from '@/shared/context/AlertContext';
+import { useAlertStore } from '@/shared/store';
 
 interface InternalProps {
-  // @ts-expect-error useAlert
-  showAlert: Context<AlertContextValues>;
+  showAlert: unknown;
   fileInputRef: React.RefObject<HTMLInputElement | null>;
   isDropDbConfirmationVisible: boolean;
   setIsDropDbConfirmationVisible: Dispatch<SetStateAction<boolean>>;
@@ -104,7 +103,7 @@ const handleImportedFile = (event: React.ChangeEvent<HTMLInputElement>, i: Inter
 };
 
 export const Menu = (): React.JSX.Element => {
-  const { showAlert } = useAlert();
+  const showAlert = useAlertStore((state) => state.showAlert);
 
   const fileInputRef: React.RefObject<HTMLInputElement | null> = useRef<HTMLInputElement | null>(
     null

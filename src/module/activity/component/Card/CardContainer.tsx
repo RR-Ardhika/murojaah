@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction, useState } from 'react';
 
 import { AlertColor, AlertText } from '@/shared/component/Alert';
 import { Base } from '@/shared/component/Base';
-import { useAlert } from '@/shared/context/AlertContext';
+import { useAlertStore } from '@/shared/store';
 
 import { Activity } from '../../entity';
 import { destroy } from '../../service';
@@ -11,10 +11,8 @@ import { useDataStore } from '../../store';
 
 interface InternalProps {
   item: Activity;
-  // @ts-expect-error useAlert
-  fetchData: Context<DataContextValues>;
-  // @ts-expect-error useAlert
-  showAlert: Context<AlertContextValues>;
+  fetchData: unknown;
+  showAlert: unknown;
   isButtonsVisible: boolean;
   setIsButtonsVisible: Dispatch<SetStateAction<boolean>>;
   setIsDeleteConfirmationVisible: Dispatch<SetStateAction<boolean>>;
@@ -53,12 +51,12 @@ const deleteRecord = async (i: InternalProps, item: Activity): Promise<void> => 
 };
 
 export const Container = (item: Activity, children: React.JSX.Element): React.JSX.Element => {
-  const { showAlert } = useAlert();
   const [isButtonsVisible, setIsButtonsVisible] = useState(false);
   const [isDeleteConfirmationVisible, setIsDeleteConfirmationVisible] = useState(false);
 
-  // const showForm = useFormStore((state) => state.showForm);
+  const showAlert = useAlertStore((state) => state.showAlert);
   const fetchData = useDataStore((state) => state.fetchData);
+  // const showForm = useFormStore((state) => state.showForm);
 
   const i: InternalProps = {
     item,

@@ -4,8 +4,8 @@ import { Dispatch, useState, SetStateAction } from 'react';
 import { ActivityType, Payload } from '@/module/activity/entity';
 import { create } from '@/module/activity/service';
 import { AlertColor, AlertText } from '@/shared/component/Alert';
-import { useAlert } from '@/shared/context/AlertContext';
 import { approachOptions } from '@/shared/service';
+import { useAlertStore } from '@/shared/store';
 import { formFormatDatetimes } from '@/shared/util';
 
 import { SharedProps as Props } from '.';
@@ -14,8 +14,7 @@ import { useFormStore } from '../../store';
 interface InternalProps {
   formType: string;
   setIsFormVisible: unknown;
-  // @ts-expect-error useAlert
-  showAlert: Context<AlertContextValues>;
+  showAlert: unknown;
   isCancelConfirmationVisible: boolean;
   setIsCancelConfirmationVisible: Dispatch<SetStateAction<boolean>>;
   disableSaveButton: boolean;
@@ -167,7 +166,7 @@ const isSaveable = (p: Props, i: InternalProps): boolean => {
 };
 
 export const Button = (p: Props): React.JSX.Element => {
-  const { showAlert } = useAlert();
+  const showAlert = useAlertStore((state) => state.showAlert);
 
   const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);
   const [disableSaveButton, setDisableSaveButton] = useState(false);
