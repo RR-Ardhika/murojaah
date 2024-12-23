@@ -4,9 +4,9 @@ import Select, { StylesConfig, CSSObjectWithLabel } from 'react-select';
 import { approachOptions, juzOptions, surahOptions } from '@/shared/service';
 
 import { SharedProps as Props } from '.';
-import { DateTimeInput } from './DateTimeInput';
-import { NumberInput } from './NumberInput';
-import { NumberStepper } from './NumberStepper';
+import { DateTimeInput } from './Input/DateTimeInput';
+import { NumberInput } from './Input/NumberInput';
+import { NumberStepper } from './Input/NumberStepper';
 import { useFormStore } from '../../store';
 
 const selectStyle: StylesConfig = {
