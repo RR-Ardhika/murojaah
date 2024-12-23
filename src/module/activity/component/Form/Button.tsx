@@ -113,7 +113,7 @@ const buildAyahPayload = (p: Props, i: InternalProps): Payload => {
   return {
     ...(i.activity?.id && { id: i.activity.id }),
     activityType: ActivityType.Ayah,
-    ...(!Array.isArray(p.selectedSurah) && { surah: p.selectedSurah?.value }),
+    surah: Array.isArray(p.selectedSurah) ? p.selectedSurah[0].value : p.selectedSurah?.value,
     startAyah: parseInt(p.startAyah),
     endAyah: parseInt(p.endAyah),
     markSurahDone: p.isSurahDone,

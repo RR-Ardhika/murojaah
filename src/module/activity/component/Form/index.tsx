@@ -68,12 +68,20 @@ export const Form = (p: Props): React.JSX.Element => {
           break;
         case ActivityType.Surah:
           if (activity.surah) setSelectedSurah(getSurahOptionsFromSurahId(activity.surah));
+          if (activity.markJuzDone) setIsJuzDone(activity.markJuzDone);
           setSelectedApproach(approachOptions()[activity.approachId]);
           setRepeat(activity.repeat);
-          if (activity.markJuzDone) setIsJuzDone(activity.markJuzDone);
           setOccuredAt(DateTime.fromJSDate(activity.occuredAt).toFormat(formFormatDatetimes[0]));
           break;
         case ActivityType.Ayah:
+          if (activity.surah) setSelectedSurah(getSurahOptionsFromSurahId(activity.surah));
+          if (activity.startAyah) setStartAyah(activity.startAyah.toString());
+          if (activity.endAyah) setEndAyah(activity.endAyah.toString());
+          if (activity.markSurahDone) setIsSurahDone(activity.markSurahDone);
+          if (activity.markJuzDone) setIsJuzDone(activity.markJuzDone);
+          setSelectedApproach(approachOptions()[activity.approachId]);
+          setRepeat(activity.repeat);
+          setOccuredAt(DateTime.fromJSDate(activity.occuredAt).toFormat(formFormatDatetimes[0]));
           break;
       }
     }

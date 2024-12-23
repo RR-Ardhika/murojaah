@@ -12,8 +12,8 @@ export const update = (payload: entity.Payload): Promise<number | unknown[]> => 
       return updateByJuz(payload);
     case entity.ActivityType.Surah:
       return updateBySurah(payload);
-    // case entity.ActivityType.Ayah:
-    //   return updateByAyah(payload);
+    case entity.ActivityType.Ayah:
+      return updateByAyah(payload);
     default:
       return Promise.reject(new Error('Error 422 Unprocessable Entity ActivityType not defined'));
   }
@@ -47,4 +47,22 @@ const updateBySurah = (payload: entity.Payload): Promise<number | unknown[]> => 
   repo.update(activity);
 
   return Promise.resolve(-1);
+};
+
+const updateByAyah = (payload: entity.Payload): Promise<number | unknown[]> => {
+  const activity: entity.Activity = {
+    // @ts-expect-error validated value
+    id: payload.id,
+    activityType: payload.activityType,
+    surah: payload.surah,
+    startAyah: payload.startAyah,
+    endAyah: payload.endAyah,
+    markSurahDone: payload.markSurahDone,
+    markJuzDone: payload.markJuzDone,
+    approachId: payload.approachId,
+    repeat: payload.repeat,
+    occuredAt: payload.occuredAt,
+  };
+
+  return repo.update(activity);
 };
