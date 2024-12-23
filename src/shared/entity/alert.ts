@@ -6,6 +6,7 @@ export enum AlertColor {
 
 export enum AlertText {
   SuccessCreatedActivity = 'Successfully created new murojaah',
+  SuccessUpdatedActivity = 'Successfully updated new murojaah',
   SuccessDeletedActivity = 'Murojaah deleted',
   FailedCreatedActivity = 'Failed created new murojaah',
   FailedDeletedActivity = 'Failed deleted murojaah',

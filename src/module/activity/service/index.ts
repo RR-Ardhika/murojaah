@@ -16,7 +16,7 @@ export const index = async (): Promise<entity.ActivityGroup[]> => {
 
   const data: entity.Activity[] = await repo.findAll();
   if (!data || data.length === 0) {
-    return Promise.reject(new Error('Error 400 empty activity'));
+    return [];
   }
 
   for (const item of data) {

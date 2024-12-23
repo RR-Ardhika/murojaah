@@ -38,6 +38,7 @@ const showForm = (i: InternalProps): void => {
   i.setFormType(getActivityTypeString(i.item.activityType));
   i.setActivity(i.item);
   i.setIsFormVisible(true);
+  i.setIsButtonsVisible(false);
 };
 
 const showDeleteConfirmation = (i: InternalProps): void => {

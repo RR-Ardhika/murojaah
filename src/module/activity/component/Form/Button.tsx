@@ -31,7 +31,8 @@ const save = async (p: Props, i: InternalProps): Promise<void> => {
     if (i.activity) await update(buildPayload(p, i));
     else await create(buildPayload(p, i));
     closeForm(p, i);
-    i.showAlert(AlertColor.Green, AlertText.SuccessCreatedActivity);
+    if (i.activity) i.showAlert(AlertColor.Green, AlertText.SuccessUpdatedActivity);
+    else i.showAlert(AlertColor.Green, AlertText.SuccessCreatedActivity);
     p.fetchData();
     i.setDisableSaveButton(false);
   } catch (err) {
@@ -84,10 +85,9 @@ const buildPayload = (p: Props, i: InternalProps): Payload => {
 
 const buildJuzPayload = (p: Props, i: InternalProps): Payload => {
   return {
-    id: i.activity?.id,
+    ...(i.activity?.id && { id: i.activity.id }),
     activityType: ActivityType.Juz,
-    // @ts-expect-error handled undefined value
-    juz: p.selectedJuz.value,
+    ...(p.selectedJuz?.value && { juz: p.selectedJuz.value }),
     approachId: p.selectedApproach.value,
     repeat: 1, // Hardcoded to 1 for juz
     occuredAt: buildOccuredAt(p),
@@ -96,8 +96,10 @@ const buildJuzPayload = (p: Props, i: InternalProps): Payload => {
 
 const buildSurahPayload = (p: Props, i: InternalProps): Payload => {
   return {
-    id: i.activity?.id,
+    ...(i.activity?.id && { id: i.activity.id }),
     activityType: ActivityType.Surah,
+    // @ts-expect-error expected type
+    ...(i.activity?.surah && { surah: p.selectedSurah.value }),
     surahOptions: p.selectedSurah,
     markJuzDone: p.isJuzDone,
     approachId: p.selectedApproach.value,
@@ -108,9 +110,9 @@ const buildSurahPayload = (p: Props, i: InternalProps): Payload => {
 
 const buildAyahPayload = (p: Props, i: InternalProps): Payload => {
   return {
-    id: i.activity?.id,
+    ...(i.activity?.id && { id: i.activity.id }),
     activityType: ActivityType.Ayah,
-    // @ts-expect-error handled undefined value
+    // @ts-expect-error expected type
     surah: p.selectedSurah.value,
     startAyah: parseInt(p.startAyah),
     endAyah: parseInt(p.endAyah),

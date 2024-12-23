@@ -7,8 +7,8 @@ export const findEmpty = (obj): boolean => {
 
   for (const key in obj) {
     if (isEmpty(obj[key])) {
+      console.error(`empty obj found in key ${key}`);
       found = true;
-      throw new Error(`empty obj found in key ${key}`);
     }
   }
 
