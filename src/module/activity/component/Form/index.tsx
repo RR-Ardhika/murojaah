@@ -21,7 +21,7 @@ export interface SharedProps {
   fetchData: () => Promise<void>;
   selectedJuz: Option | undefined;
   setSelectedJuz: Dispatch<SetStateAction<Option | undefined>>;
-  selectedSurah: Option[] | undefined;
+  selectedSurah: Option | Option[] | undefined;
   setSelectedSurah: Dispatch<SetStateAction<Option[] | undefined>>;
   selectedApproach: Option;
   setSelectedApproach: Dispatch<SetStateAction<Option>>;

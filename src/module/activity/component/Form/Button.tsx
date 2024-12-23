@@ -98,9 +98,10 @@ const buildSurahPayload = (p: Props, i: InternalProps): Payload => {
   return {
     ...(i.activity?.id && { id: i.activity.id }),
     activityType: ActivityType.Surah,
-    // @ts-expect-error expected type
-    ...(i.activity?.surah && { surah: p.selectedSurah.value }),
-    surahOptions: p.selectedSurah,
+    ...(i.activity?.surah && {
+      surah: Array.isArray(p.selectedSurah) ? p.selectedSurah[0].value : p.selectedSurah?.value,
+    }),
+    ...(Array.isArray(p.selectedSurah) && { surahOptions: p.selectedSurah }),
     markJuzDone: p.isJuzDone,
     approachId: p.selectedApproach.value,
     repeat: p.repeat,
@@ -112,8 +113,7 @@ const buildAyahPayload = (p: Props, i: InternalProps): Payload => {
   return {
     ...(i.activity?.id && { id: i.activity.id }),
     activityType: ActivityType.Ayah,
-    // @ts-expect-error expected type
-    surah: p.selectedSurah.value,
+    ...(!Array.isArray(p.selectedSurah) && { surah: p.selectedSurah?.value }),
     startAyah: parseInt(p.startAyah),
     endAyah: parseInt(p.endAyah),
     markSurahDone: p.isSurahDone,
