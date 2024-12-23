@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 import { Base } from '@/shared/component/Base';
 import { Option } from '@/shared/entity';
-import { getOptionsFromSurahId } from '@/shared/service';
+import { getSurahOptionsFromSurahId } from '@/shared/service';
 import { useAlertStore } from '@/shared/store';
 
 import { ListSurah } from '../../entity';
@@ -39,7 +39,7 @@ const updateAndRenderCurrentJuz = (i: InternalProps, item: ListSurah): React.JSX
 const showForm = (i: InternalProps, item: ListSurah): void => {
   i.hideAlert();
   i.setFormType('Surah');
-  i.setParentSurah(getOptionsFromSurahId(item.id));
+  i.setParentSurah(getSurahOptionsFromSurahId(item.id));
   i.setIsFormVisible(true);
 };
 
