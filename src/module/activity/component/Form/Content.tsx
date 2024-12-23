@@ -7,6 +7,7 @@ import { SharedProps as Props } from '.';
 import { DateTimeInput } from './DateTimeInput';
 import { NumberInput } from './NumberInput';
 import { NumberStepper } from './NumberStepper';
+import { useFormStore } from '../../store';
 
 const selectStyle: StylesConfig = {
   control: (base: CSSObjectWithLabel) => ({
@@ -193,7 +194,9 @@ const AyahContent = (p: Props): React.JSX.Element => {
 };
 
 export const Content = (p: Props): React.JSX.Element => {
-  switch (p.formType) {
+  const { formType } = useFormStore();
+
+  switch (formType) {
     case 'Juz':
       return <JuzContent {...p} />;
     case 'Surah':

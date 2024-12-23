@@ -3,16 +3,18 @@ import { Dispatch, useState, SetStateAction } from 'react';
 
 import { ActivityType, Payload } from '@/module/activity/entity';
 import { create } from '@/module/activity/service';
-import { AlertColor, AlertText } from '@/shared/component/Alert';
-import { useAlert } from '@/shared/context/AlertContext';
+import { AlertColor, AlertText } from '@/shared/entity';
 import { approachOptions } from '@/shared/service';
+import { useAlertStore } from '@/shared/store';
 import { formFormatDatetimes } from '@/shared/util';
 
 import { SharedProps as Props } from '.';
+import { useFormStore } from '../../store';
 
 interface InternalProps {
-  // @ts-expect-error useAlert
-  showAlert: Context<AlertContextValues>;
+  formType: string;
+  setIsFormVisible: (value: boolean) => void;
+  showAlert: (color: number, text: string) => void;
   isCancelConfirmationVisible: boolean;
   setIsCancelConfirmationVisible: Dispatch<SetStateAction<boolean>>;
   disableSaveButton: boolean;
@@ -20,13 +22,12 @@ interface InternalProps {
 }
 
 const save = async (p: Props, i: InternalProps): Promise<void> => {
-  if (!isSaveable(p)) return;
+  if (!isSaveable(p, i)) return;
 
   try {
     i.setDisableSaveButton(true); // Prevent multiple click by disable the button
-    await create(buildPayload(p));
+    await create(buildPayload(p, i));
     closeForm(p, i);
-    if (p.setIsSubButtonsVisible) p.setIsSubButtonsVisible(false);
     i.showAlert(AlertColor.Green, AlertText.SuccessCreatedActivity);
     p.fetchData();
     i.setDisableSaveButton(false);
@@ -38,7 +39,7 @@ const save = async (p: Props, i: InternalProps): Promise<void> => {
 };
 
 const cancel = (p: Props, i: InternalProps): void => {
-  if (isChanged(p) && !i.isCancelConfirmationVisible) {
+  if (isChanged(p, i) && !i.isCancelConfirmationVisible) {
     i.setIsCancelConfirmationVisible(true);
     setTimeout(() => {
       i.setIsCancelConfirmationVisible(false);
@@ -49,7 +50,7 @@ const cancel = (p: Props, i: InternalProps): void => {
 };
 
 const closeForm = (p: Props, i: InternalProps): void => {
-  p.setIsFormVisible(false);
+  i.setIsFormVisible(false);
   setTimeout(() => {
     p.setSelectedJuz(undefined);
     p.setSelectedSurah(undefined);
@@ -61,8 +62,8 @@ const closeForm = (p: Props, i: InternalProps): void => {
   }, 500);
 };
 
-const buildPayload = (p: Props): Payload => {
-  switch (p.formType) {
+const buildPayload = (p: Props, i: InternalProps): Payload => {
+  switch (i.formType) {
     case 'Juz':
       return buildJuzPayload(p);
     case 'Surah':
@@ -131,8 +132,8 @@ const buildOccuredAt = (p: Props): Date => {
 };
 
 // TD-1 Utilize useMemo
-const isChanged = (p: Props): boolean => {
-  switch (p.formType) {
+const isChanged = (p: Props, i: InternalProps): boolean => {
+  switch (i.formType) {
     case 'Juz':
       if (!p.selectedJuz) return false;
       break;
@@ -148,8 +149,8 @@ const isChanged = (p: Props): boolean => {
 };
 
 // TD-1 Utilize useMemo
-const isSaveable = (p: Props): boolean => {
-  switch (p.formType) {
+const isSaveable = (p: Props, i: InternalProps): boolean => {
+  switch (i.formType) {
     case 'Juz':
       if (!p.selectedJuz) return false;
       break;
@@ -165,12 +166,15 @@ const isSaveable = (p: Props): boolean => {
 };
 
 export const Button = (p: Props): React.JSX.Element => {
-  const { showAlert } = useAlert();
-
   const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);
   const [disableSaveButton, setDisableSaveButton] = useState(false);
 
+  const { showAlert } = useAlertStore();
+  const { setIsFormVisible, formType } = useFormStore();
+
   const i: InternalProps = {
+    formType,
+    setIsFormVisible,
     showAlert,
     isCancelConfirmationVisible,
     setIsCancelConfirmationVisible,
@@ -184,7 +188,7 @@ export const Button = (p: Props): React.JSX.Element => {
         type="button"
         className="px-6 py-2 enabled:bg-custom-teal enabled:hover:bg-teal-700 disabled:bg-gray-400 text-white rounded"
         onClick={() => save(p, i)}
-        disabled={!isSaveable(p) || disableSaveButton}
+        disabled={!isSaveable(p, i) || disableSaveButton}
       >
         Save
       </button>

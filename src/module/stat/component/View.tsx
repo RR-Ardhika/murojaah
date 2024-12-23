@@ -3,11 +3,11 @@ import { useEffect } from 'react';
 import { Base } from '@/shared/component/Base';
 
 import { Card } from './Card';
-import { useData } from '../context';
 import { Stat } from '../entity';
+import { useDataStore } from '../store';
 
 export const View = (): React.JSX.Element => {
-  const { data, fetchData } = useData();
+  const { data, fetchData } = useDataStore();
 
   useEffect(() => {
     fetchData();

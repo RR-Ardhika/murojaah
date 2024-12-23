@@ -2,15 +2,15 @@ import { clsx } from 'clsx';
 import { useEffect } from 'react';
 
 import { Base } from '@/shared/component/Base';
-import { useAlert } from '@/shared/context/AlertContext';
+import { useAlertStore } from '@/shared/store';
 
-import { useData } from '../../context/DataContext';
 import { Activity, ActivityGroup } from '../../entity';
+import { useDataStore } from '../../store';
 import { Card } from '../Card';
 
 export const View = (): React.JSX.Element => {
-  const { isAlertVisible } = useAlert();
-  const { data, fetchData } = useData();
+  const { isAlertVisible } = useAlertStore();
+  const { data, fetchData } = useDataStore();
 
   useEffect(() => {
     fetchData();

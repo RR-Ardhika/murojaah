@@ -2,17 +2,15 @@ import { clsx } from 'clsx';
 import { Dispatch, SetStateAction, useState } from 'react';
 
 import { Base } from '@/shared/component/Base';
-import { Form } from '@/shared/component/Form';
-import { useAlert } from '@/shared/context/AlertContext';
+import { useAlertStore } from '@/shared/store';
 
-import { useData } from '../context/DataContext';
+import { useFormStore } from '../store';
 
 interface InternalProps {
-  setFormType: Dispatch<SetStateAction<string>>;
   setIsSubButtonsVisible: Dispatch<SetStateAction<boolean>>;
-  setIsFormVisible: Dispatch<SetStateAction<boolean>>;
-  // @ts-expect-error useAlert
-  hideAlert: Context<AlertContextValues>;
+  setIsFormVisible: (value: boolean) => void;
+  setFormType: (value: string) => void;
+  hideAlert: () => void;
 }
 
 const CLASS_NAMES: Record<string, string> = {
@@ -30,6 +28,7 @@ const showForm = (i: InternalProps, type: string): void => {
   i.hideAlert();
   i.setFormType(type);
   i.setIsFormVisible(true);
+  i.setIsSubButtonsVisible(false);
 };
 
 const renderSubButtons = (i: InternalProps): React.JSX.Element => {
@@ -58,16 +57,16 @@ const renderSubButtons = (i: InternalProps): React.JSX.Element => {
 };
 
 export const CreateButton = (): React.JSX.Element => {
-  const [formType, setFormType] = useState('');
   const [isSubButtonsVisible, setIsSubButtonsVisible] = useState(false);
-  const [isFormVisible, setIsFormVisible] = useState(false);
-  const { fetchData } = useData();
-  const { hideAlert } = useAlert();
+
+  const { hideAlert } = useAlertStore();
+
+  const { setIsFormVisible, setFormType } = useFormStore();
 
   const i: InternalProps = {
-    setFormType,
     setIsSubButtonsVisible,
     setIsFormVisible,
+    setFormType,
     hideAlert,
   };
 
@@ -87,14 +86,6 @@ export const CreateButton = (): React.JSX.Element => {
           >
             <span className="relative bottom-1 text-6xl font-extralight">+</span>
           </button>
-
-          <Form
-            formType={formType}
-            isFormVisible={isFormVisible}
-            setIsFormVisible={setIsFormVisible}
-            setIsSubButtonsVisible={setIsSubButtonsVisible}
-            fetchData={fetchData}
-          />
         </div>
       </div>
     </Base>

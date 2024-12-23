@@ -11,14 +11,13 @@ import Image from 'next/image';
 import { Dispatch, SetStateAction, useRef, useState } from 'react';
 
 import * as service from '@/module/activity/service';
-import { AlertColor, AlertText } from '@/shared/component/Alert';
 import { Base } from '@/shared/component/Base';
 import { LINKS } from '@/shared/const';
-import { useAlert } from '@/shared/context/AlertContext';
+import { AlertColor, AlertText } from '@/shared/entity';
+import { useAlertStore } from '@/shared/store';
 
 interface InternalProps {
-  // @ts-expect-error useAlert
-  showAlert: Context<AlertContextValues>;
+  showAlert: (color: number, text: string) => void;
   fileInputRef: React.RefObject<HTMLInputElement | null>;
   isDropDbConfirmationVisible: boolean;
   setIsDropDbConfirmationVisible: Dispatch<SetStateAction<boolean>>;
@@ -104,7 +103,7 @@ const handleImportedFile = (event: React.ChangeEvent<HTMLInputElement>, i: Inter
 };
 
 export const Menu = (): React.JSX.Element => {
-  const { showAlert } = useAlert();
+  const { showAlert } = useAlertStore();
 
   const fileInputRef: React.RefObject<HTMLInputElement | null> = useRef<HTMLInputElement | null>(
     null

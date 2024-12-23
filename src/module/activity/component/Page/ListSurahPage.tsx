@@ -2,15 +2,17 @@
 
 import { Base } from '@/shared/component/Base';
 
-import { DataProvider } from '../../context/ListSurahDataContext';
+import { Form } from '../../component/Form';
+import { useListSurahDataStore } from '../../store';
 import { ListSurahView } from '../View';
 
 export const ListSurahPage = (): React.JSX.Element => {
+  const { fetchData } = useListSurahDataStore();
+
   return (
     <Base module="activity" name="ListSurahPage">
-      <DataProvider>
-        <ListSurahView />
-      </DataProvider>
+      <ListSurahView />
+      <Form fetchData={fetchData} />
     </Base>
   );
 };

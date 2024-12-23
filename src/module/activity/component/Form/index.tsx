@@ -10,23 +10,14 @@ import { formFormatDatetimes } from '@/shared/util';
 import { Button } from './Button';
 import { Content } from './Content';
 import { Title } from './Title';
+import { useFormStore } from '../../store';
 
 interface Props {
-  formType: string;
-  isFormVisible: boolean;
-  setIsFormVisible: Dispatch<SetStateAction<boolean>>;
-  setIsSubButtonsVisible?: Dispatch<SetStateAction<boolean>>;
-  parentSurah?: Option[];
-  // @ts-expect-error DataContextValues
-  fetchData?: Context<DataContextValues>;
+  fetchData: () => Promise<void>;
 }
 
 export interface SharedProps {
-  formType: string;
-  setIsFormVisible: Dispatch<SetStateAction<boolean>>;
-  setIsSubButtonsVisible?: Dispatch<SetStateAction<boolean>>;
-  // @ts-expect-error DataContextValues
-  fetchData?: Context<DataContextValues>;
+  fetchData: () => Promise<void>;
   selectedJuz: Option | undefined;
   setSelectedJuz: Dispatch<SetStateAction<Option | undefined>>;
   selectedSurah: Option[] | undefined;
@@ -58,15 +49,14 @@ export const Form = (p: Props): React.JSX.Element => {
   const [isJuzDone, setIsJuzDone] = useState(false);
   const [occuredAt, setOccuredAt] = useState('');
 
+  const { isFormVisible, parentSurah } = useFormStore();
+
   useEffect(() => {
-    if (p.isFormVisible) setOccuredAt(DateTime.now().toFormat(formFormatDatetimes[0]));
-    if (p.parentSurah) setSelectedSurah(p.parentSurah);
-  }, [p.isFormVisible, p.parentSurah]);
+    if (isFormVisible) setOccuredAt(DateTime.now().toFormat(formFormatDatetimes[0]));
+    if (parentSurah) setSelectedSurah(parentSurah);
+  }, [isFormVisible, parentSurah]);
 
   const sharedProps: SharedProps = {
-    formType: p.formType,
-    setIsFormVisible: p.setIsFormVisible,
-    setIsSubButtonsVisible: p.setIsSubButtonsVisible,
     fetchData: p.fetchData,
     selectedJuz,
     setSelectedJuz,
@@ -90,7 +80,7 @@ export const Form = (p: Props): React.JSX.Element => {
 
   return (
     <Base module="shared" name="Form">
-      <Transition appear show={p.isFormVisible} as={Fragment}>
+      <Transition appear show={isFormVisible} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={() => {}}>
           <Transition.Child
             as={Fragment}
@@ -116,7 +106,7 @@ export const Form = (p: Props): React.JSX.Element => {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
-                  <Title formType={p.formType} />
+                  <Title />
                   <Content {...sharedProps} />
                   <Button {...sharedProps} />
                 </Dialog.Panel>

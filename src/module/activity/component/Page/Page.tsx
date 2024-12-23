@@ -3,16 +3,18 @@
 import { Base } from '@/shared/component/Base';
 
 import { CreateButton } from '../../component/CreateButton';
+import { Form } from '../../component/Form';
 import { View } from '../../component/View';
-import { DataProvider } from '../../context/DataContext';
+import { useDataStore } from '../../store';
 
 export const Page = (): React.JSX.Element => {
+  const { fetchData } = useDataStore();
+
   return (
     <Base module="activity" name="Page">
-      <DataProvider>
-        <View />
-        <CreateButton />
-      </DataProvider>
+      <View />
+      <CreateButton />
+      <Form fetchData={fetchData} />
     </Base>
   );
 };

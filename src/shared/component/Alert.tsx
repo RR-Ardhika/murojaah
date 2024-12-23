@@ -1,24 +1,8 @@
 import { clsx } from 'clsx';
 
-import { Base } from '@/shared/component/Base';
-import { useAlert } from '@/shared/context/AlertContext';
-
-export enum AlertColor {
-  Red = 0,
-  Green = 1,
-}
-
-export enum AlertText {
-  SuccessCreatedActivity = 'Successfully created new murojaah',
-  SuccessDeletedActivity = 'Murojaah deleted',
-  FailedCreatedActivity = 'Failed created new murojaah',
-  FailedDeletedActivity = 'Failed deleted murojaah',
-  SuccessExportedDB = 'Successfully exported database',
-  FailedExportedDB = 'Failed to export database',
-  SuccessImportedDB = 'Successfully imported database',
-  FailedImportedDB = 'Failed to import database',
-  SuccessDeletedDB = 'Successfully deleted database',
-}
+import { Base } from '../component/Base';
+import { AlertColor } from '../entity';
+import { useAlertStore } from '../store';
 
 interface InternalProps {
   alertColor: number;
@@ -37,7 +21,7 @@ const getBtnColor = (i: InternalProps): string => {
 };
 
 export const Alert = (): React.JSX.Element => {
-  const { alertColor, alertText, isAlertVisible } = useAlert();
+  const { isAlertVisible, alertColor, alertText } = useAlertStore();
 
   if (!isAlertVisible) return <></>;
 
