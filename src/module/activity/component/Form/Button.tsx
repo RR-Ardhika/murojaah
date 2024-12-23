@@ -3,7 +3,7 @@ import { Dispatch, useState, SetStateAction } from 'react';
 
 import { ActivityType, Payload } from '@/module/activity/entity';
 import { create } from '@/module/activity/service';
-import { AlertColor, AlertText } from '@/shared/component/Alert';
+import { AlertColor, AlertText } from '@/shared/entity';
 import { approachOptions } from '@/shared/service';
 import { useAlertStore } from '@/shared/store';
 import { formFormatDatetimes } from '@/shared/util';

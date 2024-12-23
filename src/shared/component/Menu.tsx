@@ -11,9 +11,9 @@ import Image from 'next/image';
 import { Dispatch, SetStateAction, useRef, useState } from 'react';
 
 import * as service from '@/module/activity/service';
-import { AlertColor, AlertText } from '@/shared/component/Alert';
 import { Base } from '@/shared/component/Base';
 import { LINKS } from '@/shared/const';
+import { AlertColor, AlertText } from '@/shared/entity';
 import { useAlertStore } from '@/shared/store';
 
 interface InternalProps {
