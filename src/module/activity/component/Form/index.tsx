@@ -4,7 +4,11 @@ import { Dispatch, Fragment, useEffect, useState, SetStateAction } from 'react';
 
 import { Base } from '@/shared/component/Base';
 import { Option } from '@/shared/entity';
-import { approachOptions, getOptionsFromSurahId } from '@/shared/service';
+import {
+  approachOptions,
+  getJuzOptionsFromJuzId,
+  getSurahOptionsFromSurahId,
+} from '@/shared/service';
 import { formFormatDatetimes } from '@/shared/util';
 
 import { Button } from './Button';
@@ -58,9 +62,12 @@ export const Form = (p: Props): React.JSX.Element => {
     if (activity) {
       switch (activity.activityType) {
         case ActivityType.Juz:
+          if (activity.juz) setSelectedJuz(getJuzOptionsFromJuzId(activity.juz));
+          setSelectedApproach(approachOptions()[activity.approachId]);
+          setOccuredAt(DateTime.fromJSDate(activity.occuredAt).toFormat(formFormatDatetimes[0]));
           break;
         case ActivityType.Surah:
-          if (activity.surah) setSelectedSurah(getOptionsFromSurahId(activity.surah));
+          if (activity.surah) setSelectedSurah(getSurahOptionsFromSurahId(activity.surah));
           setSelectedApproach(approachOptions()[activity.approachId]);
           setRepeat(activity.repeat);
           if (activity.markJuzDone) setIsJuzDone(activity.markJuzDone);

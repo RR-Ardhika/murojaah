@@ -27,15 +27,6 @@ export const surahOptions = (): entity.Option[] => {
   return options;
 };
 
-export const getOptionsFromSurahId = (id: number): entity.Option[] => {
-  const options: entity.Option[] = [];
-  const surah: entity.SurahType | undefined = service.getSurahById(id);
-  // @ts-expect-error expected undefined
-  const option: entity.Option = { value: id, label: surah.name };
-  options.push(option);
-  return options;
-};
-
 export const approachOptions = (): entity.Option[] => {
   const options: entity.Option[] = [];
   const approachs: approachEntity.Approach[] = Object.values(approachEntity.Approach);
@@ -46,5 +37,18 @@ export const approachOptions = (): entity.Option[] => {
     options.push(option);
   });
 
+  return options;
+};
+
+export const getJuzOptionsFromJuzId = (id: number): entity.Option => {
+  return { value: id, label: id };
+};
+
+export const getSurahOptionsFromSurahId = (id: number): entity.Option[] => {
+  const options: entity.Option[] = [];
+  const surah: entity.SurahType | undefined = service.getSurahById(id);
+  if (!surah) return options;
+  const option: entity.Option = { value: id, label: surah.name };
+  options.push(option);
   return options;
 };
