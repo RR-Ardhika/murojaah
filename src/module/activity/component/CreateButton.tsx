@@ -27,8 +27,8 @@ const toggleShowSubButtons = (i: InternalProps): void => {
 const showForm = (i: InternalProps, type: string): void => {
   i.hideAlert();
   i.setFormType(type);
-  i.setIsFormVisible(true);
   i.setIsSubButtonsVisible(false);
+  i.setIsFormVisible(true);
 };
 
 const renderSubButtons = (i: InternalProps): React.JSX.Element => {

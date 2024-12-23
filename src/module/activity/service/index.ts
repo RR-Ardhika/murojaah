@@ -146,3 +146,16 @@ const calculateBySurah = (
 
   if (!mapCounter.get(surah.id)) mapCounter.set(surah.id, listSurah);
 };
+
+export const getActivityTypeString = (activityType: number): string => {
+  switch (activityType) {
+    case 0:
+      return 'Juz';
+    case 1:
+      return 'Surah';
+    case 2:
+      return 'Ayah';
+    default:
+      return '';
+  }
+};

@@ -6,13 +6,17 @@ import { AlertColor, AlertText } from '@/shared/entity';
 import { useAlertStore } from '@/shared/store';
 
 import { Activity } from '../../entity';
-import { destroy } from '../../service';
-import { useDataStore } from '../../store';
+import { destroy, getActivityTypeString } from '../../service';
+import { useDataStore, useFormStore } from '../../store';
 
 interface InternalProps {
   item: Activity;
   fetchData: () => Promise<void>;
+  hideAlert: () => void;
   showAlert: (color: number, text: string) => void;
+  setActivity: (value: Activity) => void;
+  setFormType: (value: string) => void;
+  setIsFormVisible: (value: boolean) => void;
   isButtonsVisible: boolean;
   setIsButtonsVisible: Dispatch<SetStateAction<boolean>>;
   setIsDeleteConfirmationVisible: Dispatch<SetStateAction<boolean>>;
@@ -29,9 +33,12 @@ const toggleButtons = (i: InternalProps): void => {
   i.setIsButtonsVisible(!i.isButtonsVisible);
 };
 
-// const showForm = (item: Activity): void => {
-//   console.log(item);
-// };
+const showForm = (i: InternalProps): void => {
+  i.hideAlert();
+  i.setFormType(getActivityTypeString(i.item.activityType));
+  i.setActivity(i.item);
+  i.setIsFormVisible(true);
+};
 
 const showDeleteConfirmation = (i: InternalProps): void => {
   i.setIsDeleteConfirmationVisible(true);
@@ -54,14 +61,18 @@ export const Container = (item: Activity, children: React.JSX.Element): React.JS
   const [isButtonsVisible, setIsButtonsVisible] = useState(false);
   const [isDeleteConfirmationVisible, setIsDeleteConfirmationVisible] = useState(false);
 
-  const { showAlert } = useAlertStore();
+  const { hideAlert, showAlert } = useAlertStore();
   const { fetchData } = useDataStore();
-  // const { showForm } = useFormStore()
+  const { setActivity, setFormType, setIsFormVisible } = useFormStore();
 
   const i: InternalProps = {
     item,
     fetchData,
+    hideAlert,
     showAlert,
+    setActivity,
+    setFormType,
+    setIsFormVisible,
     isButtonsVisible,
     setIsDeleteConfirmationVisible,
     setIsButtonsVisible,
@@ -73,11 +84,12 @@ export const Container = (item: Activity, children: React.JSX.Element): React.JS
         <div onClick={() => toggleButtons(i)}>{children}</div>
         {isButtonsVisible && (
           <div className="flex flex-col gap-2 w-full mt-2">
-            {/*
-              <button className={clsx(CLASS_NAMES.btnBase, CLASS_NAMES.btnEdit)} onClick={showForm}>
+            <button
+              className={clsx(CLASS_NAMES.btnBase, CLASS_NAMES.btnEdit)}
+              onClick={() => showForm(i)}
+            >
               Edit
             </button>
-            */}
             {!isDeleteConfirmationVisible ? (
               <button
                 className={clsx(CLASS_NAMES.btnBase, CLASS_NAMES.btnDelete)}
