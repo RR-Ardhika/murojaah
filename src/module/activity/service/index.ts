@@ -9,6 +9,7 @@ import * as repo from '../repository/indexeddb';
 
 export * from './create';
 export * from './export-import';
+export * from './update';
 
 export const index = async (): Promise<entity.ActivityGroup[]> => {
   const mapActivityGroups: Map<string, entity.ActivityGroup> = new Map();

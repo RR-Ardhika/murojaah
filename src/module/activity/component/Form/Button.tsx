@@ -1,18 +1,20 @@
 import { DateTime } from 'luxon';
 import { Dispatch, useState, SetStateAction } from 'react';
 
-import { ActivityType, Payload } from '@/module/activity/entity';
-import { create } from '@/module/activity/service';
 import { AlertColor, AlertText } from '@/shared/entity';
 import { approachOptions } from '@/shared/service';
 import { useAlertStore } from '@/shared/store';
 import { formFormatDatetimes } from '@/shared/util';
 
 import { SharedProps as Props } from '.';
+import { Activity, ActivityType, Payload } from '../../entity';
+import { create, update } from '../../service';
 import { useFormStore } from '../../store';
 
 interface InternalProps {
   formType: string;
+  activity: Activity | undefined;
+  setActivity: (value: Activity | undefined) => void;
   setIsFormVisible: (value: boolean) => void;
   showAlert: (color: number, text: string) => void;
   isCancelConfirmationVisible: boolean;
@@ -26,7 +28,8 @@ const save = async (p: Props, i: InternalProps): Promise<void> => {
 
   try {
     i.setDisableSaveButton(true); // Prevent multiple click by disable the button
-    await create(buildPayload(p, i));
+    if (i.activity) await update(buildPayload(p, i));
+    else await create(buildPayload(p, i));
     closeForm(p, i);
     i.showAlert(AlertColor.Green, AlertText.SuccessCreatedActivity);
     p.fetchData();
@@ -52,9 +55,12 @@ const cancel = (p: Props, i: InternalProps): void => {
 const closeForm = (p: Props, i: InternalProps): void => {
   i.setIsFormVisible(false);
   setTimeout(() => {
+    i.setActivity(undefined);
     p.setSelectedJuz(undefined);
     p.setSelectedSurah(undefined);
     p.setSelectedApproach(approachOptions()[0]);
+    p.setStartAyah('');
+    p.setEndAyah('');
     p.setRepeat(1);
     p.setIsSurahDone(false);
     p.setIsJuzDone(false);
@@ -65,19 +71,20 @@ const closeForm = (p: Props, i: InternalProps): void => {
 const buildPayload = (p: Props, i: InternalProps): Payload => {
   switch (i.formType) {
     case 'Juz':
-      return buildJuzPayload(p);
+      return buildJuzPayload(p, i);
     case 'Surah':
-      return buildSurahPayload(p);
+      return buildSurahPayload(p, i);
     case 'Ayah':
-      return buildAyahPayload(p);
+      return buildAyahPayload(p, i);
     default:
       // @ts-expect-error expected return value
       return undefined;
   }
 };
 
-const buildJuzPayload = (p: Props): Payload => {
+const buildJuzPayload = (p: Props, i: InternalProps): Payload => {
   return {
+    id: i.activity?.id,
     activityType: ActivityType.Juz,
     // @ts-expect-error handled undefined value
     juz: p.selectedJuz.value,
@@ -87,8 +94,9 @@ const buildJuzPayload = (p: Props): Payload => {
   };
 };
 
-const buildSurahPayload = (p: Props): Payload => {
+const buildSurahPayload = (p: Props, i: InternalProps): Payload => {
   return {
+    id: i.activity?.id,
     activityType: ActivityType.Surah,
     surahOptions: p.selectedSurah,
     markJuzDone: p.isJuzDone,
@@ -98,8 +106,9 @@ const buildSurahPayload = (p: Props): Payload => {
   };
 };
 
-const buildAyahPayload = (p: Props): Payload => {
+const buildAyahPayload = (p: Props, i: InternalProps): Payload => {
   return {
+    id: i.activity?.id,
     activityType: ActivityType.Ayah,
     // @ts-expect-error handled undefined value
     surah: p.selectedSurah.value,
@@ -170,10 +179,12 @@ export const Button = (p: Props): React.JSX.Element => {
   const [disableSaveButton, setDisableSaveButton] = useState(false);
 
   const { showAlert } = useAlertStore();
-  const { setIsFormVisible, formType } = useFormStore();
+  const { activity, setActivity, setIsFormVisible, formType } = useFormStore();
 
   const i: InternalProps = {
     formType,
+    activity,
+    setActivity,
     setIsFormVisible,
     showAlert,
     isCancelConfirmationVisible,

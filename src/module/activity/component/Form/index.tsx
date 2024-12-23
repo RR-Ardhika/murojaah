@@ -4,12 +4,13 @@ import { Dispatch, Fragment, useEffect, useState, SetStateAction } from 'react';
 
 import { Base } from '@/shared/component/Base';
 import { Option } from '@/shared/entity';
-import { approachOptions } from '@/shared/service';
+import { approachOptions, getOptionsFromSurahId } from '@/shared/service';
 import { formFormatDatetimes } from '@/shared/util';
 
 import { Button } from './Button';
 import { Content } from './Content';
 import { Title } from './Title';
+import { ActivityType } from '../../entity';
 import { useFormStore } from '../../store';
 
 interface Props {
@@ -49,12 +50,27 @@ export const Form = (p: Props): React.JSX.Element => {
   const [isJuzDone, setIsJuzDone] = useState(false);
   const [occuredAt, setOccuredAt] = useState('');
 
-  const { isFormVisible, parentSurah } = useFormStore();
+  const { activity, isFormVisible, parentSurah } = useFormStore();
 
   useEffect(() => {
     if (isFormVisible) setOccuredAt(DateTime.now().toFormat(formFormatDatetimes[0]));
     if (parentSurah) setSelectedSurah(parentSurah);
-  }, [isFormVisible, parentSurah]);
+    if (activity) {
+      switch (activity.activityType) {
+        case ActivityType.Juz:
+          break;
+        case ActivityType.Surah:
+          if (activity.surah) setSelectedSurah(getOptionsFromSurahId(activity.surah));
+          setSelectedApproach(approachOptions()[activity.approachId]);
+          setRepeat(activity.repeat);
+          if (activity.markJuzDone) setIsJuzDone(activity.markJuzDone);
+          setOccuredAt(DateTime.fromJSDate(activity.occuredAt).toFormat(formFormatDatetimes[0]));
+          break;
+        case ActivityType.Ayah:
+          break;
+      }
+    }
+  }, [isFormVisible, parentSurah, activity]);
 
   const sharedProps: SharedProps = {
     fetchData: p.fetchData,

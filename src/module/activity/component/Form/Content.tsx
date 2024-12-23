@@ -55,6 +55,8 @@ const JuzContent = (p: Props): React.JSX.Element => {
 const SurahContent = (p: Props): React.JSX.Element => {
   const [searchInput, setSearchInput] = useState('');
 
+  const { activity } = useFormStore();
+
   return (
     <div className="flex flex-col gap-2 mt-2">
       <label className="font-light">Select Surah</label>
@@ -66,7 +68,7 @@ const SurahContent = (p: Props): React.JSX.Element => {
           inputValue={searchInput}
           options={surahOptions()}
           isSearchable={true}
-          isMulti={true}
+          isMulti={activity ? false : true}
           isClearable={false}
           closeMenuOnSelect={false}
           blurInputOnSelect={false}
