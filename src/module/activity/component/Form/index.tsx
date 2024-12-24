@@ -4,12 +4,17 @@ import { Dispatch, Fragment, useEffect, useState, SetStateAction } from 'react';
 
 import { Base } from '@/shared/component/Base';
 import { Option } from '@/shared/entity';
-import { approachOptions } from '@/shared/service';
+import {
+  approachOptions,
+  getJuzOptionsFromJuzId,
+  getSurahOptionsFromSurahId,
+} from '@/shared/service';
 import { formFormatDatetimes } from '@/shared/util';
 
 import { Button } from './Button';
 import { Content } from './Content';
 import { Title } from './Title';
+import { ActivityType } from '../../entity';
 import { useFormStore } from '../../store';
 
 interface Props {
@@ -20,7 +25,7 @@ export interface SharedProps {
   fetchData: () => Promise<void>;
   selectedJuz: Option | undefined;
   setSelectedJuz: Dispatch<SetStateAction<Option | undefined>>;
-  selectedSurah: Option[] | undefined;
+  selectedSurah: Option | Option[] | undefined;
   setSelectedSurah: Dispatch<SetStateAction<Option[] | undefined>>;
   selectedApproach: Option;
   setSelectedApproach: Dispatch<SetStateAction<Option>>;
@@ -49,12 +54,38 @@ export const Form = (p: Props): React.JSX.Element => {
   const [isJuzDone, setIsJuzDone] = useState(false);
   const [occuredAt, setOccuredAt] = useState('');
 
-  const { isFormVisible, parentSurah } = useFormStore();
+  const { activity, isFormVisible, parentSurah } = useFormStore();
 
   useEffect(() => {
     if (isFormVisible) setOccuredAt(DateTime.now().toFormat(formFormatDatetimes[0]));
     if (parentSurah) setSelectedSurah(parentSurah);
-  }, [isFormVisible, parentSurah]);
+    if (activity) {
+      switch (activity.activityType) {
+        case ActivityType.Juz:
+          if (activity.juz) setSelectedJuz(getJuzOptionsFromJuzId(activity.juz));
+          setSelectedApproach(approachOptions()[activity.approachId]);
+          setOccuredAt(DateTime.fromJSDate(activity.occuredAt).toFormat(formFormatDatetimes[0]));
+          break;
+        case ActivityType.Surah:
+          if (activity.surah) setSelectedSurah(getSurahOptionsFromSurahId(activity.surah));
+          if (activity.markJuzDone) setIsJuzDone(activity.markJuzDone);
+          setSelectedApproach(approachOptions()[activity.approachId]);
+          setRepeat(activity.repeat);
+          setOccuredAt(DateTime.fromJSDate(activity.occuredAt).toFormat(formFormatDatetimes[0]));
+          break;
+        case ActivityType.Ayah:
+          if (activity.surah) setSelectedSurah(getSurahOptionsFromSurahId(activity.surah));
+          if (activity.startAyah) setStartAyah(activity.startAyah.toString());
+          if (activity.endAyah) setEndAyah(activity.endAyah.toString());
+          if (activity.markSurahDone) setIsSurahDone(activity.markSurahDone);
+          if (activity.markJuzDone) setIsJuzDone(activity.markJuzDone);
+          setSelectedApproach(approachOptions()[activity.approachId]);
+          setRepeat(activity.repeat);
+          setOccuredAt(DateTime.fromJSDate(activity.occuredAt).toFormat(formFormatDatetimes[0]));
+          break;
+      }
+    }
+  }, [isFormVisible, parentSurah, activity]);
 
   const sharedProps: SharedProps = {
     fetchData: p.fetchData,

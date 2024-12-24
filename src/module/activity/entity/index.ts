@@ -28,6 +28,7 @@ export type ActivityGroup = {
 };
 
 export type Payload = {
+  id?: string;
   activityType: number;
   juz?: number | undefined;
   surah?: number | undefined;

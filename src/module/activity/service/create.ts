@@ -7,6 +7,9 @@ import * as entity from '../entity';
 import * as repo from '../repository/indexeddb';
 
 export const create = (payload: entity.Payload): Promise<number | unknown[]> => {
+  if (util.findEmpty(payload))
+    return Promise.reject(new Error('Error 422 Unprocessable Entity error validating payload'));
+
   switch (payload.activityType) {
     case entity.ActivityType.Juz:
       return createByJuz(payload);
@@ -20,9 +23,6 @@ export const create = (payload: entity.Payload): Promise<number | unknown[]> => 
 };
 
 const createByJuz = (payload: entity.Payload): Promise<number | unknown[]> => {
-  if (util.findEmpty(payload))
-    return Promise.reject(new Error('Error 422 Unprocessable Entity error validating juz payload'));
-
   const activity: entity.Activity = {
     id: uuidv4(),
     activityType: payload.activityType,
@@ -36,14 +36,13 @@ const createByJuz = (payload: entity.Payload): Promise<number | unknown[]> => {
 };
 
 const createBySurah = (payload: entity.Payload): Promise<number | unknown[]> => {
-  if (util.findEmpty(payload))
+  if (!payload.surahOptions)
     return Promise.reject(
       new Error('Error 422 Unprocessable Entity error validating surah payload')
     );
 
   let occuredAt: DateTime = DateTime.fromJSDate(payload.occuredAt);
 
-  // @ts-expect-error handled undefined value
   for (const [i, opt] of payload.surahOptions.entries()) {
     const activity: entity.Activity = {
       id: uuidv4(),
@@ -66,11 +65,6 @@ const createBySurah = (payload: entity.Payload): Promise<number | unknown[]> => 
 };
 
 const createByAyah = (payload: entity.Payload): Promise<number | unknown[]> => {
-  if (util.findEmpty(payload))
-    return Promise.reject(
-      new Error('Error 422 Unprocessable Entity error validating surah payload')
-    );
-
   const activity: entity.Activity = {
     id: uuidv4(),
     activityType: payload.activityType,

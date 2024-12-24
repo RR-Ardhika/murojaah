@@ -9,13 +9,14 @@ import * as repo from '../repository/indexeddb';
 
 export * from './create';
 export * from './export-import';
+export * from './update';
 
 export const index = async (): Promise<entity.ActivityGroup[]> => {
   const mapActivityGroups: Map<string, entity.ActivityGroup> = new Map();
 
   const data: entity.Activity[] = await repo.findAll();
   if (!data || data.length === 0) {
-    return Promise.reject(new Error('Error 400 empty activity'));
+    return [];
   }
 
   for (const item of data) {
@@ -145,4 +146,17 @@ const calculateBySurah = (
   };
 
   if (!mapCounter.get(surah.id)) mapCounter.set(surah.id, listSurah);
+};
+
+export const getActivityTypeString = (activityType: number): string => {
+  switch (activityType) {
+    case 0:
+      return 'Juz';
+    case 1:
+      return 'Surah';
+    case 2:
+      return 'Ayah';
+    default:
+      return '';
+  }
 };
