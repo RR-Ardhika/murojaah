@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import { Dispatch, useState, SetStateAction } from 'react';
 
-import { AlertColor, AlertText } from '@/shared/entity';
+import { AlertColor, AlertText, Option } from '@/shared/entity';
 import { approachOptions } from '@/shared/service';
 import { useAlertStore } from '@/shared/store';
 import { formFormatDatetimes } from '@/shared/util';
@@ -16,6 +16,7 @@ interface InternalProps {
   activity: Activity | undefined;
   setActivity: (value: Activity | undefined) => void;
   setIsFormVisible: (value: boolean) => void;
+  setParentSurah: (value: Option[]) => void;
   showAlert: (color: number, text: string) => void;
   isCancelConfirmationVisible: boolean;
   setIsCancelConfirmationVisible: Dispatch<SetStateAction<boolean>>;
@@ -57,6 +58,7 @@ const closeForm = (p: Props, i: InternalProps): void => {
   i.setIsFormVisible(false);
   setTimeout(() => {
     i.setActivity(undefined);
+    i.setParentSurah([]);
     p.setSelectedJuz(undefined);
     p.setSelectedSurah(undefined);
     p.setSelectedApproach(approachOptions()[0]);
@@ -181,13 +183,14 @@ export const Button = (p: Props): React.JSX.Element => {
   const [disableSaveButton, setDisableSaveButton] = useState(false);
 
   const { showAlert } = useAlertStore();
-  const { activity, setActivity, setIsFormVisible, formType } = useFormStore();
+  const { activity, formType, setActivity, setIsFormVisible, setParentSurah } = useFormStore();
 
   const i: InternalProps = {
     formType,
     activity,
     setActivity,
     setIsFormVisible,
+    setParentSurah,
     showAlert,
     isCancelConfirmationVisible,
     setIsCancelConfirmationVisible,
