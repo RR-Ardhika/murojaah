@@ -6,7 +6,7 @@ import { AlertColor, AlertText } from '@/shared/entity';
 import { useAlertStore } from '@/shared/store';
 
 import { Activity } from '../../entity';
-import { destroy, getActivityTypeString } from '../../service';
+import { destroy } from '../../service';
 import { useDataStore, useFormStore } from '../../store';
 
 interface InternalProps {
@@ -15,7 +15,7 @@ interface InternalProps {
   hideAlert: () => void;
   showAlert: (color: number, text: string) => void;
   setActivity: (value: Activity) => void;
-  setFormType: (value: string) => void;
+  setFormType: (value: number) => void;
   setIsFormVisible: (value: boolean) => void;
   isButtonsVisible: boolean;
   setIsButtonsVisible: Dispatch<SetStateAction<boolean>>;
@@ -35,7 +35,7 @@ const toggleButtons = (i: InternalProps): void => {
 
 const showForm = (i: InternalProps): void => {
   i.hideAlert();
-  i.setFormType(getActivityTypeString(i.item.activityType));
+  i.setFormType(i.item.activityType);
   i.setActivity(i.item);
   i.setIsFormVisible(true);
   i.setIsButtonsVisible(false);

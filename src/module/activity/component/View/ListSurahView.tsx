@@ -6,7 +6,7 @@ import { Option } from '@/shared/entity';
 import { getSurahOptionsFromSurahId } from '@/shared/service';
 import { useAlertStore } from '@/shared/store';
 
-import { ListSurah } from '../../entity';
+import { ActivityType, ListSurah } from '../../entity';
 import { useFormStore, useListSurahDataStore } from '../../store';
 import { ListSurahCard } from '../Card';
 
@@ -16,7 +16,7 @@ interface InternalProps {
   isFormVisible: boolean;
   parentSurah: Option[] | undefined;
   setIsFormVisible: (value: boolean) => void;
-  setFormType: (value: string) => void;
+  setFormType: (value: number) => void;
   setParentSurah: (value: Option[]) => void;
   currentJuz: number;
 }
@@ -38,7 +38,7 @@ const updateAndRenderCurrentJuz = (i: InternalProps, item: ListSurah): React.JSX
 
 const showForm = (i: InternalProps, item: ListSurah): void => {
   i.hideAlert();
-  i.setFormType('Surah');
+  i.setFormType(ActivityType.Surah);
   i.setParentSurah(getSurahOptionsFromSurahId(item.id));
   i.setIsFormVisible(true);
 };

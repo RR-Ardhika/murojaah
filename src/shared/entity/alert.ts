@@ -1,7 +1,7 @@
 export enum AlertColor {
-  Uninitialized = 0,
-  Green = 1,
-  Red = 2,
+  Uninitialized = -1,
+  Green = 0,
+  Red = 1,
 }
 
 export enum AlertText {

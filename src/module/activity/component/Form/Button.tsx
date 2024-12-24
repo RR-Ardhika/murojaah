@@ -12,7 +12,7 @@ import { create, update } from '../../service';
 import { useFormStore } from '../../store';
 
 interface InternalProps {
-  formType: string;
+  formType: number;
   activity: Activity | undefined;
   setActivity: (value: Activity | undefined) => void;
   setIsFormVisible: (value: boolean) => void;
@@ -71,11 +71,11 @@ const closeForm = (p: Props, i: InternalProps): void => {
 
 const buildPayload = (p: Props, i: InternalProps): Payload => {
   switch (i.formType) {
-    case 'Juz':
+    case ActivityType.Juz:
       return buildJuzPayload(p, i);
-    case 'Surah':
+    case ActivityType.Surah:
       return buildSurahPayload(p, i);
-    case 'Ayah':
+    case ActivityType.Ayah:
       return buildAyahPayload(p, i);
     default:
       // @ts-expect-error expected return value
@@ -145,13 +145,13 @@ const buildOccuredAt = (p: Props): Date => {
 // TD-1 Utilize useMemo
 const isChanged = (p: Props, i: InternalProps): boolean => {
   switch (i.formType) {
-    case 'Juz':
+    case ActivityType.Juz:
       if (!p.selectedJuz) return false;
       break;
-    case 'Surah':
+    case ActivityType.Surah:
       if (!p.selectedSurah) return false;
       break;
-    case 'Ayah':
+    case ActivityType.Ayah:
       // TD-3 Implement proper number input for ayah
       if (!p.selectedSurah) return false;
       break;
@@ -162,13 +162,13 @@ const isChanged = (p: Props, i: InternalProps): boolean => {
 // TD-1 Utilize useMemo
 const isSaveable = (p: Props, i: InternalProps): boolean => {
   switch (i.formType) {
-    case 'Juz':
+    case ActivityType.Juz:
       if (!p.selectedJuz) return false;
       break;
-    case 'Surah':
+    case ActivityType.Surah:
       if (!p.selectedSurah) return false;
       break;
-    case 'Ayah':
+    case ActivityType.Ayah:
       // TD-3 Implement proper number input for ayah
       if (!p.selectedSurah) return false;
       break;
