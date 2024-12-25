@@ -29,7 +29,7 @@ export const getDurationFromNow = (date: Date): number => {
   const now: DateTime = DateTime.now();
   const parsedDate: DateTime = DateTime.fromJSDate(date);
   const duration: Duration = now.diff(parsedDate);
-  return Math.round(duration.as('days'));
+  return Math.floor(duration.as('days'));
 };
 
 export const formatDurationFromNow = (date: Date): string => {
