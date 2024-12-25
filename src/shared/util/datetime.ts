@@ -64,9 +64,9 @@ const humanizeDurationShort = (duration: Duration): string => {
       s: 1000,
       ms: 1,
     },
-    largest: 1,
+    largest: 2,
   });
 
   // @ts-expect-error known type
-  return shortEnglishHumanizer(duration, { round: true, spacer: '', delimiter: ' ' });
+  return shortEnglishHumanizer(duration, { round: true, spacer: '', delimiter: '' });
 };
