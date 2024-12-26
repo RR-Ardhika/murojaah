@@ -63,9 +63,9 @@ export const getCompactDate = async (): Promise<entity.CompactDate[]> => {
     const dayDiff: number = lastOccuredAt ? compareDayOfTwoDates(lastOccuredAt, item.occuredAt) : 0;
 
     if (lastOccuredAt && dayDiff > 1) {
-      for (let i = 1; i <= dayDiff; i++) {
+      for (let i: number = 1; i <= dayDiff; i++) {
         const parsedLastOccuredAt: DateTime = DateTime.fromJSDate(lastOccuredAt);
-        const nextDay = parsedLastOccuredAt.minus({ days: i });
+        const nextDay: DateTime = parsedLastOccuredAt.minus({ days: i });
         const key: string = util.formatDateYearFirst(nextDay.toJSDate());
         if (!mapActivities.has(key)) {
           mapActivities.set(key, {
