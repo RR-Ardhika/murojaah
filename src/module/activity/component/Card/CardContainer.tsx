@@ -7,18 +7,18 @@ import { useAlertStore } from '@/shared/store';
 
 import { Activity } from '../../entity';
 import { destroy } from '../../service';
-import { useDataStore, useFormStore } from '../../store';
+import { useCardStore, useDataStore, useFormStore } from '../../store';
 
 interface InternalProps {
   item: Activity;
   fetchData: () => Promise<void>;
+  expandedCardId: string | null;
+  setExpandedCardId: (id: string | null) => void;
   hideAlert: () => void;
   showAlert: (color: number, text: string) => void;
   setActivity: (value: Activity) => void;
   setFormType: (value: number) => void;
   setIsFormVisible: (value: boolean) => void;
-  isButtonsVisible: boolean;
-  setIsButtonsVisible: Dispatch<SetStateAction<boolean>>;
   setIsDeleteConfirmationVisible: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -30,7 +30,7 @@ const CLASS_NAMES: Record<string, string> = {
 };
 
 const toggleButtons = (i: InternalProps): void => {
-  i.setIsButtonsVisible(!i.isButtonsVisible);
+  i.setExpandedCardId(i.expandedCardId === i.item.id ? null : i.item.id);
 };
 
 const showForm = (i: InternalProps): void => {
@@ -38,7 +38,7 @@ const showForm = (i: InternalProps): void => {
   i.setFormType(i.item.activityType);
   i.setActivity(i.item);
   i.setIsFormVisible(true);
-  i.setIsButtonsVisible(false);
+  i.setExpandedCardId(null);
 };
 
 const showDeleteConfirmation = (i: InternalProps): void => {
@@ -59,31 +59,31 @@ const deleteRecord = async (i: InternalProps, item: Activity): Promise<void> => 
 };
 
 export const Container = (item: Activity, children: React.JSX.Element): React.JSX.Element => {
-  const [isButtonsVisible, setIsButtonsVisible] = useState(false);
   const [isDeleteConfirmationVisible, setIsDeleteConfirmationVisible] = useState(false);
 
   const { hideAlert, showAlert } = useAlertStore();
+  const { expandedCardId, setExpandedCardId } = useCardStore();
   const { fetchData } = useDataStore();
   const { setActivity, setFormType, setIsFormVisible } = useFormStore();
 
   const i: InternalProps = {
     item,
     fetchData,
+    expandedCardId,
+    setExpandedCardId,
     hideAlert,
     showAlert,
     setActivity,
     setFormType,
     setIsFormVisible,
-    isButtonsVisible,
     setIsDeleteConfirmationVisible,
-    setIsButtonsVisible,
   };
 
   return (
     <Base module="Activity" name="Card">
       <div className={CLASS_NAMES.container}>
         <div onClick={() => toggleButtons(i)}>{children}</div>
-        {isButtonsVisible && (
+        {expandedCardId === item.id && (
           <div className="flex flex-col gap-2 w-full mt-2">
             <button
               className={clsx(CLASS_NAMES.btnBase, CLASS_NAMES.btnEdit)}
