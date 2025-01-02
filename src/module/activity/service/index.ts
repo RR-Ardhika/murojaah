@@ -52,7 +52,7 @@ export const getCompactDate = async (): Promise<entity.CompactDate[]> => {
 
   const data: entity.Activity[] = await repo.findAll();
   if (!data || data.length === 0) {
-    return Promise.reject(new Error('Error 400 empty compact date'));
+    return [];
   }
 
   for (const item of data) {
@@ -78,8 +78,12 @@ export const getCompactDate = async (): Promise<entity.CompactDate[]> => {
 };
 
 export const getListSurah = async (): Promise<entity.ListSurah[]> => {
-  const activities: entity.Activity[] = await repo.findAll();
-  return calculateCounters(activities);
+  const data: entity.Activity[] = await repo.findAll();
+  if (!data || data.length === 0) {
+    return [];
+  }
+
+  return calculateCounters(data);
 };
 
 const calculateCounters = (activities: entity.Activity[]): entity.ListSurah[] => {
