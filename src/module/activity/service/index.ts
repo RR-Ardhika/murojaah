@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon';
+
 import * as entityStat from '@/module/stat/entity';
 import * as serviceStat from '@/module/stat/service';
 import * as serviceJuz from '@/shared/service/juz';
@@ -55,8 +57,24 @@ export const getCompactDate = async (): Promise<entity.CompactDate[]> => {
     return [];
   }
 
+  let lastOccuredAt: Date | undefined = undefined;
   for (const item of data) {
     const key: string = util.formatDateYearFirst(item.occuredAt);
+    const dayDiff: number = lastOccuredAt ? compareDayOfTwoDates(lastOccuredAt, item.occuredAt) : 0;
+
+    if (lastOccuredAt && dayDiff > 1) {
+      for (let i: number = 1; i <= dayDiff; i++) {
+        const parsedLastOccuredAt: DateTime = DateTime.fromJSDate(lastOccuredAt);
+        const nextDay: DateTime = parsedLastOccuredAt.minus({ days: i });
+        const key: string = util.formatDateYearFirst(nextDay.toJSDate());
+        if (!mapActivities.has(key)) {
+          mapActivities.set(key, {
+            date: key,
+            stat: { juz: 0, ayah: 0, lines: 0 },
+          });
+        }
+      }
+    }
 
     if (!mapActivities.has(key)) {
       const newStat: entityStat.ActivityStat = serviceStat.getActivityStat(item);
@@ -72,9 +90,23 @@ export const getCompactDate = async (): Promise<entity.CompactDate[]> => {
     obj.stat.ayah += newStat.ayah;
     obj.stat.lines += newStat.lines;
     obj.stat.juz = serviceJuz.getTotalJuzFromLines(obj.stat.lines);
+
+    lastOccuredAt = item.occuredAt;
   }
 
   return Array.from(mapActivities.values());
+};
+
+const compareDayOfTwoDates = (lastOccuredAt: Date, occuredAt: Date): number => {
+  const parsedLastOccuredAt: DateTime = DateTime.fromJSDate(lastOccuredAt);
+  const parsedOccuredAt: DateTime = DateTime.fromJSDate(occuredAt);
+
+  if (!parsedLastOccuredAt.isValid || !parsedOccuredAt.isValid) {
+    console.error(new Error(`Error comparing two dates ${lastOccuredAt} ${occuredAt}`));
+    return 0;
+  }
+
+  return Math.floor(parsedLastOccuredAt.diff(parsedOccuredAt).as('days'));
 };
 
 export const getListSurah = async (): Promise<entity.ListSurah[]> => {
