@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 
+import { AlertColor } from '../entity';
+
 interface AlertState {
   isAlertVisible: boolean;
   alertColor: number;
@@ -16,7 +18,7 @@ interface AlertState {
 // eslint-disable-next-line @typescript-eslint/typedef
 export const useAlertStore = create<AlertState>()((set) => ({
   isAlertVisible: false,
-  alertColor: 0,
+  alertColor: AlertColor.Uninitialized,
   alertText: '',
 
   setIsAlertVisible: (value: boolean): void => set({ isAlertVisible: value }),

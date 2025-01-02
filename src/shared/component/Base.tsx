@@ -4,7 +4,6 @@ import { FC, MutableRefObject, Profiler, ReactNode, useRef, useEffect } from 're
 
 enum LogRenderModules {
   Activity = 'activity',
-  Counter = 'counter',
   Shared = 'shared',
   Stat = 'stat',
 }

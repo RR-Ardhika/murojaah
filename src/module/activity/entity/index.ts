@@ -2,6 +2,7 @@ import { ActivityStat } from '@/module/stat/entity';
 import { Option } from '@/shared/entity';
 
 export enum ActivityType {
+  Uninitialized = -1,
   Juz = 0,
   Surah = 1,
   Ayah = 2,

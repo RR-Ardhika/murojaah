@@ -7,6 +7,7 @@ import { SharedProps as Props } from '.';
 import { DateTimeInput } from './Input/DateTimeInput';
 import { NumberInput } from './Input/NumberInput';
 import { NumberStepper } from './Input/NumberStepper';
+import { ActivityType } from '../../entity';
 import { useFormStore } from '../../store';
 
 const selectStyle: StylesConfig = {
@@ -199,11 +200,11 @@ export const Content = (p: Props): React.JSX.Element => {
   const { formType } = useFormStore();
 
   switch (formType) {
-    case 'Juz':
+    case ActivityType.Juz:
       return <JuzContent {...p} />;
-    case 'Surah':
+    case ActivityType.Surah:
       return <SurahContent {...p} />;
-    case 'Ayah':
+    case ActivityType.Ayah:
       return <AyahContent {...p} />;
     default:
       return <></>;

@@ -4,12 +4,13 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { Base } from '@/shared/component/Base';
 import { useAlertStore } from '@/shared/store';
 
+import { ActivityType } from '../entity';
 import { useFormStore } from '../store';
 
 interface InternalProps {
   setIsSubButtonsVisible: Dispatch<SetStateAction<boolean>>;
   setIsFormVisible: (value: boolean) => void;
-  setFormType: (value: string) => void;
+  setFormType: (value: number) => void;
   hideAlert: () => void;
 }
 
@@ -24,7 +25,7 @@ const toggleShowSubButtons = (i: InternalProps): void => {
   i.setIsSubButtonsVisible((isSubButtonsVisible: boolean) => !isSubButtonsVisible);
 };
 
-const showForm = (i: InternalProps, type: string): void => {
+const showForm = (i: InternalProps, type: number): void => {
   i.hideAlert();
   i.setFormType(type);
   i.setIsSubButtonsVisible(false);
@@ -36,19 +37,19 @@ const renderSubButtons = (i: InternalProps): React.JSX.Element => {
     <div className="flex flex-col gap-4">
       <button
         className={clsx(CLASS_NAMES.base, CLASS_NAMES.sub)}
-        onClick={() => showForm(i, 'Juz')}
+        onClick={() => showForm(i, ActivityType.Juz)}
       >
         <span className="text-xl">Juz</span>
       </button>
       <button
         className={clsx(CLASS_NAMES.base, CLASS_NAMES.sub)}
-        onClick={() => showForm(i, 'Ayah')}
+        onClick={() => showForm(i, ActivityType.Ayah)}
       >
         <span className="text-xl">Ayah</span>
       </button>
       <button
         className={clsx(CLASS_NAMES.base, CLASS_NAMES.sub)}
-        onClick={() => showForm(i, 'Surah')}
+        onClick={() => showForm(i, ActivityType.Surah)}
       >
         <span className="text-xl">Surah</span>
       </button>
