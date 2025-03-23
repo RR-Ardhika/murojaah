@@ -10,7 +10,7 @@ export enum ActivityType {
 
 export type Activity = {
   id: string;
-  activityType: number;
+  activityType: ActivityType;
   juz?: number;
   surah?: number;
   startAyah?: number;
