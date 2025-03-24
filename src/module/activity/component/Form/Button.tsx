@@ -92,7 +92,7 @@ const buildJuzPayload = (p: Props, i: InternalProps): Payload => {
     ...(p.selectedJuz?.value && { juz: p.selectedJuz.value }),
     approachId: p.selectedApproach.value,
     repeat: 1, // Hardcoded to 1 for juz
-    occuredAt: buildOccuredAt(p),
+    occuredAt: buildOccuredAt(p, i),
   };
 };
 
@@ -107,7 +107,7 @@ const buildSurahPayload = (p: Props, i: InternalProps): Payload => {
     markJuzDone: p.isJuzDone,
     approachId: p.selectedApproach.value,
     repeat: p.repeat,
-    occuredAt: buildOccuredAt(p),
+    occuredAt: buildOccuredAt(p, i),
   };
 };
 
@@ -122,15 +122,19 @@ const buildAyahPayload = (p: Props, i: InternalProps): Payload => {
     markJuzDone: p.isJuzDone,
     approachId: p.selectedApproach.value,
     repeat: p.repeat,
-    occuredAt: buildOccuredAt(p),
+    occuredAt: buildOccuredAt(p, i),
   };
 };
 
-const buildOccuredAt = (p: Props): Date => {
+const buildOccuredAt = (p: Props, i: InternalProps): Date => {
   for (const format of formFormatDatetimes) {
     let dt: DateTime = DateTime.fromFormat(p.occuredAt, format);
 
     if (dt.isValid) {
+      if (i.activity && checkActivityEqualsDateTime(i.activity, dt)) {
+        return i.activity.occuredAt;
+      }
+
       const now: DateTime = DateTime.now();
       dt = dt.set({
         second: now.second,
@@ -142,6 +146,16 @@ const buildOccuredAt = (p: Props): Date => {
   }
 
   throw new Error('Invalid DateTime');
+};
+
+const checkActivityEqualsDateTime = (activity: Activity, dateTime: DateTime): boolean => {
+  let parsedOccuredAt: DateTime = DateTime.fromJSDate(activity.occuredAt);
+  parsedOccuredAt = parsedOccuredAt.set({
+    second: 0,
+    millisecond: 0,
+  });
+
+  return parsedOccuredAt.equals(dateTime);
 };
 
 // TD-1 Utilize useMemo
