@@ -22,19 +22,24 @@ const getBtnColor = (i: InternalProps): string => {
 
 export const Alert = (): React.JSX.Element => {
   const { isAlertVisible, alertColor, alertText } = useAlertStore();
-  
+
   const btnColor: string = useMemo(() => {
     const i: InternalProps = {
       alertColor,
     };
     return getBtnColor(i);
   }, [alertColor]);
-  
-  if (!isAlertVisible) return <></>;
-  
+
+  // Always render the container but control visibility with opacity and pointer-events
   return (
     <Base module="shared" name="Alert">
-      <div className={clsx('fixed w-full mt-[72px] p-2 text-white text', btnColor)}>
+      <div 
+        className={clsx(
+          'fixed w-full top-[72px] p-2 text-white text z-50 transition-opacity duration-300',
+          btnColor,
+          isAlertVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        )}
+      >
         <div className="flex justify-between">
           <p>{alertText}</p>
         </div>
