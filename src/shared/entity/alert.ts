@@ -16,3 +16,7 @@ export enum AlertText {
   FailedImportedDB = 'Failed to import database',
   SuccessDeletedDB = 'Successfully deleted database',
 }
+
+export enum AlertConfig {
+  Timeout = 3000,
+}
