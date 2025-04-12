@@ -1,15 +1,12 @@
-import { clsx } from 'clsx';
 import { useEffect, useCallback } from 'react';
 
 import { Base } from '@/shared/component/Base';
-import { useAlertStore } from '@/shared/store';
 
 import { Activity, ActivityGroup } from '../../entity';
 import { useDataStore } from '../../store';
 import { Card } from '../Card';
 
 export const View = (): React.JSX.Element => {
-  const { isAlertVisible } = useAlertStore();
   const { data, fetchData } = useDataStore();
 
   const memoizedFetchData: () => Promise<void> = useCallback(() => {
