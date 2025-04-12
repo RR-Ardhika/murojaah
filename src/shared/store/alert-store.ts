@@ -6,6 +6,7 @@ interface AlertState {
   isAlertVisible: boolean;
   alertColor: number;
   alertText: string;
+  timerId: NodeJS.Timeout | null;
 
   setIsAlertVisible: (value: boolean) => void;
   setAlertColor: (value: number) => void;
@@ -16,10 +17,11 @@ interface AlertState {
 }
 
 // eslint-disable-next-line @typescript-eslint/typedef
-export const useAlertStore = create<AlertState>()((set) => ({
+export const useAlertStore = create<AlertState>()((set, get) => ({
   isAlertVisible: false,
   alertColor: AlertColor.Uninitialized,
   alertText: '',
+  timerId: null,
 
   setIsAlertVisible: (value: boolean): void => set({ isAlertVisible: value }),
   setAlertColor: (value: number): void => set({ alertColor: value }),
@@ -27,18 +29,30 @@ export const useAlertStore = create<AlertState>()((set) => ({
 
   showAlert: (color: number, text: string): void =>
     set(() => {
+      // Clear any existing timer to prevent multiple timers running
+      const currentTimerId = get().timerId;
+      if (currentTimerId) {
+        clearTimeout(currentTimerId);
+      }
+
+      // Create a new timer
+      const newTimerId = setTimeout(() => {
+        set({ isAlertVisible: false });
+      }, 3000);
+
       // eslint-disable-next-line @typescript-eslint/typedef
       const newState = {
         isAlertVisible: true,
         alertColor: color,
         alertText: text,
+        timerId: newTimerId,
       };
-
-      setTimeout(() => {
-        set({ isAlertVisible: false });
-      }, 3000);
 
       return newState;
     }),
-  hideAlert: (): void => set({ isAlertVisible: false }),
+  hideAlert: (): void => {
+    const currentTimerId = get().timerId;
+    if (currentTimerId) clearTimeout(currentTimerId);
+    set({ isAlertVisible: false, timerId: null });
+  },
 }));
