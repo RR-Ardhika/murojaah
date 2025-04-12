@@ -30,13 +30,13 @@ export const useAlertStore = create<AlertState>()((set, get) => ({
   showAlert: (color: number, text: string): void =>
     set(() => {
       // Clear any existing timer to prevent multiple timers running
-      const currentTimerId = get().timerId;
+      const currentTimerId: NodeJS.Timeout | null = get().timerId;
       if (currentTimerId) {
         clearTimeout(currentTimerId);
       }
 
       // Create a new timer
-      const newTimerId = setTimeout(() => {
+      const newTimerId: NodeJS.Timeout = setTimeout(() => {
         set({ isAlertVisible: false });
       }, AlertConfig.Timeout);
 
@@ -51,7 +51,7 @@ export const useAlertStore = create<AlertState>()((set, get) => ({
       return newState;
     }),
   hideAlert: (): void => {
-    const currentTimerId = get().timerId;
+    const currentTimerId: NodeJS.Timeout | null = get().timerId;
     if (currentTimerId) clearTimeout(currentTimerId);
     set({ isAlertVisible: false, timerId: null });
   },
