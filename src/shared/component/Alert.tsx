@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import { useMemo } from 'react';
+
 import { Base } from '../component/Base';
 import { AlertColor } from '../entity';
 import { useAlertStore } from '../store';
@@ -23,12 +24,14 @@ const getBtnColor = (i: InternalProps): string => {
 export const Alert = (): React.JSX.Element => {
   const { isAlertVisible, alertColor, alertText } = useAlertStore();
 
-  const i: InternalProps = {
-    alertColor,
-  };
-
   // Using useMemo to prevent unnecessary recalculations of button color
-  const btnColor = useMemo(() => getBtnColor(i), [alertColor]);
+  // Moving the creation of 'i' object inside useMemo to fix dependency issue
+  const btnColor: string = useMemo(() => {
+    const i: InternalProps = {
+      alertColor,
+    };
+    return getBtnColor(i);
+  }, [alertColor]);
 
   if (!isAlertVisible) return <></>;
 

@@ -1,6 +1,8 @@
 import { clsx } from 'clsx';
 import { useEffect, useCallback } from 'react';
+
 import { Base } from '@/shared/component/Base';
+
 import { CompactDate } from '../../entity';
 import { useCompactDateDataStore } from '../../store';
 
@@ -18,9 +20,9 @@ const addStripedClassNames = (i: number): string => {
 export const CompactDateView = (): React.JSX.Element => {
   const { data, fetchData } = useCompactDateDataStore();
   
-  // Use useCallback to memoize the fetchData function
-  const memoizedFetchData = useCallback(() => {
-    fetchData();
+  // Use useCallback to memoize the fetchData function and properly return the Promise
+  const memoizedFetchData: () => Promise<void> = useCallback(() => {
+    return fetchData();
   }, [fetchData]);
 
   // Now use the memoized function in useEffect with proper dependency

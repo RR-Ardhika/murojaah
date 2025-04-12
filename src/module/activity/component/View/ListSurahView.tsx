@@ -51,9 +51,9 @@ export const ListSurahView = (): React.JSX.Element => {
 
   let currentJuz: number;
 
-  // Use useCallback to memoize the fetchData function
-  const memoizedFetchData = useCallback(() => {
-    fetchData();
+  // Use useCallback to memoize the fetchData function and properly return the Promise
+  const memoizedFetchData: () => Promise<void> = useCallback(() => {
+    return fetchData();
   }, [fetchData]);
 
   // Now use the memoized function in useEffect with proper dependency
