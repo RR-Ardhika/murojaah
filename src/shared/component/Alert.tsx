@@ -33,11 +33,11 @@ export const Alert = (): React.JSX.Element => {
   // Always render the container but control visibility with opacity and pointer-events
   return (
     <Base module="shared" name="Alert">
-      <div 
+      <div
         className={clsx(
           'fixed w-full top-[72px] p-2 text-white text z-50 transition-opacity duration-300 cursor-pointer',
           btnColor,
-          isAlertVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          isAlertVisible ? 'opacity-90' : 'opacity-0 pointer-events-none'
         )}
         onClick={hideAlert}
       >
