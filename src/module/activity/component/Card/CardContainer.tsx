@@ -9,6 +9,11 @@ import { Activity } from '../../entity';
 import { destroy } from '../../service';
 import { useCardStore, useDataStore, useFormStore } from '../../store';
 
+interface ContainerProps {
+  item: Activity;
+  children: React.ReactNode;
+}
+
 interface InternalProps {
   item: Activity;
   fetchData: () => Promise<void>;
@@ -58,9 +63,11 @@ const deleteRecord = async (i: InternalProps, item: Activity): Promise<void> => 
   }
 };
 
-export const Container = (item: Activity, children: React.JSX.Element): React.JSX.Element => {
+export const Container: React.FC<ContainerProps> = ({
+  item,
+  children,
+}: ContainerProps): React.JSX.Element => {
   const [isDeleteConfirmationVisible, setIsDeleteConfirmationVisible] = useState(false);
-
   const { hideAlert, showAlert } = useAlertStore();
   const { expandedCardId, setExpandedCardId } = useCardStore();
   const { fetchData } = useDataStore();

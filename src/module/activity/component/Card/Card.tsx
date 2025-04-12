@@ -89,7 +89,7 @@ const AyahCard = (i: InternalProps): React.JSX.Element => {
 export const Card = (item: Activity): React.JSX.Element => {
   const activityStat: ActivityStat = getActivityStat(item);
 
-  return useMemo(() => {
+  const cardContent: React.JSX.Element = useMemo(() => {
     const i: InternalProps = {
       item,
       activityStat,
@@ -97,13 +97,15 @@ export const Card = (item: Activity): React.JSX.Element => {
 
     switch (item.activityType) {
       case ActivityType.Juz:
-        return Container(item, JuzCard(i));
+        return JuzCard(i);
       case ActivityType.Surah:
-        return Container(item, SurahCard(i));
+        return SurahCard(i);
       case ActivityType.Ayah:
-        return Container(item, AyahCard(i));
+        return AyahCard(i);
       default:
         return <></>;
     }
   }, [item, activityStat]);
+
+  return <Container item={item}>{cardContent}</Container>;
 };
