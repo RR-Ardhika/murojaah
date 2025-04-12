@@ -24,7 +24,38 @@ interface InternalProps {
   setDisableSaveButton: Dispatch<SetStateAction<boolean>>;
 }
 
-// Action functions that need to be used within the component
+const checkIsChanged = (formType: number, selectedJuz: Option | undefined, selectedSurah: Option | Option[] | undefined): boolean => {
+  switch (formType) {
+    case ActivityType.Juz:
+      if (!selectedJuz) return false;
+      break;
+    case ActivityType.Surah:
+      if (!selectedSurah) return false;
+      break;
+    case ActivityType.Ayah:
+      // TD-3 Implement proper number input for ayah
+      if (!selectedSurah) return false;
+      break;
+  }
+  return true;
+};
+
+const checkIsSaveable = (formType: number, selectedJuz: Option | undefined, selectedSurah: Option | Option[] | undefined): boolean => {
+  switch (formType) {
+    case ActivityType.Juz:
+      if (!selectedJuz) return false;
+      break;
+    case ActivityType.Surah:
+      if (!selectedSurah) return false;
+      break;
+    case ActivityType.Ayah:
+      // TD-3 Implement proper number input for ayah
+      if (!selectedSurah) return false;
+      break;
+  }
+  return true;
+};
+
 const buildPayload = (p: Props, i: InternalProps): Payload => {
   switch (i.formType) {
     case ActivityType.Juz:
@@ -129,6 +160,44 @@ const closeForm = (p: Props, i: InternalProps): void => {
   }, 500);
 };
 
+const handleSave = async (
+  p: Props, 
+  i: InternalProps, 
+  isSaveable: boolean
+): Promise<void> => {
+  if (!isSaveable) return;
+  
+  try {
+    i.setDisableSaveButton(true);
+    if (i.activity) await update(buildPayload(p, i));
+    else await create(buildPayload(p, i));
+    closeForm(p, i);
+    if (i.activity) i.showAlert(AlertColor.Green, AlertText.SuccessUpdatedActivity);
+    else i.showAlert(AlertColor.Green, AlertText.SuccessCreatedActivity);
+    p.fetchData();
+    i.setDisableSaveButton(false);
+  } catch (err) {
+    i.setDisableSaveButton(false);
+    console.error(err);
+    i.showAlert(AlertColor.Red, AlertText.FailedCreatedActivity);
+  }
+};
+
+const handleCancel = (
+  p: Props,
+  i: InternalProps,
+  isFormChanged: boolean
+): void => {
+  if (isFormChanged && !i.isCancelConfirmationVisible) {
+    i.setIsCancelConfirmationVisible(true);
+    setTimeout(() => {
+      i.setIsCancelConfirmationVisible(false);
+    }, 2000);
+    return;
+  }
+  closeForm(p, i);
+};
+
 export const Button = (p: Props): React.JSX.Element => {
   const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);
   const [disableSaveButton, setDisableSaveButton] = useState(false);
@@ -149,78 +218,22 @@ export const Button = (p: Props): React.JSX.Element => {
     setDisableSaveButton,
   };
 
-  // Move the isChanged logic directly into useMemo with minimal dependencies
-  const isFormChanged: boolean = useMemo(() => {
-    switch (formType) {
-      case ActivityType.Juz:
-        if (!p.selectedJuz) return false;
-        break;
-      case ActivityType.Surah:
-        if (!p.selectedSurah) return false;
-        break;
-      case ActivityType.Ayah:
-        // TD-3 Implement proper number input for ayah
-        if (!p.selectedSurah) return false;
-        break;
-    }
-    return true;
-  }, [formType, p.selectedJuz, p.selectedSurah]);
+  const isFormChanged: boolean = useMemo(
+    () => checkIsChanged(formType, p.selectedJuz, p.selectedSurah),
+    [formType, p.selectedJuz, p.selectedSurah]
+  );
   
-  // Move the isSaveable logic directly into useMemo with minimal dependencies
-  const isSaveable: boolean = useMemo(() => {
-    switch (formType) {
-      case ActivityType.Juz:
-        if (!p.selectedJuz) return false;
-        break;
-      case ActivityType.Surah:
-        if (!p.selectedSurah) return false;
-        break;
-      case ActivityType.Ayah:
-        // TD-3 Implement proper number input for ayah
-        if (!p.selectedSurah) return false;
-        break;
-    }
-    return true;
-  }, [formType, p.selectedJuz, p.selectedSurah]);
-
-  // Define the save function within the component to access memoized values
-  const handleSave = async (): Promise<void> => {
-    if (!isSaveable) return;
-    
-    try {
-      i.setDisableSaveButton(true); // Prevent multiple click by disable the button
-      if (i.activity) await update(buildPayload(p, i));
-      else await create(buildPayload(p, i));
-      closeForm(p, i);
-      if (i.activity) showAlert(AlertColor.Green, AlertText.SuccessUpdatedActivity);
-      else showAlert(AlertColor.Green, AlertText.SuccessCreatedActivity);
-      p.fetchData();
-      i.setDisableSaveButton(false);
-    } catch (err) {
-      i.setDisableSaveButton(false);
-      console.error(err);
-      showAlert(AlertColor.Red, AlertText.FailedCreatedActivity);
-    }
-  };
-
-  // Define the cancel function within the component to access memoized values
-  const handleCancel = (): void => {
-    if (isFormChanged && !isCancelConfirmationVisible) {
-      setIsCancelConfirmationVisible(true);
-      setTimeout(() => {
-        setIsCancelConfirmationVisible(false);
-      }, 2000);
-      return;
-    }
-    closeForm(p, i);
-  };
+  const isSaveable: boolean = useMemo(
+    () => checkIsSaveable(formType, p.selectedJuz, p.selectedSurah),
+    [formType, p.selectedJuz, p.selectedSurah]
+  );
 
   return (
     <div className="flex flex-row-reverse gap-2 mt-4">
       <button
         type="button"
         className="px-6 py-2 enabled:bg-custom-teal enabled:hover:bg-teal-700 disabled:bg-gray-400 text-white rounded"
-        onClick={handleSave}
+        onClick={() => handleSave(p, i, isSaveable)}
         disabled={!isSaveable || disableSaveButton}
       >
         Save
@@ -230,7 +243,7 @@ export const Button = (p: Props): React.JSX.Element => {
         <button
           type="button"
           className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
-          onClick={handleCancel}
+          onClick={() => handleCancel(p, i, isFormChanged)}
         >
           Cancel
         </button>
