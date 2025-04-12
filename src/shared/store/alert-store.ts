@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import { AlertColor } from '../entity';
+import { AlertColor, AlertConfig } from '../entity';
 
 interface AlertState {
   isAlertVisible: boolean;
@@ -38,7 +38,7 @@ export const useAlertStore = create<AlertState>()((set, get) => ({
       // Create a new timer
       const newTimerId = setTimeout(() => {
         set({ isAlertVisible: false });
-      }, 3000);
+      }, AlertConfig.Timeout);
 
       // eslint-disable-next-line @typescript-eslint/typedef
       const newState = {
