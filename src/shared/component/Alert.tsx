@@ -30,7 +30,6 @@ export const Alert = (): React.JSX.Element => {
     return getBtnColor(i);
   }, [alertColor]);
 
-  // Always render the container but control visibility with opacity and pointer-events
   return (
     <Base module="shared" name="Alert">
       <div
