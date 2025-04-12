@@ -20,12 +20,10 @@ const addStripedClassNames = (i: number): string => {
 export const CompactDateView = (): React.JSX.Element => {
   const { data, fetchData } = useCompactDateDataStore();
   
-  // Use useCallback to memoize the fetchData function and properly return the Promise
   const memoizedFetchData: () => Promise<void> = useCallback(() => {
     return fetchData();
   }, [fetchData]);
 
-  // Now use the memoized function in useEffect with proper dependency
   useEffect(() => {
     memoizedFetchData();
   }, [memoizedFetchData]);

@@ -89,14 +89,12 @@ const AyahCard = (i: InternalProps): React.JSX.Element => {
 export const Card = (item: Activity): React.JSX.Element => {
   const activityStat: ActivityStat = getActivityStat(item);
 
-  // Using useMemo to prevent unnecessary renders of card components
   return useMemo(() => {
-    // Move the object creation inside useMemo
     const i: InternalProps = {
       item,
       activityStat,
     };
-    
+
     switch (item.activityType) {
       case ActivityType.Juz:
         return Container(item, JuzCard(i));

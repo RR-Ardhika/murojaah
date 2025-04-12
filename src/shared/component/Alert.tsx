@@ -9,7 +9,6 @@ interface InternalProps {
   alertColor: number;
 }
 
-// Keeping function outside but result is memoized
 const getBtnColor = (i: InternalProps): string => {
   switch (i.alertColor) {
     case AlertColor.Red:
@@ -24,8 +23,6 @@ const getBtnColor = (i: InternalProps): string => {
 export const Alert = (): React.JSX.Element => {
   const { isAlertVisible, alertColor, alertText } = useAlertStore();
   
-  // Using useMemo to prevent unnecessary recalculations of button color
-  // Moving the creation of 'i' object inside useMemo to fix dependency issue
   const btnColor: string = useMemo(() => {
     const i: InternalProps = {
       alertColor,
