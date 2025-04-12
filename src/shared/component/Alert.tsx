@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-
+import { useMemo } from 'react';
 import { Base } from '../component/Base';
 import { AlertColor } from '../entity';
 import { useAlertStore } from '../store';
@@ -8,7 +8,7 @@ interface InternalProps {
   alertColor: number;
 }
 
-// TD-1 Utilize useMemo
+// TD-1 Utilize useMemo - Keeping function outside but result is memoized
 const getBtnColor = (i: InternalProps): string => {
   switch (i.alertColor) {
     case AlertColor.Red:
@@ -23,15 +23,18 @@ const getBtnColor = (i: InternalProps): string => {
 export const Alert = (): React.JSX.Element => {
   const { isAlertVisible, alertColor, alertText } = useAlertStore();
 
-  if (!isAlertVisible) return <></>;
-
   const i: InternalProps = {
     alertColor,
   };
 
+  // Using useMemo to prevent unnecessary recalculations of button color
+  const btnColor = useMemo(() => getBtnColor(i), [alertColor]);
+
+  if (!isAlertVisible) return <></>;
+
   return (
     <Base module="shared" name="Alert">
-      <div className={clsx('fixed w-full mt-[72px] p-2 text-white text', getBtnColor(i))}>
+      <div className={clsx('fixed w-full mt-[72px] p-2 text-white text', btnColor)}>
         <div className="flex justify-between">
           <p>{alertText}</p>
         </div>

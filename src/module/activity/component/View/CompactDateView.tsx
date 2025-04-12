@@ -1,8 +1,6 @@
 import { clsx } from 'clsx';
-import { useEffect } from 'react';
-
+import { useEffect, useCallback } from 'react';
 import { Base } from '@/shared/component/Base';
-
 import { CompactDate } from '../../entity';
 import { useCompactDateDataStore } from '../../store';
 
@@ -19,12 +17,17 @@ const addStripedClassNames = (i: number): string => {
 
 export const CompactDateView = (): React.JSX.Element => {
   const { data, fetchData } = useCompactDateDataStore();
-
-  useEffect(() => {
+  
+  // Use useCallback to memoize the fetchData function
+  const memoizedFetchData = useCallback(() => {
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fetchData]);
 
+  // Now use the memoized function in useEffect with proper dependency
+  useEffect(() => {
+    memoizedFetchData();
+  }, [memoizedFetchData]);
+  
   return (
     <Base module="activity" name="CompactDateView">
       <div className="flex flex-col pt-4 px-4 mt-[72px]">

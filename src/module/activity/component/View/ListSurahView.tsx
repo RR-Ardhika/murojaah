@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 
 import { Base } from '@/shared/component/Base';
 import { Option } from '@/shared/entity';
@@ -51,10 +51,15 @@ export const ListSurahView = (): React.JSX.Element => {
 
   let currentJuz: number;
 
-  useEffect(() => {
+  // Use useCallback to memoize the fetchData function
+  const memoizedFetchData = useCallback(() => {
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fetchData]);
+
+  // Now use the memoized function in useEffect with proper dependency
+  useEffect(() => {
+    memoizedFetchData();
+  }, [memoizedFetchData]);
 
   const i: InternalProps = {
     data,
@@ -74,7 +79,7 @@ export const ListSurahView = (): React.JSX.Element => {
         {data &&
           data.map((item: ListSurah) => {
             return (
-              <div key={Math.random()}>
+              <div key={`surah-${item.id}`}>
                 {i.currentJuz !== item.juz ? updateAndRenderCurrentJuz(i, item) : <></>}
                 <ListSurahCard key={item.id} item={item} showForm={() => showForm(i, item)} />
               </div>
