@@ -19,7 +19,7 @@ const addStripedClassNames = (i: number): string => {
 
 export const CompactDateView = (): React.JSX.Element => {
   const { data, fetchData } = useCompactDateDataStore();
-  
+
   const memoizedFetchData: () => Promise<void> = useCallback(() => {
     return fetchData();
   }, [fetchData]);
@@ -27,7 +27,7 @@ export const CompactDateView = (): React.JSX.Element => {
   useEffect(() => {
     memoizedFetchData();
   }, [memoizedFetchData]);
-  
+
   return (
     <Base module="activity" name="CompactDateView">
       <div className="flex flex-col pt-4 px-4 mt-[72px]">
