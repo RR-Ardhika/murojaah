@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useCallback } from 'react';
 
 import { Base } from '@/shared/component/Base';
 import { Option } from '@/shared/entity';
@@ -49,16 +49,21 @@ export const ListSurahView = (): React.JSX.Element => {
     useFormStore();
   const { data, fetchData } = useListSurahDataStore();
 
+  let currentJuz: number;
+
+  const memoizedFetchData: () => Promise<void> = useCallback(() => {
+    return fetchData();
+  }, [fetchData]);
+
   useEffect(() => {
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    memoizedFetchData();
+  }, [memoizedFetchData]);
 
   const renderedData: React.JSX.Element[] | null = useMemo(() => {
     if (!data) return null;
-    
+
     let currentJuz: number;
-    
+
     const i: InternalProps = {
       data,
       hideAlert,
@@ -73,7 +78,7 @@ export const ListSurahView = (): React.JSX.Element => {
 
     return data.map((item: ListSurah) => {
       return (
-        <div key={Math.random()}>
+        <div key={`surah-${item.id}`}>
           {i.currentJuz !== item.juz ? updateAndRenderCurrentJuz(i, item) : <></>}
           <ListSurahCard key={item.id} item={item} showForm={() => showForm(i, item)} />
         </div>

@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { useMemo } from 'react';
 
 import { Base } from '../component/Base';
 import { AlertColor } from '../entity';
@@ -8,7 +9,6 @@ interface InternalProps {
   alertColor: number;
 }
 
-// TD-1 Utilize useMemo
 const getBtnColor = (i: InternalProps): string => {
   switch (i.alertColor) {
     case AlertColor.Red:
@@ -21,17 +21,25 @@ const getBtnColor = (i: InternalProps): string => {
 };
 
 export const Alert = (): React.JSX.Element => {
-  const { isAlertVisible, alertColor, alertText } = useAlertStore();
+  const { isAlertVisible, alertColor, alertText, hideAlert } = useAlertStore();
 
-  if (!isAlertVisible) return <></>;
-
-  const i: InternalProps = {
-    alertColor,
-  };
+  const btnColor: string = useMemo(() => {
+    const i: InternalProps = {
+      alertColor,
+    };
+    return getBtnColor(i);
+  }, [alertColor]);
 
   return (
     <Base module="shared" name="Alert">
-      <div className={clsx('fixed w-full mt-[72px] p-2 text-white text', getBtnColor(i))}>
+      <div
+        className={clsx(
+          'fixed w-full top-[72px] p-2 text-white text z-50 transition-opacity duration-300 cursor-pointer',
+          btnColor,
+          isAlertVisible ? 'opacity-90' : 'opacity-0 pointer-events-none'
+        )}
+        onClick={hideAlert}
+      >
         <div className="flex justify-between">
           <p>{alertText}</p>
         </div>

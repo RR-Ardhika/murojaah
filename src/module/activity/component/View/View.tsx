@@ -1,25 +1,25 @@
-import { clsx } from 'clsx';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 
 import { Base } from '@/shared/component/Base';
-import { useAlertStore } from '@/shared/store';
 
 import { Activity, ActivityGroup } from '../../entity';
 import { useDataStore } from '../../store';
 import { Card } from '../Card';
 
 export const View = (): React.JSX.Element => {
-  const { isAlertVisible } = useAlertStore();
   const { data, fetchData } = useDataStore();
 
+  const memoizedFetchData: () => Promise<void> = useCallback(() => {
+    return fetchData();
+  }, [fetchData]);
+
   useEffect(() => {
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    memoizedFetchData();
+  }, [memoizedFetchData]);
 
   return (
     <Base module="activity" name="View">
-      <div className={clsx('flex flex-col pt-4 px-4', isAlertVisible ? 'mt-[112px]' : 'mt-[72px]')}>
+      <div className="flex flex-col pt-4 px-4 mt-[72px]">
         {data &&
           data.map((group: ActivityGroup) => {
             return (
