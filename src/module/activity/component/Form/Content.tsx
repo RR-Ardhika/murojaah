@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import Select, { StylesConfig, CSSObjectWithLabel } from 'react-select';
 
+import { Option } from '@/shared/entity';
 import { approachOptions, juzOptions, surahOptions } from '@/shared/service';
 
 import { SharedProps as Props } from '.';
@@ -19,8 +20,8 @@ const selectStyle: StylesConfig = {
 };
 
 const JuzContent = (p: Props): React.JSX.Element => {
-  const juzOpts = useMemo(() => juzOptions(), []);
-  const approachOpts = useMemo(() => approachOptions(), []);
+  const juzOpts: Option[] = useMemo(() => juzOptions(), []);
+  const approachOpts: Option[] = useMemo(() => approachOptions(), []);
 
   return (
     <div className="flex flex-col gap-2 mt-2">
@@ -61,8 +62,8 @@ const SurahContent = (p: Props): React.JSX.Element => {
 
   const { activity } = useFormStore();
 
-  const surahOpts = useMemo(() => surahOptions(), []);
-  const approachOpts = useMemo(() => approachOptions(), []);
+  const surahOpts: Option[] = useMemo(() => surahOptions(), []);
+  const approachOpts: Option[] = useMemo(() => approachOptions(), []);
 
   return (
     <div className="flex flex-col gap-2 mt-2">
@@ -127,8 +128,8 @@ const SurahContent = (p: Props): React.JSX.Element => {
 };
 
 const AyahContent = (p: Props): React.JSX.Element => {
-  const surahOpts = useMemo(() => surahOptions(), []);
-  const approachOpts = useMemo(() => approachOptions(), []);
+  const surahOpts: Option[] = useMemo(() => surahOptions(), []);
+  const approachOpts: Option[] = useMemo(() => approachOptions(), []);
 
   return (
     <div className="flex flex-col gap-2 mt-2">

@@ -71,7 +71,7 @@ export const ListSurahView = (): React.JSX.Element => {
     [data, hideAlert, isFormVisible, parentSurah, setIsFormVisible, setParentSurah, setFormType]
   );
 
-  const renderedData = useMemo(() => {
+  const renderedData: React.JSX.Element[] | null = useMemo(() => {
     if (!data) return null;
     return data.map((item: ListSurah) => {
       return (

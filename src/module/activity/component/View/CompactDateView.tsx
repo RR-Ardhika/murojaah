@@ -25,7 +25,7 @@ export const CompactDateView = (): React.JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const renderedData = useMemo(() => {
+  const renderedData: React.JSX.Element[] | null = useMemo(() => {
     if (!data) return null;
     return data.map((item: CompactDate, i: number) => {
       return (
