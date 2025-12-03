@@ -3,8 +3,8 @@
 import { Base } from '@/shared/component/Base';
 import { useDataImportListener } from '@/shared/hook';
 
-import { useCompactDateDataStore } from '../../store';
 import { CompactDateView } from '../../component/View';
+import { useCompactDateDataStore } from '../../store';
 
 export const CompactDatePage = (): React.JSX.Element => {
   const { fetchData } = useCompactDateDataStore();
