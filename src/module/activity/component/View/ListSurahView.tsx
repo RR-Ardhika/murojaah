@@ -49,15 +49,17 @@ export const ListSurahView = (): React.JSX.Element => {
     useFormStore();
   const { data, fetchData } = useListSurahDataStore();
 
-  let currentJuz: number;
-
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const i: InternalProps = useMemo(
-    () => ({
+  const renderedData: React.JSX.Element[] | null = useMemo(() => {
+    if (!data) return null;
+    
+    let currentJuz: number;
+    
+    const i: InternalProps = {
       data,
       hideAlert,
       isFormVisible,
@@ -67,12 +69,8 @@ export const ListSurahView = (): React.JSX.Element => {
       setFormType,
       // @ts-expect-error expected assigned
       currentJuz,
-    }),
-    [data, hideAlert, isFormVisible, parentSurah, setIsFormVisible, setParentSurah, setFormType]
-  );
+    };
 
-  const renderedData: React.JSX.Element[] | null = useMemo(() => {
-    if (!data) return null;
     return data.map((item: ListSurah) => {
       return (
         <div key={Math.random()}>
@@ -81,7 +79,7 @@ export const ListSurahView = (): React.JSX.Element => {
         </div>
       );
     });
-  }, [data, i]);
+  }, [data, hideAlert, isFormVisible, parentSurah, setIsFormVisible, setParentSurah, setFormType]);
 
   return (
     <Base module="activity" name="ListSurahView">
