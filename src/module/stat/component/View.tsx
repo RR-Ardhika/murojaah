@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 import { Base } from '@/shared/component/Base';
+import { useDataImportListener } from '@/shared/hook';
 
 import { Card } from './Card';
 import { Stat } from '../entity';
@@ -13,6 +14,9 @@ export const View = (): React.JSX.Element => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Auto-refresh stats when import event is triggered
+  useDataImportListener(fetchData);
 
   return (
     <Base module="stat" name="View">

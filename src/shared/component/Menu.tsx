@@ -89,11 +89,14 @@ const handleImportedFile = (event: React.ChangeEvent<HTMLInputElement>, i: Inter
       const jsonString: string = reader.result as string;
       const blob: Blob = new Blob([jsonString], { type: 'application/json' });
       await service.importData(blob);
+
+      // Show success toast notification
       i.showAlert(AlertColor.Green, AlertText.SuccessImportedDB);
-      // TD-6 Implement proper success import notification
+
+      // Broadcast data refresh event to all components without page reload
       setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+        window.dispatchEvent(new CustomEvent('data-imported'));
+      }, 500);
     } catch (err) {
       console.error('Import failed:', err);
       i.showAlert(AlertColor.Red, AlertText.FailedImportedDB);
