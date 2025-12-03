@@ -160,7 +160,7 @@ const checkActivityEqualsDateTime = (activity: Activity, dateTime: DateTime): bo
 };
 
 // Memoized Button component to prevent unnecessary re-renders
-export const Button = memo((p: Props): React.JSX.Element => {
+export const Button: React.FC<Props> = memo((p: Props): React.JSX.Element => {
   const [isCancelConfirmationVisible, setIsCancelConfirmationVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -179,7 +179,7 @@ export const Button = memo((p: Props): React.JSX.Element => {
   );
 
   // Reset form to initial state
-  const resetForm = useCallback((): void => {
+  const resetForm: () => void = useCallback((): void => {
     setActivity(undefined);
     setParentSurah([]);
     p.setSelectedJuz(undefined);
@@ -191,27 +191,16 @@ export const Button = memo((p: Props): React.JSX.Element => {
     p.setIsSurahDone(false);
     p.setIsJuzDone(false);
     setIsCancelConfirmationVisible(false);
-  }, [
-    setActivity,
-    setParentSurah,
-    p.setSelectedJuz,
-    p.setSelectedSurah,
-    p.setSelectedApproach,
-    p.setStartAyah,
-    p.setEndAyah,
-    p.setRepeat,
-    p.setIsSurahDone,
-    p.setIsJuzDone,
-  ]);
+  }, [setActivity, setParentSurah, p]);
 
   // Close form with animation delay
-  const closeForm = useCallback((): void => {
+  const closeForm: () => void = useCallback((): void => {
     setIsFormVisible(false);
     setTimeout(resetForm, 500);
   }, [setIsFormVisible, resetForm]);
 
   // Handle save action
-  const handleSave = useCallback(async (): Promise<void> => {
+  const handleSave: () => Promise<void> = useCallback(async (): Promise<void> => {
     if (!isSaveable || isSubmitting) return;
 
     try {
@@ -237,7 +226,7 @@ export const Button = memo((p: Props): React.JSX.Element => {
   }, [isSaveable, isSubmitting, activity, formType, p, showAlert, closeForm]);
 
   // Handle cancel action with confirmation
-  const handleCancel = useCallback((): void => {
+  const handleCancel: () => void = useCallback((): void => {
     if (isFormChanged && !isCancelConfirmationVisible) {
       setIsCancelConfirmationVisible(true);
       setTimeout(() => setIsCancelConfirmationVisible(false), 2000);
@@ -270,3 +259,5 @@ export const Button = memo((p: Props): React.JSX.Element => {
     </div>
   );
 });
+
+Button.displayName = 'Button';

@@ -10,11 +10,11 @@ interface Props {
 }
 
 // Memoized number input component for ayah input with validation
-export const NumberInput = memo((p: Props): React.JSX.Element => {
+export const NumberInput: React.FC<Props> = memo((p: Props): React.JSX.Element => {
   const { value, setValue, min = 1, max, placeholder, ariaLabel } = p;
 
   // Validate and handle input change with proper number constraints
-  const handleChange = useCallback(
+  const handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>): void => {
       const inputValue: string = e.target.value;
 
@@ -40,7 +40,7 @@ export const NumberInput = memo((p: Props): React.JSX.Element => {
   );
 
   // Handle blur to ensure valid value
-  const handleBlur = useCallback((): void => {
+  const handleBlur: () => void = useCallback((): void => {
     if (value === '' || parseInt(value, 10) < min) {
       setValue('');
     }
@@ -64,3 +64,5 @@ export const NumberInput = memo((p: Props): React.JSX.Element => {
     </div>
   );
 });
+
+NumberInput.displayName = 'NumberInput';

@@ -211,7 +211,7 @@ const AyahContent = (p: Props): React.JSX.Element => {
 };
 
 // Memoized Content component to prevent unnecessary re-renders
-export const Content = memo((p: Props): React.JSX.Element => {
+export const Content: React.FC<Props> = memo((p: Props): React.JSX.Element => {
   const { formType } = useFormStore();
 
   switch (formType) {
@@ -225,3 +225,5 @@ export const Content = memo((p: Props): React.JSX.Element => {
       return <></>;
   }
 });
+
+Content.displayName = 'Content';
