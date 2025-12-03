@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import { Dispatch, useState, SetStateAction } from 'react';
+import { Dispatch, useState, SetStateAction, useMemo } from 'react';
 
 import { AlertColor, AlertText, Option } from '@/shared/entity';
 import { approachOptions } from '@/shared/service';
@@ -24,51 +24,36 @@ interface InternalProps {
   setDisableSaveButton: Dispatch<SetStateAction<boolean>>;
 }
 
-const save = async (p: Props, i: InternalProps): Promise<void> => {
-  if (!isSaveable(p, i)) return;
-
-  try {
-    i.setDisableSaveButton(true); // Prevent multiple click by disable the button
-    if (i.activity) await update(buildPayload(p, i));
-    else await create(buildPayload(p, i));
-    closeForm(p, i);
-    if (i.activity) i.showAlert(AlertColor.Green, AlertText.SuccessUpdatedActivity);
-    else i.showAlert(AlertColor.Green, AlertText.SuccessCreatedActivity);
-    p.fetchData();
-    i.setDisableSaveButton(false);
-  } catch (err) {
-    i.setDisableSaveButton(false);
-    console.error(err);
-    i.showAlert(AlertColor.Red, AlertText.FailedCreatedActivity);
+const checkIsChanged = (formType: number, selectedJuz: Option | undefined, selectedSurah: Option | Option[] | undefined): boolean => {
+  switch (formType) {
+    case ActivityType.Juz:
+      if (!selectedJuz) return false;
+      break;
+    case ActivityType.Surah:
+      if (!selectedSurah) return false;
+      break;
+    case ActivityType.Ayah:
+      // TD-3 Implement proper number input for ayah
+      if (!selectedSurah) return false;
+      break;
   }
+  return true;
 };
 
-const cancel = (p: Props, i: InternalProps): void => {
-  if (isChanged(p, i) && !i.isCancelConfirmationVisible) {
-    i.setIsCancelConfirmationVisible(true);
-    setTimeout(() => {
-      i.setIsCancelConfirmationVisible(false);
-    }, 2000);
-    return;
+const checkIsSaveable = (formType: number, selectedJuz: Option | undefined, selectedSurah: Option | Option[] | undefined): boolean => {
+  switch (formType) {
+    case ActivityType.Juz:
+      if (!selectedJuz) return false;
+      break;
+    case ActivityType.Surah:
+      if (!selectedSurah) return false;
+      break;
+    case ActivityType.Ayah:
+      // TD-3 Implement proper number input for ayah
+      if (!selectedSurah) return false;
+      break;
   }
-  closeForm(p, i);
-};
-
-const closeForm = (p: Props, i: InternalProps): void => {
-  i.setIsFormVisible(false);
-  setTimeout(() => {
-    i.setActivity(undefined);
-    i.setParentSurah([]);
-    p.setSelectedJuz(undefined);
-    p.setSelectedSurah(undefined);
-    p.setSelectedApproach(approachOptions()[0]);
-    p.setStartAyah('');
-    p.setEndAyah('');
-    p.setRepeat(1);
-    p.setIsSurahDone(false);
-    p.setIsJuzDone(false);
-    i.setIsCancelConfirmationVisible(false);
-  }, 500);
+  return true;
 };
 
 const buildPayload = (p: Props, i: InternalProps): Payload => {
@@ -158,38 +143,59 @@ const checkActivityEqualsDateTime = (activity: Activity, dateTime: DateTime): bo
   return parsedOccuredAt.equals(dateTime);
 };
 
-// TD-1 Utilize useMemo
-const isChanged = (p: Props, i: InternalProps): boolean => {
-  switch (i.formType) {
-    case ActivityType.Juz:
-      if (!p.selectedJuz) return false;
-      break;
-    case ActivityType.Surah:
-      if (!p.selectedSurah) return false;
-      break;
-    case ActivityType.Ayah:
-      // TD-3 Implement proper number input for ayah
-      if (!p.selectedSurah) return false;
-      break;
-  }
-  return true;
+const closeForm = (p: Props, i: InternalProps): void => {
+  i.setIsFormVisible(false);
+  setTimeout(() => {
+    i.setActivity(undefined);
+    i.setParentSurah([]);
+    p.setSelectedJuz(undefined);
+    p.setSelectedSurah(undefined);
+    p.setSelectedApproach(approachOptions()[0]);
+    p.setStartAyah('');
+    p.setEndAyah('');
+    p.setRepeat(1);
+    p.setIsSurahDone(false);
+    p.setIsJuzDone(false);
+    i.setIsCancelConfirmationVisible(false);
+  }, 500);
 };
 
-// TD-1 Utilize useMemo
-const isSaveable = (p: Props, i: InternalProps): boolean => {
-  switch (i.formType) {
-    case ActivityType.Juz:
-      if (!p.selectedJuz) return false;
-      break;
-    case ActivityType.Surah:
-      if (!p.selectedSurah) return false;
-      break;
-    case ActivityType.Ayah:
-      // TD-3 Implement proper number input for ayah
-      if (!p.selectedSurah) return false;
-      break;
+const handleSave = async (
+  p: Props, 
+  i: InternalProps, 
+  isSaveable: boolean
+): Promise<void> => {
+  if (!isSaveable) return;
+  
+  try {
+    i.setDisableSaveButton(true);
+    if (i.activity) await update(buildPayload(p, i));
+    else await create(buildPayload(p, i));
+    closeForm(p, i);
+    if (i.activity) i.showAlert(AlertColor.Green, AlertText.SuccessUpdatedActivity);
+    else i.showAlert(AlertColor.Green, AlertText.SuccessCreatedActivity);
+    p.fetchData();
+    i.setDisableSaveButton(false);
+  } catch (err) {
+    i.setDisableSaveButton(false);
+    console.error(err);
+    i.showAlert(AlertColor.Red, AlertText.FailedCreatedActivity);
   }
-  return true;
+};
+
+const handleCancel = (
+  p: Props,
+  i: InternalProps,
+  isFormChanged: boolean
+): void => {
+  if (isFormChanged && !i.isCancelConfirmationVisible) {
+    i.setIsCancelConfirmationVisible(true);
+    setTimeout(() => {
+      i.setIsCancelConfirmationVisible(false);
+    }, 2000);
+    return;
+  }
+  closeForm(p, i);
 };
 
 export const Button = (p: Props): React.JSX.Element => {
@@ -212,13 +218,23 @@ export const Button = (p: Props): React.JSX.Element => {
     setDisableSaveButton,
   };
 
+  const isFormChanged: boolean = useMemo(
+    () => checkIsChanged(formType, p.selectedJuz, p.selectedSurah),
+    [formType, p.selectedJuz, p.selectedSurah]
+  );
+  
+  const isSaveable: boolean = useMemo(
+    () => checkIsSaveable(formType, p.selectedJuz, p.selectedSurah),
+    [formType, p.selectedJuz, p.selectedSurah]
+  );
+
   return (
     <div className="flex flex-row-reverse gap-2 mt-4">
       <button
         type="button"
         className="px-6 py-2 enabled:bg-custom-teal enabled:hover:bg-teal-700 disabled:bg-gray-400 text-white rounded"
-        onClick={() => save(p, i)}
-        disabled={!isSaveable(p, i) || disableSaveButton}
+        onClick={() => handleSave(p, i, isSaveable)}
+        disabled={!isSaveable || disableSaveButton}
       >
         Save
       </button>
@@ -227,7 +243,7 @@ export const Button = (p: Props): React.JSX.Element => {
         <button
           type="button"
           className="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded"
-          onClick={() => cancel(p, i)}
+          onClick={() => handleCancel(p, i, isFormChanged)}
         >
           Cancel
         </button>

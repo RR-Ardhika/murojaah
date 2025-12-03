@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 
 import { Base } from '@/shared/component/Base';
 import { useAlertStore } from '@/shared/store';
@@ -12,10 +12,13 @@ export const View = (): React.JSX.Element => {
   const { isAlertVisible } = useAlertStore();
   const { data, fetchData } = useDataStore();
 
+  const memoizedFetchData: () => Promise<void> = useCallback(() => {
+    return fetchData();
+  }, [fetchData]);
+
   useEffect(() => {
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    memoizedFetchData();
+  }, [memoizedFetchData]);
 
   return (
     <Base module="activity" name="View">

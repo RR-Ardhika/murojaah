@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { show } from '@/module/approach/service';
 import { ActivityStat } from '@/module/stat/entity';
 import { getActivityStat } from '@/module/stat/service';
@@ -87,20 +89,23 @@ const AyahCard = (i: InternalProps): React.JSX.Element => {
 export const Card = (item: Activity): React.JSX.Element => {
   const activityStat: ActivityStat = getActivityStat(item);
 
-  const i: InternalProps = {
-    item,
-    activityStat,
-  };
+  const cardContent: React.JSX.Element = useMemo(() => {
+    const i: InternalProps = {
+      item,
+      activityStat,
+    };
 
-  // TD-1 Utilize useMemo
-  switch (item.activityType) {
-    case ActivityType.Juz:
-      return Container(item, JuzCard(i));
-    case ActivityType.Surah:
-      return Container(item, SurahCard(i));
-    case ActivityType.Ayah:
-      return Container(item, AyahCard(i));
-    default:
-      return <></>;
-  }
+    switch (item.activityType) {
+      case ActivityType.Juz:
+        return JuzCard(i);
+      case ActivityType.Surah:
+        return SurahCard(i);
+      case ActivityType.Ayah:
+        return AyahCard(i);
+      default:
+        return <></>;
+    }
+  }, [item, activityStat]);
+
+  return <Container item={item}>{cardContent}</Container>;
 };
