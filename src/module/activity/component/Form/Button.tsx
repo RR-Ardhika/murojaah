@@ -24,7 +24,11 @@ interface InternalProps {
   setDisableSaveButton: Dispatch<SetStateAction<boolean>>;
 }
 
-const checkIsChanged = (formType: number, selectedJuz: Option | undefined, selectedSurah: Option | Option[] | undefined): boolean => {
+const checkIsChanged = (
+  formType: number,
+  selectedJuz: Option | undefined,
+  selectedSurah: Option | Option[] | undefined
+): boolean => {
   switch (formType) {
     case ActivityType.Juz:
       if (!selectedJuz) return false;
@@ -40,7 +44,11 @@ const checkIsChanged = (formType: number, selectedJuz: Option | undefined, selec
   return true;
 };
 
-const checkIsSaveable = (formType: number, selectedJuz: Option | undefined, selectedSurah: Option | Option[] | undefined): boolean => {
+const checkIsSaveable = (
+  formType: number,
+  selectedJuz: Option | undefined,
+  selectedSurah: Option | Option[] | undefined
+): boolean => {
   switch (formType) {
     case ActivityType.Juz:
       if (!selectedJuz) return false;
@@ -160,13 +168,9 @@ const closeForm = (p: Props, i: InternalProps): void => {
   }, 500);
 };
 
-const handleSave = async (
-  p: Props, 
-  i: InternalProps, 
-  isSaveable: boolean
-): Promise<void> => {
+const handleSave = async (p: Props, i: InternalProps, isSaveable: boolean): Promise<void> => {
   if (!isSaveable) return;
-  
+
   try {
     i.setDisableSaveButton(true);
     if (i.activity) await update(buildPayload(p, i));
@@ -183,11 +187,7 @@ const handleSave = async (
   }
 };
 
-const handleCancel = (
-  p: Props,
-  i: InternalProps,
-  isFormChanged: boolean
-): void => {
+const handleCancel = (p: Props, i: InternalProps, isFormChanged: boolean): void => {
   if (isFormChanged && !i.isCancelConfirmationVisible) {
     i.setIsCancelConfirmationVisible(true);
     setTimeout(() => {
@@ -222,7 +222,7 @@ export const Button = (p: Props): React.JSX.Element => {
     () => checkIsChanged(formType, p.selectedJuz, p.selectedSurah),
     [formType, p.selectedJuz, p.selectedSurah]
   );
-  
+
   const isSaveable: boolean = useMemo(
     () => checkIsSaveable(formType, p.selectedJuz, p.selectedSurah),
     [formType, p.selectedJuz, p.selectedSurah]
