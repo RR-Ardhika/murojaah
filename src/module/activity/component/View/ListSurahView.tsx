@@ -49,8 +49,6 @@ export const ListSurahView = (): React.JSX.Element => {
     useFormStore();
   const { data, fetchData } = useListSurahDataStore();
 
-  let currentJuz: number;
-
   const memoizedFetchData: () => Promise<void> = useCallback(() => {
     return fetchData();
   }, [fetchData]);
