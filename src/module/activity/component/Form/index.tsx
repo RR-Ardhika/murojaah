@@ -1,6 +1,6 @@
 import { Transition, Dialog } from '@headlessui/react';
 import { DateTime } from 'luxon';
-import { Dispatch, Fragment, useEffect, useState, SetStateAction } from 'react';
+import { Dispatch, Fragment, useEffect, useMemo, useState, SetStateAction } from 'react';
 
 import { Base } from '@/shared/component/Base';
 import { Option } from '@/shared/entity';
@@ -87,27 +87,42 @@ export const Form = (p: Props): React.JSX.Element => {
     }
   }, [isFormVisible, parentSurah, activity]);
 
-  const sharedProps: SharedProps = {
-    fetchData: p.fetchData,
-    selectedJuz,
-    setSelectedJuz,
-    selectedSurah,
-    setSelectedSurah,
-    selectedApproach,
-    setSelectedApproach,
-    startAyah,
-    setStartAyah,
-    endAyah,
-    setEndAyah,
-    repeat,
-    setRepeat,
-    isSurahDone,
-    setIsSurahDone,
-    isJuzDone,
-    setIsJuzDone,
-    occuredAt,
-    setOccuredAt,
-  };
+  // Memoize shared props to prevent unnecessary re-renders
+  const sharedProps: SharedProps = useMemo(
+    () => ({
+      fetchData: p.fetchData,
+      selectedJuz,
+      setSelectedJuz,
+      selectedSurah,
+      setSelectedSurah,
+      selectedApproach,
+      setSelectedApproach,
+      startAyah,
+      setStartAyah,
+      endAyah,
+      setEndAyah,
+      repeat,
+      setRepeat,
+      isSurahDone,
+      setIsSurahDone,
+      isJuzDone,
+      setIsJuzDone,
+      occuredAt,
+      setOccuredAt,
+    }),
+    [
+      p.fetchData,
+      selectedJuz,
+      selectedSurah,
+      selectedApproach,
+      startAyah,
+      endAyah,
+      repeat,
+      isSurahDone,
+      isJuzDone,
+      occuredAt,
+    ]
+  );
 
   return (
     <Base module="shared" name="Form">
