@@ -13,7 +13,6 @@ export type SurahType = {
   totalAyah: number;
 };
 
-// TD-4 Fill the rest total lines and ayah
 export const surah: SurahType[] = [
   { id: 1, name: '1 Al-Fatihah', juz: [1], totalLines: 7, totalAyah: 7 },
   { id: 2, name: '2 Al-Baqarah', juz: [1, 2, 3], totalLines: 486, totalAyah: 286 },
