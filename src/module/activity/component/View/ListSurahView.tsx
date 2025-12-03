@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { Base } from '@/shared/component/Base';
 import { Option } from '@/shared/entity';
@@ -56,31 +56,36 @@ export const ListSurahView = (): React.JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const i: InternalProps = {
-    data,
-    hideAlert,
-    isFormVisible,
-    setIsFormVisible,
-    parentSurah,
-    setParentSurah,
-    setFormType,
-    // @ts-expect-error expected assigned
-    currentJuz,
-  };
+  const i: InternalProps = useMemo(
+    () => ({
+      data,
+      hideAlert,
+      isFormVisible,
+      setIsFormVisible,
+      parentSurah,
+      setParentSurah,
+      setFormType,
+      // @ts-expect-error expected assigned
+      currentJuz,
+    }),
+    [data, hideAlert, isFormVisible, parentSurah, setIsFormVisible, setParentSurah, setFormType]
+  );
+
+  const renderedData = useMemo(() => {
+    if (!data) return null;
+    return data.map((item: ListSurah) => {
+      return (
+        <div key={Math.random()}>
+          {i.currentJuz !== item.juz ? updateAndRenderCurrentJuz(i, item) : <></>}
+          <ListSurahCard key={item.id} item={item} showForm={() => showForm(i, item)} />
+        </div>
+      );
+    });
+  }, [data, i]);
 
   return (
     <Base module="activity" name="ListSurahView">
-      <div className="gap-[20px] mt-[72px] pt-4 px-4">
-        {data &&
-          data.map((item: ListSurah) => {
-            return (
-              <div key={Math.random()}>
-                {i.currentJuz !== item.juz ? updateAndRenderCurrentJuz(i, item) : <></>}
-                <ListSurahCard key={item.id} item={item} showForm={() => showForm(i, item)} />
-              </div>
-            );
-          })}
-      </div>
+      <div className="gap-[20px] mt-[72px] pt-4 px-4">{renderedData}</div>
     </Base>
   );
 };

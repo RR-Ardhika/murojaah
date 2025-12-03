@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { Base } from '@/shared/component/Base';
 
@@ -25,19 +25,21 @@ export const CompactDateView = (): React.JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const renderedData = useMemo(() => {
+    if (!data) return null;
+    return data.map((item: CompactDate, i: number) => {
+      return (
+        <div key={item.date} className={addStripedClassNames(i)}>
+          <p className={CLASS_NAMES.content}>{item.date}</p>
+          <p className={CLASS_NAMES.content}>{item.stat.juz} juz</p>
+        </div>
+      );
+    });
+  }, [data]);
+
   return (
     <Base module="activity" name="CompactDateView">
-      <div className="flex flex-col pt-4 px-4 mt-[72px]">
-        {data &&
-          data.map((item: CompactDate, i: number) => {
-            return (
-              <div key={item.date} className={addStripedClassNames(i)}>
-                <p className={CLASS_NAMES.content}>{item.date}</p>
-                <p className={CLASS_NAMES.content}>{item.stat.juz} juz</p>
-              </div>
-            );
-          })}
-      </div>
+      <div className="flex flex-col pt-4 px-4 mt-[72px]">{renderedData}</div>
     </Base>
   );
 };
