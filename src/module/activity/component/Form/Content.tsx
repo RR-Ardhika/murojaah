@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Select, { StylesConfig, CSSObjectWithLabel } from 'react-select';
 
+import { Option } from '@/shared/entity';
 import { approachOptions, juzOptions, surahOptions } from '@/shared/service';
 
 import { SharedProps as Props } from '.';
@@ -19,6 +20,9 @@ const selectStyle: StylesConfig = {
 };
 
 const JuzContent = (p: Props): React.JSX.Element => {
+  const juzOpts: Option[] = useMemo(() => juzOptions(), []);
+  const approachOpts: Option[] = useMemo(() => approachOptions(), []);
+
   return (
     <div className="flex flex-col gap-2 mt-2">
       <label className="font-light">Select Juz</label>
@@ -27,7 +31,7 @@ const JuzContent = (p: Props): React.JSX.Element => {
           defaultValue={p.selectedJuz}
           // @ts-expect-error react-select props
           onChange={p.setSelectedJuz}
-          options={juzOptions()}
+          options={juzOpts}
           isSearchable={false}
           styles={selectStyle}
         />
@@ -39,7 +43,7 @@ const JuzContent = (p: Props): React.JSX.Element => {
           defaultValue={p.selectedApproach}
           // @ts-expect-error react-select props
           onChange={p.setSelectedApproach}
-          options={approachOptions()}
+          options={approachOpts}
           isSearchable={false}
           styles={selectStyle}
         />
@@ -58,6 +62,9 @@ const SurahContent = (p: Props): React.JSX.Element => {
 
   const { activity } = useFormStore();
 
+  const surahOpts: Option[] = useMemo(() => surahOptions(), []);
+  const approachOpts: Option[] = useMemo(() => approachOptions(), []);
+
   return (
     <div className="flex flex-col gap-2 mt-2">
       <label className="font-light">Select Surah</label>
@@ -67,7 +74,7 @@ const SurahContent = (p: Props): React.JSX.Element => {
           tabIndex={-1}
           value={p.selectedSurah}
           inputValue={searchInput}
-          options={surahOptions()}
+          options={surahOpts}
           isSearchable={true}
           isMulti={activity ? false : true}
           isClearable={false}
@@ -88,7 +95,7 @@ const SurahContent = (p: Props): React.JSX.Element => {
           defaultValue={p.selectedApproach}
           // @ts-expect-error react-select props
           onChange={p.setSelectedApproach}
-          options={approachOptions()}
+          options={approachOpts}
           isSearchable={false}
           styles={selectStyle}
         />
@@ -121,6 +128,9 @@ const SurahContent = (p: Props): React.JSX.Element => {
 };
 
 const AyahContent = (p: Props): React.JSX.Element => {
+  const surahOpts: Option[] = useMemo(() => surahOptions(), []);
+  const approachOpts: Option[] = useMemo(() => approachOptions(), []);
+
   return (
     <div className="flex flex-col gap-2 mt-2">
       <label className="font-light">Select Surah</label>
@@ -129,7 +139,7 @@ const AyahContent = (p: Props): React.JSX.Element => {
           defaultValue={p.selectedSurah}
           // @ts-expect-error react-select props
           onChange={p.setSelectedSurah}
-          options={surahOptions()}
+          options={surahOpts}
           isSearchable={true}
           styles={selectStyle}
         />
@@ -141,7 +151,7 @@ const AyahContent = (p: Props): React.JSX.Element => {
           defaultValue={p.selectedApproach}
           // @ts-expect-error react-select props
           onChange={p.setSelectedApproach}
-          options={approachOptions()}
+          options={approachOpts}
           isSearchable={false}
           styles={selectStyle}
         />

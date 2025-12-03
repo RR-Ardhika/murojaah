@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { useEffect, useCallback } from 'react';
+import { useEffect, useMemo, useCallback } from 'react';
 
 import { Base } from '@/shared/component/Base';
 import { Option } from '@/shared/entity';
@@ -49,8 +49,6 @@ export const ListSurahView = (): React.JSX.Element => {
     useFormStore();
   const { data, fetchData } = useListSurahDataStore();
 
-  let currentJuz: number;
-
   const memoizedFetchData: () => Promise<void> = useCallback(() => {
     return fetchData();
   }, [fetchData]);
@@ -59,31 +57,36 @@ export const ListSurahView = (): React.JSX.Element => {
     memoizedFetchData();
   }, [memoizedFetchData]);
 
-  const i: InternalProps = {
-    data,
-    hideAlert,
-    isFormVisible,
-    setIsFormVisible,
-    parentSurah,
-    setParentSurah,
-    setFormType,
-    // @ts-expect-error expected assigned
-    currentJuz,
-  };
+  const renderedData: React.JSX.Element[] | null = useMemo(() => {
+    if (!data) return null;
+
+    let currentJuz: number;
+
+    const i: InternalProps = {
+      data,
+      hideAlert,
+      isFormVisible,
+      setIsFormVisible,
+      parentSurah,
+      setParentSurah,
+      setFormType,
+      // @ts-expect-error expected assigned
+      currentJuz,
+    };
+
+    return data.map((item: ListSurah) => {
+      return (
+        <div key={`surah-${item.id}`}>
+          {i.currentJuz !== item.juz ? updateAndRenderCurrentJuz(i, item) : <></>}
+          <ListSurahCard key={item.id} item={item} showForm={() => showForm(i, item)} />
+        </div>
+      );
+    });
+  }, [data, hideAlert, isFormVisible, parentSurah, setIsFormVisible, setParentSurah, setFormType]);
 
   return (
     <Base module="activity" name="ListSurahView">
-      <div className="gap-[20px] mt-[72px] pt-4 px-4">
-        {data &&
-          data.map((item: ListSurah) => {
-            return (
-              <div key={`surah-${item.id}`}>
-                {i.currentJuz !== item.juz ? updateAndRenderCurrentJuz(i, item) : <></>}
-                <ListSurahCard key={item.id} item={item} showForm={() => showForm(i, item)} />
-              </div>
-            );
-          })}
-      </div>
+      <div className="gap-[20px] mt-[72px] pt-4 px-4">{renderedData}</div>
     </Base>
   );
 };
