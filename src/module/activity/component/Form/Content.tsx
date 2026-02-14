@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import Select, { StylesConfig, CSSObjectWithLabel } from 'react-select';
 
 import { approachOptions, juzOptions, surahOptions } from '@/shared/service';
@@ -149,13 +149,27 @@ const AyahContent = (p: Props): React.JSX.Element => {
 
       <div className="flex gap-5">
         <div className="flex flex-col gap-2">
-          <label className="font-light">Start Ayah</label>
-          <NumberInput value={p.startAyah} setValue={p.setStartAyah} />
+          <label className="font-light" htmlFor="startAyah">
+            Start Ayah
+          </label>
+          <NumberInput
+            value={p.startAyah}
+            setValue={p.setStartAyah}
+            placeholder="1"
+            ariaLabel="Start ayah number"
+          />
         </div>
 
         <div className="flex flex-col gap-2">
-          <label className="font-light">End Ayah</label>
-          <NumberInput value={p.endAyah} setValue={p.setEndAyah} />
+          <label className="font-light" htmlFor="endAyah">
+            End Ayah
+          </label>
+          <NumberInput
+            value={p.endAyah}
+            setValue={p.setEndAyah}
+            placeholder="1"
+            ariaLabel="End ayah number"
+          />
         </div>
       </div>
 
@@ -196,7 +210,8 @@ const AyahContent = (p: Props): React.JSX.Element => {
   );
 };
 
-export const Content = (p: Props): React.JSX.Element => {
+// Memoized Content component to prevent unnecessary re-renders
+export const Content: React.FC<Props> = memo((p: Props): React.JSX.Element => {
   const { formType } = useFormStore();
 
   switch (formType) {
@@ -209,4 +224,6 @@ export const Content = (p: Props): React.JSX.Element => {
     default:
       return <></>;
   }
-};
+});
+
+Content.displayName = 'Content';
