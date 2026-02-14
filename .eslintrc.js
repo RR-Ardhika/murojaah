@@ -148,5 +148,11 @@ module.exports = {
         'import/no-default-export': 'off', // Allow default exports for Next.js page and layout components
       },
     },
+    {
+      files: ['**/app/_offline.{ts,tsx}'],
+      rules: {
+        'check-file/filename-naming-convention': 'off',
+      },
+    },
   ],
 };
