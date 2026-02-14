@@ -50,6 +50,8 @@ const renderedData = useMemo(() => {
 - Inconsistent state
 - Hard-to-debug issues
 
+> ⚠️ **Note**: Moving an existing mutation into `useMemo` makes it WORSE. If you have render-time mutations, fix them first before adding `useMemo`.
+
 **Solution**: Use `useRef` for mutable values that don't trigger re-renders:
 
 ```tsx
@@ -60,7 +62,7 @@ const renderedData = useMemo(() => {
   return data.map((item) => {
     const isNewJuz = currentJuzRef.current !== item.juz;
     if (isNewJuz) {
-      currentJuzRef.current = item.juz; // ✅ Safe in render
+      currentJuzRef.current = item.juz; // ✅ Safe - useRef mutation is allowed
     }
     return <Card key={item.id} item={item} showHeader={isNewJuz} />;
   });
@@ -288,8 +290,11 @@ const handleClick = useCallback(() => {
 - [ ] Are dependencies relatively stable?
 - [ ] Will this prevent re-renders of memoized children?
 - [ ] Is the memoization benefit greater than its overhead?
+- [ ] **Does the code contain any mutations or side effects?** → Fix FIRST before wrapping in useMemo
 
 If you answer "no" to most of these, skip the memoization.
+
+> ⚠️ **Refactoring Tip**: When adding `useMemo` to existing code, check for render-time mutations FIRST. Wrapping a mutation in `useMemo` doesn't fix it—it makes it worse by violating hook purity.
 
 ### Common Optimization Patterns
 
@@ -404,4 +409,4 @@ useEffect(() => {
 
 ---
 
-_Last updated: 2026-02-14 Sat 11:25 PM
+_Last updated: 2026-02-15 02:49 AM
