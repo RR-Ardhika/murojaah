@@ -196,16 +196,7 @@ make format-check
 
 ## Technical Debt
 
-See `techdebt.txt` for pending items:
-
-- TD-3: Implement proper number input for ayah
-- TD-4: Fill the rest total lines and ayah for surahs
-- TD-6: Implement proper success import notification
-- TD-8: Implement calculateByAyah() for module counter
-- TD-9: Implement handler for type SurahJuz in module stat
-- TD-10: Implement totalMarkedJuzAsDone calculation in module stat
-- TD-11/12: Handle version differences in export/import
-- TD-13: Handle metadata with use client
+See [`doc/tech-debt.md`](./doc/tech-debt.md) for the technical debt dashboard.
 
 ## Coding Conventions
 

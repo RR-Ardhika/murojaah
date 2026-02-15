@@ -4,7 +4,21 @@
 > Data extracted: 2026-02-15
 > Method: 15-line Madani Mushaf (Hafs 'an 'Asim)
 
-This document contains the authoritative per-surah line counts from the mushaf-layout GitHub repository, which provides JSON data for all 604 pages of the standard 15-line Madani mushaf.
+## ⚠️ Warning: Data Does Not Match quran.com
+
+This data was compared against quran.com's Classic Madani 15-line mushaf and **does not match**. Use this for reference only, not as a source of truth.
+
+| Surah | mushaf-layout | quran.com (Manual) | Match |
+|-------|---------------|--------------------|-------|
+| 1 (Al-Fatihah) | 8 | 8 | ✅ |
+| 44 (Ad-Dukhan) | 46 | 44 | ❌ |
+| 91 (Asy-Syams) | 7 | 9 | ❌ |
+
+**Do not use this data for the project.** Manual count from quran.com is required.
+
+---
+
+This document contains per-surah line counts from the mushaf-layout GitHub repository, which provides JSON data for all 604 pages of a 15-line Madani mushaf.
 
 ## Summary
 

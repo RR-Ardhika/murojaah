@@ -1,13 +1,28 @@
 # Surah Data Discrepancy Analysis
 
 > Last updated: 2026-02-15
-> Related: PR #60, TD-4
+> Related: TD-4
 
-This document provides a complete comparison of surah data across three sources:
+## ⚠️ PR #60 Data (Surahs 1-45) Does Not Match quran.com
+
+After manual verification against **quran.com Classic Madani 15-line mushaf**, the newly added data for surahs 1-45 has discrepancies:
+
+| Surah | quran.com (Manual) | PR #60 | mushaf-layout |
+|-------|--------------------|--------|---------------|
+| 1 (Al-Fatihah) | **8** | 7 | 8 |
+| 44 (Ad-Dukhan) | **44** | 38 | 46 |
+
+**Note**: Surahs 46-114 were **unchanged** by PR #60 (same as main branch).
+
+**Decision**: PR #60 will be closed. Surahs 1-45 must be manually recounted from quran.com.
+
+---
+
+This document provides a comparison of surah data across three sources for reference:
 
 1. **Main Branch (Original)** - Data before PR #60
-2. **PR #60 (New Data)** - Data after PR #60 merge
-3. **Internet Reference** - Standard 15-line mushaf from [mushaf-layout](https://github.com/zonetecde/mushaf-layout)
+2. **PR #60 (New Data)** - Data from PR #60 (to be closed)
+3. **Internet Reference** - 15-line mushaf from [mushaf-layout](https://github.com/zonetecde/mushaf-layout)
 
 ---
 
@@ -284,15 +299,21 @@ Line counts differ due to counting methodology:
 
 ## Recommendation
 
-### Option A: Keep PR Methodology
-- Accept text-only counting as project-specific methodology
-- Document clearly that headers and bismala are excluded
-- Total: **7,892 lines**
+### Option C: Manual Recount from quran.com (CHOSEN)
 
-### Option B: Align with Standard Mushaf
-- Update all surahs to include headers and bismala
-- Use mushaf-layout as authoritative source
-- Total: **9,040 lines**
+Neither PR #60 nor mushaf-layout matches quran.com's Classic Madani 15-line mushaf.
+
+**Action Required**:
+1. Close PR #60
+2. Manually count all 114 surahs from quran.com
+3. Count methodology: surah header + basmala + text lines
+4. Create new PR with verified data
+
+### ~~Option A: Keep PR Methodology~~ (REJECTED)
+- Data does not match quran.com
+
+### ~~Option B: Align with mushaf-layout~~ (REJECTED)
+- Data does not match quran.com
 
 ---
 
@@ -314,7 +335,8 @@ Line counts differ due to counting methodology:
 | 2026-02-15 | Added internet reference data from mushaf-layout GitHub repo |
 | 2026-02-15 | Identified methodology difference: PR counts text-only, standard counts all lines |
 | 2026-02-15 | Documented -2 pattern in Juz 30 (header + basmala excluded) |
+| 2026-02-15 | **Updated**: Neither PR #60 nor mushaf-layout matches quran.com; PR will be closed |
 
 ---
 
-_This document serves as a permanent record of the surah data changes in PR #60._
+_This document serves as a reference record. A new PR with manually verified data will be created._
