@@ -1,9 +1,9 @@
 import { clsx } from 'clsx';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 
 interface Props {
   value: string;
-  setValue: Dispatch<SetStateAction<string>>;
+  setValue: (value: string) => void;
   id?: string;
   min?: number;
   max?: number;
