@@ -11,14 +11,22 @@
 erDiagram
 
 activities {
-  string id "uuidv4"
-  int activity_type
+  string id "uuidv4, PK"
+  int activity_type "not null"
   int juz "nullable"
   int surah "nullable"
   int start_ayah "nullable"
   int end_ayah "nullable"
   bool mark_surah_done "nullable"
   bool mark_juz_done "nullable"
-  int repeat
-  timestampz occured_at
+  int approach_id "not null, FK to approaches"
+  int repeat "not null"
+  timestampz occured_at "not null"
 }
+
+approaches {
+  int id "PK"
+  string name
+}
+
+activities ||--o{ approaches : "uses"

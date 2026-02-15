@@ -17,8 +17,13 @@ Murojaah is a web application for tracking Qur'an memorization and review activi
 | UI Components    | Headless UI, Heroicons           |
 | State Management | Zustand                          |
 | Local Database   | JSStore (IndexedDB wrapper)      |
+| IndexedDB Export | Dexie, dexie-export-import       |
 | Date Handling    | Luxon                            |
 | Form Inputs      | React Select                     |
+| Conditional CSS  | clsx                             |
+| ID Generation    | uuid                             |
+| Duration Format  | humanize-duration                |
+| PWA Support      | next-pwa                         |
 | Package Manager  | pnpm                             |
 | Deployment       | Vercel (static) / Docker + Nginx |
 
@@ -30,6 +35,7 @@ src/
 │   ├── page.tsx                  # Home page (Activity page)
 │   ├── layout.tsx                # Root layout
 │   ├── globals.css               # Global styles
+│   ├── _offline.tsx              # PWA offline fallback page
 │   ├── activities/page.tsx       # Activities view page
 │   └── stats/page.tsx            # Statistics page
 │
@@ -43,10 +49,18 @@ src/
 │   │   ├── component/
 │   │   │   ├── Card/             # Activity card components
 │   │   │   ├── Form/             # Activity form components
+│   │   │   │   ├── Input/        # Form input components (DateTime, Number, Stepper)
+│   │   │   │   ├── Button.tsx    # Form button component
+│   │   │   │   ├── Content.tsx   # Form content by activity type
+│   │   │   │   ├── Title.tsx     # Form title component
+│   │   │   │   └── index.tsx     # Main form component
 │   │   │   ├── Page/             # Page view components
 │   │   │   └── View/             # View mode components
 │   │   ├── entity/               # Activity types and interfaces
-│   │   ├── repository/           # Data access layer (IndexedDB)
+│   │   ├── repository/
+│   │   │   └── indexeddb/        # IndexedDB data access layer
+│   │   │       ├── index.ts      # CRUD operations
+│   │   │       └── export-import.ts  # Data export/import
 │   │   ├── service/              # Business logic
 │   │   └── store/                # Zustand state stores
 │   │
@@ -173,8 +187,12 @@ make format-check
 | Surah Reference | `src/shared/entity/surah.ts`          |
 | Juz Reference   | `src/shared/entity/juz.ts`            |
 | App Constants   | `src/shared/const/index.ts`           |
+| License         | `LICENSE`                             |
 | Global Styles   | `src/app/globals.css`                 |
 | ERD Diagram     | `doc/diagram/erd.mmd`                 |
+| Surah Methodology | `doc/surah/lines-methodology.md`    |
+| Surah Data Comparison | `doc/surah/data-discrepancy.md` |
+| Internet Reference (mushaf-layout) | `doc/surah/lines-internet.md` |
 
 ## Technical Debt
 
