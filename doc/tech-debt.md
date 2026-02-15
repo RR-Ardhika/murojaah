@@ -10,8 +10,8 @@ This document provides a comprehensive overview of all technical debt items in t
 
 | Status | Count |
 |--------|-------|
-| 🔴 Open | 9 |
-| 🟡 In Progress | 0 |
+| 🔴 Open | 8 |
+| 🟡 In Progress | 1 |
 | ✅ Resolved | 0 |
 
 ---
@@ -21,8 +21,8 @@ This document provides a comprehensive overview of all technical debt items in t
 | ID | Description | Status | PR | Priority | Location |
 |----|-------------|--------|-----|----------|----------|
 | TD-3 | Implement proper number input for ayah | 🔴 Open | - | Medium | `src/module/activity/component/Form/Input/NumberInput.tsx` |
-| TD-4 | Fill total lines and ayah for surahs 1-45 | 🟡 PR Open | [#60](https://github.com/RR-Ardhika/murojaah/pull/60) | High | `src/shared/entity/surah.ts` |
-| TD-6 | Remove page reload after data import | 🟡 PR Open | [#62](https://github.com/RR-Ardhika/murojaah/pull/62) | Low | `src/shared/component/Menu.tsx` |
+| TD-4 | Fill total lines and ayah for surahs 1-45 | 🔴 Open | - | High | `src/shared/entity/surah.ts` |
+| TD-6 | Remove page reload after data import | 🟡 Planned | - | Low | `src/shared/component/Menu.tsx` |
 | TD-8 | Implement calculateByAyah() for module counter | 🔴 Open | - | Medium | `src/module/stat/service/` |
 | TD-9 | Implement handler for type SurahJuz in module stat | 🔴 Open | - | Medium | `src/module/stat/service/index.ts:108` |
 | TD-10 | Implement totalMarkedJuzAsDone calculation | 🔴 Open | - | Medium | `src/module/stat/service/index.ts:35,54` |
@@ -57,11 +57,17 @@ This document provides a comprehensive overview of all technical debt items in t
 
 **Location:** `src/shared/entity/surah.ts`
 
-**Status:** PR #60 is open and ready for review.
+**Status:** PR #60 was reviewed but will be **closed** - the data does not match quran.com's Classic Madani 15-line mushaf.
 
 **Impact:** Statistics calculations for activities involving surahs 1-45 return 0 values.
 
-**Methodology:** See [doc/surah/lines-methodology.md](./surah/lines-methodology.md) for line counting methodology.
+**Next Steps:**
+1. Manually count surahs **1-45** from quran.com Classic Madani 15-line mushaf
+2. Count methodology: surah header + basmala + text lines
+3. Create new PR with verified data
+4. Keep surahs 46-114 unchanged
+
+**Methodology:** See [doc/surah/lines-methodology.md](./surah/lines-methodology.md) for counting methodology.
 
 ---
 
@@ -69,7 +75,7 @@ This document provides a comprehensive overview of all technical debt items in t
 
 **Priority:** Low
 
-**Status:** PR #62 is open.
+**Status:** Planned. PR #62 will be closed.
 
 **Current State:** After successful data import, the app does `window.location.reload()` which provides a jarring user experience. The success alert IS already implemented.
 
@@ -92,18 +98,23 @@ setTimeout(() => {
 
 **Expected Behavior:** Refresh data in components without full page reload, using idiomatic React patterns (e.g., Zustand store updates).
 
-**PR #62 Concerns:**
+**Why PR #62 was rejected:**
 - Uses global `window.dispatchEvent` instead of Zustand (non-idiomatic)
 - Introduces arbitrary 500ms delay (race condition potential)
-- Consider Zustand-based solution instead
+- 8 files changed vs simpler direct approach
 
 **Recommended Solution:**
 ```typescript
-// Zustand-based approach (idiomatic)
-const { markDataImported } = useDataSyncStore();
+// Direct Zustand refresh (idiomatic, no delays)
+import { useDataStore, useCompactDateDataStore, useListSurahDataStore } from '@/module/activity/store';
+
 await service.importData(blob);
 i.showAlert(AlertColor.Green, AlertText.SuccessImportedDB);
-markDataImported(); // Reactive - no timing needed
+
+// Refresh all stores - reactive, no timing needed
+useDataStore.getState().fetchData();
+useCompactDateDataStore.getState().fetchData();
+useListSurahDataStore.getState().fetchData();
 ```
 
 ---
