@@ -11,6 +11,11 @@ import Image from 'next/image';
 import { Dispatch, SetStateAction, useRef, useState } from 'react';
 
 import * as service from '@/module/activity/service';
+import {
+  useDataStore,
+  useCompactDateDataStore,
+  useListSurahDataStore,
+} from '@/module/activity/store';
 import { Base } from '@/shared/component/Base';
 import { LINKS } from '@/shared/const';
 import { AlertColor, AlertText } from '@/shared/entity';
@@ -90,10 +95,11 @@ const handleImportedFile = (event: React.ChangeEvent<HTMLInputElement>, i: Inter
       const blob: Blob = new Blob([jsonString], { type: 'application/json' });
       await service.importData(blob);
       i.showAlert(AlertColor.Green, AlertText.SuccessImportedDB);
-      // TD-6 Implement proper success import notification
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+
+      // Refresh all data stores - reactive, no reload needed
+      useDataStore.getState().fetchData();
+      useCompactDateDataStore.getState().fetchData();
+      useListSurahDataStore.getState().fetchData();
     } catch (err) {
       console.error('Import failed:', err);
       i.showAlert(AlertColor.Red, AlertText.FailedImportedDB);
