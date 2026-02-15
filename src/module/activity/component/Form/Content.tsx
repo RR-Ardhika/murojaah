@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Select, { StylesConfig, CSSObjectWithLabel } from 'react-select';
 
+import { surah, SurahType } from '@/shared/entity';
 import { approachOptions, juzOptions, surahOptions } from '@/shared/service';
 
 import { SharedProps as Props } from '.';
@@ -121,6 +122,14 @@ const SurahContent = (p: Props): React.JSX.Element => {
 };
 
 const AyahContent = (p: Props): React.JSX.Element => {
+  const selectedSurahId: number | undefined = Array.isArray(p.selectedSurah)
+    ? p.selectedSurah[0]?.value
+    : p.selectedSurah?.value;
+  const selectedSurahData: SurahType | undefined = surah.find((s: SurahType) => s.id === selectedSurahId);
+  const maxAyah: number = selectedSurahData?.totalAyah ?? 0;
+
+  const isValidationEnabled: boolean = maxAyah > 0;
+
   return (
     <div className="flex flex-col gap-2 mt-2">
       <label className="font-light">Select Surah</label>
@@ -148,14 +157,32 @@ const AyahContent = (p: Props): React.JSX.Element => {
       </div>
 
       <div className="flex gap-5">
-        <div className="flex flex-col gap-2">
-          <label className="font-light">Start Ayah</label>
-          <NumberInput value={p.startAyah} setValue={p.setStartAyah} />
+        <div className="flex flex-col gap-2 flex-1">
+          <label htmlFor="startAyah" className="font-light">
+            Start Ayah
+          </label>
+          <NumberInput
+            id="startAyah"
+            value={p.startAyah}
+            setValue={p.setStartAyah}
+            min={1}
+            max={isValidationEnabled ? maxAyah : undefined}
+            onError={p.setStartAyahError}
+          />
         </div>
 
-        <div className="flex flex-col gap-2">
-          <label className="font-light">End Ayah</label>
-          <NumberInput value={p.endAyah} setValue={p.setEndAyah} />
+        <div className="flex flex-col gap-2 flex-1">
+          <label htmlFor="endAyah" className="font-light">
+            End Ayah
+          </label>
+          <NumberInput
+            id="endAyah"
+            value={p.endAyah}
+            setValue={p.setEndAyah}
+            min={1}
+            max={isValidationEnabled ? maxAyah : undefined}
+            onError={p.setEndAyahError}
+          />
         </div>
       </div>
 

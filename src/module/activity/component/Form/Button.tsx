@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import { Dispatch, useState, SetStateAction, useMemo } from 'react';
 
-import { AlertColor, AlertText, Option } from '@/shared/entity';
+import { AlertColor, AlertText, Option, surah } from '@/shared/entity';
 import { approachOptions } from '@/shared/service';
 import { useAlertStore } from '@/shared/store';
 import { formFormatDatetimes } from '@/shared/util';
@@ -47,7 +47,11 @@ const checkIsChanged = (
 const checkIsSaveable = (
   formType: number,
   selectedJuz: Option | undefined,
-  selectedSurah: Option | Option[] | undefined
+  selectedSurah: Option | Option[] | undefined,
+  startAyah: string,
+  endAyah: string,
+  startAyahError: string | null,
+  endAyahError: string | null
 ): boolean => {
   switch (formType) {
     case ActivityType.Juz:
@@ -57,8 +61,27 @@ const checkIsSaveable = (
       if (!selectedSurah) return false;
       break;
     case ActivityType.Ayah:
-      // TD-3 Implement proper number input for ayah
       if (!selectedSurah) return false;
+
+      const selectedSurahId: number | undefined = Array.isArray(selectedSurah)
+        ? selectedSurah[0]?.value
+        : selectedSurah?.value;
+      const selectedSurahData: (typeof surah)[number] | undefined = surah.find(
+        (s: (typeof surah)[number]) => s.id === selectedSurahId
+      );
+      const totalAyah: number = selectedSurahData?.totalAyah ?? 0;
+
+      if (startAyahError || endAyahError) return false;
+
+      if (totalAyah > 0) {
+        const start: number = parseInt(startAyah, 10);
+        const end: number = parseInt(endAyah, 10);
+
+        if (isNaN(start) || isNaN(end)) return false;
+        if (start < 1 || end < 1) return false;
+        if (start > totalAyah || end > totalAyah) return false;
+        if (start > end) return false;
+      }
       break;
   }
   return true;
@@ -224,8 +247,17 @@ export const Button = (p: Props): React.JSX.Element => {
   );
 
   const isSaveable: boolean = useMemo(
-    () => checkIsSaveable(formType, p.selectedJuz, p.selectedSurah),
-    [formType, p.selectedJuz, p.selectedSurah]
+    () =>
+      checkIsSaveable(
+        formType,
+        p.selectedJuz,
+        p.selectedSurah,
+        p.startAyah,
+        p.endAyah,
+        p.startAyahError,
+        p.endAyahError
+      ),
+    [formType, p.selectedJuz, p.selectedSurah, p.startAyah, p.endAyah, p.startAyahError, p.endAyahError]
   );
 
   return (
