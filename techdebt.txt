@@ -1,9 +1,0 @@
-TD-3 Implement proper number input for ayah
-TD-4 Fill the rest total lines and ayah
-TD-6 Implement proper success import notification
-TD-8 Implement calculateByAyah() for module counter
-TD-9 Implement handler for type SurahJuz in module stat
-TD-10 Implement totalMarkedJuzAsDone calculation in module stat
-TD-11 Handle when version is different
-TD-12 Handle different version export / import
-TD-13 Handle metadata with use client

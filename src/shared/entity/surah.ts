@@ -1,3 +1,19 @@
+/**
+ * Surah Reference Data
+ *
+ * Contains metadata for all 114 surahs of the Qur'an.
+ *
+ * Data Sources:
+ * - `totalLines`: Calculated based on Indo-Pak 15-line mushaf format
+ *   - Juz 30 (Surahs 78-114): 300 lines total = 15 lines × 20 pages
+ *   - Surahs 1-45: Pending completion (TD-4)
+ * - `totalAyah`: Standard Qur'anic ayah counts
+ * - `juz`: Juz boundaries based on standard Qur'anic division
+ *
+ * Note: Different mushaf editions may have different line counts.
+ * The values here are specifically calibrated for the 15-line per page format.
+ */
+
 export type SurahJuz = {
   id: number;
   startAyah: number;

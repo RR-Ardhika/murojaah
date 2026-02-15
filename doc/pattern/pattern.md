@@ -203,6 +203,72 @@ const i: InternalProps = {
 };
 ```
 
+### @ts-expect-error Guidelines
+
+`@ts-expect-error` should be used sparingly and only when there's no better alternative.
+
+#### ✅ DO: Use for third-party library type issues
+
+When a library has incomplete or incorrect type definitions:
+
+```tsx
+// Acceptable: react-select has complex generic types that are hard to satisfy
+<Select
+  // @ts-expect-error react-select props mismatch with our Option type
+  onChange={handleChange}
+  options={options}
+/>
+
+// Acceptable: Library returns 'any' but we know the type
+const result = externalLib.method();
+// @ts-expect-error library types incomplete
+const typedResult: KnownType = result.someProperty;
+```
+
+#### ✅ DO: Add a comment explaining why
+
+Always explain why the suppress is necessary:
+
+```tsx
+// @ts-expect-error: Dexie db.open() types don't include our custom database
+await db.open();
+```
+
+#### ❌ DON'T: Use to hide real type bugs
+
+```tsx
+// BAD: This is hiding a bug - currentJuz is undefined at this point!
+const i: InternalProps = {
+  // @ts-expect-error expected assigned
+  currentJuz,
+};
+
+// GOOD: Fix the actual issue
+const i: InternalProps = {
+  currentJuz: 0, // Initialize properly
+};
+```
+
+#### ❌ DON'T: Use for type assertions that could be fixed
+
+```tsx
+// BAD: Lazy type assertion
+// @ts-expect-error
+const value: string = someNumber;
+
+// GOOD: Proper conversion
+const value: string = String(someNumber);
+```
+
+### @ts-expect-error Audit Checklist
+
+When reviewing code with `@ts-expect-error`:
+
+- [ ] Is this a third-party library type issue?
+- [ ] Is there a comment explaining why it's needed?
+- [ ] Could the type be fixed properly instead?
+- [ ] Is this hiding a potential runtime bug?
+
 ---
 
 ## Component Patterns
