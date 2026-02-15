@@ -130,6 +130,11 @@ const AyahContent = (p: Props): React.JSX.Element => {
 
   const isValidationEnabled: boolean = maxAyah > 0;
 
+  const startNum: number = parseInt(p.startAyah, 10);
+  const endNum: number = parseInt(p.endAyah, 10);
+  const showRangeError: boolean =
+    !isNaN(startNum) && !isNaN(endNum) && startNum > endNum && !p.startAyahError && !p.endAyahError;
+
   return (
     <div className="flex flex-col gap-2 mt-2">
       <label className="font-light">Select Surah</label>
@@ -185,6 +190,8 @@ const AyahContent = (p: Props): React.JSX.Element => {
           />
         </div>
       </div>
+
+      {showRangeError && <p className="text-red-500 text-sm">Start ayah must be ≤ end ayah</p>}
 
       <label className="font-light">Repeated Times</label>
       <NumberStepper value={p.repeat} setValue={p.setRepeat} />

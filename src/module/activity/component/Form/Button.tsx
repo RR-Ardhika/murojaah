@@ -73,14 +73,15 @@ const checkIsSaveable = (
 
       if (startAyahError || endAyahError) return false;
 
-      if (totalAyah > 0) {
-        const start: number = parseInt(startAyah, 10);
-        const end: number = parseInt(endAyah, 10);
+      const start: number = parseInt(startAyah, 10);
+      const end: number = parseInt(endAyah, 10);
 
-        if (isNaN(start) || isNaN(end)) return false;
-        if (start < 1 || end < 1) return false;
+      if (isNaN(start) || isNaN(end)) return false;
+      if (start < 1 || end < 1) return false;
+      if (start > end) return false;
+
+      if (totalAyah > 0) {
         if (start > totalAyah || end > totalAyah) return false;
-        if (start > end) return false;
       }
       break;
   }
