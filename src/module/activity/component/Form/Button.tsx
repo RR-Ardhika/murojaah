@@ -37,7 +37,6 @@ const checkIsChanged = (
       if (!selectedSurah) return false;
       break;
     case ActivityType.Ayah:
-      // TD-3 Implement proper number input for ayah
       if (!selectedSurah) return false;
       break;
   }

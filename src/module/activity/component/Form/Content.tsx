@@ -122,6 +122,8 @@ const SurahContent = (p: Props): React.JSX.Element => {
 };
 
 const AyahContent = (p: Props): React.JSX.Element => {
+  const [lastChanged, setLastChanged] = useState<'start' | 'end' | null>(null);
+
   const selectedSurahId: number | undefined = Array.isArray(p.selectedSurah)
     ? p.selectedSurah[0]?.value
     : p.selectedSurah?.value;
@@ -134,6 +136,9 @@ const AyahContent = (p: Props): React.JSX.Element => {
   const endNum: number = parseInt(p.endAyah, 10);
   const showRangeError: boolean =
     !isNaN(startNum) && !isNaN(endNum) && startNum > endNum && !p.startAyahError && !p.endAyahError;
+
+  const rangeErrorMessage: string =
+    lastChanged === 'start' ? 'Start ayah must be ≤ end ayah' : 'End ayah must be ≥ start ayah';
 
   return (
     <div className="flex flex-col gap-2 mt-2">
@@ -169,7 +174,10 @@ const AyahContent = (p: Props): React.JSX.Element => {
           <NumberInput
             id="startAyah"
             value={p.startAyah}
-            setValue={p.setStartAyah}
+            setValue={(v: string) => {
+              setLastChanged('start');
+              p.setStartAyah(v);
+            }}
             min={1}
             max={isValidationEnabled ? maxAyah : undefined}
             onError={p.setStartAyahError}
@@ -183,7 +191,10 @@ const AyahContent = (p: Props): React.JSX.Element => {
           <NumberInput
             id="endAyah"
             value={p.endAyah}
-            setValue={p.setEndAyah}
+            setValue={(v: string) => {
+              setLastChanged('end');
+              p.setEndAyah(v);
+            }}
             min={1}
             max={isValidationEnabled ? maxAyah : undefined}
             onError={p.setEndAyahError}
@@ -191,7 +202,7 @@ const AyahContent = (p: Props): React.JSX.Element => {
         </div>
       </div>
 
-      {showRangeError && <p className="text-red-500 text-sm">Start ayah must be ≤ end ayah</p>}
+      {showRangeError && <p className="text-red-500 text-sm">{rangeErrorMessage}</p>}
 
       <label className="font-light">Repeated Times</label>
       <NumberStepper value={p.repeat} setValue={p.setRepeat} />
