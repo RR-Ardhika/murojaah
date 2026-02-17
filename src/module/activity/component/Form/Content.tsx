@@ -90,11 +90,17 @@ const SurahContent = (p: Props): React.JSX.Element => {
 
   const handleModeChange = (mode: 'select' | 'range'): void => {
     if (mode !== surahMode) {
-      p.setSelectedSurah(undefined);
-      setStartSurah(undefined);
-      setEndSurah(undefined);
       setSearchInput('');
       setSurahMode(mode);
+
+      if (mode === 'range' && Array.isArray(p.selectedSurah) && p.selectedSurah.length > 0) {
+        setStartSurah(p.selectedSurah[0]);
+        setEndSurah(undefined);
+      } else {
+        p.setSelectedSurah(undefined);
+        setStartSurah(undefined);
+        setEndSurah(undefined);
+      }
     }
   };
 
