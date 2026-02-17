@@ -15,6 +15,8 @@ const getBtnColor = (i: InternalProps): string => {
       return 'bg-red-500';
     case AlertColor.Green:
       return 'bg-green-500';
+    case AlertColor.Yellow:
+      return 'bg-yellow-500';
     default:
       return 'bg-white';
   }

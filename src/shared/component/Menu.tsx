@@ -11,6 +11,11 @@ import Image from 'next/image';
 import { Dispatch, SetStateAction, useRef, useState } from 'react';
 
 import * as service from '@/module/activity/service';
+import {
+  useDataStore,
+  useCompactDateDataStore,
+  useListSurahDataStore,
+} from '@/module/activity/store';
 import { Base } from '@/shared/component/Base';
 import { LINKS } from '@/shared/const';
 import { AlertColor, AlertText } from '@/shared/entity';
@@ -21,6 +26,7 @@ interface InternalProps {
   fileInputRef: React.RefObject<HTMLInputElement | null>;
   isDropDbConfirmationVisible: boolean;
   setIsDropDbConfirmationVisible: Dispatch<SetStateAction<boolean>>;
+  closeMenu?: () => void;
 }
 
 const CLASS_NAMES: Record<string, string> = {
@@ -62,7 +68,7 @@ const doImport = (i: InternalProps): void => {
   i.fileInputRef.current?.click();
 };
 
-const doDropDb = (i: InternalProps): void => {
+const doDropDb = async (i: InternalProps): Promise<void> => {
   if (!i.isDropDbConfirmationVisible) {
     i.setIsDropDbConfirmationVisible(true);
     setTimeout(() => {
@@ -71,16 +77,27 @@ const doDropDb = (i: InternalProps): void => {
     return;
   }
 
-  service.dropDb();
+  i.closeMenu?.();
+
+  i.showAlert(AlertColor.Yellow, AlertText.DeletingDB);
+  await service.dropDb();
+
+  // Refresh all data stores - reactive, no reload needed
+  await Promise.all([
+    useDataStore.getState().fetchData(),
+    useCompactDateDataStore.getState().fetchData(),
+    useListSurahDataStore.getState().fetchData(),
+  ]);
+
   i.showAlert(AlertColor.Green, AlertText.SuccessDeletedDB);
-  setTimeout(() => {
-    window.location.reload();
-  }, 2000);
 };
 
 const handleImportedFile = (event: React.ChangeEvent<HTMLInputElement>, i: InternalProps): void => {
   const file: File | undefined = event.target.files?.[0];
   if (!file) return;
+
+  event.target.value = '';
+  i.showAlert(AlertColor.Yellow, AlertText.ImportingDB);
 
   const reader: FileReader = new FileReader();
   // @ts-expect-error expected return value type
@@ -89,11 +106,15 @@ const handleImportedFile = (event: React.ChangeEvent<HTMLInputElement>, i: Inter
       const jsonString: string = reader.result as string;
       const blob: Blob = new Blob([jsonString], { type: 'application/json' });
       await service.importData(blob);
+
+      // Refresh all data stores and wait for completion
+      await Promise.all([
+        useDataStore.getState().fetchData(),
+        useCompactDateDataStore.getState().fetchData(),
+        useListSurahDataStore.getState().fetchData(),
+      ]);
+
       i.showAlert(AlertColor.Green, AlertText.SuccessImportedDB);
-      // TD-6 Implement proper success import notification
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
     } catch (err) {
       console.error('Import failed:', err);
       i.showAlert(AlertColor.Red, AlertText.FailedImportedDB);
@@ -120,55 +141,69 @@ export const Menu = (): React.JSX.Element => {
   return (
     <Base module="shared" name="Menu">
       <HeadlessMenu>
-        <MenuButton>
-          <Bars3Icon className="size-6" />
-        </MenuButton>
+        {({ close }: { close: () => void }) => {
+          const menuProps: InternalProps = {
+            showAlert,
+            fileInputRef,
+            isDropDbConfirmationVisible,
+            setIsDropDbConfirmationVisible,
+            closeMenu: close,
+          };
 
-        <MenuItems anchor="bottom end" className={CLASS_NAMES.menuItems}>
-          <MenuItem>
-            <button className={CLASS_NAMES.menuItem} onClick={() => doExport(i)}>
-              <ArrowUpTrayIcon className="size-4 fill-white/50" />
-              Export
-            </button>
-          </MenuItem>
+          return (
+            <div>
+              <MenuButton>
+                <Bars3Icon className="size-6" />
+              </MenuButton>
 
-          <MenuItem>
-            <button className={CLASS_NAMES.menuItem} onClick={() => doImport(i)}>
-              <ArrowDownTrayIcon className="size-4 fill-white/50" />
-              Import
-            </button>
-          </MenuItem>
+              <MenuItems anchor="bottom end" className={CLASS_NAMES.menuItems}>
+                <MenuItem>
+                  <button className={CLASS_NAMES.menuItem} onClick={() => doExport(menuProps)}>
+                    <ArrowUpTrayIcon className="size-4 fill-white/50" />
+                    Export
+                  </button>
+                </MenuItem>
 
-          <div className="my-1 h-px bg-white/20" />
+                <MenuItem>
+                  <button className={CLASS_NAMES.menuItem} onClick={() => doImport(menuProps)}>
+                    <ArrowDownTrayIcon className="size-4 fill-white/50" />
+                    Import
+                  </button>
+                </MenuItem>
 
-          <MenuItem>
-            <button
-              className={CLASS_NAMES.menuItem}
-              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                e.preventDefault();
-                doDropDb(i);
-              }}
-            >
-              <ArchiveBoxXMarkIcon className="size-4 fill-white/50" />
-              {!isDropDbConfirmationVisible ? 'Delete database' : 'Confirm?'}
-            </button>
-          </MenuItem>
+                <div className="my-1 h-px bg-white/20" />
 
-          <div className="my-1 h-px bg-white/20" />
+                <MenuItem>
+                  <button
+                    className={CLASS_NAMES.menuItem}
+                    onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                      e.preventDefault();
+                      doDropDb(menuProps);
+                    }}
+                  >
+                    <ArchiveBoxXMarkIcon className="size-4 fill-white/50" />
+                    {!isDropDbConfirmationVisible ? 'Delete database' : 'Confirm?'}
+                  </button>
+                </MenuItem>
 
-          <MenuItem>
-            <a className={CLASS_NAMES.menuItem} href={LINKS.GITHUB} target="_blank">
-              <Image
-                className="w-4 h-4"
-                width={16}
-                height={16}
-                src="/github-mark-white.svg"
-                alt="icon"
-              />
-              GitHub
-            </a>
-          </MenuItem>
-        </MenuItems>
+                <div className="my-1 h-px bg-white/20" />
+
+                <MenuItem>
+                  <a className={CLASS_NAMES.menuItem} href={LINKS.GITHUB} target="_blank">
+                    <Image
+                      className="w-4 h-4"
+                      width={16}
+                      height={16}
+                      src="/github-mark-white.svg"
+                      alt="icon"
+                    />
+                    GitHub
+                  </a>
+                </MenuItem>
+              </MenuItems>
+            </div>
+          );
+        }}
       </HeadlessMenu>
 
       <input

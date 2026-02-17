@@ -1,6 +1,6 @@
 # TD-6: Remove Page Reload After Data Import
 
-**Status:** 🟡 Planned
+**Status:** ✅ Resolved
 **Priority:** Low
 **Location:** `src/shared/component/Menu.tsx`
 
@@ -41,17 +41,28 @@ PR #62 attempt to fix.
 - Introduces arbitrary 500ms delay (race condition potential)
 - 8 files changed vs simpler direct approach
 
-## Recommended Solution
+## Resolution
+
+Implemented in PR #70 using direct Zustand refresh pattern:
 
 ```typescript
-// Direct Zustand refresh (idiomatic, no delays)
-import { useDataStore, useCompactDateDataStore, useListSurahDataStore } from '@/module/activity/store';
-
+// Yellow alert → Import → Refresh all stores → Green alert
+i.showAlert(AlertColor.Yellow, AlertText.ImportingDB);
+// ... FileReader reads file ...
 await service.importData(blob);
+await Promise.all([
+  useDataStore.getState().fetchData(),
+  useCompactDateDataStore.getState().fetchData(),
+  useListSurahDataStore.getState().fetchData(),
+]);
 i.showAlert(AlertColor.Green, AlertText.SuccessImportedDB);
-
-// Refresh all stores - reactive, no timing needed
-useDataStore.getState().fetchData();
-useCompactDateDataStore.getState().fetchData();
-useListSurahDataStore.getState().fetchData();
 ```
+
+**Changes:**
+- Removed `window.location.reload()`
+- Added yellow "Importing..." progress alert
+- Refreshes all data stores reactively
+- Same pattern applied to delete database flow
+
+**Branch:** `activity/remove-page-reload-on-import`
+**PR:** #70
