@@ -26,9 +26,12 @@ interface InternalProps {
 
 const checkIsChanged = (
   formType: number,
+  activity: Activity | undefined,
   selectedJuz: Option | undefined,
   selectedSurah: Option | Option[] | undefined
 ): boolean => {
+  if (!activity) return true;
+
   switch (formType) {
     case ActivityType.Juz:
       if (!selectedJuz) return false;
@@ -242,8 +245,8 @@ export const Button = (p: Props): React.JSX.Element => {
   };
 
   const isFormChanged: boolean = useMemo(
-    () => checkIsChanged(formType, p.selectedJuz, p.selectedSurah),
-    [formType, p.selectedJuz, p.selectedSurah]
+    () => checkIsChanged(formType, activity, p.selectedJuz, p.selectedSurah),
+    [formType, activity, p.selectedJuz, p.selectedSurah]
   );
 
   const isSaveable: boolean = useMemo(
