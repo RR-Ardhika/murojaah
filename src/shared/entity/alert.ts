@@ -16,6 +16,7 @@ export enum AlertText {
   ImportingDB = 'Importing data...',
   SuccessImportedDB = 'Successfully imported database',
   FailedImportedDB = 'Failed to import database',
+  DeletingDB = 'Deleting data...',
   SuccessDeletedDB = 'Successfully deleted database',
 }
 

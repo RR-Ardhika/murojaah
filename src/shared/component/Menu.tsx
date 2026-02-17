@@ -68,7 +68,7 @@ const doImport = (i: InternalProps): void => {
   i.fileInputRef.current?.click();
 };
 
-const doDropDb = (i: InternalProps): void => {
+const doDropDb = async (i: InternalProps): Promise<void> => {
   if (!i.isDropDbConfirmationVisible) {
     i.setIsDropDbConfirmationVisible(true);
     setTimeout(() => {
@@ -79,11 +79,17 @@ const doDropDb = (i: InternalProps): void => {
 
   i.closeMenu?.();
 
-  service.dropDb();
+  i.showAlert(AlertColor.Yellow, AlertText.DeletingDB);
+  await service.dropDb();
+
+  // Refresh all data stores - reactive, no reload needed
+  await Promise.all([
+    useDataStore.getState().fetchData(),
+    useCompactDateDataStore.getState().fetchData(),
+    useListSurahDataStore.getState().fetchData(),
+  ]);
+
   i.showAlert(AlertColor.Green, AlertText.SuccessDeletedDB);
-  setTimeout(() => {
-    window.location.reload();
-  }, 2000);
 };
 
 const handleImportedFile = (event: React.ChangeEvent<HTMLInputElement>, i: InternalProps): void => {
