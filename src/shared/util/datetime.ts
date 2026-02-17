@@ -3,6 +3,18 @@ import { DateTime, Duration } from 'luxon';
 
 export const formFormatDatetimes: string[] = ['yyyy-MM-dd HH:mm', 'yyyy-MM-dd HH.mm'];
 
+export const splitDatetime = (value: string): { date: string; time: string } => {
+  if (!value) return { date: '', time: '' };
+  const normalized: string = value.replace(/\./g, ':');
+  const [date, time]: string[] = normalized.split(' ');
+  return { date: date ?? '', time: time ?? '' };
+};
+
+export const combineDatetime = (date: string, time: string): string => {
+  if (!date || !time) return '';
+  return `${date} ${time}`;
+};
+
 export const formatDatetime = (date: Date): string => {
   const parsedTime: DateTime = DateTime.fromJSDate(date);
   if (!parsedTime.isValid) return '';
