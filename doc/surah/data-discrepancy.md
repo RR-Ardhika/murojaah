@@ -323,7 +323,7 @@ Neither PR #60 nor mushaf-layout matches quran.com's Classic Madani 15-line mush
 |----------|---------|
 | [lines-internet.md](./lines-internet.md) | Full internet reference data |
 | [lines-methodology.md](./lines-methodology.md) | Line counting methodology |
-| [tech-debt.md](../tech-debt.md) | TD-4 tracking |
+| [TD-4.md](../technical-debt/TD-4.md) | TD-4 tracking |
 
 ---
 
