@@ -76,7 +76,15 @@ const SurahContent = (p: Props): React.JSX.Element => {
       const rangeOptions: Option[] = options.filter(
         (opt: Option) => opt.value >= startSurah.value && opt.value <= endSurah.value
       );
-      p.setSelectedSurah(rangeOptions.length > 0 ? rangeOptions : undefined);
+
+      const currentValues: number[] = Array.isArray(p.selectedSurah)
+        ? p.selectedSurah.map((o: Option) => o.value).sort()
+        : [];
+      const newValues: number[] = rangeOptions.map((o: Option) => o.value).sort();
+
+      if (JSON.stringify(currentValues) !== JSON.stringify(newValues)) {
+        p.setSelectedSurah(rangeOptions.length > 0 ? rangeOptions : undefined);
+      }
     }
   }, [surahMode, startSurah, endSurah, p]);
 
