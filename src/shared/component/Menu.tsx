@@ -26,6 +26,7 @@ interface InternalProps {
   fileInputRef: React.RefObject<HTMLInputElement | null>;
   isDropDbConfirmationVisible: boolean;
   setIsDropDbConfirmationVisible: Dispatch<SetStateAction<boolean>>;
+  closeMenu?: () => void;
 }
 
 const CLASS_NAMES: Record<string, string> = {
@@ -75,6 +76,8 @@ const doDropDb = (i: InternalProps): void => {
     }, 2000);
     return;
   }
+
+  i.closeMenu?.();
 
   service.dropDb();
   i.showAlert(AlertColor.Green, AlertText.SuccessDeletedDB);
@@ -132,55 +135,69 @@ export const Menu = (): React.JSX.Element => {
   return (
     <Base module="shared" name="Menu">
       <HeadlessMenu>
-        <MenuButton>
-          <Bars3Icon className="size-6" />
-        </MenuButton>
+        {({ close }: { close: () => void }) => {
+          const menuProps: InternalProps = {
+            showAlert,
+            fileInputRef,
+            isDropDbConfirmationVisible,
+            setIsDropDbConfirmationVisible,
+            closeMenu: close,
+          };
 
-        <MenuItems anchor="bottom end" className={CLASS_NAMES.menuItems}>
-          <MenuItem>
-            <button className={CLASS_NAMES.menuItem} onClick={() => doExport(i)}>
-              <ArrowUpTrayIcon className="size-4 fill-white/50" />
-              Export
-            </button>
-          </MenuItem>
+          return (
+            <div>
+              <MenuButton>
+                <Bars3Icon className="size-6" />
+              </MenuButton>
 
-          <MenuItem>
-            <button className={CLASS_NAMES.menuItem} onClick={() => doImport(i)}>
-              <ArrowDownTrayIcon className="size-4 fill-white/50" />
-              Import
-            </button>
-          </MenuItem>
+              <MenuItems anchor="bottom end" className={CLASS_NAMES.menuItems}>
+                <MenuItem>
+                  <button className={CLASS_NAMES.menuItem} onClick={() => doExport(menuProps)}>
+                    <ArrowUpTrayIcon className="size-4 fill-white/50" />
+                    Export
+                  </button>
+                </MenuItem>
 
-          <div className="my-1 h-px bg-white/20" />
+                <MenuItem>
+                  <button className={CLASS_NAMES.menuItem} onClick={() => doImport(menuProps)}>
+                    <ArrowDownTrayIcon className="size-4 fill-white/50" />
+                    Import
+                  </button>
+                </MenuItem>
 
-          <MenuItem>
-            <button
-              className={CLASS_NAMES.menuItem}
-              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                e.preventDefault();
-                doDropDb(i);
-              }}
-            >
-              <ArchiveBoxXMarkIcon className="size-4 fill-white/50" />
-              {!isDropDbConfirmationVisible ? 'Delete database' : 'Confirm?'}
-            </button>
-          </MenuItem>
+                <div className="my-1 h-px bg-white/20" />
 
-          <div className="my-1 h-px bg-white/20" />
+                <MenuItem>
+                  <button
+                    className={CLASS_NAMES.menuItem}
+                    onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                      e.preventDefault();
+                      doDropDb(menuProps);
+                    }}
+                  >
+                    <ArchiveBoxXMarkIcon className="size-4 fill-white/50" />
+                    {!isDropDbConfirmationVisible ? 'Delete database' : 'Confirm?'}
+                  </button>
+                </MenuItem>
 
-          <MenuItem>
-            <a className={CLASS_NAMES.menuItem} href={LINKS.GITHUB} target="_blank">
-              <Image
-                className="w-4 h-4"
-                width={16}
-                height={16}
-                src="/github-mark-white.svg"
-                alt="icon"
-              />
-              GitHub
-            </a>
-          </MenuItem>
-        </MenuItems>
+                <div className="my-1 h-px bg-white/20" />
+
+                <MenuItem>
+                  <a className={CLASS_NAMES.menuItem} href={LINKS.GITHUB} target="_blank">
+                    <Image
+                      className="w-4 h-4"
+                      width={16}
+                      height={16}
+                      src="/github-mark-white.svg"
+                      alt="icon"
+                    />
+                    GitHub
+                  </a>
+                </MenuItem>
+              </MenuItems>
+            </div>
+          );
+        }}
       </HeadlessMenu>
 
       <input
