@@ -252,7 +252,9 @@ const AyahContent = (p: Props): React.JSX.Element => {
   const selectedSurahId: number | undefined = Array.isArray(p.selectedSurah)
     ? p.selectedSurah[0]?.value
     : p.selectedSurah?.value;
-  const selectedSurahData: SurahType | undefined = surah.find((s: SurahType) => s.id === selectedSurahId);
+  const selectedSurahData: SurahType | undefined = surah.find(
+    (s: SurahType) => s.id === selectedSurahId
+  );
   const maxAyah: number = selectedSurahData?.totalAyah ?? 0;
 
   const isValidationEnabled: boolean = maxAyah > 0;
