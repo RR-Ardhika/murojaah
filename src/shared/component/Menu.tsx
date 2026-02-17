@@ -87,6 +87,9 @@ const handleImportedFile = (event: React.ChangeEvent<HTMLInputElement>, i: Inter
   const file: File | undefined = event.target.files?.[0];
   if (!file) return;
 
+  event.target.value = '';
+  i.showAlert(AlertColor.Yellow, AlertText.ImportingDB);
+
   const reader: FileReader = new FileReader();
   // @ts-expect-error expected return value type
   reader.onload = async (): void => {
@@ -94,12 +97,15 @@ const handleImportedFile = (event: React.ChangeEvent<HTMLInputElement>, i: Inter
       const jsonString: string = reader.result as string;
       const blob: Blob = new Blob([jsonString], { type: 'application/json' });
       await service.importData(blob);
-      i.showAlert(AlertColor.Green, AlertText.SuccessImportedDB);
 
-      // Refresh all data stores - reactive, no reload needed
-      useDataStore.getState().fetchData();
-      useCompactDateDataStore.getState().fetchData();
-      useListSurahDataStore.getState().fetchData();
+      // Refresh all data stores and wait for completion
+      await Promise.all([
+        useDataStore.getState().fetchData(),
+        useCompactDateDataStore.getState().fetchData(),
+        useListSurahDataStore.getState().fetchData(),
+      ]);
+
+      i.showAlert(AlertColor.Green, AlertText.SuccessImportedDB);
     } catch (err) {
       console.error('Import failed:', err);
       i.showAlert(AlertColor.Red, AlertText.FailedImportedDB);
