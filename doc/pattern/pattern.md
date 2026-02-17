@@ -342,8 +342,6 @@ If native datetime-local doesn't meet needs, consider:
 - **flatpickr** (~10KB) - Lightweight, dependency-free, more styling control
 - **react-datepicker** (~50KB) - Uses date-fns internally
 
-See `agent/story/MUR-11.md` for detailed comparison.
-
 ### Component Organization
 
 Follow the modular structure:
