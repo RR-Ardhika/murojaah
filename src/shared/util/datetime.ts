@@ -3,6 +3,16 @@ import { DateTime, Duration } from 'luxon';
 
 export const formFormatDatetimes: string[] = ['yyyy-MM-dd HH:mm', 'yyyy-MM-dd HH.mm'];
 
+export const toDatetimeLocal = (value: string): string => {
+  if (!value) return '';
+  return value.replace(' ', 'T').replace(/\./g, ':');
+};
+
+export const fromDatetimeLocal = (value: string): string => {
+  if (!value) return '';
+  return value.replace('T', ' ');
+};
+
 export const formatDatetime = (date: Date): string => {
   const parsedTime: DateTime = DateTime.fromJSDate(date);
   if (!parsedTime.isValid) return '';
