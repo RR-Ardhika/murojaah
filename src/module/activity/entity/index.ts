@@ -8,6 +8,13 @@ export enum ActivityType {
   Ayah = 2,
 }
 
+export const activityTypeLabel: Record<ActivityType, string> = {
+  [ActivityType.Uninitialized]: '',
+  [ActivityType.Juz]: 'Juz',
+  [ActivityType.Surah]: 'Surah',
+  [ActivityType.Ayah]: 'Ayah',
+};
+
 export type Activity = {
   id: string;
   activityType: ActivityType;
