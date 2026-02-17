@@ -5,6 +5,10 @@
 :root {
 }
 
+html {
+  touch-action: pan-y;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
   }
