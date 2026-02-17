@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Select, { StylesConfig, CSSObjectWithLabel } from 'react-select';
 
-import { surah, SurahType } from '@/shared/entity';
+import { Option, surah, SurahType } from '@/shared/entity';
 import { approachOptions, juzOptions, surahOptions } from '@/shared/service';
 
 import { SharedProps as Props } from '.';
@@ -56,32 +56,157 @@ const JuzContent = (p: Props): React.JSX.Element => {
 
 const SurahContent = (p: Props): React.JSX.Element => {
   const [searchInput, setSearchInput] = useState('');
+  const [surahMode, setSurahMode] = useState<'select' | 'range'>('select');
+  const [startSurah, setStartSurah] = useState<Option | undefined>();
+  const [endSurah, setEndSurah] = useState<Option | undefined>();
+  const [lastChanged, setLastChanged] = useState<'start' | 'end' | null>(null);
 
   const { activity } = useFormStore();
+  const isEditMode: boolean = !!activity;
+
+  useEffect(() => {
+    if (isEditMode) {
+      setSurahMode('select');
+    }
+  }, [isEditMode]);
+
+  useEffect(() => {
+    if (surahMode === 'range' && startSurah && endSurah && startSurah.value <= endSurah.value) {
+      const options: Option[] = surahOptions();
+      const rangeOptions: Option[] = options.filter(
+        (opt: Option) => opt.value >= startSurah.value && opt.value <= endSurah.value
+      );
+
+      const currentValues: number[] = Array.isArray(p.selectedSurah)
+        ? p.selectedSurah.map((o: Option) => o.value).sort()
+        : [];
+      const newValues: number[] = rangeOptions.map((o: Option) => o.value).sort();
+
+      if (JSON.stringify(currentValues) !== JSON.stringify(newValues)) {
+        p.setSelectedSurah(rangeOptions.length > 0 ? rangeOptions : undefined);
+      }
+    }
+  }, [surahMode, startSurah, endSurah, p]);
+
+  const handleModeChange = (mode: 'select' | 'range'): void => {
+    if (mode !== surahMode) {
+      setSearchInput('');
+      setSurahMode(mode);
+
+      if (mode === 'range' && Array.isArray(p.selectedSurah) && p.selectedSurah.length > 0) {
+        setStartSurah(p.selectedSurah[0]);
+        setEndSurah(undefined);
+      } else {
+        p.setSelectedSurah(undefined);
+        setStartSurah(undefined);
+        setEndSurah(undefined);
+      }
+    }
+  };
+
+  const showRangeError: boolean =
+    surahMode === 'range' &&
+    startSurah !== undefined &&
+    endSurah !== undefined &&
+    startSurah.value > endSurah.value;
+
+  const rangeErrorMessage: string =
+    lastChanged === 'start' ? 'Start surah must be ≤ end surah' : 'End surah must be ≥ start surah';
 
   return (
     <div className="flex flex-col gap-2 mt-2">
-      <label className="font-light">Select Surah</label>
-      <div className="border border-gray-300">
-        <Select
-          styles={selectStyle}
-          tabIndex={-1}
-          value={p.selectedSurah}
-          inputValue={searchInput}
-          options={surahOptions()}
-          isSearchable={true}
-          isMulti={activity ? false : true}
-          isClearable={false}
-          closeMenuOnSelect={false}
-          blurInputOnSelect={false}
-          // @ts-expect-error known type
-          onChange={p.setSelectedSurah}
-          // eslint-disable-next-line @typescript-eslint/typedef
-          onInputChange={(value, action) => {
-            if (action.action !== 'set-value') setSearchInput(value);
-          }}
-        />
-      </div>
+      {!isEditMode && (
+        <div className="flex gap-4">
+          <label className="flex items-center gap-2 font-light cursor-pointer">
+            <input
+              type="radio"
+              name="surahMode"
+              value="select"
+              checked={surahMode === 'select'}
+              onChange={() => handleModeChange('select')}
+              className="h-4 w-4"
+            />
+            Select
+          </label>
+          <label className="flex items-center gap-2 font-light cursor-pointer">
+            <input
+              type="radio"
+              name="surahMode"
+              value="range"
+              checked={surahMode === 'range'}
+              onChange={() => handleModeChange('range')}
+              className="h-4 w-4"
+            />
+            Range
+          </label>
+        </div>
+      )}
+
+      {surahMode === 'select' && (
+        <>
+          <label className="font-light">Select Surah</label>
+          <div className="border border-gray-300">
+            <Select
+              styles={selectStyle}
+              tabIndex={-1}
+              value={p.selectedSurah}
+              inputValue={searchInput}
+              options={surahOptions()}
+              isSearchable={true}
+              isMulti={activity ? false : true}
+              isClearable={false}
+              closeMenuOnSelect={false}
+              blurInputOnSelect={false}
+              // @ts-expect-error known type
+              onChange={p.setSelectedSurah}
+              // eslint-disable-next-line @typescript-eslint/typedef
+              onInputChange={(value, action) => {
+                if (action.action !== 'set-value') setSearchInput(value);
+              }}
+            />
+          </div>
+        </>
+      )}
+
+      {surahMode === 'range' && (
+        <>
+          <div className="flex gap-5">
+            <div className="flex flex-col gap-2 flex-1">
+              <label className="font-light">Start Surah</label>
+              <div className="border border-gray-300">
+                <Select
+                  styles={selectStyle}
+                  value={startSurah}
+                  options={surahOptions()}
+                  isSearchable={true}
+                  // @ts-expect-error known type
+                  onChange={(opt: Option) => {
+                    setLastChanged('start');
+                    setStartSurah(opt);
+                  }}
+                />
+              </div>
+            </div>
+            <div className="flex flex-col gap-2 flex-1">
+              <label className="font-light">End Surah</label>
+              <div className="border border-gray-300">
+                <Select
+                  styles={selectStyle}
+                  value={endSurah}
+                  options={surahOptions()}
+                  isSearchable={true}
+                  // @ts-expect-error known type
+                  onChange={(opt: Option) => {
+                    setLastChanged('end');
+                    setEndSurah(opt);
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+          {showRangeError && <p className="text-red-500 text-sm">{rangeErrorMessage}</p>}
+        </>
+      )}
 
       <label className="font-light">Select Approach</label>
       <div className="border border-gray-300">
@@ -127,7 +252,9 @@ const AyahContent = (p: Props): React.JSX.Element => {
   const selectedSurahId: number | undefined = Array.isArray(p.selectedSurah)
     ? p.selectedSurah[0]?.value
     : p.selectedSurah?.value;
-  const selectedSurahData: SurahType | undefined = surah.find((s: SurahType) => s.id === selectedSurahId);
+  const selectedSurahData: SurahType | undefined = surah.find(
+    (s: SurahType) => s.id === selectedSurahId
+  );
   const maxAyah: number = selectedSurahData?.totalAyah ?? 0;
 
   const isValidationEnabled: boolean = maxAyah > 0;

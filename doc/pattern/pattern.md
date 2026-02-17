@@ -302,6 +302,46 @@ export interface SharedProps {
 }
 ```
 
+### DateTime Input
+
+Use native `<input type="datetime-local">` for datetime selection. This provides:
+- Zero dependencies
+- Native browser/OS picker UI
+- Mobile-friendly experience
+- Built-in validation
+
+#### ✅ DO: Convert between Luxon and HTML datetime format
+
+```tsx
+// HTML datetime-local format: "yyyy-MM-ddTHH:mm"
+// Luxon format: "yyyy-MM-dd HH:mm"
+
+const toDatetimeLocal = (value: string): string => {
+  return value.replace(' ', 'T');
+};
+
+const fromDatetimeLocal = (value: string): string => {
+  return value.replace('T', ' ');
+};
+```
+
+#### ✅ DO: Keep "reset to now" button for UX
+
+```tsx
+<button
+  type="button"
+  onClick={() => setValue(DateTime.now().toFormat('yyyy-MM-dd HH:mm'))}
+>
+  <ArrowPathIcon />
+</button>
+```
+
+#### Alternatives Considered
+
+If native datetime-local doesn't meet needs, consider:
+- **flatpickr** (~10KB) - Lightweight, dependency-free, more styling control
+- **react-datepicker** (~50KB) - Uses date-fns internally
+
 ### Component Organization
 
 Follow the modular structure:
@@ -472,7 +512,8 @@ useEffect(() => {
 | `useCallback`   | Passing to memoized children       | Simple handlers, no memoization  |
 | `useRef`        | Mutable value without re-render    | State that should trigger render |
 | Type annotation | Ambiguous types, complex unions    | Obvious inference, simple types  |
+| datetime-local  | Date + time input needed           | Need custom styling/theming      |
 
 ---
 
-_Last updated: 2026-02-15 02:49 AM
+_Last updated: 2026-02-17
