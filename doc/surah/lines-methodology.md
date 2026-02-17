@@ -105,7 +105,7 @@ surah.reduce((sum, s) => sum + s.totalLines, 0) // TBD
 |------|---------|
 | `src/shared/entity/surah.ts` | Surah data with line counts |
 | `src/module/stat/service/index.ts` | Uses `totalLines` for calculations |
-| `doc/tech-debt.md` | TD-4 tracking |
+| `doc/technical-debt/TD-4.md` | TD-4 tracking |
 | `data-discrepancy.md` | Comparison of sources (for reference) |
 | `lines-internet.md` | mushaf-layout data (unreliable - for reference only) |
 

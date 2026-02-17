@@ -196,7 +196,7 @@ make format-check
 
 ## Technical Debt
 
-See [`doc/tech-debt.md`](./doc/tech-debt.md) for the technical debt dashboard.
+See [`doc/technical-debt/list.md`](./doc/technical-debt/list.md) for the technical debt dashboard.
 
 ## Coding Conventions
 

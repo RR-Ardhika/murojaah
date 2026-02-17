@@ -41,6 +41,10 @@ export interface SharedProps {
   setIsJuzDone: Dispatch<SetStateAction<boolean>>;
   occuredAt: string;
   setOccuredAt: Dispatch<SetStateAction<string>>;
+  startAyahError: string | null;
+  endAyahError: string | null;
+  setStartAyahError: Dispatch<SetStateAction<string | null>>;
+  setEndAyahError: Dispatch<SetStateAction<string | null>>;
 }
 
 export const Form = (p: Props): React.JSX.Element => {
@@ -53,6 +57,8 @@ export const Form = (p: Props): React.JSX.Element => {
   const [isSurahDone, setIsSurahDone] = useState(false);
   const [isJuzDone, setIsJuzDone] = useState(false);
   const [occuredAt, setOccuredAt] = useState('');
+  const [startAyahError, setStartAyahError] = useState<string | null>(null);
+  const [endAyahError, setEndAyahError] = useState<string | null>(null);
 
   const { activity, isFormVisible, parentSurah } = useFormStore();
 
@@ -107,6 +113,10 @@ export const Form = (p: Props): React.JSX.Element => {
     setIsJuzDone,
     occuredAt,
     setOccuredAt,
+    startAyahError,
+    endAyahError,
+    setStartAyahError,
+    setEndAyahError,
   };
 
   return (
