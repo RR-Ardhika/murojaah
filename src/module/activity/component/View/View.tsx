@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useRef } from 'react';
+import { useEffect, useCallback } from 'react';
 
 import { Base } from '@/shared/component/Base';
 import { useGoToDateStore } from '@/shared/store';
@@ -7,27 +7,29 @@ import { Activity, ActivityGroup } from '../../entity';
 import { useDataStore } from '../../store';
 import { Card } from '../Card';
 
-const findNearestDate = (
-  targetDate: string,
-  availableDates: string[]
-): string => {
+const dateToId = (date: string): string => {
+  return `date-${date.replace(/[^a-zA-Z0-9]/g, '-')}`;
+};
+
+const findNearestDate = (targetDate: string, availableDates: string[]): string => {
   const sortedDates: string[] = [...availableDates].sort();
   return sortedDates.reduce((prev: string, curr: string): string => {
-    const prevDiff: number = Math.abs(
-      new Date(prev).getTime() - new Date(targetDate).getTime()
-    );
-    const currDiff: number = Math.abs(
-      new Date(curr).getTime() - new Date(targetDate).getTime()
-    );
+    const prevDiff: number = Math.abs(new Date(prev).getTime() - new Date(targetDate).getTime());
+    const currDiff: number = Math.abs(new Date(curr).getTime() - new Date(targetDate).getTime());
     return currDiff < prevDiff ? curr : prev;
   });
+};
+
+const scrollToElement = (elementId: string): void => {
+  const element: HTMLElement | null = document.getElementById(elementId);
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 };
 
 export const View = (): React.JSX.Element => {
   const { data, fetchData } = useDataStore();
   const { currentDate } = useGoToDateStore();
-  const dateRefs: React.MutableRefObject<Record<string, HTMLDivElement | null>> =
-    useRef<Record<string, HTMLDivElement | null>>({});
 
   const memoizedFetchData: () => Promise<void> = useCallback((): Promise<void> => {
     return fetchData();
@@ -40,22 +42,17 @@ export const View = (): React.JSX.Element => {
   useEffect((): void => {
     if (!currentDate || !data || data.length === 0) return;
 
-    const targetElement: HTMLDivElement | null | undefined =
-      dateRefs.current[currentDate];
+    const targetId: string = dateToId(currentDate);
+    const targetElement: HTMLElement | null = document.getElementById(targetId);
 
     if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      scrollToElement(targetId);
       return;
     }
 
     const allDates: string[] = data.map((g: ActivityGroup): string => g.date);
     const nearestDate: string = findNearestDate(currentDate, allDates);
-
-    const nearestElement: HTMLDivElement | null | undefined =
-      dateRefs.current[nearestDate];
-    if (nearestElement) {
-      nearestElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    scrollToElement(dateToId(nearestDate));
   }, [currentDate, data]);
 
   return (
@@ -64,17 +61,9 @@ export const View = (): React.JSX.Element => {
         {data &&
           data.map((group: ActivityGroup): React.JSX.Element => {
             return (
-              <div
-                key={group.date}
-                ref={(el: HTMLDivElement | null): void => {
-                  dateRefs.current[group.date] = el;
-                }}
-                className="scroll-mt-20"
-              >
+              <div key={group.date} id={dateToId(group.date)} className="scroll-mt-20">
                 <>
-                  <p className="text-2xl font-medium text-custom-teal">
-                    {group.date}
-                  </p>
+                  <p className="text-2xl font-medium text-custom-teal">{group.date}</p>
                   <p className="font-light text-custom-teal">
                     <span>{group.stat.juz} juz, </span>
                     <span>{group.stat.ayah} ayah, </span>

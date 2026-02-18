@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { useEffect, useCallback, useRef } from 'react';
+import { useEffect, useCallback } from 'react';
 
 import { Base } from '@/shared/component/Base';
 import { useGoToDateStore } from '@/shared/store';
@@ -18,6 +18,10 @@ const addStripedClassNames = (i: number): string => {
   return clsx(CLASS_NAMES.container, CLASS_NAMES.striped);
 };
 
+const dateToId = (date: string): string => {
+  return `date-${date.replace(/[^a-zA-Z0-9]/g, '-')}`;
+};
+
 const findNearestDate = (
   targetDate: string,
   availableDates: string[]
@@ -34,11 +38,16 @@ const findNearestDate = (
   });
 };
 
+const scrollToElement = (elementId: string): void => {
+  const element: HTMLElement | null = document.getElementById(elementId);
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+};
+
 export const CompactDateView = (): React.JSX.Element => {
   const { data, fetchData } = useCompactDateDataStore();
   const { currentDate } = useGoToDateStore();
-  const dateRefs: React.MutableRefObject<Record<string, HTMLDivElement | null>> =
-    useRef<Record<string, HTMLDivElement | null>>({});
 
   const memoizedFetchData: () => Promise<void> = useCallback((): Promise<void> => {
     return fetchData();
@@ -51,22 +60,17 @@ export const CompactDateView = (): React.JSX.Element => {
   useEffect((): void => {
     if (!currentDate || !data || data.length === 0) return;
 
-    const targetElement: HTMLDivElement | null | undefined =
-      dateRefs.current[currentDate];
+    const targetId: string = dateToId(currentDate);
+    const targetElement: HTMLElement | null = document.getElementById(targetId);
 
     if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      scrollToElement(targetId);
       return;
     }
 
     const allDates: string[] = data.map((item: CompactDate): string => item.date);
     const nearestDate: string = findNearestDate(currentDate, allDates);
-
-    const nearestElement: HTMLDivElement | null | undefined =
-      dateRefs.current[nearestDate];
-    if (nearestElement) {
-      nearestElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    scrollToElement(dateToId(nearestDate));
   }, [currentDate, data]);
 
   return (
@@ -77,9 +81,7 @@ export const CompactDateView = (): React.JSX.Element => {
             return (
               <div
                 key={item.date}
-                ref={(el: HTMLDivElement | null): void => {
-                  dateRefs.current[item.date] = el;
-                }}
+                id={dateToId(item.date)}
                 className={addStripedClassNames(i)}
               >
                 <p className={CLASS_NAMES.content}>{item.date}</p>
