@@ -1,4 +1,4 @@
-import { ArrowRightCircleIcon } from '@heroicons/react/24/outline';
+import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
 
 import { Base } from '@/shared/component/Base';
@@ -21,13 +21,13 @@ export const GoToDateButton = (): React.JSX.Element => {
 
   return (
     <Base module="activity" name="GoToDateButton">
-      <div className="fixed bottom-16 right-4">
+      <div className="fixed bottom-14 right-5">
         <button
           className={CLASS_NAMES.button}
           onClick={(): void => setIsModalOpen(true)}
           aria-label="Go to date"
         >
-          <ArrowRightCircleIcon className="size-10" />
+          <ArrowRightIcon className="size-10" />
         </button>
       </div>
       <GoToDateModal
