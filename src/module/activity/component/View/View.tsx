@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useRef } from 'react';
 
 import { Base } from '@/shared/component/Base';
-import { getGoToDateState, useGoToDateStore } from '@/shared/store';
+import { useGoToDateStore } from '@/shared/store';
 
 import { Activity, ActivityGroup } from '../../entity';
 import { useDataStore } from '../../store';
@@ -25,12 +25,9 @@ const findNearestDate = (
 
 export const View = (): React.JSX.Element => {
   const { data, fetchData } = useDataStore();
-  const { currentDate, isProgrammaticScroll, setIsProgrammaticScroll } =
-    useGoToDateStore();
+  const { currentDate } = useGoToDateStore();
   const dateRefs: React.MutableRefObject<Record<string, HTMLDivElement | null>> =
     useRef<Record<string, HTMLDivElement | null>>({});
-  const containerRef: React.MutableRefObject<HTMLDivElement | null> =
-    useRef<HTMLDivElement | null>(null);
 
   const memoizedFetchData: () => Promise<void> = useCallback((): Promise<void> => {
     return fetchData();
@@ -40,7 +37,7 @@ export const View = (): React.JSX.Element => {
     memoizedFetchData();
   }, [memoizedFetchData]);
 
-  useEffect((): void | (() => void) => {
+  useEffect((): void => {
     if (!currentDate || !data || data.length === 0) return;
 
     const targetElement: HTMLDivElement | null | undefined =
@@ -48,9 +45,6 @@ export const View = (): React.JSX.Element => {
 
     if (targetElement) {
       targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setTimeout((): void => {
-        setIsProgrammaticScroll(false);
-      }, 500);
       return;
     }
 
@@ -61,55 +55,12 @@ export const View = (): React.JSX.Element => {
       dateRefs.current[nearestDate];
     if (nearestElement) {
       nearestElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setTimeout((): void => {
-        setIsProgrammaticScroll(false);
-      }, 500);
     }
-  }, [currentDate, data, setIsProgrammaticScroll]);
-
-  useEffect((): void | (() => void) => {
-    if (isProgrammaticScroll || !data || data.length === 0) return;
-
-    const observer: IntersectionObserver = new IntersectionObserver(
-      (entries: IntersectionObserverEntry[]): void => {
-        const visibleEntries: IntersectionObserverEntry[] = entries.filter(
-          (entry: IntersectionObserverEntry): boolean => entry.isIntersecting
-        );
-        if (visibleEntries.length === 0) return;
-
-        const topEntry: IntersectionObserverEntry = visibleEntries.reduce(
-          (
-            prev: IntersectionObserverEntry,
-            curr: IntersectionObserverEntry
-          ): IntersectionObserverEntry => {
-            return prev.boundingClientRect.top < curr.boundingClientRect.top
-              ? prev
-              : curr;
-          }
-        );
-
-        const date: string | null = topEntry.target.getAttribute('data-date');
-        if (date) {
-          getGoToDateState().setCurrentDate(date);
-        }
-      },
-      {
-        root: null,
-        threshold: 0,
-        rootMargin: '-20% 0px -70% 0px',
-      }
-    );
-
-    Object.values(dateRefs.current).forEach((ref: HTMLDivElement | null): void => {
-      if (ref) observer.observe(ref);
-    });
-
-    return (): void => observer.disconnect();
-  }, [data, isProgrammaticScroll]);
+  }, [currentDate, data]);
 
   return (
     <Base module="activity" name="View">
-      <div className="flex flex-col pt-4 px-4 mt-[72px]" ref={containerRef}>
+      <div className="flex flex-col pt-4 px-4 mt-[72px]">
         {data &&
           data.map((group: ActivityGroup): React.JSX.Element => {
             return (
@@ -118,7 +69,7 @@ export const View = (): React.JSX.Element => {
                 ref={(el: HTMLDivElement | null): void => {
                   dateRefs.current[group.date] = el;
                 }}
-                data-date={group.date}
+                className="scroll-mt-20"
               >
                 <>
                   <p className="text-2xl font-medium text-custom-teal">

@@ -12,11 +12,10 @@ const CLASS_NAMES: Record<string, string> = {
 };
 
 export const GoToDateButton = (): React.JSX.Element => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { setCurrentDate, setIsProgrammaticScroll } = useGoToDateStore();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const { setCurrentDate } = useGoToDateStore();
 
   const handleSelectDate = (date: string): void => {
-    setIsProgrammaticScroll(true);
     setCurrentDate(date);
   };
 
@@ -25,7 +24,7 @@ export const GoToDateButton = (): React.JSX.Element => {
       <div className="fixed bottom-16 right-4">
         <button
           className={CLASS_NAMES.button}
-          onClick={() => setIsModalOpen(true)}
+          onClick={(): void => setIsModalOpen(true)}
           aria-label="Go to date"
         >
           <ArrowRightCircleIcon className="size-10" />
@@ -33,7 +32,7 @@ export const GoToDateButton = (): React.JSX.Element => {
       </div>
       <GoToDateModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={(): void => setIsModalOpen(false)}
         onSelectDate={handleSelectDate}
       />
     </Base>

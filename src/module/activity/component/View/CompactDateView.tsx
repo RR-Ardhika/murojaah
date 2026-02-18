@@ -2,13 +2,13 @@ import { clsx } from 'clsx';
 import { useEffect, useCallback, useRef } from 'react';
 
 import { Base } from '@/shared/component/Base';
-import { getGoToDateState, useGoToDateStore } from '@/shared/store';
+import { useGoToDateStore } from '@/shared/store';
 
 import { CompactDate } from '../../entity';
 import { useCompactDateDataStore } from '../../store';
 
 const CLASS_NAMES: Record<string, string> = {
-  container: 'flex justify-between',
+  container: 'flex justify-between scroll-mt-20',
   content: 'text-lg text-custom-teal',
   striped: 'bg-gray-100',
 };
@@ -36,8 +36,7 @@ const findNearestDate = (
 
 export const CompactDateView = (): React.JSX.Element => {
   const { data, fetchData } = useCompactDateDataStore();
-  const { currentDate, isProgrammaticScroll, setIsProgrammaticScroll } =
-    useGoToDateStore();
+  const { currentDate } = useGoToDateStore();
   const dateRefs: React.MutableRefObject<Record<string, HTMLDivElement | null>> =
     useRef<Record<string, HTMLDivElement | null>>({});
 
@@ -49,7 +48,7 @@ export const CompactDateView = (): React.JSX.Element => {
     memoizedFetchData();
   }, [memoizedFetchData]);
 
-  useEffect((): void | (() => void) => {
+  useEffect((): void => {
     if (!currentDate || !data || data.length === 0) return;
 
     const targetElement: HTMLDivElement | null | undefined =
@@ -57,9 +56,6 @@ export const CompactDateView = (): React.JSX.Element => {
 
     if (targetElement) {
       targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setTimeout((): void => {
-        setIsProgrammaticScroll(false);
-      }, 500);
       return;
     }
 
@@ -70,51 +66,8 @@ export const CompactDateView = (): React.JSX.Element => {
       dateRefs.current[nearestDate];
     if (nearestElement) {
       nearestElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setTimeout((): void => {
-        setIsProgrammaticScroll(false);
-      }, 500);
     }
-  }, [currentDate, data, setIsProgrammaticScroll]);
-
-  useEffect((): void | (() => void) => {
-    if (isProgrammaticScroll || !data || data.length === 0) return;
-
-    const observer: IntersectionObserver = new IntersectionObserver(
-      (entries: IntersectionObserverEntry[]): void => {
-        const visibleEntries: IntersectionObserverEntry[] = entries.filter(
-          (entry: IntersectionObserverEntry): boolean => entry.isIntersecting
-        );
-        if (visibleEntries.length === 0) return;
-
-        const topEntry: IntersectionObserverEntry = visibleEntries.reduce(
-          (
-            prev: IntersectionObserverEntry,
-            curr: IntersectionObserverEntry
-          ): IntersectionObserverEntry => {
-            return prev.boundingClientRect.top < curr.boundingClientRect.top
-              ? prev
-              : curr;
-          }
-        );
-
-        const date: string | null = topEntry.target.getAttribute('data-date');
-        if (date) {
-          getGoToDateState().setCurrentDate(date);
-        }
-      },
-      {
-        root: null,
-        threshold: 0,
-        rootMargin: '-20% 0px -70% 0px',
-      }
-    );
-
-    Object.values(dateRefs.current).forEach((ref: HTMLDivElement | null): void => {
-      if (ref) observer.observe(ref);
-    });
-
-    return (): void => observer.disconnect();
-  }, [data, isProgrammaticScroll]);
+  }, [currentDate, data]);
 
   return (
     <Base module="activity" name="CompactDateView">
@@ -127,7 +80,6 @@ export const CompactDateView = (): React.JSX.Element => {
                 ref={(el: HTMLDivElement | null): void => {
                   dateRefs.current[item.date] = el;
                 }}
-                data-date={item.date}
                 className={addStripedClassNames(i)}
               >
                 <p className={CLASS_NAMES.content}>{item.date}</p>

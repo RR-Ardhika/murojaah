@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  ChartBarIcon,
-  HomeIcon,
-  ListBulletIcon,
-  CalendarIcon,
-} from '@heroicons/react/24/outline';
+import { ChartBarIcon, HomeIcon, ListBulletIcon, CalendarIcon } from '@heroicons/react/24/outline';
 import { clsx } from 'clsx';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
@@ -80,10 +75,8 @@ export const NavItem = ({ itemKey }: Props): React.JSX.Element => {
       <Link
         href={config.href}
         className={clsx(
-          'w-full p-3 text-xl text-center transition-colors',
-          active
-            ? 'bg-white text-custom-teal'
-            : 'bg-custom-teal text-white hover:bg-teal-600'
+          'w-full p-3 text-xl text-center transition-color',
+          active ? 'bg-teal-700 text-white' : 'bg-custom-teal text-white'
         )}
         aria-label={config.label}
         aria-current={active ? 'page' : undefined}
