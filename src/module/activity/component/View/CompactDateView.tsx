@@ -45,8 +45,10 @@ export const CompactDateView = (): React.JSX.Element => {
   }, [fetchData]);
 
   useEffect((): void => {
-    memoizedFetchData();
-  }, [memoizedFetchData]);
+    if (data.length === 0) {
+      memoizedFetchData();
+    }
+  }, [memoizedFetchData, data]);
 
   useEffect((): void => {
     if (!currentDate || !data || data.length === 0) return;
