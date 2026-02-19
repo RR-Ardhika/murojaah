@@ -18,22 +18,11 @@ const addStripedClassNames = (i: number): string => {
   return clsx(CLASS_NAMES.container, CLASS_NAMES.striped);
 };
 
-const dateToId = (date: string): string => {
-  return `date-${date.replace(/[^a-zA-Z0-9]/g, '-')}`;
-};
-
-const findNearestDate = (
-  targetDate: string,
-  availableDates: string[]
-): string => {
-  const sortedDates: string[] = [...availableDates].sort();
-  return sortedDates.reduce((prev: string, curr: string): string => {
-    const prevDiff: number = Math.abs(
-      new Date(prev).getTime() - new Date(targetDate).getTime()
-    );
-    const currDiff: number = Math.abs(
-      new Date(curr).getTime() - new Date(targetDate).getTime()
-    );
+const findNearestId = (targetId: string, availableIds: string[]): string => {
+  const sortedIds: string[] = [...availableIds].sort();
+  return sortedIds.reduce((prev: string, curr: string): string => {
+    const prevDiff: number = Math.abs(new Date(prev).getTime() - new Date(targetId).getTime());
+    const currDiff: number = Math.abs(new Date(curr).getTime() - new Date(targetId).getTime());
     return currDiff < prevDiff ? curr : prev;
   });
 };
@@ -60,17 +49,16 @@ export const CompactDateView = (): React.JSX.Element => {
   useEffect((): void => {
     if (!currentDate || !data || data.length === 0) return;
 
-    const targetId: string = dateToId(currentDate);
-    const targetElement: HTMLElement | null = document.getElementById(targetId);
+    const targetElement: HTMLElement | null = document.getElementById(currentDate);
 
     if (targetElement) {
-      scrollToElement(targetId);
+      scrollToElement(currentDate);
       return;
     }
 
-    const allDates: string[] = data.map((item: CompactDate): string => item.date);
-    const nearestDate: string = findNearestDate(currentDate, allDates);
-    scrollToElement(dateToId(nearestDate));
+    const allIds: string[] = data.map((item: CompactDate): string => item.id);
+    const nearestId: string = findNearestId(currentDate, allIds);
+    scrollToElement(nearestId);
   }, [currentDate, data]);
 
   return (
@@ -79,11 +67,7 @@ export const CompactDateView = (): React.JSX.Element => {
         {data &&
           data.map((item: CompactDate, i: number): React.JSX.Element => {
             return (
-              <div
-                key={item.date}
-                id={dateToId(item.date)}
-                className={addStripedClassNames(i)}
-              >
+              <div key={item.id} id={item.id} className={addStripedClassNames(i)}>
                 <p className={CLASS_NAMES.content}>{item.date}</p>
                 <p className={CLASS_NAMES.content}>{item.stat.juz} juz</p>
               </div>

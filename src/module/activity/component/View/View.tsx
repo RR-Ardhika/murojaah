@@ -7,15 +7,11 @@ import { Activity, ActivityGroup } from '../../entity';
 import { useDataStore } from '../../store';
 import { Card } from '../Card';
 
-const dateToId = (date: string): string => {
-  return `date-${date.replace(/[^a-zA-Z0-9]/g, '-')}`;
-};
-
-const findNearestDate = (targetDate: string, availableDates: string[]): string => {
-  const sortedDates: string[] = [...availableDates].sort();
-  return sortedDates.reduce((prev: string, curr: string): string => {
-    const prevDiff: number = Math.abs(new Date(prev).getTime() - new Date(targetDate).getTime());
-    const currDiff: number = Math.abs(new Date(curr).getTime() - new Date(targetDate).getTime());
+const findNearestId = (targetId: string, availableIds: string[]): string => {
+  const sortedIds: string[] = [...availableIds].sort();
+  return sortedIds.reduce((prev: string, curr: string): string => {
+    const prevDiff: number = Math.abs(new Date(prev).getTime() - new Date(targetId).getTime());
+    const currDiff: number = Math.abs(new Date(curr).getTime() - new Date(targetId).getTime());
     return currDiff < prevDiff ? curr : prev;
   });
 };
@@ -42,17 +38,16 @@ export const View = (): React.JSX.Element => {
   useEffect((): void => {
     if (!currentDate || !data || data.length === 0) return;
 
-    const targetId: string = dateToId(currentDate);
-    const targetElement: HTMLElement | null = document.getElementById(targetId);
+    const targetElement: HTMLElement | null = document.getElementById(currentDate);
 
     if (targetElement) {
-      scrollToElement(targetId);
+      scrollToElement(currentDate);
       return;
     }
 
-    const allDates: string[] = data.map((g: ActivityGroup): string => g.date);
-    const nearestDate: string = findNearestDate(currentDate, allDates);
-    scrollToElement(dateToId(nearestDate));
+    const allIds: string[] = data.map((g: ActivityGroup): string => g.id);
+    const nearestId: string = findNearestId(currentDate, allIds);
+    scrollToElement(nearestId);
   }, [currentDate, data]);
 
   return (
@@ -61,7 +56,7 @@ export const View = (): React.JSX.Element => {
         {data &&
           data.map((group: ActivityGroup): React.JSX.Element => {
             return (
-              <div key={group.date} id={dateToId(group.date)} className="scroll-mt-20">
+              <div key={group.id} id={group.id} className="scroll-mt-20">
                 <>
                   <p className="text-2xl font-medium text-custom-teal">{group.date}</p>
                   <p className="font-light text-custom-teal">
