@@ -38,7 +38,7 @@ const scrollToElement = (elementId: string): void => {
 
 export const CompactDateView = (): React.JSX.Element => {
   const { data, fetchData } = useCompactDateDataStore();
-  const { currentDate } = useGoToDateStore();
+  const { currentDate, clearCurrentDate } = useGoToDateStore();
 
   const memoizedFetchData: () => Promise<void> = useCallback((): Promise<void> => {
     return fetchData();
@@ -55,13 +55,15 @@ export const CompactDateView = (): React.JSX.Element => {
 
     if (targetElement) {
       scrollToElement(currentDate);
+      clearCurrentDate();
       return;
     }
 
     const allIds: string[] = data.map((item: CompactDate): string => item.id);
     const nearestId: string = findNearestId(currentDate, allIds);
     scrollToElement(nearestId);
-  }, [currentDate, data]);
+    clearCurrentDate();
+  }, [currentDate, data, clearCurrentDate]);
 
   return (
     <Base module="activity" name="CompactDateView">

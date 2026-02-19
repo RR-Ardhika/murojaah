@@ -27,7 +27,7 @@ const scrollToElement = (elementId: string): void => {
 
 export const View = (): React.JSX.Element => {
   const { data, fetchData } = useDataStore();
-  const { currentDate } = useGoToDateStore();
+  const { currentDate, clearCurrentDate } = useGoToDateStore();
 
   const memoizedFetchData: () => Promise<void> = useCallback((): Promise<void> => {
     return fetchData();
@@ -44,13 +44,15 @@ export const View = (): React.JSX.Element => {
 
     if (targetElement) {
       scrollToElement(currentDate);
+      clearCurrentDate();
       return;
     }
 
     const allIds: string[] = data.map((g: ActivityGroup): string => g.id);
     const nearestId: string = findNearestId(currentDate, allIds);
     scrollToElement(nearestId);
-  }, [currentDate, data]);
+    clearCurrentDate();
+  }, [currentDate, data, clearCurrentDate]);
 
   return (
     <Base module="activity" name="View">
