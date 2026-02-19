@@ -20,6 +20,8 @@ const scrollToElement = (elementId: string): void => {
   const element: HTMLElement | null = document.getElementById(elementId);
   if (element) {
     element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    element.classList.add('flash-highlight');
+    setTimeout(() => element.classList.remove('flash-highlight'), 5000);
   }
 };
 
