@@ -1,6 +1,8 @@
 import { useEffect, useCallback } from 'react';
 
 import { Base } from '@/shared/component/Base';
+import { useGoToDateStore } from '@/shared/store';
+import { findNearestId, scrollToElement } from '@/shared/util/scroll';
 
 import { Activity, ActivityGroup } from '../../entity';
 import { useDataStore } from '../../store';
@@ -8,22 +10,43 @@ import { Card } from '../Card';
 
 export const View = (): React.JSX.Element => {
   const { data, fetchData } = useDataStore();
+  const { currentDate, clearCurrentDate } = useGoToDateStore();
 
-  const memoizedFetchData: () => Promise<void> = useCallback(() => {
+  const memoizedFetchData: () => Promise<void> = useCallback((): Promise<void> => {
     return fetchData();
   }, [fetchData]);
 
-  useEffect(() => {
-    memoizedFetchData();
-  }, [memoizedFetchData]);
+  useEffect((): void => {
+    if (data.length === 0) {
+      memoizedFetchData();
+    }
+  }, [memoizedFetchData, data]);
+
+  useEffect((): (() => void) | void => {
+    if (!currentDate || !data || data.length === 0) return;
+
+    const targetElement: HTMLElement | null = document.getElementById(currentDate);
+
+    if (targetElement) {
+      const cleanup: () => void = scrollToElement(currentDate);
+      clearCurrentDate();
+      return cleanup;
+    }
+
+    const allIds: string[] = data.map((g: ActivityGroup): string => g.id);
+    const nearestId: string = findNearestId(currentDate, allIds);
+    const cleanup: () => void = scrollToElement(nearestId);
+    clearCurrentDate();
+    return cleanup;
+  }, [currentDate, data, clearCurrentDate]);
 
   return (
     <Base module="activity" name="View">
       <div className="flex flex-col pt-4 px-4 mt-[72px]">
         {data &&
-          data.map((group: ActivityGroup) => {
+          data.map((group: ActivityGroup): React.JSX.Element => {
             return (
-              <div key={group.date}>
+              <div key={group.id} id={group.id} className="scroll-mt-20">
                 <>
                   <p className="text-2xl font-medium text-custom-teal">{group.date}</p>
                   <p className="font-light text-custom-teal">
@@ -33,7 +56,7 @@ export const View = (): React.JSX.Element => {
                   </p>
                   <hr className="mb-2 border-custom-teal" />
                 </>
-                {group.activities.map((item: Activity) => {
+                {group.activities.map((item: Activity): React.JSX.Element => {
                   return <Card key={item.id} {...item} />;
                 })}
               </div>

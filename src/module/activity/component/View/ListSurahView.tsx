@@ -24,8 +24,10 @@ export const ListSurahView = (): React.JSX.Element => {
   }, [fetchData]);
 
   useEffect(() => {
-    memoizedFetchData();
-  }, [memoizedFetchData]);
+    if (data.length === 0) {
+      memoizedFetchData();
+    }
+  }, [memoizedFetchData, data]);
 
   const showForm = (item: ListSurah): void => {
     hideAlert();

@@ -304,43 +304,44 @@ export interface SharedProps {
 
 ### DateTime Input
 
-Use native `<input type="datetime-local">` for datetime selection. This provides:
-- Zero dependencies
-- Native browser/OS picker UI
-- Mobile-friendly experience
-- Built-in validation
+Use separate native `<input type="date">` and `<input type="time">` for datetime selection. This provides:
 
-#### ✅ DO: Convert between Luxon and HTML datetime format
+- Zero dependencies
+- OS-native pickers on mobile (scroll wheels)
+- Better UX than single datetime-local input
+
+#### ✅ DO: Use separate date and time inputs
 
 ```tsx
-// HTML datetime-local format: "yyyy-MM-ddTHH:mm"
-// Luxon format: "yyyy-MM-dd HH:mm"
-
-const toDatetimeLocal = (value: string): string => {
-  return value.replace(' ', 'T');
-};
-
-const fromDatetimeLocal = (value: string): string => {
-  return value.replace('T', ' ');
-};
+<div className="flex gap-2">
+  <input type="date" value={date} onChange={handleDateChange} />
+  <input type="time" value={time} onChange={handleTimeChange} />
+  <button onClick={handleReset}>Reset to Now</button>
+</div>
 ```
 
-#### ✅ DO: Keep "reset to now" button for UX
+#### ✅ DO: Use split/combine helpers
 
 ```tsx
-<button
-  type="button"
-  onClick={() => setValue(DateTime.now().toFormat('yyyy-MM-dd HH:mm'))}
->
-  <ArrowPathIcon />
-</button>
+// In datetime.ts
+export const splitDatetime = (value: string): { date: string; time: string } => {
+  if (!value) return { date: '', time: '' };
+  const normalized: string = value.replace(/\./g, ':');
+  const [date, time]: string[] = normalized.split(' ');
+  return { date: date ?? '', time: time ?? '' };
+};
+
+export const combineDatetime = (date: string, time: string): string => {
+  if (!date || !time) return '';
+  return `${date} ${time}`;
+};
 ```
 
 #### Alternatives Considered
 
-If native datetime-local doesn't meet needs, consider:
-- **flatpickr** (~10KB) - Lightweight, dependency-free, more styling control
-- **react-datepicker** (~50KB) - Uses date-fns internally
+- **datetime-local** - Single input, but mobile UX is worse
+- **flatpickr** (~10KB) - More control, but falls back to native on mobile anyway
+- **react-datepicker** (~50KB) - Uses date-fns, conflicts with Luxon
 
 ### Component Organization
 
@@ -512,7 +513,7 @@ useEffect(() => {
 | `useCallback`   | Passing to memoized children       | Simple handlers, no memoization  |
 | `useRef`        | Mutable value without re-render    | State that should trigger render |
 | Type annotation | Ambiguous types, complex unions    | Obvious inference, simple types  |
-| datetime-local  | Date + time input needed           | Need custom styling/theming      |
+| date + time     | Date and time input needed         | Need custom styling/theming      |
 
 ---
 

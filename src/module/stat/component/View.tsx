@@ -10,7 +10,9 @@ export const View = (): React.JSX.Element => {
   const { data, fetchData } = useDataStore();
 
   useEffect(() => {
-    fetchData();
+    if (data.length === 0) {
+      fetchData();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

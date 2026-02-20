@@ -37,6 +37,12 @@ export const formatDateYearFirst = (date: Date): string => {
   return parsedTime.toFormat('yyyy-MM-dd EEE');
 };
 
+export const formatDateId = (date: Date): string => {
+  const parsedTime: DateTime = DateTime.fromJSDate(date);
+  if (!parsedTime.isValid) return '';
+  return parsedTime.toFormat('yyyy-MM-dd');
+};
+
 export const getDurationFromNow = (date: Date): number => {
   const now: DateTime = DateTime.now();
   const parsedDate: DateTime = DateTime.fromJSDate(date);

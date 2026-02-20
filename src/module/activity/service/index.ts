@@ -11,6 +11,7 @@ import * as repo from '../repository/indexeddb';
 
 export * from './create';
 export * from './export-import';
+export * from './refresh';
 export * from './update';
 
 export const index = async (): Promise<entity.ActivityGroup[]> => {
@@ -23,10 +24,12 @@ export const index = async (): Promise<entity.ActivityGroup[]> => {
 
   for (const item of data) {
     const key: string = util.formatDate(item.occuredAt);
+    const id: string = util.formatDateId(item.occuredAt);
 
     if (!mapActivityGroups.has(key)) {
       const newStat: entityStat.ActivityStat = serviceStat.getActivityStat(item);
       mapActivityGroups.set(key, {
+        id,
         date: key,
         activities: [item],
         stat: newStat,
@@ -66,9 +69,11 @@ export const getCompactDate = async (): Promise<entity.CompactDate[]> => {
       for (let i: number = 1; i <= dayDiff; i++) {
         const parsedLastOccuredAt: DateTime = DateTime.fromJSDate(lastOccuredAt);
         const nextDay: DateTime = parsedLastOccuredAt.minus({ days: i });
-        const key: string = util.formatDateYearFirst(nextDay.toJSDate());
+        const nextDayDate: Date = nextDay.toJSDate();
+        const key: string = util.formatDateYearFirst(nextDayDate);
         if (!mapActivities.has(key)) {
           mapActivities.set(key, {
+            id: util.formatDateId(nextDayDate),
             date: key,
             stat: { juz: 0, ayah: 0, lines: 0 },
           });
@@ -79,6 +84,7 @@ export const getCompactDate = async (): Promise<entity.CompactDate[]> => {
     if (!mapActivities.has(key)) {
       const newStat: entityStat.ActivityStat = serviceStat.getActivityStat(item);
       mapActivities.set(key, {
+        id: util.formatDateId(item.occuredAt),
         date: key,
         stat: newStat,
       });

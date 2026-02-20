@@ -9,6 +9,7 @@ import './globals.css';
 import { Alert } from '@/shared/component/Alert';
 import { Header } from '@/shared/component/Header';
 import { Navbar } from '@/shared/component/Navbar';
+import { ScrollRestorer } from '@/shared/component/ScrollRestorer';
 
 const inter: NextFont = Inter({ subsets: ['latin'] });
 
@@ -106,6 +107,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>): Reac
 
       <body className={`${inter.className} flex flex-col h-screen select-none`}>
         <Suspense>
+          <ScrollRestorer />
           <Alert />
           <Header />
           {children}

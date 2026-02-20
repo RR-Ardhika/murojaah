@@ -30,6 +30,7 @@ export type Activity = {
 };
 
 export type ActivityGroup = {
+  id: string;
   date: string;
   activities: Activity[];
   stat: ActivityStat;
@@ -51,6 +52,7 @@ export type Payload = {
 };
 
 export type CompactDate = {
+  id: string;
   date: string;
   stat: ActivityStat;
 };

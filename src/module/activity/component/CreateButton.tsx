@@ -73,7 +73,7 @@ export const CreateButton = (): React.JSX.Element => {
 
   return (
     <Base module="activity" name="CreateButton">
-      <div className="fixed bottom-16 right-4">
+      <div className="fixed bottom-36 right-4">
         <div className="flex flex-col gap-4">
           {isSubButtonsVisible && renderSubButtons(i)}
 

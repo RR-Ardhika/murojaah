@@ -25,3 +25,19 @@ body {
     text-wrap: balance;
   }
 }
+
+@keyframes flash-pulse {
+  0% {
+    background-color: transparent;
+  }
+  30% {
+    background-color: rgba(20, 184, 166, 0.3);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.flash-highlight {
+  animation: flash-pulse 5s ease-out;
+}
