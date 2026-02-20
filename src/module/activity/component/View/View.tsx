@@ -7,6 +7,7 @@ import { findNearestId, scrollToElement } from '@/shared/util/scroll';
 import { Activity, ActivityGroup } from '../../entity';
 import { useDataStore } from '../../store';
 import { Card } from '../Card';
+import { ConvertButton } from './ConvertButton';
 
 export const View = (): React.JSX.Element => {
   const { data, fetchData } = useDataStore();
@@ -47,15 +48,16 @@ export const View = (): React.JSX.Element => {
           data.map((group: ActivityGroup): React.JSX.Element => {
             return (
               <div key={group.id} id={group.id} className="scroll-mt-20">
-                <>
+                <div className="flex justify-between items-center">
                   <p className="text-2xl font-medium text-custom-teal">{group.date}</p>
-                  <p className="font-light text-custom-teal">
-                    <span>{group.stat.juz} juz, </span>
-                    <span>{group.stat.ayah} ayah, </span>
-                    <span>{group.stat.lines} lines</span>
-                  </p>
-                  <hr className="mb-2 border-custom-teal" />
-                </>
+                  <ConvertButton activities={group.activities} />
+                </div>
+                <p className="font-light text-custom-teal">
+                  <span>{group.stat.juz} juz, </span>
+                  <span>{group.stat.ayah} ayah, </span>
+                  <span>{group.stat.lines} lines</span>
+                </p>
+                <hr className="mb-2 border-custom-teal" />
                 {group.activities.map((item: Activity): React.JSX.Element => {
                   return <Card key={item.id} {...item} />;
                 })}

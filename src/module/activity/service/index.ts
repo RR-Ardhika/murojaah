@@ -9,6 +9,7 @@ import * as util from '@/shared/util';
 import * as entity from '../entity';
 import * as repo from '../repository/indexeddb';
 
+export * from './convert';
 export * from './create';
 export * from './export-import';
 export * from './refresh';
