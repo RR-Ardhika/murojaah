@@ -21,7 +21,7 @@ export const GoToDateButton = (): React.JSX.Element => {
 
   return (
     <Base module="activity" name="GoToDateButton">
-      <div className="fixed bottom-14 right-5">
+      <div className="fixed bottom-16 right-5">
         <button
           className={CLASS_NAMES.button}
           onClick={(): void => setIsModalOpen(true)}
