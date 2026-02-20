@@ -6,8 +6,8 @@ import { AlertColor, AlertText } from '@/shared/entity';
 import { useAlertStore } from '@/shared/store';
 
 import { Activity } from '../../entity';
-import { destroy } from '../../service';
-import { useCardStore, useDataStore, useFormStore } from '../../store';
+import { destroy, refreshAllDataStores } from '../../service';
+import { useCardStore, useFormStore } from '../../store';
 
 interface ContainerProps {
   item: Activity;
@@ -16,7 +16,6 @@ interface ContainerProps {
 
 interface InternalProps {
   item: Activity;
-  fetchData: () => Promise<void>;
   expandedCardId: string | null;
   setExpandedCardId: (id: string | null) => void;
   hideAlert: () => void;
@@ -56,7 +55,7 @@ const showDeleteConfirmation = (i: InternalProps): void => {
 const deleteRecord = async (i: InternalProps, item: Activity): Promise<void> => {
   try {
     await destroy(item);
-    i.fetchData();
+    await refreshAllDataStores();
     i.showAlert(AlertColor.Red, AlertText.SuccessDeletedActivity);
   } catch {
     i.showAlert(AlertColor.Red, AlertText.FailedDeletedActivity);
@@ -70,12 +69,10 @@ export const Container: React.FC<ContainerProps> = ({
   const [isDeleteConfirmationVisible, setIsDeleteConfirmationVisible] = useState(false);
   const { hideAlert, showAlert } = useAlertStore();
   const { expandedCardId, setExpandedCardId } = useCardStore();
-  const { fetchData } = useDataStore();
   const { setActivity, setFormType, setIsFormVisible } = useFormStore();
 
   const i: InternalProps = {
     item,
-    fetchData,
     expandedCardId,
     setExpandedCardId,
     hideAlert,
