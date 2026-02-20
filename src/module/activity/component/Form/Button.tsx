@@ -260,7 +260,15 @@ export const Button = (p: Props): React.JSX.Element => {
         p.startAyahError,
         p.endAyahError
       ),
-    [formType, p.selectedJuz, p.selectedSurah, p.startAyah, p.endAyah, p.startAyahError, p.endAyahError]
+    [
+      formType,
+      p.selectedJuz,
+      p.selectedSurah,
+      p.startAyah,
+      p.endAyah,
+      p.startAyahError,
+      p.endAyahError,
+    ]
   );
 
   return (

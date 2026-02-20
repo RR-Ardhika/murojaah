@@ -15,12 +15,13 @@ interface ConvertButtonProps {
 }
 
 const CLASS_NAMES: Record<string, string> = {
-  button: 'text-sm text-custom-teal border border-custom-teal px-2 py-1 rounded hover:bg-custom-teal hover:text-white transition-colors',
+  button:
+    'text-sm text-white border border-custom-teal px-2 py-1 rounded bg-custom-teal hover:bg-teal-700 hover:text-white transition-colors',
   menuItems:
     'absolute right-0 z-10 mt-1 w-40 origin-top-right rounded-xl border border-custom-teal/30 bg-white shadow-lg focus:outline-none',
   menuItem:
     'block w-full text-left px-4 py-2 text-sm text-custom-teal hover:bg-custom-teal hover:text-white first:rounded-t-xl last:rounded-b-xl',
-  cancelButton: 'px-4 py-2 text-sm text-gray-600 hover:text-gray-800',
+  cancelButton: 'px-4 py-2 text-sm bg-red-500 hover:bg-red-700 text-white',
   confirmButton: 'px-4 py-2 text-sm bg-custom-teal text-white rounded-lg hover:bg-custom-teal/80',
 };
 
@@ -38,8 +39,16 @@ export const ConvertButton = ({ activities }: ConvertButtonProps): React.JSX.Ele
 
   const getOccuredAtFromJuz = (juz: JuzConversion): Date => {
     const surahActivities: Activity[] = activities
-      .filter((a: Activity): boolean => a.activityType === ActivityType.Surah && a.surah !== undefined && juz.surahIds.includes(a.surah))
-      .sort((a: Activity, b: Activity): number => new Date(b.occuredAt).getTime() - new Date(a.occuredAt).getTime());
+      .filter(
+        (a: Activity): boolean =>
+          a.activityType === ActivityType.Surah &&
+          a.surah !== undefined &&
+          juz.surahIds.includes(a.surah)
+      )
+      .sort(
+        (a: Activity, b: Activity): number =>
+          new Date(b.occuredAt).getTime() - new Date(a.occuredAt).getTime()
+      );
     return surahActivities[0]?.occuredAt ?? new Date();
   };
 
@@ -55,7 +64,10 @@ export const ConvertButton = ({ activities }: ConvertButtonProps): React.JSX.Ele
     setIsDialogOpen(false);
     try {
       const surahActivities: Activity[] = activities.filter(
-        (a: Activity): boolean => a.activityType === ActivityType.Surah && a.surah !== undefined && selectedJuz.surahIds.includes(a.surah)
+        (a: Activity): boolean =>
+          a.activityType === ActivityType.Surah &&
+          a.surah !== undefined &&
+          selectedJuz.surahIds.includes(a.surah)
       );
       const surahActivityIds: string[] = surahActivities.map((a: Activity): string => a.id);
       const occuredAt: Date = getOccuredAtFromJuz(selectedJuz);
@@ -103,10 +115,14 @@ export const ConvertButton = ({ activities }: ConvertButtonProps): React.JSX.Ele
                   Convert to Juz {selectedJuz?.juzId}?
                 </Dialog.Title>
                 <Dialog.Description className="text-sm text-gray-600 mb-4">
-                  This will create a Juz {selectedJuz?.juzId} activity and delete {selectedJuz?.surahIds.length} surah activities.
+                  This will create a Juz {selectedJuz?.juzId} activity and delete{' '}
+                  {selectedJuz?.surahIds.length} surah activities.
                 </Dialog.Description>
                 <div className="flex justify-end gap-2">
-                  <button className={CLASS_NAMES.cancelButton} onClick={(): void => setIsDialogOpen(false)}>
+                  <button
+                    className={CLASS_NAMES.cancelButton}
+                    onClick={(): void => setIsDialogOpen(false)}
+                  >
                     Cancel
                   </button>
                   <button className={CLASS_NAMES.confirmButton} onClick={handleConvert}>
@@ -148,16 +164,18 @@ export const ConvertButton = ({ activities }: ConvertButtonProps): React.JSX.Ele
           {isConverting ? 'Converting...' : 'Convert'}
         </MenuButton>
         <MenuItems className={CLASS_NAMES.menuItems}>
-          {eligibleJuzs.map((juz: JuzConversion): React.JSX.Element => (
-            <MenuItem key={juz.juzId}>
-              <button
-                className={CLASS_NAMES.menuItem}
-                onClick={(): void => openConfirmDialog(juz)}
-              >
-                Juz {juz.juzId}
-              </button>
-            </MenuItem>
-          ))}
+          {eligibleJuzs.map(
+            (juz: JuzConversion): React.JSX.Element => (
+              <MenuItem key={juz.juzId}>
+                <button
+                  className={CLASS_NAMES.menuItem}
+                  onClick={(): void => openConfirmDialog(juz)}
+                >
+                  Juz {juz.juzId}
+                </button>
+              </MenuItem>
+            )
+          )}
         </MenuItems>
       </Menu>
       {renderConfirmDialog()}
