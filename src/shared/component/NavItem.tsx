@@ -8,6 +8,7 @@ import { ReadonlyURLSearchParams } from 'next/navigation';
 
 import { Base } from '@/shared/component/Base';
 import { useScrollStore } from '@/shared/store';
+import { getViewKey } from '@/shared/util/navigation';
 
 type NavItemKey = 'home' | 'compact-date' | 'list-surah' | 'stats';
 
@@ -63,14 +64,6 @@ const checkIsActive = (
   return pathname === path;
 };
 
-const getViewKey = (pathname: string, searchParams: ReadonlyURLSearchParams): string => {
-  const view: string | null = searchParams.get('view');
-  if (view) {
-    return `${pathname}?view=${view}`;
-  }
-  return pathname;
-};
-
 export const NavItem = ({ itemKey }: Props): React.JSX.Element => {
   const pathname: string = usePathname();
   const searchParams: ReadonlyURLSearchParams = useSearchParams();
@@ -92,7 +85,7 @@ export const NavItem = ({ itemKey }: Props): React.JSX.Element => {
         scroll={false}
         onClick={handleClick}
         className={clsx(
-          'w-full p-3 text-xl text-center transition-color',
+          'w-full p-3 text-xl text-center transition-colors',
           active ? 'bg-teal-700 text-white' : 'bg-custom-teal text-white'
         )}
         aria-label={config.label}

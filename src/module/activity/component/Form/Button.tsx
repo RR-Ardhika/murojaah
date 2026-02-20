@@ -8,7 +8,7 @@ import { formFormatDatetimes } from '@/shared/util';
 
 import { SharedProps as Props } from '.';
 import { Activity, ActivityType, Payload } from '../../entity';
-import { create, update } from '../../service';
+import { create, update, refreshAllDataStores } from '../../service';
 import { useFormStore } from '../../store';
 
 interface InternalProps {
@@ -204,7 +204,7 @@ const handleSave = async (p: Props, i: InternalProps, isSaveable: boolean): Prom
     closeForm(p, i);
     if (i.activity) i.showAlert(AlertColor.Green, AlertText.SuccessUpdatedActivity);
     else i.showAlert(AlertColor.Green, AlertText.SuccessCreatedActivity);
-    p.fetchData();
+    await refreshAllDataStores();
     i.setDisableSaveButton(false);
   } catch (err) {
     i.setDisableSaveButton(false);

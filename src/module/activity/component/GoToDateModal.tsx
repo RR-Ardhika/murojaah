@@ -61,6 +61,7 @@ export const GoToDateModal = ({
                     max={today}
                     onChange={handleDateChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-custom-teal"
+                    aria-label="Select date to navigate to"
                     autoFocus
                   />
                 </Dialog.Panel>

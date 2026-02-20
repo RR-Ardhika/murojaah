@@ -5,14 +5,7 @@ import { ReadonlyURLSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
 import { useScrollStore } from '@/shared/store';
-
-const getViewKey = (pathname: string, searchParams: ReadonlyURLSearchParams): string => {
-    const view: string | null = searchParams.get('view');
-    if (view) {
-        return `${pathname}?view=${view}`;
-    }
-    return pathname;
-};
+import { getViewKey } from '@/shared/util/navigation';
 
 export const ScrollRestorer = (): null => {
     const pathname: string = usePathname();

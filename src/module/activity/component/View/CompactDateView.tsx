@@ -3,6 +3,7 @@ import { useEffect, useCallback } from 'react';
 
 import { Base } from '@/shared/component/Base';
 import { useGoToDateStore } from '@/shared/store';
+import { findNearestId, scrollToElement } from '@/shared/util/scroll';
 
 import { CompactDate } from '../../entity';
 import { useCompactDateDataStore } from '../../store';
@@ -16,24 +17,6 @@ const CLASS_NAMES: Record<string, string> = {
 const addStripedClassNames = (i: number): string => {
   if (i % 2 === 0) return CLASS_NAMES.container;
   return clsx(CLASS_NAMES.container, CLASS_NAMES.striped);
-};
-
-const findNearestId = (targetId: string, availableIds: string[]): string => {
-  const sortedIds: string[] = [...availableIds].sort();
-  return sortedIds.reduce((prev: string, curr: string): string => {
-    const prevDiff: number = Math.abs(new Date(prev).getTime() - new Date(targetId).getTime());
-    const currDiff: number = Math.abs(new Date(curr).getTime() - new Date(targetId).getTime());
-    return currDiff < prevDiff ? curr : prev;
-  });
-};
-
-const scrollToElement = (elementId: string): void => {
-  const element: HTMLElement | null = document.getElementById(elementId);
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    element.classList.add('flash-highlight');
-    setTimeout(() => element.classList.remove('flash-highlight'), 5000);
-  }
 };
 
 export const CompactDateView = (): React.JSX.Element => {
@@ -50,21 +33,22 @@ export const CompactDateView = (): React.JSX.Element => {
     }
   }, [memoizedFetchData, data]);
 
-  useEffect((): void => {
+  useEffect((): (() => void) | void => {
     if (!currentDate || !data || data.length === 0) return;
 
     const targetElement: HTMLElement | null = document.getElementById(currentDate);
 
     if (targetElement) {
-      scrollToElement(currentDate);
+      const cleanup: () => void = scrollToElement(currentDate);
       clearCurrentDate();
-      return;
+      return cleanup;
     }
 
     const allIds: string[] = data.map((item: CompactDate): string => item.id);
     const nearestId: string = findNearestId(currentDate, allIds);
-    scrollToElement(nearestId);
+    const cleanup: () => void = scrollToElement(nearestId);
     clearCurrentDate();
+    return cleanup;
   }, [currentDate, data, clearCurrentDate]);
 
   return (
