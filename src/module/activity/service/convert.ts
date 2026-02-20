@@ -52,8 +52,9 @@ export const createJuzFromSurahs = async (
   juzId: number,
   occuredAt: Date,
   approachId: number,
-  repeat: number
-): Promise<number | unknown[]> => {
+  repeat: number,
+  surahActivityIds: string[]
+): Promise<void> => {
   const activity: entity.Activity = {
     id: uuidv4(),
     activityType: entity.ActivityType.Juz,
@@ -63,5 +64,9 @@ export const createJuzFromSurahs = async (
     occuredAt,
   };
 
-  return repo.insert(activity);
+  await repo.insert(activity);
+
+  for (const id of surahActivityIds) {
+    await repo.deleteRecord({ id } as entity.Activity);
+  }
 };

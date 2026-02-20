@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { AlertColor, AlertText } from '@/shared/entity';
 import { useAlertStore } from '@/shared/store';
 
-import { Activity } from '../../entity';
+import { Activity, ActivityType } from '../../entity';
 import { createJuzFromSurahs, getEligibleJuzConversions, JuzConversion } from '../../service';
 import { useDataStore, useListSurahDataStore } from '../../store';
 
@@ -33,10 +33,14 @@ export const ConvertButton = ({ activities, occuredAt }: ConvertButtonProps): Re
 
   if (eligibleJuzs.length === 0) return null;
 
-  const handleConvert = async (juzId: number): Promise<void> => {
+  const handleConvert = async (juz: JuzConversion): Promise<void> => {
     setIsConverting(true);
     try {
-      await createJuzFromSurahs(juzId, occuredAt, 0, 1);
+      const surahActivityIds: string[] = activities
+        .filter((a: Activity): boolean => a.activityType === ActivityType.Surah && a.surah !== undefined && juz.surahIds.includes(a.surah))
+        .map((a: Activity): string => a.id);
+
+      await createJuzFromSurahs(juz.juzId, occuredAt, 0, 1, surahActivityIds);
       await Promise.all([fetchData(), fetchListSurah()]);
       showAlert(AlertColor.Green, AlertText.SuccessConvertedToJuz);
     } catch (error) {
@@ -51,7 +55,7 @@ export const ConvertButton = ({ activities, occuredAt }: ConvertButtonProps): Re
     return (
       <button
         className={CLASS_NAMES.button}
-        onClick={(): Promise<void> => handleConvert(eligibleJuzs[0].juzId)}
+        onClick={(): Promise<void> => handleConvert(eligibleJuzs[0])}
         disabled={isConverting}
         aria-label={`Convert completed surahs to Juz ${eligibleJuzs[0].juzId}`}
       >
@@ -74,7 +78,7 @@ export const ConvertButton = ({ activities, occuredAt }: ConvertButtonProps): Re
           <MenuItem key={juz.juzId}>
             <button
               className={CLASS_NAMES.menuItem}
-              onClick={(): Promise<void> => handleConvert(juz.juzId)}
+              onClick={(): Promise<void> => handleConvert(juz)}
             >
               Juz {juz.juzId}
             </button>
