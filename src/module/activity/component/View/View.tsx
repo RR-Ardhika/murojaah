@@ -41,13 +41,6 @@ export const View = (): React.JSX.Element => {
     return cleanup;
   }, [currentDate, data, clearCurrentDate]);
 
-  const getOccuredAtFromGroup = (group: ActivityGroup): Date => {
-    const sortedActivities: Activity[] = [...group.activities].sort(
-      (a: Activity, b: Activity): number => new Date(b.occuredAt).getTime() - new Date(a.occuredAt).getTime()
-    );
-    return sortedActivities[0]?.occuredAt ?? new Date();
-  };
-
   return (
     <Base module="activity" name="View">
       <div className="flex flex-col pt-4 px-4 mt-[72px]">
@@ -57,10 +50,7 @@ export const View = (): React.JSX.Element => {
               <div key={group.id} id={group.id} className="scroll-mt-20">
                 <div className="flex justify-between items-center">
                   <p className="text-2xl font-medium text-custom-teal">{group.date}</p>
-                  <ConvertButton
-                    activities={group.activities}
-                    occuredAt={getOccuredAtFromGroup(group)}
-                  />
+                  <ConvertButton activities={group.activities} />
                 </div>
                 <p className="font-light text-custom-teal">
                   <span>{group.stat.juz} juz, </span>

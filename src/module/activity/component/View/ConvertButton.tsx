@@ -12,7 +12,6 @@ import { useDataStore, useListSurahDataStore } from '../../store';
 
 interface ConvertButtonProps {
   activities: Activity[];
-  occuredAt: Date;
 }
 
 const CLASS_NAMES: Record<string, string> = {
@@ -25,7 +24,7 @@ const CLASS_NAMES: Record<string, string> = {
   confirmButton: 'px-4 py-2 text-sm bg-custom-teal text-white rounded-lg hover:bg-custom-teal/80',
 };
 
-export const ConvertButton = ({ activities, occuredAt }: ConvertButtonProps): React.JSX.Element | null => {
+export const ConvertButton = ({ activities }: ConvertButtonProps): React.JSX.Element | null => {
   const [isConverting, setIsConverting] = useState<boolean>(false);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [selectedJuz, setSelectedJuz] = useState<JuzConversion | null>(null);
@@ -36,6 +35,13 @@ export const ConvertButton = ({ activities, occuredAt }: ConvertButtonProps): Re
   const eligibleJuzs: JuzConversion[] = getEligibleJuzConversions(activities);
 
   if (eligibleJuzs.length === 0) return null;
+
+  const getOccuredAtFromJuz = (juz: JuzConversion): Date => {
+    const surahActivities: Activity[] = activities
+      .filter((a: Activity): boolean => a.activityType === ActivityType.Surah && a.surah !== undefined && juz.surahIds.includes(a.surah))
+      .sort((a: Activity, b: Activity): number => new Date(b.occuredAt).getTime() - new Date(a.occuredAt).getTime());
+    return surahActivities[0]?.occuredAt ?? new Date();
+  };
 
   const openConfirmDialog = (juz: JuzConversion): void => {
     setSelectedJuz(juz);
@@ -48,9 +54,11 @@ export const ConvertButton = ({ activities, occuredAt }: ConvertButtonProps): Re
     setIsConverting(true);
     setIsDialogOpen(false);
     try {
-      const surahActivityIds: string[] = activities
-        .filter((a: Activity): boolean => a.activityType === ActivityType.Surah && a.surah !== undefined && selectedJuz.surahIds.includes(a.surah))
-        .map((a: Activity): string => a.id);
+      const surahActivities: Activity[] = activities.filter(
+        (a: Activity): boolean => a.activityType === ActivityType.Surah && a.surah !== undefined && selectedJuz.surahIds.includes(a.surah)
+      );
+      const surahActivityIds: string[] = surahActivities.map((a: Activity): string => a.id);
+      const occuredAt: Date = getOccuredAtFromJuz(selectedJuz);
 
       await createJuzFromSurahs(selectedJuz.juzId, occuredAt, 0, 1, surahActivityIds);
       await Promise.all([fetchData(), fetchListSurah()]);
