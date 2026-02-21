@@ -1,6 +1,6 @@
 # Technical Debt Dashboard
 
-> Last updated: 2026-02-17
+> Last updated: 2026-02-22
 
 This document provides a comprehensive overview of all technical debt items in the Murojaah codebase.
 
@@ -10,9 +10,9 @@ This document provides a comprehensive overview of all technical debt items in t
 
 | Status | Count |
 |--------|-------|
-| 🔴 Open | 6 |
+| 🔴 Open | 4 |
 | 🟡 In Progress | 0 |
-| ✅ Resolved | 2 |
+| ✅ Resolved | 4 |
 
 ---
 
@@ -26,8 +26,8 @@ This document provides a comprehensive overview of all technical debt items in t
 | [TD-8](./TD-8.md) | Implement calculateByAyah() for module counter | 🔴 Open | - | Medium |
 | [TD-9](./TD-9.md) | Implement handler for type SurahJuz in module stat | 🔴 Open | - | Medium |
 | [TD-10](./TD-10.md) | Implement totalMarkedJuzAsDone calculation | 🔴 Open | - | Medium |
-| [TD-11](./TD-11.md) | Handle when version is different | 🔴 Open | - | Low |
-| [TD-12](./TD-12.md) | Handle different version export/import | 🔴 Open | - | Low |
+| [TD-11](./resolved/TD-11.md) | Handle when version is different | ✅ Resolved | #76 | Low |
+| [TD-12](./resolved/TD-12.md) | Handle different version export/import | ✅ Resolved | #76 | Low |
 | [TD-13](./TD-13.md) | Handle metadata with use client | 🔴 Open | - | Low |
 
 ---
@@ -39,6 +39,7 @@ This document provides a comprehensive overview of all technical debt items in t
 ---
 
 _Changelog:_
+- _2026-02-22: TD-11, TD-12 resolved (PR #76 - JSStore to Dexie migration)_
 - _2026-02-17: TD-6 resolved (PR #70)_
 - _2026-02-16: TD-3 resolved (PR #68)_
 - _2026-02-16: Split detailed descriptions into individual files_

@@ -1,18 +1,8 @@
-import Dexie from 'dexie';
-import { v4 as uuidv4 } from 'uuid';
-
-import { dbname } from '@/database/indexeddb/schema';
-
-import * as entity from '../../entity';
+import { db, type Activity } from '@/database/indexeddb/db';
 
 export const exportData = async (): Promise<Blob> => {
   if (typeof window === 'undefined')
     return Promise.reject(new Error('Cannot export in server side'));
-
-  const db: Dexie = new Dexie('murojaah');
-
-  // TD-12 Handle different version export / import
-  db.version(0.1).stores({ [entity.TABLE_NAME]: entity.TABLE_FIELDS.join(', ') });
 
   try {
     const { exportDB: exportDb } = await import('dexie-export-import');
@@ -29,48 +19,132 @@ export const importData = async (blob: Blob): Promise<void> => {
   if (typeof window === 'undefined')
     return Promise.reject(new Error('Cannot import in server side'));
 
-  const db: Dexie = new Dexie('murojaah');
-
-  // TD-12 Handle different version export / import
-  db.version(0.1).stores({ [entity.TABLE_NAME]: entity.TABLE_FIELDS.join(', ') });
-
   try {
-    const { importDB: importDb } = await import('dexie-export-import');
+    const jsonString: string = await blob.text();
+    const json: ImportJson = JSON.parse(jsonString);
+
+    const tableData: TableData = json.data.data[0];
+
+    const activities: Activity[] = tableData.rows.map((row: RowData): Activity => {
+      if (tableData.inbound === false && '$' in row) {
+        return parseOldFormat(row as OldFormatRow);
+      }
+      return parseNewFormat(row as NewFormatRow);
+    });
+
     await db.open();
-    // @ts-expect-error db is exist
-    await importDb(blob, { db });
+    await db.activities.clear();
+    await db.activities.bulkAdd(activities);
   } catch (err) {
     console.error('Import failed:', err);
     throw err;
   }
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const transformImportedData = async (blob: Blob): Promise<Blob> => {
-  const jsonString: string = await blob.text();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const jsonObject: Record<string, any> = JSON.parse(jsonString);
-  const rows: Array<unknown> = jsonObject?.data?.data[0]?.rows;
+const parseOldFormat = (row: OldFormatRow): Activity => {
+  const data: ActivityData = row.$[1];
+  const types: Record<string, string> | undefined = row.$types?.$;
+  const isUndef = (field: string): boolean => types?.[`1.${field}`] === 'undef';
+  const parseNumber = (field: string, value: number | undefined): number | undefined => {
+    if (isUndef(field) || value === 0) return undefined;
+    return value;
+  };
+  const parseBoolean = (value: boolean | number | undefined): boolean | undefined => {
+    if (value === undefined || value === 0 || value === false) return undefined;
+    return true;
+  };
 
-  if (Array.isArray(rows)) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    jsonObject.data.data[0].rows = rows.map((activity: any) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { id, surahName, ...rest } = activity; // Remove surahName
-
-      // Convert id to UUID v4
-      return { id: uuidv4(), ...rest };
-    });
-  }
-
-  return new Blob([JSON.stringify(jsonObject)], { type: 'application/json' });
+  return {
+    id: data.id,
+    activityType: data.activityType,
+    juz: parseNumber('juz', data.juz),
+    surah: data.surah,
+    startAyah: parseNumber('startAyah', data.startAyah),
+    endAyah: parseNumber('endAyah', data.endAyah),
+    markSurahDone: parseBoolean(data.markSurahDone),
+    markJuzDone: parseBoolean(data.markJuzDone),
+    approachId: data.approachId,
+    repeat: data.repeat,
+    occuredAt: new Date(data.occuredAt),
+  };
 };
+
+const parseNewFormat = (row: NewFormatRow): Activity => {
+  const types: Record<string, string> | undefined = row.$types;
+  const isUndef = (field: string): boolean => types?.[field] === 'undef';
+  const parseBoolean = (field: string, value: boolean | number | undefined): boolean | undefined => {
+    if (isUndef(field) || value === undefined || value === 0 || value === false) return undefined;
+    return true;
+  };
+
+  return {
+    id: row.id,
+    activityType: row.activityType,
+    juz: isUndef('juz') || row.juz === 0 ? undefined : row.juz,
+    surah: isUndef('surah') ? undefined : row.surah,
+    startAyah: isUndef('startAyah') || row.startAyah === 0 ? undefined : row.startAyah,
+    endAyah: isUndef('endAyah') || row.endAyah === 0 ? undefined : row.endAyah,
+    markSurahDone: parseBoolean('markSurahDone', row.markSurahDone),
+    markJuzDone: parseBoolean('markJuzDone', row.markJuzDone),
+    approachId: row.approachId,
+    repeat: row.repeat,
+    occuredAt: new Date(row.occuredAt),
+  };
+};
+
+interface ActivityData {
+  id: string;
+  activityType: number;
+  juz?: number;
+  surah?: number;
+  startAyah?: number;
+  endAyah?: number;
+  markSurahDone?: boolean | number;
+  markJuzDone?: boolean | number;
+  approachId: number;
+  repeat: number;
+  occuredAt: number;
+}
+
+interface OldFormatRow {
+  $: [string, ActivityData];
+  $types?: { $?: Record<string, string> };
+}
+
+interface NewFormatRow {
+  id: string;
+  activityType: number;
+  juz?: number;
+  surah?: number;
+  startAyah?: number;
+  endAyah?: number;
+  markSurahDone?: boolean | number;
+  markJuzDone?: boolean | number;
+  approachId: number;
+  repeat: number;
+  occuredAt: number | string;
+  $types?: Record<string, string>;
+}
+
+type RowData = OldFormatRow | NewFormatRow;
+
+interface TableData {
+  inbound: boolean;
+  rows: RowData[];
+}
+
+interface ImportJson {
+  data: {
+    data: TableData[];
+  };
+}
 
 export const dropDb = async (): Promise<void> => {
   try {
-    await Dexie.delete(dbname);
+    await db.delete();
+    await db.open();
   } catch (err) {
-    console.error(`Failed to delete database "${dbname}":`, err);
+    console.error('Failed to delete database:', err);
     throw err;
   }
 };

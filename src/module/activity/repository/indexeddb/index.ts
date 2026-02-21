@@ -1,47 +1,19 @@
-import { Connection } from 'jsstore';
-
-import { initJsStore } from '@/database/indexeddb/connection';
-
-import * as entity from '../../entity';
+import { db, type Activity } from '@/database/indexeddb/db';
 
 export * from './export-import';
 
-const idbCon: Connection = initJsStore();
-
-export const findAll = (): Promise<entity.Activity[]> => {
-  return idbCon.select<entity.Activity>({
-    from: entity.TABLE_NAME,
-    order: { by: 'occuredAt', type: 'desc' },
-  });
+export const findAll = (): Promise<Activity[]> => {
+  return db.activities.orderBy('occuredAt').reverse().toArray();
 };
 
-export const insert = (item: entity.Activity): Promise<number | unknown[]> => {
-  return idbCon.insert({ into: entity.TABLE_NAME, values: [item] });
+export const insert = (item: Activity): Promise<string> => {
+  return db.activities.add(item);
 };
 
-export const update = (item: entity.Activity): Promise<number> => {
-  return idbCon.update({
-    in: entity.TABLE_NAME,
-    where: { id: item.id },
-    set: {
-      id: item.id,
-      activityType: item.activityType,
-      juz: item.juz,
-      surah: item.surah,
-      startAyah: item.startAyah,
-      endAyah: item.endAyah,
-      markSurahDone: item.markSurahDone,
-      markJuzDone: item.markJuzDone,
-      approachId: item.approachId,
-      repeat: item.repeat,
-      occuredAt: item.occuredAt,
-    },
-  });
+export const update = async (item: Activity): Promise<number> => {
+  return db.activities.update(item.id, item);
 };
 
-export const deleteRecord = (item: entity.Activity): Promise<number> => {
-  return idbCon.remove({
-    from: entity.TABLE_NAME,
-    where: { id: item.id },
-  });
+export const deleteRecord = (item: Activity): Promise<void> => {
+  return db.activities.delete(item.id);
 };

@@ -21,7 +21,7 @@ const CLASS_NAMES: Record<string, string> = {
     'absolute right-0 z-10 mt-1 w-40 origin-top-right rounded-xl border border-custom-teal/30 bg-white shadow-lg focus:outline-none',
   menuItem:
     'block w-full text-left px-4 py-2 text-sm text-custom-teal hover:bg-custom-teal hover:text-white first:rounded-t-xl last:rounded-b-xl',
-  cancelButton: 'px-4 py-2 text-sm bg-red-500 hover:bg-red-700 text-white',
+  cancelButton: 'px-4 py-2 text-sm bg-red-500 hover:bg-red-700 text-white rounded-lg',
   confirmButton: 'px-4 py-2 text-sm bg-custom-teal text-white rounded-lg hover:bg-custom-teal/80',
 };
 

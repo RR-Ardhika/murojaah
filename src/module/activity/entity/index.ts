@@ -65,5 +65,3 @@ export type ListSurah = {
 };
 
 export const TABLE_NAME: string = 'activities' as const;
-
-export const TABLE_FIELDS: string[] = Object.keys({} as Activity) as Array<keyof Activity>;
