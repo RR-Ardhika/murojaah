@@ -32,7 +32,6 @@
     "eslint-plugin-check-file": "^2.8.0",
     "eslint-plugin-import": "^2.31.0",
     "humanize-duration": "^3.32.1",
-    "jsstore": "^4.9.0",
     "luxon": "^3.5.0",
     "next-pwa": "^5.6.0",
     "postcss": "^8.4.49",

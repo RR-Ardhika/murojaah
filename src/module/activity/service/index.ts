@@ -49,7 +49,7 @@ export const index = async (): Promise<entity.ActivityGroup[]> => {
   return Array.from(mapActivityGroups.values());
 };
 
-export const destroy = (item: entity.Activity): Promise<number> => {
+export const destroy = (item: entity.Activity): Promise<void> => {
   return repo.deleteRecord(item);
 };
 

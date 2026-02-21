@@ -6,7 +6,7 @@ import * as util from '@/shared/util/validator';
 import * as entity from '../entity';
 import * as repo from '../repository/indexeddb';
 
-export const create = (payload: entity.Payload): Promise<number | unknown[]> => {
+export const create = (payload: entity.Payload): Promise<string> => {
   if (util.findEmpty(payload))
     return Promise.reject(new Error('Error 422 Unprocessable Entity error validating payload'));
 
@@ -22,7 +22,7 @@ export const create = (payload: entity.Payload): Promise<number | unknown[]> => 
   }
 };
 
-const createByJuz = (payload: entity.Payload): Promise<number | unknown[]> => {
+const createByJuz = (payload: entity.Payload): Promise<string> => {
   const activity: entity.Activity = {
     id: uuidv4(),
     activityType: payload.activityType,
@@ -35,17 +35,19 @@ const createByJuz = (payload: entity.Payload): Promise<number | unknown[]> => {
   return repo.insert(activity);
 };
 
-const createBySurah = (payload: entity.Payload): Promise<number | unknown[]> => {
+const createBySurah = (payload: entity.Payload): Promise<string> => {
   if (!payload.surahOptions)
     return Promise.reject(
       new Error('Error 422 Unprocessable Entity error validating surah payload')
     );
 
   let occuredAt: DateTime = DateTime.fromJSDate(payload.occuredAt);
+  let lastId: string = '';
 
   for (const [i, opt] of payload.surahOptions.entries()) {
+    const id: string = uuidv4();
     const activity: entity.Activity = {
-      id: uuidv4(),
+      id,
       activityType: payload.activityType,
       surah: opt.value,
       approachId: payload.approachId,
@@ -57,14 +59,15 @@ const createBySurah = (payload: entity.Payload): Promise<number | unknown[]> => 
       activity.markJuzDone = payload.markJuzDone;
 
     repo.insert(activity);
+    lastId = id;
 
     occuredAt = occuredAt.plus({ milliseconds: 1 });
   }
 
-  return Promise.resolve(-1);
+  return Promise.resolve(lastId);
 };
 
-const createByAyah = (payload: entity.Payload): Promise<number | unknown[]> => {
+const createByAyah = (payload: entity.Payload): Promise<string> => {
   const activity: entity.Activity = {
     id: uuidv4(),
     activityType: payload.activityType,
