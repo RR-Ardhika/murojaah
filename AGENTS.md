@@ -16,8 +16,8 @@ Murojaah is a web application for tracking Qur'an memorization and review activi
 | Styling          | Tailwind CSS                     |
 | UI Components    | Headless UI, Heroicons           |
 | State Management | Zustand                          |
-| Local Database   | JSStore (IndexedDB wrapper)      |
-| IndexedDB Export | Dexie, dexie-export-import       |
+| Local Database   | Dexie (IndexedDB wrapper)        |
+| IndexedDB Export | dexie-export-import              |
 | Date Handling    | Luxon                            |
 | Form Inputs      | React Select                     |
 | Conditional CSS  | clsx                             |
@@ -41,8 +41,7 @@ src/
 │
 ├── database/
 │   └── indexeddb/
-│       ├── schema.ts             # JSStore database schema
-│       └── connection.ts         # Database connection
+│       └── db.ts               # Dexie database with versioning
 │
 ├── module/                       # Feature modules
 │   ├── activity/                 # Activity logging module
@@ -182,7 +181,7 @@ make format-check
 
 | Purpose         | File                                  |
 | --------------- | ------------------------------------- |
-| Database Schema | `src/database/indexeddb/schema.ts`    |
+| Database        | `src/database/indexeddb/db.ts`        |
 | Activity Entity | `src/module/activity/entity/index.ts` |
 | Surah Reference | `src/shared/entity/surah.ts`          |
 | Juz Reference   | `src/shared/entity/juz.ts`            |
@@ -207,7 +206,7 @@ See [`doc/technical-debt/list.md`](./doc/technical-debt/list.md) for the technic
 3. **Components**: Functional components with TypeScript
 4. **State**: Zustand stores per module for client state
 5. **Styling**: Tailwind CSS classes, clsx for conditional classes
-6. **Database**: JSStore for IndexedDB operations
+6. **Database**: Dexie for IndexedDB operations
 
 ## Notes
 
