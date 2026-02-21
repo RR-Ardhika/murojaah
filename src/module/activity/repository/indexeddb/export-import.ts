@@ -1,4 +1,4 @@
-import { db } from '@/database/indexeddb/db';
+import { db, type Activity } from '@/database/indexeddb/db';
 
 export const exportData = async (): Promise<Blob> => {
   if (typeof window === 'undefined')
@@ -23,23 +23,13 @@ export const importData = async (blob: Blob): Promise<void> => {
     const jsonString: string = await blob.text();
     const json: ImportJson = JSON.parse(jsonString);
 
-    const rows: ActivityRow[] = json.data.data[0].rows;
+    const tableData: TableData = json.data.data[0];
 
-    const activities: Activity[] = rows.map((row: ActivityRow): Activity => {
-      const data: ActivityData = row.$[1] as ActivityData;
-      return {
-        id: data.id,
-        activityType: data.activityType,
-        juz: data.juz,
-        surah: data.surah,
-        startAyah: data.startAyah,
-        endAyah: data.endAyah,
-        markSurahDone: data.markSurahDone,
-        markJuzDone: data.markJuzDone,
-        approachId: data.approachId,
-        repeat: data.repeat,
-        occuredAt: new Date(data.occuredAt),
-      };
+    const activities: Activity[] = tableData.rows.map((row: RowData): Activity => {
+      if (tableData.inbound === false && '$' in row) {
+        return parseOldFormat(row as OldFormatRow);
+      }
+      return parseNewFormat(row as NewFormatRow);
     });
 
     await db.open();
@@ -51,23 +41,56 @@ export const importData = async (blob: Blob): Promise<void> => {
   }
 };
 
-interface Activity {
-  id: string;
-  activityType: number;
-  juz?: number;
-  surah?: number;
-  startAyah?: number;
-  endAyah?: number;
-  markSurahDone?: boolean;
-  markJuzDone?: boolean;
-  approachId: number;
-  repeat: number;
-  occuredAt: Date;
-}
+const parseOldFormat = (row: OldFormatRow): Activity => {
+  const data: ActivityData = row.$[1];
+  const types: Record<string, string> | undefined = row.$types?.$;
+  const isUndef = (field: string): boolean => types?.[`1.${field}`] === 'undef';
+  const parseNumber = (field: string, value: number | undefined): number | undefined => {
+    if (isUndef(field) || value === 0) return undefined;
+    return value;
+  };
+  const parseBoolean = (value: boolean | number | undefined): boolean | undefined => {
+    if (value === undefined || value === 0 || value === false) return undefined;
+    return true;
+  };
 
-interface ActivityRow {
-  $: [string, ActivityData];
-}
+  return {
+    id: data.id,
+    activityType: data.activityType,
+    juz: parseNumber('juz', data.juz),
+    surah: data.surah,
+    startAyah: parseNumber('startAyah', data.startAyah),
+    endAyah: parseNumber('endAyah', data.endAyah),
+    markSurahDone: parseBoolean(data.markSurahDone),
+    markJuzDone: parseBoolean(data.markJuzDone),
+    approachId: data.approachId,
+    repeat: data.repeat,
+    occuredAt: new Date(data.occuredAt),
+  };
+};
+
+const parseNewFormat = (row: NewFormatRow): Activity => {
+  const types: Record<string, string> | undefined = row.$types;
+  const isUndef = (field: string): boolean => types?.[field] === 'undef';
+  const parseBoolean = (field: string, value: boolean | number | undefined): boolean | undefined => {
+    if (isUndef(field) || value === undefined || value === 0 || value === false) return undefined;
+    return true;
+  };
+
+  return {
+    id: row.id,
+    activityType: row.activityType,
+    juz: isUndef('juz') || row.juz === 0 ? undefined : row.juz,
+    surah: isUndef('surah') ? undefined : row.surah,
+    startAyah: isUndef('startAyah') || row.startAyah === 0 ? undefined : row.startAyah,
+    endAyah: isUndef('endAyah') || row.endAyah === 0 ? undefined : row.endAyah,
+    markSurahDone: parseBoolean('markSurahDone', row.markSurahDone),
+    markJuzDone: parseBoolean('markJuzDone', row.markJuzDone),
+    approachId: row.approachId,
+    repeat: row.repeat,
+    occuredAt: new Date(row.occuredAt),
+  };
+};
 
 interface ActivityData {
   id: string;
@@ -76,18 +99,43 @@ interface ActivityData {
   surah?: number;
   startAyah?: number;
   endAyah?: number;
-  markSurahDone?: boolean;
-  markJuzDone?: boolean;
+  markSurahDone?: boolean | number;
+  markJuzDone?: boolean | number;
   approachId: number;
   repeat: number;
   occuredAt: number;
 }
 
+interface OldFormatRow {
+  $: [string, ActivityData];
+  $types?: { $?: Record<string, string> };
+}
+
+interface NewFormatRow {
+  id: string;
+  activityType: number;
+  juz?: number;
+  surah?: number;
+  startAyah?: number;
+  endAyah?: number;
+  markSurahDone?: boolean | number;
+  markJuzDone?: boolean | number;
+  approachId: number;
+  repeat: number;
+  occuredAt: number | string;
+  $types?: Record<string, string>;
+}
+
+type RowData = OldFormatRow | NewFormatRow;
+
+interface TableData {
+  inbound: boolean;
+  rows: RowData[];
+}
+
 interface ImportJson {
   data: {
-    data: Array<{
-      rows: ActivityRow[];
-    }>;
+    data: TableData[];
   };
 }
 
