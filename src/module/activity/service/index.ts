@@ -54,66 +54,56 @@ export const destroy = (item: entity.Activity): Promise<void> => {
 };
 
 export const getCompactDate = async (): Promise<entity.CompactDate[]> => {
-  const mapActivities: Map<string, entity.CompactDate> = new Map();
-
   const data: entity.Activity[] = await repo.findAll();
   if (!data || data.length === 0) {
     return [];
   }
 
-  let lastOccuredAt: Date | undefined = undefined;
-  for (const item of data) {
-    const key: string = util.formatDateYearFirst(item.occuredAt);
-    const dayDiff: number = lastOccuredAt ? compareDayOfTwoDates(lastOccuredAt, item.occuredAt) : 0;
+  return calculateCompactDates(data);
+};
 
-    if (lastOccuredAt && dayDiff > 1) {
-      for (let i: number = 1; i <= dayDiff; i++) {
-        const parsedLastOccuredAt: DateTime = DateTime.fromJSDate(lastOccuredAt);
-        const nextDay: DateTime = parsedLastOccuredAt.minus({ days: i });
-        const nextDayDate: Date = nextDay.toJSDate();
-        const key: string = util.formatDateYearFirst(nextDayDate);
-        if (!mapActivities.has(key)) {
-          mapActivities.set(key, {
-            id: util.formatDateId(nextDayDate),
-            date: key,
-            stat: { juz: 0, ayah: 0, lines: 0 },
-          });
-        }
+const calculateCompactDates = (activities: entity.Activity[]): entity.CompactDate[] => {
+  const mapActivities: Map<string, entity.CompactDate> = new Map();
+  let previousDay: DateTime | undefined = undefined;
+
+  for (const item of activities) {
+    const day: DateTime = DateTime.fromJSDate(item.occuredAt).startOf('day');
+    const dayDiff: number = previousDay ? Math.round(previousDay.diff(day, 'days').days) : 0;
+
+    // Insert newest to oldest so the resulting map stays in descending date order
+    for (let i: number = dayDiff - 1; i >= 1; i--) {
+      const date: Date = day.plus({ days: i }).toJSDate();
+      const key: string = util.formatDateYearFirst(date);
+
+      if (!mapActivities.has(key)) {
+        mapActivities.set(key, {
+          id: util.formatDateId(date),
+          date: key,
+          stat: { juz: 0, ayah: 0, lines: 0 },
+        });
       }
     }
 
-    if (!mapActivities.has(key)) {
-      const newStat: entityStat.ActivityStat = serviceStat.getActivityStat(item);
+    const key: string = util.formatDateYearFirst(item.occuredAt);
+    const newStat: entityStat.ActivityStat = serviceStat.getActivityStat(item);
+    const existing: entity.CompactDate | undefined = mapActivities.get(key);
+
+    if (existing) {
+      existing.stat.ayah += newStat.ayah;
+      existing.stat.lines += newStat.lines;
+      existing.stat.juz = serviceJuz.getTotalJuzFromLines(existing.stat.lines);
+    } else {
       mapActivities.set(key, {
         id: util.formatDateId(item.occuredAt),
         date: key,
         stat: newStat,
       });
-      continue;
     }
 
-    const obj: entity.CompactDate = mapActivities.get(key)!;
-    const newStat: entityStat.ActivityStat = serviceStat.getActivityStat(item);
-    obj.stat.ayah += newStat.ayah;
-    obj.stat.lines += newStat.lines;
-    obj.stat.juz = serviceJuz.getTotalJuzFromLines(obj.stat.lines);
-
-    lastOccuredAt = item.occuredAt;
+    previousDay = day;
   }
 
   return Array.from(mapActivities.values());
-};
-
-const compareDayOfTwoDates = (lastOccuredAt: Date, occuredAt: Date): number => {
-  const parsedLastOccuredAt: DateTime = DateTime.fromJSDate(lastOccuredAt);
-  const parsedOccuredAt: DateTime = DateTime.fromJSDate(occuredAt);
-
-  if (!parsedLastOccuredAt.isValid || !parsedOccuredAt.isValid) {
-    console.error(new Error(`Error comparing two dates ${lastOccuredAt} ${occuredAt}`));
-    return 0;
-  }
-
-  return Math.floor(parsedLastOccuredAt.diff(parsedOccuredAt).as('days'));
 };
 
 export const getListSurah = async (): Promise<entity.ListSurah[]> => {
